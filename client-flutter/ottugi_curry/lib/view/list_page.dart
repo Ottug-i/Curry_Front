@@ -15,82 +15,44 @@ class ListPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(top: 20),
             decoration: const BoxDecoration(
-              color: Color(0xffF5F5F5),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(35),
-                topRight: Radius.circular(35)
-              )
-            ),
+                color: Color(0xffF5F5F5),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(35),
+                    topRight: Radius.circular(35))),
             child: Column(
-
-              // 검색창
               children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(left:5),
-                        height: 50,
-                        width: 300,
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "검색어를 입력하세요..."
-                          ),
-                        )
+                // 식재료 text
+                Row(children: const [
+                  Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(
+                      "감자, 치즈, 계란",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Color(0xffFFD717),
+                        decorationThickness: 4,
                       ),
-                      const Spacer(),
-                      const Icon(
-                        Icons.camera_alt,
-                        size: 27,
-                        color: Color(0xffFFD717)
-                      )
-                    ],
-                  ),
-                ),
-
-                // 카테고리 text
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 10
-                  ),
-                  child: const Text(
-                    "Categories",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black
                     ),
                   ),
-                ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Icon(
+                    Icons.edit_rounded,
+                    size: 20,
+                    color: Colors.black,
+                  ),
+                  Spacer(),
+                ]),
 
                 // 카테고리 위젯
                 const CategoriesWidget(),
 
                 // 아이템 위젯
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  child: const Text(
-                    "Best Selling",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black
-                      ),
-                    )
-                ),
-
-                const ItemsWidget(),  
+                const ItemsWidget(),
               ],
             ),
           )

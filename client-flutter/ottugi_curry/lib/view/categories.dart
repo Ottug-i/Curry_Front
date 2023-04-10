@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class CategoriesWidget extends StatelessWidget {
@@ -6,35 +5,66 @@ class CategoriesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+    return Container(
+      margin: const EdgeInsets.all(10),
       child: Row(
         children: [
-          for(int i = 1; i < 8; i++)
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xffFFD717))
-              ),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: const Color(0xffFFD717))),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // 1.png, 2.png 처럼 파일명을 지정하고 $i 변수를 이용해 사진 바꾸기
-                  Image.asset("images/egg-benedict.jpeg", width: 40, height: 40),
-                  const Text(
-                    "Egg Benedict", 
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                      color: Color(0xffFFD717)
-                    )
-                  ),
+                children: const [
+                  Text("요리 시간",
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          letterSpacing: -1,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          color: Color(0xffFFD717))),
                 ],
-              )
-            )
+              )),
+          const SizedBox(width: 10),
+          Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: const Color(0xffFFD717))),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  Text("난이도",
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          letterSpacing: -1,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          color: Color(0xffFFD717))),
+                ],
+              )),
+          const SizedBox(width: 10),
+          Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: const Color(0xffFFD717))),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  Text("구성",
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          letterSpacing: -1,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          color: Color(0xffFFD717))),
+                ],
+              ))
         ],
       ),
     );
