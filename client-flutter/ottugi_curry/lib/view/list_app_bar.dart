@@ -7,8 +7,8 @@ class ListAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(25),
+      color: const Color(0xffF5F5F5),
+      padding: const EdgeInsets.all(20),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: const [

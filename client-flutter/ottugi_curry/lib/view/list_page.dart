@@ -13,12 +13,8 @@ class ListPage extends StatelessWidget {
         children: [
           const ListAppBar(),
           Container(
-            padding: const EdgeInsets.only(top: 20),
-            decoration: const BoxDecoration(
-                color: Color(0xffF5F5F5),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(35),
-                    topRight: Radius.circular(35))),
+            padding: const EdgeInsets.only(top: 10),
+            color: const Color(0xffF5F5F5),
             child: Column(
               children: [
                 // 식재료 text
