@@ -22,8 +22,14 @@ public class User {
     private String nickName;
 
     @Builder
-    public User(String email, String nickName) {
+    public User(Long id, String email, String nickName) {
+        this.id = id;
         this.email = email;
         this.nickName = nickName;
+    }
+
+    public User updateProfile(String nickName) {
+        this.nickName = nickName;
+        return this;
     }
 }
