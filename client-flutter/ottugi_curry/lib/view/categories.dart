@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ottugi_curry/view/list_page_button.dart';
 
 class CategoriesWidget extends StatefulWidget {
   const CategoriesWidget({super.key});
@@ -8,9 +9,13 @@ class CategoriesWidget extends StatefulWidget {
 }
 
 class CategoriesWidgetState extends State<CategoriesWidget> {
-  bool _isTimeButtonClicked = false;
-  bool _isDiffButtonClicked = false;
-  bool _isCompButtonClicked = false;
+  bool isTimeButtonClicked = false;
+  bool tenMin = false;
+  bool twentyMin = false;
+  bool thirtyMin = false;
+
+  bool isDiffButtonClicked = false;
+  bool isCompButtonClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -20,104 +25,46 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
         children: [
           Row(
             children: [
-              ElevatedButton(
+              ListPageButton(
+                text: '요리 시간',
+                isButtonClicked: isTimeButtonClicked,
+                themecolor: const Color(0xffFFD717),
                 onPressed: () {
                   setState(() {
-                    _isTimeButtonClicked = !_isTimeButtonClicked;
-                    _isDiffButtonClicked = false;
+                    isTimeButtonClicked = !isTimeButtonClicked;
+                    isDiffButtonClicked = false;
+                    isCompButtonClicked = false;
                   });
                 },
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                  backgroundColor: _isTimeButtonClicked
-                      ? const Color(0xffFFD717)
-                      : Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side:
-                          const BorderSide(color: Color(0xffFFD717), width: 1)),
-                ),
-                child: Text(
-                  "요리 시간",
-                  style: TextStyle(
-                      fontFamily: 'Poppins',
-                      letterSpacing: -1,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                      color: _isTimeButtonClicked
-                          ? Colors.white
-                          : const Color(0xffFFD717)),
-                ),
               ),
               const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _isTimeButtonClicked = false;
-                    _isDiffButtonClicked = !_isDiffButtonClicked;
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                  backgroundColor: _isDiffButtonClicked
-                      ? const Color(0xffFFD717)
-                      : Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side:
-                          const BorderSide(color: Color(0xffFFD717), width: 1)),
-                ),
-                child: Text(
-                  "난이도",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    letterSpacing: -1,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                    color: _isDiffButtonClicked
-                        ? Colors.white
-                        : const Color(0xffFFD717),
-                  ),
-                ),
-              ),
+              ListPageButton(
+                  text: '난이도',
+                  isButtonClicked: isDiffButtonClicked,
+                  themecolor: const Color(0xffFFD717),
+                  onPressed: () {
+                    setState(() {
+                      isTimeButtonClicked = false;
+                      isDiffButtonClicked = !isDiffButtonClicked;
+                      isCompButtonClicked = false;
+                    });
+                  }),
               const SizedBox(width: 10),
-              ElevatedButton(
+              ListPageButton(
+                text: '구성',
+                isButtonClicked: isCompButtonClicked,
+                themecolor: const Color(0xffFFD717),
                 onPressed: () {
                   setState(() {
-                    _isTimeButtonClicked = false;
-                    _isDiffButtonClicked = false;
-                    _isCompButtonClicked = !_isCompButtonClicked;
+                    isTimeButtonClicked = false;
+                    isDiffButtonClicked = false;
+                    isCompButtonClicked = !isCompButtonClicked;
                   });
                 },
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                  backgroundColor: _isCompButtonClicked
-                      ? const Color(0xffFFD717)
-                      : Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side:
-                          const BorderSide(color: Color(0xffFFD717), width: 1)),
-                ),
-                child: Text(
-                  "구성",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    letterSpacing: -1,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                    color: _isCompButtonClicked
-                        ? Colors.white
-                        : const Color(0xffFFD717),
-                  ),
-                ),
-              ),
+              )
             ],
           ),
-          if (_isTimeButtonClicked)
+          if (isTimeButtonClicked)
             Row(
               children: [
                 Padding(
@@ -126,89 +73,47 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ElevatedButton(
+                      ListPageButton(
+                        text: '10분',
+                        isButtonClicked: tenMin,
+                        themecolor: const Color(0xffFFA517),
                         onPressed: () {
                           // "10분" 버튼 눌렀을 때 동작 구현
+                          tenMin = !tenMin;
+                          twentyMin = false;
+                          thirtyMin = false;
                         },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: const BorderSide(
-                                color: Color(0xffFFA517), width: 1),
-                          ),
-                        ),
-                        child: const Text(
-                          '10분',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            letterSpacing: -1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Color(0xffFFA517),
-                          ),
-                        ),
                       ),
                       const SizedBox(width: 10),
-                      ElevatedButton(
+                      ListPageButton(
+                        text: '20분',
+                        isButtonClicked: twentyMin,
+                        themecolor: const Color(0xffFFA517),
                         onPressed: () {
                           // "20분" 버튼 눌렀을 때 동작 구현
+                          tenMin = false;
+                          twentyMin = !twentyMin;
+                          thirtyMin = false;
                         },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: const BorderSide(
-                                color: Color(0xffFFA517), width: 1),
-                          ),
-                        ),
-                        child: const Text(
-                          '20분',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            letterSpacing: -1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Color(0xffFFA517),
-                          ),
-                        ),
                       ),
                       const SizedBox(width: 10),
-                      ElevatedButton(
+                      ListPageButton(
+                        text: '30분 이상',
+                        isButtonClicked: thirtyMin,
+                        themecolor: const Color(0xffFFA517),
                         onPressed: () {
                           // "30분 이상" 버튼 눌렀을 때 동작 구현
+                          tenMin = false;
+                          twentyMin = false;
+                          thirtyMin = !thirtyMin;
                         },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: const BorderSide(
-                                color: Color(0xffFFA517), width: 1),
-                          ),
-                        ),
-                        child: const Text(
-                          '30분 이상',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            letterSpacing: -1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Color(0xffFFA517),
-                          ),
-                        ),
                       ),
                     ],
                   ),
                 )
               ],
             )
-          else if (_isDiffButtonClicked)
+          else if (isDiffButtonClicked)
             Row(
               children: [
                 Padding(
@@ -217,89 +122,38 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ElevatedButton(
+                      ListPageButton(
+                        text: '왕초보',
+                        isButtonClicked: isTimeButtonClicked,
+                        themecolor: const Color(0xffFFA517),
                         onPressed: () {
                           // "왕초보" 버튼 눌렀을 때 동작 구현
                         },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: const BorderSide(
-                                color: Color(0xffFFA517), width: 1),
-                          ),
-                        ),
-                        child: const Text(
-                          '왕초보',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            letterSpacing: -1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Color(0xffFFA517),
-                          ),
-                        ),
                       ),
                       const SizedBox(width: 10),
-                      ElevatedButton(
+                      ListPageButton(
+                        text: '초급',
+                        isButtonClicked: isTimeButtonClicked,
+                        themecolor: const Color(0xffFFA517),
                         onPressed: () {
                           // "초급" 버튼 눌렀을 때 동작 구현
                         },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: const BorderSide(
-                                color: Color(0xffFFA517), width: 1),
-                          ),
-                        ),
-                        child: const Text(
-                          '초급',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            letterSpacing: -1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Color(0xffFFA517),
-                          ),
-                        ),
                       ),
                       const SizedBox(width: 10),
-                      ElevatedButton(
+                      ListPageButton(
+                        text: '중급',
+                        isButtonClicked: isTimeButtonClicked,
+                        themecolor: const Color(0xffFFA517),
                         onPressed: () {
                           // "중급" 버튼 눌렀을 때 동작 구현
                         },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: const BorderSide(
-                                color: Color(0xffFFA517), width: 1),
-                          ),
-                        ),
-                        child: const Text(
-                          '중급',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            letterSpacing: -1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Color(0xffFFA517),
-                          ),
-                        ),
                       ),
                     ],
                   ),
                 )
               ],
             )
-          else if (_isCompButtonClicked)
+          else if (isCompButtonClicked)
             Row(
               children: [
                 Padding(
@@ -308,57 +162,23 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ElevatedButton(
+                      ListPageButton(
+                        text: '가볍게',
+                        isButtonClicked: isTimeButtonClicked,
+                        themecolor: const Color(0xffFFA517),
                         onPressed: () {
                           // "가볍게" 버튼 눌렀을 때 동작 구현
                         },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: const BorderSide(
-                                color: Color(0xffFFA517), width: 1),
-                          ),
-                        ),
-                        child: const Text(
-                          '가볍게',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            letterSpacing: -1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Color(0xffFFA517),
-                          ),
-                        ),
                       ),
                       const SizedBox(width: 10),
-                      ElevatedButton(
+                      ListPageButton(
+                        text: '든든하게',
+                        isButtonClicked: isTimeButtonClicked,
+                        themecolor: const Color(0xffFFA517),
                         onPressed: () {
                           // "든든하게" 버튼 눌렀을 때 동작 구현
                         },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: const BorderSide(
-                                color: Color(0xffFFA517), width: 1),
-                          ),
-                        ),
-                        child: const Text(
-                          '든든하게',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            letterSpacing: -1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Color(0xffFFA517),
-                          ),
-                        ),
-                      )
+                      ),
                     ],
                   ),
                 )
