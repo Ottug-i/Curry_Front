@@ -69,7 +69,8 @@ class UserRepositoryTest {
         // then
         assertEquals(findUser.getId(), user.getId());
         assertEquals(findUser.getEmail(), user.getEmail());
-        assertEquals(findUser.getNickName(), user.getNickName());    }
+        assertEquals(findUser.getNickName(), user.getNickName());
+    }
 
     @Test
     void 이메일로_회원수조회() {
