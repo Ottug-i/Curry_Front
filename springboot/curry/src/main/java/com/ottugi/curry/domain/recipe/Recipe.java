@@ -14,6 +14,7 @@ import javax.persistence.Id;
 public class Recipe {
 
     @Id
+    @Column(name = "Recipe_Id")
     private Long id;
 
     @Column(length = 100, nullable = false)

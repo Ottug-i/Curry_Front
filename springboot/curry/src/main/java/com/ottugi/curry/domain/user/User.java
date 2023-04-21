@@ -1,10 +1,13 @@
 package com.ottugi.curry.domain.user;
 
+import com.ottugi.curry.domain.bookmark.Bookmark;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -13,6 +16,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "User_Id")
     private Long id;
 
     @Column(length = 100, nullable = false)
@@ -20,6 +24,9 @@ public class User {
 
     @Column(length = 100, nullable = false)
     private String nickName;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Bookmark> bookmarkList = new ArrayList<>();
 
     @Builder
     public User(Long id, String email, String nickName) {
@@ -31,5 +38,13 @@ public class User {
     public User updateProfile(String nickName) {
         this.nickName = nickName;
         return this;
+    }
+
+    public void addBookmarkList(Bookmark bookmark) {
+        this.bookmarkList.add(bookmark);
+
+        if(bookmark.getUserId() != this) {
+            bookmark.setUser(this);
+        }
     }
 }
