@@ -1,6 +1,7 @@
 package com.ottugi.curry.web.controller;
 
 import com.ottugi.curry.service.recipe.RecipeService;
+import com.ottugi.curry.web.dto.recipe.RecipeListResponseDto;
 import com.ottugi.curry.web.dto.recipe.RecipeRequestDto;
 import com.ottugi.curry.web.dto.recipe.RecipeResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @GetMapping("/api/recipe/getRecipeList")
-    public ResponseEntity<List<RecipeResponseDto>> getRecipeList(@RequestBody RecipeRequestDto recipeRequestDto) {
+    public ResponseEntity<List<RecipeListResponseDto>> getRecipeList(@RequestBody RecipeRequestDto recipeRequestDto) {
         return ResponseEntity.ok().body(recipeService.getRecipeList(recipeRequestDto));
     }
 

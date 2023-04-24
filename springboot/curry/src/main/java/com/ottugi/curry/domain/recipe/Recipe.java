@@ -14,6 +14,7 @@ import javax.persistence.Id;
 public class Recipe {
 
     @Id
+    @Column(name = "Recipe_Id")
     private Long id;
 
     @Column(length = 100, nullable = false)
@@ -37,9 +38,10 @@ public class Recipe {
     @Column(nullable = false)
     private String seasoning;
 
-    @Column(nullable = false)
+    @Column(length = 1000, nullable = false)
     private String orders;
 
+    @Column(length = 1000)
     private String photo;
 
     @Builder
