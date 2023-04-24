@@ -21,6 +21,7 @@ class RecipeListResponseDtoTest {
         String seasoning = "진간장###올리고당###설탕###";
         String orders = "1. 기름 뺀 참치###2. 마요네즈 4.5큰 술###3. 잘 비벼주세요.";
         String photo = "www###wwww####wwww";
+        Boolean isBookmark = true;
 
         Recipe recipe = Recipe.builder()
                 .id(id)
@@ -36,7 +37,7 @@ class RecipeListResponseDtoTest {
                 .build();
 
         // when
-        RecipeListResponseDto recipeListResponseDto = new RecipeListResponseDto(recipe);
+        RecipeListResponseDto recipeListResponseDto = new RecipeListResponseDto(recipe, isBookmark);
 
         // then
         assertEquals(recipeListResponseDto.getId(), id);
@@ -46,5 +47,6 @@ class RecipeListResponseDtoTest {
         assertEquals(recipeListResponseDto.getDifficulty(), difficulty);
         assertEquals(recipeListResponseDto.getComposition(), composition);
         assertEquals(recipeListResponseDto.getIngredients(), ingredients);
+        assertEquals(recipeListResponseDto.getIsBookmark(), isBookmark);
     }
 }

@@ -1,14 +1,14 @@
-package com.ottugi.curry.web.dto.recipe;
+package com.ottugi.curry.web.dto.bookmark;
 
 import com.ottugi.curry.domain.recipe.Recipe;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RecipeResponseDtoTest {
+class BookmarkListResponseDtoTest {
 
     @Test
-    void RecipeResponseDto_롬복() {
+    void BookmarkListResponseDto_롬복() {
 
         // given
         Long id = 1234L;
@@ -37,19 +37,16 @@ class RecipeResponseDtoTest {
                 .build();
 
         // when
-        RecipeResponseDto recipeResponseDto = new RecipeResponseDto(recipe, isBookmark);
+        BookmarkListResponseDto bookmarkListResponseDto = new BookmarkListResponseDto(recipe, isBookmark);
 
         // then
-        assertEquals(recipeResponseDto.getId(), id);
-        assertEquals(recipeResponseDto.getName(), name);
-        assertEquals(recipeResponseDto.getThumbnail(), thumbnail);
-        assertEquals(recipeResponseDto.getTime(), time);
-        assertEquals(recipeResponseDto.getDifficulty(), difficulty);
-        assertEquals(recipeResponseDto.getComposition(), composition);
-        assertEquals(recipeResponseDto.getIngredients(), ingredients);
-        assertEquals(recipeResponseDto.getSeasoning(), seasoning);
-        assertEquals(recipeResponseDto.getOrders(), orders);
-        assertEquals(recipeResponseDto.getPhoto(), photo);
-        assertEquals(recipeResponseDto.getIsBookmark(), isBookmark);
+        assertEquals(bookmarkListResponseDto.getId(), id);
+        assertEquals(bookmarkListResponseDto.getName(), name);
+        assertEquals(bookmarkListResponseDto.getThumbnail(), thumbnail);
+        assertEquals(bookmarkListResponseDto.getTime(), time);
+        assertEquals(bookmarkListResponseDto.getDifficulty(), difficulty);
+        assertEquals(bookmarkListResponseDto.getComposition(), composition);
+        assertEquals(bookmarkListResponseDto.getIngredients(), ingredients);
+        assertEquals(bookmarkListResponseDto.getIsBookmark(), isBookmark);
     }
 }

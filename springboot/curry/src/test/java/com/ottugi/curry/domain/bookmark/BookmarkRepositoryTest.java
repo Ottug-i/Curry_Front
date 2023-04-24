@@ -1,21 +1,26 @@
-package com.ottugi.curry.domain.recipe;
+package com.ottugi.curry.domain.bookmark;
 
+import com.ottugi.curry.domain.recipe.Recipe;
+import com.ottugi.curry.domain.user.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
-class RecipeRepositoryTest {
+class BookmarkRepositoryTest {
 
-    Long id = 1234L;
+    String email = "wn8925@sookmyung.ac.kr";
+    String nickName = "가경";
+
+    Long recipeId = 1234L;
     String name = "참치마요 덮밥";
     String thumbnail = "www";
     String time = "15분";
@@ -27,19 +32,23 @@ class RecipeRepositoryTest {
     String photo = "www###wwww####wwww";
 
     @Autowired
-    private RecipeRepository recipeRepository;
+    private BookmarkRepository bookmarkRepository;
+
+    @Autowired
+    private TestEntityManager entityManager;
 
     @AfterEach
     void clean() {
-        recipeRepository.deleteAll();
+        bookmarkRepository.deleteAll();
     }
 
     @Test
-    void 레시피추가() {
+    void 북마크추가() {
 
         // given
+        User user = User.builder().email(email).nickName(nickName).build();
         Recipe recipe = Recipe.builder()
-                .id(id)
+                .id(recipeId)
                 .name(name)
                 .thumbnail(thumbnail)
                 .time(time)
@@ -50,29 +59,28 @@ class RecipeRepositoryTest {
                 .orders(orders)
                 .photo(photo)
                 .build();
+        entityManager.persist(user);
+        entityManager.persist(recipe);
+
+        Bookmark bookmark = new Bookmark();
+        bookmark.setUser(user);
+        bookmark.setRecipe(recipe);
+        bookmarkRepository.save(bookmark);
 
         // when
-        Recipe newRecipe = recipeRepository.save(recipe);
+        Bookmark findBookmark = bookmarkRepository.findByUserIdAndRecipeId(user, recipe);
 
         // then
-        assertEquals(newRecipe.getName(), name);
-        assertEquals(newRecipe.getThumbnail(), thumbnail);
-        assertEquals(newRecipe.getTime(), time);
-        assertEquals(newRecipe.getDifficulty(), difficulty);
-        assertEquals(newRecipe.getComposition(), composition);
-        assertEquals(newRecipe.getIngredients(), ingredients);
-        assertEquals(newRecipe.getSeasoning(), seasoning);
-        assertEquals(newRecipe.getOrders(), orders);
-        assertEquals(newRecipe.getPhoto(), photo);
-
+        assertEquals(findBookmark, bookmark);
     }
 
     @Test
-    void 레시피조회() {
+    void 북마크유저이름으로조회() {
 
         // given
+        User user = User.builder().email(email).nickName(nickName).build();
         Recipe recipe = Recipe.builder()
-                .id(id)
+                .id(recipeId)
                 .name(name)
                 .thumbnail(thumbnail)
                 .time(time)
@@ -83,30 +91,29 @@ class RecipeRepositoryTest {
                 .orders(orders)
                 .photo(photo)
                 .build();
-        recipeRepository.save(recipe);
+        entityManager.persist(user);
+        entityManager.persist(recipe);
+
+        Bookmark bookmark = new Bookmark();
+        bookmark.setUser(user);
+        bookmark.setRecipe(recipe);
+        bookmarkRepository.save(bookmark);
 
         // when
-        List<Recipe> recipeList = recipeRepository.findAll();
+        Bookmark findBookmark = bookmarkRepository.findByUserIdAndRecipeId(user, recipe);
 
         // then
-        Recipe findRecipe = recipeList.get(0);
-        assertEquals(findRecipe.getName(), name);
-        assertEquals(findRecipe.getThumbnail(), thumbnail);
-        assertEquals(findRecipe.getTime(), time);
-        assertEquals(findRecipe.getDifficulty(), difficulty);
-        assertEquals(findRecipe.getComposition(), composition);
-        assertEquals(findRecipe.getIngredients(), ingredients);
-        assertEquals(findRecipe.getSeasoning(), seasoning);
-        assertEquals(findRecipe.getOrders(), orders);
-        assertEquals(findRecipe.getPhoto(), photo);
+        assertEquals(findBookmark.getUserId(), user);
+        assertEquals(findBookmark.getRecipeId(), recipe);
     }
 
     @Test
-    void 레시피아이디로조회() {
+    void 북마크유저이름으로리스트조회() {
 
         // given
+        User user = User.builder().email(email).nickName(nickName).build();
         Recipe recipe = Recipe.builder()
-                .id(id)
+                .id(recipeId)
                 .name(name)
                 .thumbnail(thumbnail)
                 .time(time)
@@ -117,20 +124,20 @@ class RecipeRepositoryTest {
                 .orders(orders)
                 .photo(photo)
                 .build();
-        recipeRepository.save(recipe);
+        entityManager.persist(user);
+        entityManager.persist(recipe);
+
+        Bookmark bookmark = new Bookmark();
+        bookmark.setUser(user);
+        bookmark.setRecipe(recipe);
+        bookmarkRepository.save(bookmark);
 
         // when
-        List<Recipe> recipeList = recipeRepository.findByIdIn(Arrays.asList(id));
+        List<Bookmark> bookmarkList = bookmarkRepository.findByUserId(user);
 
         // then
-        assertEquals(recipeList.get(0).getName(), name);
-        assertEquals(recipeList.get(0).getThumbnail(), thumbnail);
-        assertEquals(recipeList.get(0).getTime(), time);
-        assertEquals(recipeList.get(0).getDifficulty(), difficulty);
-        assertEquals(recipeList.get(0).getComposition(), composition);
-        assertEquals(recipeList.get(0).getIngredients(), ingredients);
-        assertEquals(recipeList.get(0).getSeasoning(), seasoning);
-        assertEquals(recipeList.get(0).getOrders(), orders);
-        assertEquals(recipeList.get(0).getPhoto(), photo);
+        Bookmark findBookmark = bookmarkList.get(0);
+        assertEquals(findBookmark.getUserId(), user);
+        assertEquals(findBookmark.getRecipeId(), recipe);
     }
 }

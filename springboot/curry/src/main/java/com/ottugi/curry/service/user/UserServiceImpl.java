@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
 
         User user = findUser(userUpdateRequestDto.getId());
         user.updateProfile(userUpdateRequestDto.getNickName());
-
         return new UserResponseDto(user);
     }
 
@@ -56,19 +55,12 @@ public class UserServiceImpl implements UserService {
 
     public Boolean validateDuplicatedUser(String email) {
 
-        int loginEmailCount = userRepository.countByEmail(email);
-        if (loginEmailCount > 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return userRepository.countByEmail(email) > 0;
     }
 
     public User findUser(Long id) {
 
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
-        return user;
+        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
     }
 
     public TokenDto createToken(User user) {

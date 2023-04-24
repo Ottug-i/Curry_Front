@@ -2,6 +2,7 @@ package com.ottugi.curry.service.recipe;
 
 import com.ottugi.curry.domain.recipe.Recipe;
 import com.ottugi.curry.domain.recipe.RecipeRepository;
+import com.ottugi.curry.web.dto.recipe.RecipeListResponseDto;
 import com.ottugi.curry.web.dto.recipe.RecipeRequestDto;
 import com.ottugi.curry.web.dto.recipe.RecipeResponseDto;
 import org.junit.jupiter.api.Test;
@@ -52,12 +53,12 @@ class RecipeServiceTest {
                 .userId(userId)
                 .recipeId(Arrays.asList(recipeId1, recipeId1))
                 .build();
-        List<RecipeResponseDto> recipeResponseDtoList = recipeService.getRecipeList(recipeRequestDto);
+        List<RecipeListResponseDto> recipeListResponseDtoList = recipeService.getRecipeList(recipeRequestDto);
 
         // then
-        assertEquals(recipeResponseDtoList.size(), 2);
-        assertEquals(recipeResponseDtoList.get(0).getId(), recipeId1);
-        assertEquals(recipeResponseDtoList.get(1).getId(), recipeId2);
+        assertEquals(recipeListResponseDtoList.size(), 2);
+        assertEquals(recipeListResponseDtoList.get(0).getId(), recipeId1);
+        assertEquals(recipeListResponseDtoList.get(1).getId(), recipeId2);
     }
 
     @Test

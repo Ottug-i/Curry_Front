@@ -20,10 +20,9 @@ public class RecipeListResponseDto {
 
     private String ingredients;
 
-    // TODO : 레시피 별 북마크 도메인 설계 후 수정
-    // private Boolean isBookmark;
+    private Boolean isBookmark;
 
-    public RecipeListResponseDto(Recipe recipe) {
+    public RecipeListResponseDto(Recipe recipe, Boolean isBookmark) {
         this.id = recipe.getId();
         this.name = recipe.getName();
         this.thumbnail = recipe.getThumbnail();
@@ -31,6 +30,6 @@ public class RecipeListResponseDto {
         this.difficulty = recipe.getDifficulty();
         this.composition = recipe.getComposition();
         this.ingredients = recipe.getIngredients();
-        // this.isBookmark = isBookmark;
+        this.isBookmark = isBookmark;
     }
 }

@@ -3,6 +3,7 @@ package com.ottugi.curry.web.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ottugi.curry.domain.recipe.Recipe;
 import com.ottugi.curry.service.recipe.RecipeServiceImpl;
+import com.ottugi.curry.web.dto.recipe.RecipeListResponseDto;
 import com.ottugi.curry.web.dto.recipe.RecipeRequestDto;
 import com.ottugi.curry.web.dto.recipe.RecipeResponseDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +40,7 @@ class RecipeControllerTest {
     String seasoning = "진간장###올리고당###설탕###";
     String orders = "1. 기름 뺀 참치###2. 마요네즈 4.5큰 술###3. 잘 비벼주세요.";
     String photo = "www###wwww####wwww";
+    Boolean isBookmark = true;
 
     Long userId = 1L;
 
@@ -63,17 +65,17 @@ class RecipeControllerTest {
                 .userId(userId)
                 .recipeId(Arrays.asList(recipeId1, recipeId2))
                 .build();
-        List<RecipeResponseDto> recipeResponseDtoList = new ArrayList<>();
+        List<RecipeListResponseDto> recipeListResponseDtoList = new ArrayList<>();
 
         // when
-        when(recipeService.getRecipeList(recipeRequestDto)).thenReturn(recipeResponseDtoList);
+        when(recipeService.getRecipeList(recipeRequestDto)).thenReturn(recipeListResponseDtoList);
 
         // then
         mockMvc.perform(get("/api/recipe/getRecipeList")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new ObjectMapper().writeValueAsString(recipeRequestDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(recipeResponseDtoList.size())));
+                .andExpect(jsonPath("$", hasSize(recipeListResponseDtoList.size())));
     }
 
     @Test
@@ -81,7 +83,7 @@ class RecipeControllerTest {
 
         // given
         Recipe recipe = new Recipe(recipeId1, name, thumbnail, time, difficulty, composition, ingredients, seasoning, orders, photo);
-        RecipeResponseDto recipeResponseDto = new RecipeResponseDto(recipe);
+        RecipeResponseDto recipeResponseDto = new RecipeResponseDto(recipe, isBookmark);
 
         // when
         when(recipeService.getRecipeDetail(userId, recipeId1)).thenReturn(recipeResponseDto);
