@@ -1,4 +1,4 @@
-package com.ottugi.curry.domain.bookmark;
+package com.ottugi.curry.domain.lately;
 
 import com.ottugi.curry.domain.recipe.Recipe;
 import com.ottugi.curry.domain.user.User;
@@ -11,11 +11,11 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Bookmark {
+public class Lately {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Bookmark_Id")
+    @Column(name = "Lately_Id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,15 +27,15 @@ public class Bookmark {
     private Recipe recipeId;
 
     @Builder
-    public Bookmark(Long id) {
+    public Lately(Long id) {
         this.id = id;
     }
 
     public void setUser(User user) {
         this.userId = user;
 
-        if(!userId.getBookmarkList().contains(this))
-            user.getBookmarkList().add(this);
+        if(!userId.getLatelyList().contains(this))
+            user.getLatelyList().add(this);
     }
 
     public void setRecipe(Recipe recipe) {

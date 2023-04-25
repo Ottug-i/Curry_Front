@@ -1,6 +1,7 @@
 package com.ottugi.curry.domain.user;
 
 import com.ottugi.curry.domain.bookmark.Bookmark;
+import com.ottugi.curry.domain.lately.Lately;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,9 @@ public class User {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bookmark> bookmarkList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Lately> latelyList = new ArrayList<>();
+
     @Builder
     public User(Long id, String email, String nickName) {
         this.id = id;
@@ -45,6 +49,14 @@ public class User {
 
         if(bookmark.getUserId() != this) {
             bookmark.setUser(this);
+        }
+    }
+
+    public void addLatelyList(Lately lately) {
+        this.latelyList.add(lately);
+
+        if(lately.getUserId() != this) {
+            lately.setUser(this);
         }
     }
 }
