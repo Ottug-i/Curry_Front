@@ -1,4 +1,4 @@
-package com.ottugi.curry.domain.bookmark;
+package com.ottugi.curry.domain.lately;
 
 import com.ottugi.curry.domain.recipe.Recipe;
 import com.ottugi.curry.domain.user.User;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
-class BookmarkRepositoryTest {
+class LatelyRepositoryTest {
 
     String email = "wn8925@sookmyung.ac.kr";
     String nickName = "가경";
@@ -32,18 +32,18 @@ class BookmarkRepositoryTest {
     String photo = "www###wwww####wwww";
 
     @Autowired
-    private BookmarkRepository bookmarkRepository;
+    private LatelyRepository latelyRepository;
 
     @Autowired
     private TestEntityManager entityManager;
 
     @AfterEach
     void clean() {
-        bookmarkRepository.deleteAll();
+        latelyRepository.deleteAll();
     }
 
     @Test
-    void 북마크추가() {
+    void 최근본레시피추가() {
 
         // given
         User user = User.builder().email(email).nickName(nickName).build();
@@ -62,20 +62,20 @@ class BookmarkRepositoryTest {
         entityManager.persist(user);
         entityManager.persist(recipe);
 
-        Bookmark bookmark = new Bookmark();
-        bookmark.setUser(user);
-        bookmark.setRecipe(recipe);
-        bookmarkRepository.save(bookmark);
+        Lately lately = new Lately();
+        lately.setUser(user);
+        lately.setRecipe(recipe);
+        latelyRepository.save(lately);
 
         // when
-        Bookmark findBookmark = bookmarkRepository.findByUserIdAndRecipeId(user, recipe);
+        Lately findLately = latelyRepository.findByUserIdAndRecipeId(user, recipe);
 
         // then
-        assertEquals(findBookmark, bookmark);
+        assertEquals(findLately, lately);
     }
 
     @Test
-    void 북마크유저이름과레시피아이디로조회() {
+    void 최근본레시피유저이름과레시피이름으로검색() {
 
         // given
         User user = User.builder().email(email).nickName(nickName).build();
@@ -94,21 +94,21 @@ class BookmarkRepositoryTest {
         entityManager.persist(user);
         entityManager.persist(recipe);
 
-        Bookmark bookmark = new Bookmark();
-        bookmark.setUser(user);
-        bookmark.setRecipe(recipe);
-        bookmarkRepository.save(bookmark);
+        Lately lately = new Lately();
+        lately.setUser(user);
+        lately.setRecipe(recipe);
+        latelyRepository.save(lately);
 
         // when
-        Bookmark findBookmark = bookmarkRepository.findByUserIdAndRecipeId(user, recipe);
+        Lately findLately = latelyRepository.findByUserIdAndRecipeId(user, recipe);
 
         // then
-        assertEquals(findBookmark.getUserId(), user);
-        assertEquals(findBookmark.getRecipeId(), recipe);
+        assertEquals(findLately.getUserId(), user);
+        assertEquals(findLately.getRecipeId(), recipe);
     }
 
     @Test
-    void 북마크유저이름으로리스트조회() {
+    void 최근본레시피리스트유저이름으로정렬하여검색() {
 
         // given
         User user = User.builder().email(email).nickName(nickName).build();
@@ -127,17 +127,49 @@ class BookmarkRepositoryTest {
         entityManager.persist(user);
         entityManager.persist(recipe);
 
-        Bookmark bookmark = new Bookmark();
-        bookmark.setUser(user);
-        bookmark.setRecipe(recipe);
-        bookmarkRepository.save(bookmark);
+        Lately lately = new Lately();
+        lately.setUser(user);
+        lately.setRecipe(recipe);
+        latelyRepository.save(lately);
 
         // when
-        List<Bookmark> bookmarkList = bookmarkRepository.findByUserId(user);
+        List<Lately> latelyList = latelyRepository.findByUserIdOrderByIdDesc(user);
 
         // then
-        Bookmark findBookmark = bookmarkList.get(0);
-        assertEquals(findBookmark.getUserId(), user);
-        assertEquals(findBookmark.getRecipeId(), recipe);
+        Lately findLately = latelyList.get(0);
+        assertEquals(findLately.getUserId(), user);
+        assertEquals(findLately.getRecipeId(), recipe);
+    }
+
+    @Test
+    void 유저이름으로최근본레시피횟수검색() {
+
+        // given
+        User user = User.builder().email(email).nickName(nickName).build();
+        Recipe recipe = Recipe.builder()
+                .id(recipeId)
+                .name(name)
+                .thumbnail(thumbnail)
+                .time(time)
+                .difficulty(difficulty)
+                .composition(composition)
+                .ingredients(ingredients)
+                .seasoning(seasoning)
+                .orders(orders)
+                .photo(photo)
+                .build();
+        entityManager.persist(user);
+        entityManager.persist(recipe);
+
+        Lately lately = new Lately();
+        lately.setUser(user);
+        lately.setRecipe(recipe);
+        latelyRepository.save(lately);
+
+        // when
+        int userIdCount = latelyRepository.countByUserId(user);
+
+        // then
+        assertEquals(userIdCount, 1);
     }
 }

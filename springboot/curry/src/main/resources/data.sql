@@ -12,3 +12,10 @@ insert into bookmark (bookmark_id, user_id, recipe_id) values
     (1, 1, 6909678),
     (2, 1, 6916853),
     (3, 1, 6855278);
+
+insert into lately (lately_id, user_id, recipe_id) values
+    (1, 1, 6909678),
+    (2, 1, 6916853),
+    (3, 1, 6984195),
+    (4, 1, 6962138),
+    (5, 1, 6855278);
