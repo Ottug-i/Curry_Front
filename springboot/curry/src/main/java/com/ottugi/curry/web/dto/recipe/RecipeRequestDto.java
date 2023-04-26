@@ -1,5 +1,6 @@
 package com.ottugi.curry.web.dto.recipe;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 public class RecipeRequestDto {
 
+    @ApiModelProperty(notes = "회원 기본키", example = "1", required = true)
     private Long userId;
 
+    @ApiModelProperty(notes = "레시피 기본키", example = "[6909678, 6916853]", required = true)
     private List<Long> recipeId;
 
     @Builder
