@@ -32,9 +32,9 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.ottugi.curry"))
                 .paths(PathSelectors.any())
                 .build()
-                .apiInfo(apiInfo());
-                // .securityContexts(Arrays.asList(securityContext()))
-                // .securitySchemes(Arrays.asList(apiKey()));
+                .apiInfo(apiInfo())
+                .securityContexts(Arrays.asList(securityContext()))
+                .securitySchemes(Arrays.asList(apiKey()));
     }
 
     public ApiInfo apiInfo() {
@@ -45,8 +45,6 @@ public class SwaggerConfig {
                 .build();
     }
 
-    /*
-    // TODO : JWT 토큰 완성 후 사용
     private ApiKey apiKey() {
         return new ApiKey("JWT", "Authorization", "header");
     }
@@ -63,5 +61,4 @@ public class SwaggerConfig {
         authorizationScopes[0] = authorizationScope;
         return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
     }
-     */
 }
