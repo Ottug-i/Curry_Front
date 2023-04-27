@@ -1,5 +1,7 @@
 package com.ottugi.curry.service.user;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.ottugi.curry.domain.user.User;
 import com.ottugi.curry.domain.user.UserRepository;
 import com.ottugi.curry.web.dto.user.TokenDto;
@@ -7,8 +9,11 @@ import com.ottugi.curry.web.dto.user.UserResponseDto;
 import com.ottugi.curry.web.dto.user.UserSaveRequestDto;
 import com.ottugi.curry.web.dto.user.UserUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 @Service
 @Transactional
@@ -16,6 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    @Value("${jwt.secret}")
+    public String secret;
+
+    @Value("${jwt.expiration_time}")
+    public int expiration_time;
 
     @Override
     public TokenDto login(UserSaveRequestDto userSaveRequestDto) {
@@ -64,8 +75,13 @@ public class UserServiceImpl implements UserService {
     }
 
     public TokenDto createToken(User user) {
-        // TODO : JWT 토큰 코드 수정
-        String jwtToken = "secret";
+        String jwtToken = JWT.create()
+                .withSubject(user.getEmail())
+                .withExpiresAt(new Date(System.currentTimeMillis()+ expiration_time))
+                .withClaim("id", user.getId())
+                .withClaim("role", "회원")
+                .sign(Algorithm.HMAC512(secret));
+
         return new TokenDto(user.getId(), user.getEmail(), user.getNickName(), jwtToken);
     }
 }
