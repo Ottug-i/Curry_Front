@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ottugi_curry/config/custom_theme_data.dart';
-import 'package:ottugi_curry/view/page/recipe_detail_page.dart';
+import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_page.dart';
 
 void main() {
   runApp(const MyApp());
