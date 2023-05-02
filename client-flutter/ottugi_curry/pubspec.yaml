@@ -38,6 +38,7 @@ dependencies:
   badges: ^3.0.3
   get:
   http:
+  filter_list:
 
 dev_dependencies:
   flutter_test:

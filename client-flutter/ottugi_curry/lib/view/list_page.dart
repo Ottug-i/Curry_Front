@@ -3,9 +3,14 @@ import 'package:ottugi_curry/view/categories.dart';
 import 'package:ottugi_curry/view/item_widget.dart';
 import 'package:ottugi_curry/view/list_app_bar.dart';
 
-class ListPage extends StatelessWidget {
+class ListPage extends StatefulWidget {
   const ListPage({super.key});
 
+  @override
+  ListPageState createState() => ListPageState();
+}
+
+class ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
