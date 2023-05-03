@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/view/controller/login/login_controller.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Get.put(LoginController());
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -35,7 +39,9 @@ class LoginPage extends StatelessWidget {
 
               // 구글 로그인 버튼
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  Get.find<LoginController>().loginGoogle();
+                },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)
@@ -46,7 +52,7 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     ImageIcon(
-                      AssetImage('assets/icons/google.png'),
+                      AssetImage('assets/icons/google2.png'),
                       size: 48,
                     ),
                     Text('Google 로그인'),
@@ -64,13 +70,13 @@ class LoginPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)
                     ),
-                    backgroundColor: Color(0xFFFFE812)
+                    backgroundColor: const Color(0xFFFFE812)
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     ImageIcon(
-                      AssetImage('assets/icons/kakao.png'),
+                      AssetImage('assets/icons/google2.png'),
                       size: 48,
                     ),
                     Text('Kakao 로그인'),
