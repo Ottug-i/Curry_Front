@@ -18,7 +18,11 @@ class MyApp extends StatelessWidget {
       theme: CustomThemeData.themeDataLight,
       initialRoute: '/',
       getPages: Config.routers,
+<<<<<<< HEAD
       // home: MainPage(),
+=======
+      // home: ListPage(),
+>>>>>>> 3e63f85 (Revise CustomThemeData)
     );
   }
 }
