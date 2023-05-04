@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_timer_controller.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_cooking_order_widget.dart';
 import 'package:get/get.dart';
+import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_timer_widget.dart';
 
 class RecipeDetailPage extends StatelessWidget {
   const RecipeDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Get.put(RecipeDetailTimerController());
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 25),
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 25),
           child: Icon(Icons.arrow_back_ios, color: Colors.black,),
         ),
         actions: [
@@ -25,25 +29,9 @@ class RecipeDetailPage extends StatelessWidget {
                 icon: const Icon(Icons.timer_sharp),
                 color: Colors.black,
                 onPressed: () {
-                  print('hi');
-
                   Get.dialog(
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        child: Column(
-                          children: [
-                            Text('시간'),
-                            Divider(),
-                            Row(
-                              children: [
-                                ElevatedButton(onPressed: () {}, child: Text('취소')),
-                                ElevatedButton(onPressed: () {}, child: Text('시작')),
-                              ],
-                            )
-                          ],
-                        ),
+                      const Dialog(
+                        child: RecipeDetailTimerWidget(),
                       )
                   );
                 },
