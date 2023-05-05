@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class LatelyControllerTest {
 
-    Long userId = 1L;
+    private final Long userId = 1L;
 
     private MockMvc mockMvc;
 
