@@ -8,9 +8,9 @@ import 'package:ottugi_curry/view/page/user/user_page.dart';
 class Config {
   static final routers = [
     //bottom nav bar
-    GetPage(name: '/', page: () => MainPage(), transition: Transition.noTransition),
-    GetPage(name: '/recipe', page: () => RecipeCameraPage(), transition: Transition.noTransition),
-    GetPage(name: '/user', page: () => UserPage(), transition: Transition.noTransition),
-    GetPage(name: '/bookmark', page: () => BookmarkPage(), transition: Transition.noTransition),
+    GetPage(name: '/', page: () => const MainPage(), transition: Transition.noTransition),
+    GetPage(name: '/recipe', page: () => const RecipeCameraPage(), transition: Transition.noTransition),
+    GetPage(name: '/user', page: () => const UserPage(), transition: Transition.noTransition),
+    GetPage(name: '/bookmark', page: () => const BookmarkPage(), transition: Transition.noTransition),
   ];
 }

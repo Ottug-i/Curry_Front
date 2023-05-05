@@ -9,7 +9,8 @@ class Recipe {
   String? time;
   bool? isBookmark;
 
-  Recipe({this.id, this.name, this.thumbnail});
+  //Recipe({this.id, this.name, this.thumbnail});
+  Recipe({this.id, this.name, this.thumbnail, this.difficulty, this.composition, this.ingredients, this.time});
 
   Recipe.fromJson(Map<String, dynamic> json) {
     //userId = json['userId'];
