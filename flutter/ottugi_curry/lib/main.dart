@@ -3,6 +3,9 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/config/custom_theme_data.dart';
 
+import 'package:ottugi_curry/view/page/list/list_page.dart';
+import 'package:ottugi_curry/view/page/login/login_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -15,9 +18,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: '카레',
       theme: CustomThemeData.themeDataLight,
-      initialRoute: '/',
+      initialRoute: '/login',
       getPages: Config.routers,
-      // home: ListPage(),
+      // home: LoginPage(),
     );
   }
 }
