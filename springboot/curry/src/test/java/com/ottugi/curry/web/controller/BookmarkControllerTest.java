@@ -27,13 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class BookmarkControllerTest {
 
-    Long userId = 1L;
+    private final Long userId = 1L;
 
-    Long recipeId = 1234L;
-    String name = "참치마요 덮밥";
-    String time = "15분";
-    String difficulty = "초급";
-    String composition = "든든하게";
+    private final Long recipeId = 1234L;
+    private final String name = "참치마요 덮밥";
+    private final String time = "15분";
+    private final String difficulty = "초급";
+    private final String composition = "든든하게";
 
     private MockMvc mockMvc;
 
