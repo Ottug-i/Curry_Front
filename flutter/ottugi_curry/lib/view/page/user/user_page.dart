@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 
 class UserPage extends StatelessWidget {
@@ -104,8 +106,12 @@ class UserPage extends StatelessWidget {
     // 문의하기
   }
 
-  void _onPressedLogout() {
+  void _onPressedLogout() async{
     // 로그아웃
+    await userStorage.delete(key: 'id');
+    await userStorage.delete(key: 'token');
+
+    Get.offAndToNamed('/login');
   }
 
   void _onPressedWithdrawal() {

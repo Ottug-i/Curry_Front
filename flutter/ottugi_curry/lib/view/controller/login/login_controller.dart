@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/model/user.dart';
 import 'package:ottugi_curry/repository/user_repository.dart';
 
@@ -27,10 +28,21 @@ class LoginController {
           User(email: email, nickname: nickname));
       print('response: ${resp.id}, ${resp.email}, ${resp.nickname}, ${resp.token}');
 
-      // 로그인 성공-> 메인 페이지 이동
+      // 로그인 성공
+      // storage 에 id, token 저장
+      await userStorage.write(key: 'id', value: resp.id.toString());
+      await userStorage.write(key: 'token', value: resp.token.toString());
+      // 메인 페이지 이동
       Get.offAndToNamed('/main');
     } on DioError catch (e) {
       print('DioError: $e');
+    }
+  }
+
+  void checkLogin() async {
+    final token = await userStorage.read(key: 'token');
+    if (token!.isNotEmpty) {
+      Get.offAndToNamed('/main');
     }
   }
 }
