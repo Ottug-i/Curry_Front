@@ -43,20 +43,18 @@ class LoginPage extends StatelessWidget {
                   Get.find<LoginController>().loginGoogle();
                 },
                 style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)
-                  ),
-                  backgroundColor: Colors.white70
-                ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    backgroundColor: Colors.white70),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    ImageIcon(
-                      AssetImage('assets/icons/google2.png'),
-                      size: 48,
+                  children: [
+                    Image.asset(
+                      'assets/icons/google2.png',
+                      height: 25,
                     ),
                     Text('Google 로그인'),
-                    Padding(padding: EdgeInsets.only(left: 50)),
+                    Padding(padding: EdgeInsets.only(left: 25)),
                   ],
                 ),
               ),
@@ -68,19 +66,17 @@ class LoginPage extends StatelessWidget {
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    backgroundColor: const Color(0xFFFFE812)
-                ),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    backgroundColor: const Color(0xFFFFE812)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    ImageIcon(
-                      AssetImage('assets/icons/google2.png'),
-                      size: 48,
+                  children: [
+                    Image.asset(
+                      'assets/icons/kakao2.png',
+                      height: 25,
                     ),
                     Text('Kakao 로그인'),
-                    Padding(padding: EdgeInsets.only(left: 50)),
+                    Padding(padding: EdgeInsets.only(left: 25)),
                   ],
                 ),
               ),

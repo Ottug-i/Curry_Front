@@ -37,6 +37,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   google_sign_in: ^6.1.0
+  retrofit: ^4.0.1
+  dio: ^5.1.1
+  retrofit_generator: ^6.0.0+3
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.2
+  json_annotation: ^4.8.1
 
 dev_dependencies:
   flutter_test:
