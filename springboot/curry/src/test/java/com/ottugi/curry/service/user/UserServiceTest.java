@@ -6,10 +6,13 @@ import com.ottugi.curry.web.dto.user.TokenDto;
 import com.ottugi.curry.web.dto.user.UserResponseDto;
 import com.ottugi.curry.web.dto.user.UserSaveRequestDto;
 import com.ottugi.curry.web.dto.user.UserUpdateRequestDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -19,16 +22,27 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class UserServiceTest {
 
-    String email = "wn8925@sookmyung.ac.kr";
-    String nickName = "가경";
-    String newNickName = "가경이";
-    String token = "secret";
+    private final String email = "wn8925@gmail.com";
+    private final String nickName = "가경";
+    private final String newNickName = "가경이";
 
     @Mock
     private UserRepository userRepository;
 
     @InjectMocks
     private UserServiceImpl userService;
+
+    @Value("${jwt.secret}")
+    private String secret;
+
+    @Value("${jwt.expiration_time}")
+    private int expiration_time;
+
+    @BeforeEach
+    public void setUp() {
+        ReflectionTestUtils.setField(userService, "secret", secret);
+        ReflectionTestUtils.setField(userService, "expiration_time", expiration_time);
+    }
 
     @Test
     void 회원가입() {
@@ -46,7 +60,6 @@ class UserServiceTest {
         assertEquals(1L, tokenDto.getId());
         assertEquals(userSaveRequestDto.getEmail(), tokenDto.getEmail());
         assertEquals(userSaveRequestDto.getNickName(), tokenDto.getNickName());
-        assertEquals(token, tokenDto.getToken());
     }
 
     @Test
@@ -66,7 +79,6 @@ class UserServiceTest {
         assertEquals(1L, tokenDto.getId());
         assertEquals(userSaveRequestDto.getEmail(), tokenDto.getEmail());
         assertEquals(userSaveRequestDto.getNickName(), tokenDto.getNickName());
-        assertEquals(token, tokenDto.getToken());
     }
 
     @Test

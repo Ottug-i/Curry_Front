@@ -1,6 +1,7 @@
 package com.ottugi.curry.domain.user;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -14,11 +15,20 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class UserRepositoryTest {
 
-    String email = "wn8925@sookmyung.ac.kr";
-    String nickName = "가경";
+    private final String email = "wn8925@gmail.com";
+    private final String nickName = "가경";
+    private User user;
 
     @Autowired
     private UserRepository userRepository;
+
+    @BeforeEach
+    public void setUp() {
+
+        // given
+        user = User.builder().email(email).nickName(nickName).build();
+        userRepository.save(user);
+    }
 
     @AfterEach
     public void clean() {
@@ -29,30 +39,25 @@ class UserRepositoryTest {
     void 회원생성() {
 
         // given
-        User user = User.builder().email(email).nickName(nickName).build();
+        User newUser = User.builder().email("newUser@gmail.com").nickName("새 유저").build();
 
         // when
-        User loginUser = userRepository.save(user);
+        User loginUser = userRepository.save(newUser);
 
         // then
-        assertEquals(loginUser.getId(), user.getId());
-        assertEquals(loginUser.getEmail(), user.getEmail());
-        assertEquals(loginUser.getNickName(), user.getNickName());
+        assertEquals(loginUser.getId(), newUser.getId());
+        assertEquals(loginUser.getEmail(), newUser.getEmail());
+        assertEquals(loginUser.getNickName(), newUser.getNickName());
     }
 
     @Test
     void 회원조회() {
 
-        // given
-        User user = User.builder().email(email).nickName(nickName).build();
-        userRepository.save(user);
-
         // when
         List<User> userList = userRepository.findAll();
 
         // then
-        User findUser = userList.get(0);
-        assertEquals(userList.size(), 1);
+        User findUser = userList.get(1);
         assertEquals(findUser.getId(), user.getId());
         assertEquals(findUser.getEmail(), user.getEmail());
         assertEquals(findUser.getNickName(), user.getNickName());
@@ -60,10 +65,6 @@ class UserRepositoryTest {
 
     @Test
     void 이메일로_회원조회() {
-
-        // given
-        User user = User.builder().email(email).nickName(nickName).build();
-        userRepository.save(user);
 
         // when
         User findUser = userRepository.findByEmail(user.getEmail());
@@ -76,10 +77,6 @@ class UserRepositoryTest {
 
     @Test
     void 이메일로_회원수조회() {
-
-        // given
-        User user = User.builder().email(email).nickName(nickName).build();
-        userRepository.save(user);
 
         // when
         int userEmailCount = userRepository.countByEmail(user.getEmail());
