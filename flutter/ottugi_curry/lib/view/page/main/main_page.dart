@@ -6,6 +6,6 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayoutWidget(body: Text('MainPage'));
+    return const DefaultLayoutWidget(body: Text('MainPage'));
   }
 }

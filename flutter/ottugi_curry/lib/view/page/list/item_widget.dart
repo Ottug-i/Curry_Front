@@ -14,7 +14,6 @@ class ItemsWidget extends StatelessWidget {
       shrinkWrap: true,
       itemCount: rListController.recipeList.length,
       itemBuilder: (BuildContext context, int i) {
-        print(rListController.recipeList[i]);
         return Container(
             padding: const EdgeInsets.all(20),
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -27,8 +26,10 @@ class ItemsWidget extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(24.0),
-                    child: Image.network(
+                      borderRadius: BorderRadius.circular(24.0),
+                      child:
+
+                          /*Image.network(
                       '${rListController.recipeList[i].thumbnail}',
                       errorBuilder: (BuildContext context, Object exception,
                           StackTrace? stackTrace) {
@@ -43,8 +44,9 @@ class ItemsWidget extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         );
                       },
-                    ),
-                  ),
+                    ),*/
+                          Image.asset(
+                              'assets/images/${rListController.recipeList[i].thumbnail}')),
                 ),
                 Expanded(
                   flex: 7,
