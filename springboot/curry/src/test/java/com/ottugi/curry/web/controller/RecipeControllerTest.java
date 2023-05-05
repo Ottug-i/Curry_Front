@@ -29,20 +29,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class RecipeControllerTest {
 
-    Long recipeId1 = 1234L;
-    Long recipeId2 = 2345L;
-    String name = "참치마요 덮밥";
-    String thumbnail = "www";
-    String time = "15분";
-    String difficulty = "초급";
-    String composition = "든든하게";
-    String ingredients = "참치캔###마요네즈###쪽파";
-    String seasoning = "진간장###올리고당###설탕###";
-    String orders = "1. 기름 뺀 참치###2. 마요네즈 4.5큰 술###3. 잘 비벼주세요.";
-    String photo = "www###wwww####wwww";
-    Boolean isBookmark = true;
+    private final Long recipeId1 = 1234L;
+    private final Long recipeId2 = 2345L;
+    private final String name = "참치마요 덮밥";
+    private final String thumbnail = "www";
+    private final String time = "15분";
+    private final String difficulty = "초급";
+    private final String composition = "든든하게";
+    private final String ingredients = "참치캔###마요네즈###쪽파";
+    private final String seasoning = "진간장###올리고당###설탕###";
+    private final String orders = "1. 기름 뺀 참치###2. 마요네즈 4.5큰 술###3. 잘 비벼주세요.";
+    private final String photo = "www###wwww####wwww";
+    private final Boolean isBookmark = true;
 
-    Long userId = 1L;
+    private final Long userId = 1L;
 
     private MockMvc mockMvc;
 
@@ -71,7 +71,7 @@ class RecipeControllerTest {
         when(recipeService.getRecipeList(recipeRequestDto)).thenReturn(recipeListResponseDtoList);
 
         // then
-        mockMvc.perform(get("/api/recipe/getRecipeList")
+        mockMvc.perform(post("/api/recipe/getRecipeList")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new ObjectMapper().writeValueAsString(recipeRequestDto)))
                 .andExpect(status().isOk())
