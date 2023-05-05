@@ -19,7 +19,7 @@ class ListPageButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         backgroundColor: isButtonClicked ? themecolor : Colors.white,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),

@@ -14,6 +14,7 @@ class ItemsWidget extends StatelessWidget {
       shrinkWrap: true,
       itemCount: rListController.recipeList.length,
       itemBuilder: (BuildContext context, int i) {
+        print(rListController.recipeList[i]);
         return Container(
             padding: const EdgeInsets.all(20),
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -79,11 +80,13 @@ class ItemsWidget extends StatelessWidget {
                               margin: const EdgeInsets.only(left: 8, right: 8),
                               alignment: Alignment.topLeft,
                               //crossAxisAlignment: CrossAxisAlignment.start,
-                              child: const Icon(
-                                Icons.bookmark_border_rounded,
-                                size: 30,
-                                color: Color(0xffFFD717),
-                              ),
+                              child: Obx(() => Icon(
+                                    rListController.recipeList[i].isBookmark!
+                                        ? Icons.bookmark_rounded
+                                        : Icons.bookmark_border_rounded,
+                                    size: 30,
+                                    color: const Color(0xffFFD717),
+                                  )),
                             ),
                           ],
                         ),

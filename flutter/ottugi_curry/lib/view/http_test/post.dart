@@ -50,33 +50,32 @@ class Recipe {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     //data['userId'] = this.userId;
-    data['id'] = this.id;
-    data['composition'] = this.composition;
-    data['difficulty'] = this.difficulty;
-    data['ingredients'] = this.ingredients;
-    data['name'] = this.name;
-    data['thumbnail'] = this.thumbnail;
-    data['time'] = this.time;
-    data['isBookmark'] = this.isBookmark;
+    data['id'] = id;
+    data['composition'] = composition;
+    data['difficulty'] = difficulty;
+    data['ingredients'] = ingredients;
+    data['name'] = name;
+    data['thumbnail'] = thumbnail;
+    data['time'] = time;
+    data['isBookmark'] = isBookmark;
 
     return data;
   }
 }
 
 Future<List<Recipe>> postData() async {
-  var url = Uri.parse('http://10.0.2.2:8080/api/recipe/getRecipeList');
+  var url = Uri.parse('http://10.0.2.2:8000/api/recipe/getRecipeList');
   var data = {
     "userId": 1,
     "recipeId": [6855278, 6909678]
   };
 
-  http.Response response = await http.post(
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: jsonEncode(data)//json.encode(['6855278', '6909678']
-  );
+  http.Response response = await http.post(url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(data) //json.encode(['6855278', '6909678']
+      );
 
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)

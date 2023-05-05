@@ -8,8 +8,8 @@ class RecipeRecs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const DefaultLayoutWidget(
-      appBarTitle: '추천레시피',
-      body: ListPage(),
+      appBarTitle: '추천 레시피',
+      body: ListPage(mode: 'search'),
     );
   }
 }

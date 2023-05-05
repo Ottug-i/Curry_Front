@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/view_model/list/recipe_list_view_model.dart';
 
 class ListPage extends StatefulWidget {
-  const ListPage({super.key});
+  final String mode;
+  const ListPage({super.key, this.mode = 'search'});
 
   @override
   ListPageState createState() => ListPageState();
@@ -17,6 +18,7 @@ class ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, // overflowed 방지
       body: Container(
         width: double.infinity, // 또는 원하는 크기로 지정
         padding: const EdgeInsets.only(top: 10),
@@ -25,33 +27,9 @@ class ListPageState extends State<ListPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // 식재료 text
-              Row(children: const [
-                Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    "감자, 치즈, 계란",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      decoration: TextDecoration.underline,
-                      decorationColor: Color(0xffFFD717),
-                      decorationThickness: 4,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                Icon(
-                  Icons.edit_rounded,
-                  size: 20,
-                  color: Colors.black,
-                ),
-                Spacer(),
-              ]),
-
+              widget.mode == 'search'
+                  ? searchMode("감자, 치즈, 계란")
+                  : bookmarkMode(),
               // 아이템 위젯
               if (rListController.recipeList.isEmpty)
                 Column(
@@ -70,4 +48,55 @@ class ListPageState extends State<ListPage> {
       ),
     );
   }
+}
+
+Row searchMode(String ingredients) {
+  // 식재료 text
+  return Row(children: [
+    Padding(
+      padding: const EdgeInsets.only(left: 20),
+      child: Text(
+        ingredients,
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          decoration: TextDecoration.underline,
+          decorationColor: Color(0xffFFD717),
+          decorationThickness: 4,
+        ),
+      ),
+    ),
+    const SizedBox(
+      width: 4,
+    ),
+    const Icon(
+      Icons.edit_rounded,
+      size: 20,
+      color: Colors.black,
+    ),
+    const Spacer(),
+  ]);
+}
+
+Column bookmarkMode() {
+  final controller = TextEditingController();
+
+  return Column(
+    children: <Widget>[
+      Container(
+        margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+        child: TextField(
+          controller: controller, // controller 사용
+          decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.search),
+              hintText: '레시피 이름을 검색하세요...',
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                      color: Colors.black))), // InputDecoration
+        ), // TextField
+      ), // Container
+    ], // Widget
+  );
 }
