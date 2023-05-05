@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ottugi_curry/model/menu.dart';
+import 'package:ottugi_curry/view_model/list/service.dart';
 
 class MenuViewModel extends GetxController {
   var menuList = <MenuModel>[].obs;
@@ -66,6 +67,17 @@ class MenuViewModel extends GetxController {
     fetchData();
   }
 
+  void fetchData() async {
+    // http 클라이언트와 데이터들을 불러와야 함
+    // 지금은 param이 없지만 param는 인식된 재료여야 함
+    var products = await Services.fetchMenus();
+    if (products != null) {
+      //menuList.value = products;
+      menuList.assignAll(products);
+    }
+  }
+
+/*
   void fetchData() {
     var menuData = [
       MenuModel(
@@ -124,11 +136,6 @@ class MenuViewModel extends GetxController {
 
     menuList.assignAll(menuData);
   }
-  /*void fetchData() async {
-    // http 클라이언트와 데이터들을 불러와야 함
-    var products = await Services.fetchProducts();
-    if (products != null) {
-      productList.value = products;
-    }
-  }*/
+  */
+
 }

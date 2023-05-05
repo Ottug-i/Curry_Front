@@ -11,8 +11,12 @@ class ItemsWidget extends StatelessWidget {
 
     if (menuController.menuList.isEmpty) {
       return const Scaffold(
-        body: Center(
-          child: Text('결과가 없습니다.'),
+        body: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Center(
+            child: Text('결과가 없습니다.'),
+          ),
         ),
       );
     } else {
