@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ottugi_curry/view_model/list/menu_view_model.dart';
+import 'package:ottugi_curry/view_model/list/recipe_list_view_model.dart';
 
 class ItemsWidget extends StatelessWidget {
   const ItemsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final menuController = Get.put(MenuViewModel());
+    final rListController = Get.put(RecipeListViewModel());
 
-    if (menuController.menuList.isEmpty) {
+    if (rListController.recipeList.isEmpty) {
       return const Scaffold(
         body: SizedBox(
           width: double.infinity,
@@ -21,11 +21,11 @@ class ItemsWidget extends StatelessWidget {
       );
     } else {
       print('---');
-      print(menuController.menuList.length);
+      print(rListController.recipeList.length);
       return ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: menuController.menuList.length - 1,
+        itemCount: rListController.recipeList.length - 1,
         itemBuilder: (BuildContext context, int i) {
           return Container(
               padding: const EdgeInsets.all(20),
@@ -38,11 +38,22 @@ class ItemsWidget extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(24.0),
-                    child: Image.asset(
-                      menuController.menuList.length > i
-                          ? "images/${menuController.menuList[i].photo}"
-                          : "images/taco.jpeg",
+                    child: Image.network(
+                      '${rListController.recipeList[i].thumbnail}',
                       width: 160,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return Icon(Icons.error);
+                      },
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
                     ),
                   ),
                   Expanded(
@@ -61,7 +72,7 @@ class ItemsWidget extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Obx(() => Text(
-                                        '${menuController.menuList[i].name}',
+                                        '${rListController.recipeList[i].name}',
                                         style: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 18,
@@ -93,7 +104,7 @@ class ItemsWidget extends StatelessWidget {
                             Expanded(
                                 child: Obx(
                               () => Text(
-                                '${menuController.menuList[i].ingredients}',
+                                '${rListController.recipeList[i].ingredients}',
                                 style: const TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 14,
@@ -114,7 +125,7 @@ class ItemsWidget extends StatelessWidget {
                                 children: [
                                   const Icon(Icons.timer, size: 30),
                                   Obx(() => Text(
-                                      '${menuController.menuList[i].time}분',
+                                      '${rListController.recipeList[i].time}분',
                                       style: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 14,
@@ -127,7 +138,7 @@ class ItemsWidget extends StatelessWidget {
                                   const Icon(Icons.handshake_outlined,
                                       size: 30),
                                   Obx(() => Text(
-                                      '${menuController.menuList[i].difficulty}',
+                                      '${rListController.recipeList[i].difficulty}',
                                       style: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 14,
@@ -139,7 +150,7 @@ class ItemsWidget extends StatelessWidget {
                                 children: [
                                   const Icon(Icons.food_bank_rounded, size: 30),
                                   Obx(() => Text(
-                                      '${menuController.menuList[i].composition}',
+                                      '${rListController.recipeList[i].composition}',
                                       style: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 14,

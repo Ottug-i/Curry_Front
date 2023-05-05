@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ottugi_curry/model/menu.dart';
-import 'package:ottugi_curry/view_model/list/service.dart';
+//import 'package:ottugi_curry/view_model/list/service.dart';
 
 class MenuViewModel extends GetxController {
   var menuList = <MenuModel>[].obs;
@@ -67,17 +67,7 @@ class MenuViewModel extends GetxController {
     fetchData();
   }
 
-  void fetchData() async {
-    // http 클라이언트와 데이터들을 불러와야 함
-    // 지금은 param이 없지만 param는 인식된 재료여야 함
-    var products = await Services.fetchMenus();
-    if (products != null) {
-      //menuList.value = products;
-      menuList.assignAll(products);
-    }
-  }
 
-/*
   void fetchData() {
     var menuData = [
       MenuModel(
@@ -86,9 +76,9 @@ class MenuViewModel extends GetxController {
           difficulty: '왕초보',
           composition: '가볍게',
           ingredients:
-              '닭가슴살 250 g, 마늘 2~3쪽, 메추리알 12개, 베이컨 4장, 로메인상추 적당히, 계란노른자 1개, 엔초비 1.5스푼',
+          '닭가슴살 250 g, 마늘 2~3쪽, 메추리알 12개, 베이컨 4장, 로메인상추 적당히, 계란노른자 1개, 엔초비 1.5스푼',
           seasoning:
-              '소금 약간, 후추 약간, 올리브 오일 3~4스푼, 머스터드소스 0.2스푼, 레몬즙 1.5스푼, 땅콩기름 7~8스푼, 파마산치즈 30 g',
+          '소금 약간, 후추 약간, 올리브 오일 3~4스푼, 머스터드소스 0.2스푼, 레몬즙 1.5스푼, 땅콩기름 7~8스푼, 파마산치즈 30 g',
           photo: 'egg-benedict.jpeg'),
       MenuModel(
           name: '치킨마요',
@@ -112,7 +102,7 @@ class MenuViewModel extends GetxController {
           difficulty: '중급',
           composition: '가볍게',
           ingredients:
-              '소세지  4개 , 감자 삶은것  2개,  빵가루  25 g,  밀가루  10 g,  양파  1/4 개(대),  계란  1 개,  옥수수통조림  180 g',
+          '소세지  4개 , 감자 삶은것  2개,  빵가루  25 g,  밀가루  10 g,  양파  1/4 개(대),  계란  1 개,  옥수수통조림  180 g',
           photo: 'taco.jpeg'),
       MenuModel(
           name: '감자전',
@@ -128,14 +118,13 @@ class MenuViewModel extends GetxController {
           difficulty: '고급',
           composition: '든든하게',
           ingredients:
-              '두부  1 모,  닭가슴살  한 조각,  당근  1/3 개,  양파  1/2 개(대),  대파  1/2 개',
+          '두부  1 모,  닭가슴살  한 조각,  당근  1/3 개,  양파  1/2 개(대),  대파  1/2 개',
           seasoning:
-              '<양념> 감자전분  3 숟가락,  소금  적당히,  후추  적당히,  계란  1 개,  빵가루  한 컵,  참기름  1/2 숟가락,  <데리야끼소스 양념>,  진간장  1/2 컵,  건다시마  1 조각,  백설탕  4 숟가락,  대파  적당히,  물  300ml,  양파  1/10 개(대),  마늘  2 쪽(대),  생강가루(생강) 2 숟가락, 미림(소주)  2 숟가락, 사과  1/10 개(중)  녹말물약간  적당히',
+          '<양념> 감자전분  3 숟가락,  소금  적당히,  후추  적당히,  계란  1 개,  빵가루  한 컵,  참기름  1/2 숟가락,  <데리야끼소스 양념>,  진간장  1/2 컵,  건다시마  1 조각,  백설탕  4 숟가락,  대파  적당히,  물  300ml,  양파  1/10 개(대),  마늘  2 쪽(대),  생강가루(생강) 2 숟가락, 미림(소주)  2 숟가락, 사과  1/10 개(중)  녹말물약간  적당히',
           photo: 'egg-benedict.jpeg')
     ];
 
     menuList.assignAll(menuData);
   }
-  */
 
 }

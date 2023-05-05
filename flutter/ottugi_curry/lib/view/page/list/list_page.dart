@@ -23,6 +23,7 @@ class ListPageState extends State<ListPage> {
             color: const Color(0xffF5F5F5),
             child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // 식재료 text
                   Row(children: const [

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -40,9 +39,9 @@ class Bookmark {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     //data['userId'] = this.userId;
-    data['id'] = id;
-    data['name'] = name;
-    data['thumbnail'] = thumbnail;
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['thumbnail'] = this.thumbnail;
     return data;
   }
 }
