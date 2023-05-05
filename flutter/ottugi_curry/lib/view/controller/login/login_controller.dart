@@ -6,7 +6,7 @@ import 'package:ottugi_curry/model/user.dart';
 import 'package:ottugi_curry/repository/user_repository.dart';
 
 class LoginController {
-  Future loginGoogle() async {
+  Future<void> loginGoogle() async {
     GoogleSignIn googleSignIn = GoogleSignIn(
       clientId: '533961426623-17qecigrqom78pqt8ts3p5kccjb1d6ns.apps.googleusercontent.com',
     );
@@ -18,7 +18,7 @@ class LoginController {
     }
   }
 
-  login(String email, String nickname) async {
+  void login(String email, String nickname) async {
     try {
       Dio dio = Dio();
       UserRepository userRepository = UserRepository(dio);
