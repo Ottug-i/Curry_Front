@@ -3,16 +3,18 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/config/custom_theme_data.dart';
 
-import 'package:ottugi_curry/view/page/list/list_page.dart';
-import 'package:ottugi_curry/view/page/login/login_page.dart';
+void main() async {
+  // splash screen
+  WidgetsFlutterBinding.ensureInitialized(); // 초기화 보장
+  await Future.delayed(const Duration(seconds: 2)); // 3초 지연
 
-void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
