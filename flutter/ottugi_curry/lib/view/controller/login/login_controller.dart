@@ -30,8 +30,12 @@ class LoginController {
 
       // 로그인 성공
       // storage 에 id, token 저장
-      await userStorage.write(key: 'id', value: resp.id.toString());
-      await userStorage.write(key: 'token', value: resp.token.toString());
+      await userSecureStorage.write(key: 'id', value: resp.id.toString());
+      await userSecureStorage.write(key: 'token', value: resp.token.toString());
+      // local storage 에 email, nickname 저장
+      userStorage.setItem('email', resp.email.toString());
+      userStorage.setItem('nickname', resp.nickname.toString());
+
       // 메인 페이지 이동
       Get.offAndToNamed('/main');
     } on DioError catch (e) {
@@ -40,7 +44,7 @@ class LoginController {
   }
 
   void checkLogin() async {
-    final token = await userStorage.read(key: 'token');
+    final token = await userSecureStorage.read(key: 'token');
     if (token!.isNotEmpty) {
       Get.offAndToNamed('/main');
     }

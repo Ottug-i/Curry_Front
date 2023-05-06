@@ -21,8 +21,8 @@ class UserController {
   }
 
   void handleLogout() async {
-    await userStorage.delete(key: 'id');
-    await userStorage.delete(key: 'token');
+    await userSecureStorage.delete(key: 'id');
+    await userSecureStorage.delete(key: 'token');
 
     Get.offAndToNamed('/login');
   }
