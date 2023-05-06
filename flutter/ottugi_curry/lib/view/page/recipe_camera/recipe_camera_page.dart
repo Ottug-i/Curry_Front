@@ -20,8 +20,8 @@ class ResultCheck extends StatefulWidget {
 }
 
 class _ResultCheckState extends State<ResultCheck> {
-  bool _isCheckTuna = false;
-  bool _isCheckRice = false;
+  bool _isCheckTuna = true;
+  bool _isCheckRice = true;
 
   @override
   Widget build(BuildContext context) {
@@ -42,29 +42,90 @@ class _ResultCheckState extends State<ResultCheck> {
             ElevatedButton(
               onPressed: () {
                 showDialog(
+                  context: context,
+                  builder: (context) {
+                    return StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return Dialog(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  const Text('촬영한 재료가 아니라면 선택을 해제하세요.'),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  checkList('참치', _isCheckTuna, (value) {
+                                    setState(() {
+                                      _isCheckTuna = value!;
+                                    });
+                                  }),
+                                  checkList('밥', _isCheckRice, (value) {
+                                    setState(() {
+                                      _isCheckRice = value!;
+                                    });
+                                  }),
+                                  SizedBox(
+                                    width: 100,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('완료'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
+                /*showDialog(
                     barrierDismissible: true,
                     context: context,
                     builder: (context) {
                       return Dialog(
-                          child: Center(
-                              child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        //mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          checkList('참치', _isCheckTuna, (value) {
-                            setState(() {
-                              _isCheckTuna = value!;
-                            });
-                          }),
-                          checkList('밥', _isCheckRice, (value) {
-                            setState(() {
-                              _isCheckRice = value!;
-                            });
-                          }),
-                        ],
-                      )));
-                    });
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('촬영한 재료가 아니라면 선택을 해제하세요.'),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                
+                                /*checkList('참치', _isCheckTuna, (value) {
+                                  setState(() {
+                                    _isCheckTuna = value!;
+                                  });
+                                }),
+                                checkList('밥', _isCheckRice, (value) {
+                                  setState(() {
+                                    _isCheckRice = value!;
+                                  });
+                                }),*/
+                               
+                                SizedBox(
+                                  width: 100,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('완료'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    });*/
               },
               child: const Text('수정'),
             ),
@@ -99,6 +160,8 @@ Row checkList(String text, bool isCheck, ValueChanged<bool?> onChanged) {
   return Row(
     children: [
       Checkbox(
+        checkColor: Colors.white,
+        // fillColor: MaterialStateProperty.resolveWith(getColor),
         value: isCheck,
         onChanged: onChanged,
       ),

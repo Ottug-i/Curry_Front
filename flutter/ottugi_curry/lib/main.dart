@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: '카레',
       theme: CustomThemeData.themeDataLight,
-      initialRoute: '/login',
+      initialRoute: '/main', // login
       getPages: Config.routers,
       // home: LoginPage(), RecipeRecs
     );

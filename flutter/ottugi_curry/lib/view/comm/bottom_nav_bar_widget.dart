@@ -15,7 +15,7 @@ class BottomNavBarWidget extends StatelessWidget {
       Get.put(BottomNavBarController());
       Get.find<BottomNavBarController>().updateCurrentIdx(idx);
       if (idx == 0) {
-        Get.offAndToNamed('/');
+        Get.offAndToNamed('/main');
       } else if (idx == 1) {
         Get.offAndToNamed('/recipe');
       } else if (idx == 2) {
@@ -34,10 +34,11 @@ class BottomNavBarWidget extends StatelessWidget {
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
 
-
         currentIndex: Get.find<BottomNavBarController>().currentIdx.toInt(),
         onTap: handleOnTap,
-        items: bottomNavBarItemLabel.map((e) => bottomNavBarItem(bottomNavBarItemLabel.indexOf(e), e)).toList(),
+        items: bottomNavBarItemLabel
+            .map((e) => bottomNavBarItem(bottomNavBarItemLabel.indexOf(e), e))
+            .toList(),
         // items:  [
         //   BottomNavigationBarItem(
         //       icon: CircleAvatar(
@@ -72,16 +73,16 @@ class BottomNavBarWidget extends StatelessWidget {
     int currentIdx = Get.find<BottomNavBarController>().currentIdx.toInt();
 
     return BottomNavigationBarItem(
-      icon: CircleAvatar(
-        backgroundColor: currentIdx == idx? lightColorScheme.primary : Colors.transparent,
-        foregroundColor: currentIdx == idx? Colors.black : Colors.grey,
-        child: ImageIcon(
-          AssetImage('assets/icons/$label.png'),
-          size: 25,
+        icon: CircleAvatar(
+          backgroundColor:
+              currentIdx == idx ? lightColorScheme.primary : Colors.transparent,
+          foregroundColor: currentIdx == idx ? Colors.black : Colors.grey,
+          child: ImageIcon(
+            AssetImage('assets/icons/$label.png'),
+            size: 25,
+          ),
         ),
-      ),
-      label: label
-    );
+        label: label);
   }
 }
 

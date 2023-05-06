@@ -64,7 +64,7 @@ class Recipe {
 }
 
 Future<List<Recipe>> postData() async {
-  var url = Uri.parse('http://10.0.2.2:8000/api/recipe/getRecipeList');
+  var url = Uri.parse('http://10.0.2.2:8080/api/recipe/getRecipeList');
   var data = {
     "userId": 1,
     "recipeId": [6855278, 6909678]
