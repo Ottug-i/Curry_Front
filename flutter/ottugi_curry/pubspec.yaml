@@ -45,6 +45,10 @@ dependencies:
   json_annotation: ^4.8.1
   flutter_secure_storage: ^8.0.0
   localstorage: ^4.0.1+2
+  flutter_native_splash: ^2.2.19
+
+flutter_native_splash:
+  background_image: assets/images/splash.png
 
 dev_dependencies:
   flutter_test:
