@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/view/controller/login/login_controller.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Get.put(LoginController());
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -35,22 +39,22 @@ class LoginPage extends StatelessWidget {
 
               // 구글 로그인 버튼
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  Get.find<LoginController>().loginGoogle();
+                },
                 style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)
-                  ),
-                  backgroundColor: Colors.white70
-                ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    backgroundColor: Colors.white70),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    ImageIcon(
-                      AssetImage('assets/icons/google.png'),
-                      size: 48,
+                  children: [
+                    Image.asset(
+                      'assets/icons/google2.png',
+                      height: 25,
                     ),
                     Text('Google 로그인'),
-                    Padding(padding: EdgeInsets.only(left: 50)),
+                    Padding(padding: EdgeInsets.only(left: 25)),
                   ],
                 ),
               ),
@@ -62,19 +66,17 @@ class LoginPage extends StatelessWidget {
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    backgroundColor: Color(0xFFFFE812)
-                ),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    backgroundColor: const Color(0xFFFFE812)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    ImageIcon(
-                      AssetImage('assets/icons/kakao.png'),
-                      size: 48,
+                  children: [
+                    Image.asset(
+                      'assets/icons/kakao2.png',
+                      height: 25,
                     ),
                     Text('Kakao 로그인'),
-                    Padding(padding: EdgeInsets.only(left: 50)),
+                    Padding(padding: EdgeInsets.only(left: 25)),
                   ],
                 ),
               ),
