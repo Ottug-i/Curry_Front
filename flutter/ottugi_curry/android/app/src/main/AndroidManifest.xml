@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ottugi.curry.ottugi_curry">
    <application
-        android:label="ottugi_curry"
+        android:label="카레"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -3,8 +3,21 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/controller/login/login_controller.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    // 로그인 여부 확인
+    Get.put(LoginController());
+    Get.find<LoginController>().checkLogin();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +27,7 @@ class LoginPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 50, right: 50, top: 150, bottom: 100),
+          const EdgeInsets.only(left: 50, right: 50, top: 150, bottom: 100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

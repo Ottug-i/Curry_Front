@@ -15,13 +15,14 @@ class CustomThemeData {
 
       // 텍스트 테마
       textTheme: const TextTheme(
-        titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        //title (Bold 지정)
+        titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), // 제목, 강조 텍스트
+        titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), // 소제목: 크기 기본 + Bold
         titleSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-        bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-        bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal), // 기본 텍스트
+        // body
+        bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w600), // 소제목2: 약간 크고 + Semi Bold
+        bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal), //기본 텍스트
         bodySmall: TextStyle(fontSize: 12),
-
       ),
 
       //버튼 테마
@@ -31,7 +32,7 @@ class CustomThemeData {
             foregroundColor: lightColorScheme.onPrimary,
             padding: const EdgeInsets.only(left: 20, right: 20),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(97.0)
+              borderRadius: BorderRadius.circular(25.0)
             ),
           )),
       outlinedButtonTheme: OutlinedButtonThemeData(
