@@ -44,6 +44,8 @@ dependencies:
   json_serializable: ^6.6.2
   json_annotation: ^4.8.1
 
+  just_the_tooltip: ^0.0.12
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
