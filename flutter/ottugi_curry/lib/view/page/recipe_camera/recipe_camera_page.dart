@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
+import 'package:ottugi_curry/view/page/list/recipe_recs_list.dart';
 
 class RecipeCameraPage extends StatelessWidget {
   const RecipeCameraPage({Key? key}) : super(key: key);
@@ -101,7 +101,10 @@ class _ResultCheckState extends State<ResultCheck> {
             ),
             ElevatedButton(
               onPressed: () {
-                Get.toNamed('/recipe');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RecipeRecs()));
               },
               child: const Text('완료'),
             )
