@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
@@ -27,10 +28,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
-    String email = "wn8925@sookmyung.ac.kr";
-    String nickName = "가경";
-    String newNickName = "가경이";
-    String token = "secret";
+    private final String email = "wn8925@gmail.com";
+    private final String nickName = "가경";
+    private final String newNickName = "가경이";
+
+    @Value("${jwt.secret}")
+    private String secret;
 
     private MockMvc mockMvc;
 
@@ -50,7 +53,7 @@ public class UserControllerTest {
 
         // given
         UserSaveRequestDto userSaveRequestDto = new UserSaveRequestDto(email, nickName);
-        TokenDto tokenDto = new TokenDto(1L, email, nickName, "secret");
+        TokenDto tokenDto = new TokenDto(1L, email, nickName, secret);
 
         // when
         when(userService.login(any(UserSaveRequestDto.class))).thenReturn(tokenDto);
@@ -63,7 +66,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.email").value(email))
                 .andExpect(jsonPath("$.nickName").value(nickName))
-                .andExpect(jsonPath("$.token").value(token));
+                .andExpect(jsonPath("$.token").value(secret));
     }
 
     @Test
