@@ -7,8 +7,9 @@ import 'package:ottugi_curry/view/page/main/main_page.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/recipe_camera_page.dart';
 import 'package:ottugi_curry/view/page/user/user_page.dart';
 
-// token, userId 저장하는 secure storage
-FlutterSecureStorage userSecureStorage = const FlutterSecureStorage();
+// token 저장하는 secure storage
+FlutterSecureStorage tokenStorage = const FlutterSecureStorage();
+// token 제외 회원 정보 저장하는 local storage
 LocalStorage userStorage = LocalStorage('user');
 
 /// 앱 전체에 공유하는 static 변수 저장

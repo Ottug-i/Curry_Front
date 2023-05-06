@@ -29,23 +29,24 @@ class LoginController {
       print('response: ${resp.id}, ${resp.email}, ${resp.nickname}, ${resp.token}');
 
       // 로그인 성공
-      // storage 에 id, token 저장
-      await userSecureStorage.write(key: 'id', value: resp.id.toString());
-      await userSecureStorage.write(key: 'token', value: resp.token.toString());
-      // local storage 에 email, nickname 저장
+      // storage 에 token 저장
+      await tokenStorage.write(key: 'token', value: resp.token.toString());
+      // local storage 에 id, email, nickname 저장
+      userStorage.setItem('id', resp.id.toString());
       userStorage.setItem('email', resp.email.toString());
       userStorage.setItem('nickname', resp.nickname.toString());
 
       // 메인 페이지 이동
       Get.offAndToNamed('/main');
     } on DioError catch (e) {
-      print('DioError: $e');
+      print('$e');
+      return;
     }
   }
 
   void checkLogin() async {
-    final token = await userSecureStorage.read(key: 'token');
-    if (token!.isNotEmpty) {
+    final token = await tokenStorage.read(key: 'token');
+    if (token != null) {
       Get.offAndToNamed('/main');
     }
   }

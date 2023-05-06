@@ -32,7 +32,7 @@ class CustomThemeData {
             foregroundColor: lightColorScheme.onPrimary,
             padding: const EdgeInsets.only(left: 20, right: 20),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(97.0)
+              borderRadius: BorderRadius.circular(25.0)
             ),
           )),
       outlinedButtonTheme: OutlinedButtonThemeData(
