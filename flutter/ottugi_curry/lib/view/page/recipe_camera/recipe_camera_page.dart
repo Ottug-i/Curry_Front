@@ -84,48 +84,6 @@ class _ResultCheckState extends State<ResultCheck> {
                     );
                   },
                 );
-                /*showDialog(
-                    barrierDismissible: true,
-                    context: context,
-                    builder: (context) {
-                      return Dialog(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text('촬영한 재료가 아니라면 선택을 해제하세요.'),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                
-                                /*checkList('참치', _isCheckTuna, (value) {
-                                  setState(() {
-                                    _isCheckTuna = value!;
-                                  });
-                                }),
-                                checkList('밥', _isCheckRice, (value) {
-                                  setState(() {
-                                    _isCheckRice = value!;
-                                  });
-                                }),*/
-                               
-                                SizedBox(
-                                  width: 100,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('완료'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    });*/
               },
               child: const Text('수정'),
             ),
