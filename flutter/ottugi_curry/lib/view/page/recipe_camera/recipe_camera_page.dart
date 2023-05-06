@@ -22,6 +22,7 @@ class ResultCheck extends StatefulWidget {
 class _ResultCheckState extends State<ResultCheck> {
   bool _isCheckTuna = true;
   bool _isCheckRice = true;
+  bool _isCheckCheese = true;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class _ResultCheckState extends State<ResultCheck> {
         Expanded(
             flex: 5,
             child: Image.asset(
-              'assets/images/tuna.png',
+              'assets/images/ingredients.png',
               fit: BoxFit.fitHeight,
             )),
         const SizedBox(
@@ -52,18 +53,26 @@ class _ResultCheckState extends State<ResultCheck> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   const Text('촬영한 재료가 아니라면 선택을 해제하세요.'),
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  checkList('참치', _isCheckTuna, (value) {
+                                  checkList('감자', _isCheckTuna, (value) {
                                     setState(() {
                                       _isCheckTuna = value!;
                                     });
                                   }),
-                                  checkList('밥', _isCheckRice, (value) {
+                                  checkList('치즈', _isCheckRice, (value) {
                                     setState(() {
                                       _isCheckRice = value!;
+                                    });
+                                  }),
+                                  checkList('계란', _isCheckCheese, (value) {
+                                    setState(() {
+                                      _isCheckCheese = value!;
                                     });
                                   }),
                                   SizedBox(
