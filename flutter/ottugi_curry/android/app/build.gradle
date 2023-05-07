@@ -40,9 +40,11 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 18
+        targetSdkVersion 33
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -52,6 +54,10 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+}
+
+dependencies {
+  implementation "androidx.multidex:multidex:2.0.1"
 }
 
 flutter {
