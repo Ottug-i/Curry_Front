@@ -46,4 +46,11 @@ class Recipe {
 
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Recipe(id: $id, name: $name, composition: $composition, '
+        'difficulty: $difficulty, ingredients: $ingredients, '
+        'thumbnail: $thumbnail, time: $time, isBookmark: $isBookmark)';
+  }
 }

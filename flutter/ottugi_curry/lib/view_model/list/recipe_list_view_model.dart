@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ottugi_curry/model/receipe.dart';
+import 'package:ottugi_curry/model/recipe.dart';
 
 class RecipeListViewModel extends GetxController {
   var recipeList = <Recipe>[].obs;

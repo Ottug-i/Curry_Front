@@ -13,7 +13,7 @@ class ItemsWidget extends StatelessWidget {
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: rListController.recipeList.length,
+      itemCount: rListController.recipeList.length ?? 0,
       itemBuilder: (BuildContext context, int i) {
         return GestureDetector(
           onTap: () {
