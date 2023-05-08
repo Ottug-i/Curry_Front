@@ -15,7 +15,7 @@ class BottomNavBarWidget extends StatelessWidget {
       Get.put(BottomNavBarController());
       Get.find<BottomNavBarController>().updateCurrentIdx(idx);
       if (idx == 0) {
-        Get.offAndToNamed('/');
+        Get.offAndToNamed('/main');
       } else if (idx == 1) {
         Get.offAndToNamed('/recipe');
       } else if (idx == 2) {
@@ -33,36 +33,9 @@ class BottomNavBarWidget extends StatelessWidget {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
-
-
         currentIndex: Get.find<BottomNavBarController>().currentIdx.toInt(),
         onTap: handleOnTap,
         items: bottomNavBarItemLabel.map((e) => bottomNavBarItem(bottomNavBarItemLabel.indexOf(e), e)).toList(),
-        // items:  [
-        //   BottomNavigationBarItem(
-        //       icon: CircleAvatar(
-        //         backgroundColor: Get.find<BottomNavBarController>().currentIdx.toInt() == 0? lightColorScheme.primary : Colors.transparent,
-        //         child: ImageIcon(
-        //           AssetImage('assets/icons/main.png'),
-        //         ),
-        //       ),
-        //       label: 'home'),
-        //   BottomNavigationBarItem(
-        //       icon: ImageIcon(
-        //         AssetImage('assets/icons/recipe.png'),
-        //       ),
-        //       label: 'recipe'),
-        //   BottomNavigationBarItem(
-        //       icon: ImageIcon(
-        //         AssetImage('assets/icons/user.png'),
-        //       ),
-        //       label: 'user'),
-        //   BottomNavigationBarItem(
-        //       icon: ImageIcon(
-        //         AssetImage('assets/icons/bookmark.png'),
-        //       ),
-        //       label: 'bookmark'),
-        // ],
       ),
     );
   }
@@ -84,32 +57,3 @@ class BottomNavBarWidget extends StatelessWidget {
     );
   }
 }
-
-// class BottomNavBarWidget extends StatefulWidget {
-//   const BottomNavBarWidget({Key? key}) : super(key: key);
-//
-//   @override
-//   State<BottomNavBarWidget> createState() => _BottomNavBarWidgetState();
-// }
-//
-// class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
-//   int _selectedIndex = 0;
-//
-//   final List<Widget> _bodyWidgets = <Widget>[
-//     MainPage(),
-//     RecipeCameraPage(),
-//     UserPage(),
-//     BookmarkPage()
-//   ];
-//
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//
-//   }
-// }
