@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:ottugi_curry/model/recipe_response.dart';
+import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
 import 'package:ottugi_curry/utils/hash_to_list_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 
 class RecipeDetailController {
-  final RecipeResponse recipeDetail = RecipeResponse();
-
+  // RecipeResponse
   RxString composition = ''.obs;
   RxString difficulty = ''.obs;
   RxInt id = 0.obs;
@@ -20,6 +19,8 @@ class RecipeDetailController {
   RxString thumbnail = ''.obs;
   RxString time = ''.obs;
 
+  // 조리순서 보기 방식 선택
+  RxInt orderViewOption = Config.galleryView.obs;
 
   void loadRecipeDetail(int recipeId) async {
     try {
@@ -40,13 +41,13 @@ class RecipeDetailController {
       seasoning.value = hashToList(resp.seasoning!);
       thumbnail.value = resp.thumbnail!;
       time.value = resp.time!;
-
-      print('print time.value: ${time.value}');
-      // recipeDetailList.value = resp;
-      // print('print recipeDetailLsit: ${recipeDetailList}');
     } on DioError catch (e) {
       print('loadRecipeDetail: $e');
       return;
     }
+  }
+
+  void updateOrderViewOption(int newOption) {
+    orderViewOption.value = newOption;
   }
 }

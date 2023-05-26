@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_controller.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_timer_controller.dart';
-import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_cooking_order_widget.dart';
+import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_gallery_view_widget.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_timer_widget.dart';
 
@@ -63,12 +64,13 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
         child: Column(
           children: [
             // 레시피 사진
+            recipeDetailController.thumbnail.value.isEmpty ?
             Image.network(
               '${recipeDetailController.thumbnail}',
               fit: BoxFit.fill,
               height: 238,
               width: 390,
-            ),
+            ) : Image.asset('assets/images/defaultImage3.png'),
 
             //레시피 제목
             Container(
@@ -186,107 +188,8 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
             ),
 
             // 재료 정보, 조리 순서 tabView
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: TabBarView(
-                  children: [
-                    // 재료 정보
-                    Container(
-                      padding: const EdgeInsets.only(
-                          top: 15, bottom: 15, left: 15, right: 15),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25.0),
-                        color: Colors.white,
-                      ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                                  // 재료
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Text(
-                                      '재료',
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
-                                    ),
-                                  ),
-                                ] +
-                                recipeDetailController.ingredients
-                                    .map((element) => Text('${element}'))
-                                    .toList() +
-                                [
-                                  // ingredientListWidget('참치캔', '1캔'),
-                                  // ingredientListWidget('마요네즈', '4.5큰술'),
-                                  // ingredientListWidget('쪽파', '약간'),
+            ingredientsAndOrdersTabView(),
 
-                                  const Padding(
-                                      padding: EdgeInsets.only(top: 20)),
-                                  // 양념
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Text(
-                                      '양념',
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
-                                    ),
-                                  ),
-                                  // ingredientListWidget('진간장', '4큰술'),
-                                  // ingredientListWidget('올리고당', '1큰술'),
-                                  // ingredientListWidget('설탕', '1큰술'),
-                                ] +
-                                recipeDetailController.seasoning
-                                    .map((element) => Text('${element}'))
-                                    .toList()),
-                      ),
-                    ),
-
-                    // 조리 순서
-                    Container(
-                      padding: const EdgeInsets.only(
-                          top: 0, bottom: 0, left: 10, right: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25.0),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // 조리 순서 보기 방식 아이콘
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: const ImageIcon(
-                                  AssetImage('assets/icons/speaker.png'),
-                                  size: 20,
-                                ),
-                              ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.photo,
-                                    color: Colors.grey,
-                                  )),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.list,
-                                    color: Colors.grey,
-                                  ))
-                            ],
-                          ),
-                          // 조리 순서 보여주는 수평 방향 tab widget
-                          const RecipeDetailCookingOrderWidget(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
             const Padding(padding: EdgeInsets.only(bottom: 30)),
           ],
         ),
@@ -301,14 +204,150 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
     );
   }
 
-  // 재료 정보의 재료 이름/양 row list
-  // Row ingredientListWidget(String ingredientName, String ingredientAmount) {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //     children: [
-  //       Text(ingredientName),
-  //       Text(ingredientAmount),
-  //     ],
-  //   );
-  // }
+  Expanded ingredientsAndOrdersTabView() {
+    Get.put(RecipeDetailController());
+    final recipeDetailController = Get.find<RecipeDetailController>();
+
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20),
+        child: TabBarView(
+          children: [
+            // 재료 정보
+            Container(
+              padding: const EdgeInsets.only(
+                  top: 15, bottom: 15, left: 15, right: 15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25.0),
+                color: Colors.white,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                          // 재료
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Text(
+                              '재료',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ),
+                        ] +
+                        recipeDetailController.ingredients
+                            .map((element) => Text('${element}'))
+                            .toList() +
+                        [
+                          // ingredientListWidget('참치캔', '1캔'),
+                          // ingredientListWidget('마요네즈', '4.5큰술'),
+                          // ingredientListWidget('쪽파', '약간'),
+
+                          const Padding(padding: EdgeInsets.only(top: 20)),
+                          // 양념
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Text(
+                              '양념',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ),
+                          // ingredientListWidget('진간장', '4큰술'),
+                          // ingredientListWidget('올리고당', '1큰술'),
+                          // ingredientListWidget('설탕', '1큰술'),
+                        ] +
+                        recipeDetailController.seasoning
+                            .map((element) => Text('${element}'))
+                            .toList()),
+              ),
+            ),
+
+            // 조리 순서
+            Container(
+              padding:
+                  const EdgeInsets.only(top: 0, bottom: 0, left: 15, right: 15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25.0),
+                color: Colors.white,
+              ),
+              child: Obx(
+                ()=> Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 조리 순서 보기 방식 아이콘
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            recipeDetailController.orderViewOption(Config.soundView);
+                          },
+                          icon: const ImageIcon(
+                            AssetImage('assets/icons/speaker.png'),
+                            size: 20,
+                          ),
+                          color: recipeDetailController.orderViewOption.value == Config.soundView ? Colors.black : Colors.grey ,
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              recipeDetailController.orderViewOption(Config.galleryView);
+                            },
+                            icon: Icon(
+                              Icons.photo,
+                              color: recipeDetailController.orderViewOption.value == Config.galleryView ? Colors.black : Colors.grey ,
+                            )),
+                        IconButton(
+                            onPressed: () {
+                              recipeDetailController.orderViewOption(Config.textListView);
+                            },
+                            icon: Icon(
+                              Icons.list,
+                              color: recipeDetailController.orderViewOption.value == Config.textListView ? Colors.black : Colors.grey ,
+                            ))
+                      ],
+                    ),
+
+                   if (recipeDetailController.orderViewOption.value == Config.soundView)...[
+                     Text('Sound')
+                     // (추후) 화면은 갤러리 뷰에 + 음성 나오게 설정
+                   ] else if (recipeDetailController.orderViewOption.value == Config.textListView)...[
+                     recipeDetailTextListViewWidget()
+                   ] else...[
+                     const RecipeDetailGalleryViewWidget(),
+                   ],
+
+                    // 조리 순서 보여주는 수평 방향 tab widget
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  ListView recipeDetailTextListViewWidget() {
+    Get.put(RecipeDetailController());
+    final recipeDetailController = Get.find<RecipeDetailController>();
+
+    return ListView.builder(
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        shrinkWrap: true,
+        itemCount: recipeDetailController.orders.length,
+        itemBuilder: (BuildContext context, int idx) {
+          return Padding(padding: EdgeInsets.only(bottom: 3),
+          child: Text(recipeDetailController.orders[idx]));
+        });
+  }
+
+// 재료 정보의 재료 이름/양 row list
+// Row ingredientListWidget(String ingredientName, String ingredientAmount) {
+//   return Row(
+//     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//     children: [
+//       Text(ingredientName),
+//       Text(ingredientAmount),
+//     ],
+//   );
+// }
 }

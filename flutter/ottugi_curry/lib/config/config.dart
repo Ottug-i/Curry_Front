@@ -24,4 +24,9 @@ class Config {
     GetPage(name: '/login', page: () => LoginPage(), transition: Transition.noTransition),
     GetPage(name: '/recipe_detail', page: () => RecipeDetailPage(), transition: Transition.noTransition),
   ];
+
+  // 레시피 상세 페이지에서 조리순서를 보는 방식: 음성/사진/즐글
+  static int soundView = 0;
+  static int galleryView = 1;
+  static int textListView = 2;
 }

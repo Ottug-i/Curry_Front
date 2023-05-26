@@ -3,14 +3,14 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_controller.dart';
 
-class RecipeDetailCookingOrderWidget extends StatefulWidget {
-  const RecipeDetailCookingOrderWidget({Key? key}) : super(key: key);
+class RecipeDetailGalleryViewWidget extends StatefulWidget {
+  const RecipeDetailGalleryViewWidget({Key? key}) : super(key: key);
 
   @override
-  State<RecipeDetailCookingOrderWidget> createState() => _RecipeDetailCookingOrderWidgetState();
+  State<RecipeDetailGalleryViewWidget> createState() => _RecipeDetailGalleryViewWidgetState();
 }
 
-class _RecipeDetailCookingOrderWidgetState extends State<RecipeDetailCookingOrderWidget> with TickerProviderStateMixin {
+class _RecipeDetailGalleryViewWidgetState extends State<RecipeDetailGalleryViewWidget> with TickerProviderStateMixin {
   late TabController _nestedTabController;
 
   @override
@@ -46,7 +46,6 @@ class _RecipeDetailCookingOrderWidgetState extends State<RecipeDetailCookingOrde
                   ),
                   padding: EdgeInsets.all(15),
                   margin: EdgeInsets.only(left: 10, right: 10),
-                  width: 326,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
