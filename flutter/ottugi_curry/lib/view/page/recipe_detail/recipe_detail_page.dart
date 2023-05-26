@@ -25,6 +25,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
   @override
   Widget build(BuildContext context) {
     Get.put(RecipeDetailTimerController());
+    final timerController = Get.find<RecipeDetailTimerController>();
     Get.put(RecipeDetailController());
     final recipeDetailController = Get.find<RecipeDetailController>();
 
@@ -32,29 +33,101 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        leading: const Padding(
+        leading: Padding(
           padding: EdgeInsets.only(left: 25),
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
+          child: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
           ),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 25),
-            child: CircleAvatar(
-              backgroundColor: lightColorScheme.primary,
-              child: IconButton(
-                icon: const Icon(Icons.timer_sharp),
-                color: Colors.black,
-                onPressed: () {
-                  Get.dialog(const Dialog(
-                    child: RecipeDetailTimerWidget(),
-                  ));
-                },
-              ),
+          Container(
+            margin: const EdgeInsets.only(right: 15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25.0),
+              color: lightColorScheme.primary,
+            ),
+            child: Obx(
+              ()=> Row(children: [
+                timerController.isRunning.value == true
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 7, left: 15),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 25,
+                              child: TextField(
+                                controller: timerController.minuteTextEditingController,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none
+                                ),
+                                enabled: true,
+                                readOnly: true,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                            Text(': ', style: Theme.of(context).textTheme.titleMedium,),
+                            SizedBox(
+                              width: 25,
+                              child: TextField(
+                                controller: timerController.secondTextEditingController,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none
+                                ),
+                                enabled: true,
+                                readOnly: true,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            )
+                          ],
+                        )
+                      )
+                    : const SizedBox(),
+                Container(
+                  decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                    BoxShadow(
+                        blurRadius: 3,
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 0,
+                        offset: Offset(-3, 5))
+                  ]),
+                  child: CircleAvatar(
+                    backgroundColor: lightColorScheme.primary,
+                    child: IconButton(
+                      icon: const Icon(Icons.timer_sharp),
+                      color: Colors.black,
+                      onPressed: () {
+                        Get.dialog(const Dialog(
+                          child: RecipeDetailTimerWidget(),
+                        ));
+                      },
+                    ),
+                  ),
+                ),
+              ]),
             ),
           ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 25),
+          //   child: CircleAvatar(
+          //     backgroundColor: lightColorScheme.primary,
+          //     child: IconButton(
+          //       icon: const Icon(Icons.timer_sharp),
+          //       color: Colors.black,
+          //       onPressed: () {
+          //         Get.dialog(const Dialog(
+          //           child: RecipeDetailTimerWidget(),
+          //         ));
+          //       },
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       extendBodyBehindAppBar: true, //body 위에 appBar
@@ -63,14 +136,18 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
         length: 2,
         child: Column(
           children: [
+            // const SizedBox(
+            //   height: 60,
+            // ),
             // 레시피 사진
-            recipeDetailController.thumbnail.value.isEmpty ?
-            Image.network(
-              '${recipeDetailController.thumbnail}',
-              fit: BoxFit.fill,
-              height: 238,
-              width: 390,
-            ) : Image.asset('assets/images/defaultImage3.png'),
+            recipeDetailController.thumbnail.value.isNotEmpty
+                ? Image.network(
+                    '${recipeDetailController.thumbnail}',
+                    fit: BoxFit.fill,
+                    height: 238,
+                    width: 390,
+                  )
+                : Image.asset('assets/images/defaultImage3.png'),
 
             //레시피 제목
             Container(
@@ -270,7 +347,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                 color: Colors.white,
               ),
               child: Obx(
-                ()=> Column(
+                () => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 조리 순서 보기 방식 아이콘
@@ -279,41 +356,57 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            recipeDetailController.orderViewOption(Config.soundView);
+                            recipeDetailController
+                                .orderViewOption(Config.soundView);
                           },
                           icon: const ImageIcon(
                             AssetImage('assets/icons/speaker.png'),
                             size: 20,
                           ),
-                          color: recipeDetailController.orderViewOption.value == Config.soundView ? Colors.black : Colors.grey ,
+                          color: recipeDetailController.orderViewOption.value ==
+                                  Config.soundView
+                              ? Colors.black
+                              : Colors.grey,
                         ),
                         IconButton(
                             onPressed: () {
-                              recipeDetailController.orderViewOption(Config.galleryView);
+                              recipeDetailController
+                                  .orderViewOption(Config.galleryView);
                             },
                             icon: Icon(
                               Icons.photo,
-                              color: recipeDetailController.orderViewOption.value == Config.galleryView ? Colors.black : Colors.grey ,
+                              color: recipeDetailController
+                                          .orderViewOption.value ==
+                                      Config.galleryView
+                                  ? Colors.black
+                                  : Colors.grey,
                             )),
                         IconButton(
                             onPressed: () {
-                              recipeDetailController.orderViewOption(Config.textListView);
+                              recipeDetailController
+                                  .orderViewOption(Config.textListView);
                             },
                             icon: Icon(
                               Icons.list,
-                              color: recipeDetailController.orderViewOption.value == Config.textListView ? Colors.black : Colors.grey ,
+                              color: recipeDetailController
+                                          .orderViewOption.value ==
+                                      Config.textListView
+                                  ? Colors.black
+                                  : Colors.grey,
                             ))
                       ],
                     ),
 
-                   if (recipeDetailController.orderViewOption.value == Config.soundView)...[
-                     Text('Sound')
-                     // (추후) 화면은 갤러리 뷰에 + 음성 나오게 설정
-                   ] else if (recipeDetailController.orderViewOption.value == Config.textListView)...[
-                     recipeDetailTextListViewWidget()
-                   ] else...[
-                     const RecipeDetailGalleryViewWidget(),
-                   ],
+                    if (recipeDetailController.orderViewOption.value ==
+                        Config.soundView) ...[
+                      Text('Sound')
+                      // (추후) 화면은 갤러리 뷰에 + 음성 나오게 설정
+                    ] else if (recipeDetailController.orderViewOption.value ==
+                        Config.textListView) ...[
+                      recipeDetailTextListViewWidget()
+                    ] else ...[
+                      const RecipeDetailGalleryViewWidget(),
+                    ],
 
                     // 조리 순서 보여주는 수평 방향 tab widget
                   ],
@@ -335,8 +428,9 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
         shrinkWrap: true,
         itemCount: recipeDetailController.orders.length,
         itemBuilder: (BuildContext context, int idx) {
-          return Padding(padding: EdgeInsets.only(bottom: 3),
-          child: Text(recipeDetailController.orders[idx]));
+          return Padding(
+              padding: EdgeInsets.only(bottom: 3),
+              child: Text(recipeDetailController.orders[idx]));
         });
   }
 

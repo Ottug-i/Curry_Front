@@ -14,11 +14,11 @@ class RecipeDetailTimerController {
 
 
   void startTimer() { //시작, 재개
+    // 입력한 시간초 기반 total Seconds 설정
+    totalSeconds.value = int.parse(minuteTextEditingController.text) * 60 + int.parse(secondTextEditingController.text);
     // 시간초 미지정 시에 시작하지 않음
     if (totalSeconds.value == 0) return;
 
-    // 입력한 시간초 기반 total Seconds 설정
-    totalSeconds.value = int.parse(minuteTextEditingController.text) * 60 + int.parse(secondTextEditingController.text);
     // start 버튼 텍스트 변경
     startButtonText.value = '일시정지';
 
