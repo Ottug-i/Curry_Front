@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_controller.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_timer_controller.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_cooking_order_widget.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_timer_widget.dart';
 
-class RecipeDetailPage extends StatelessWidget {
+class RecipeDetailPage extends StatefulWidget {
   const RecipeDetailPage({Key? key}) : super(key: key);
+
+  @override
+  State<RecipeDetailPage> createState() => _RecipeDetailPageState();
+}
+
+class _RecipeDetailPageState extends State<RecipeDetailPage> {
+  @override
+  void initState() {
+    Get.put(RecipeDetailController());
+    Get.find<RecipeDetailController>().loadRecipeDetail(6909678);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Get.put(RecipeDetailTimerController());
+    Get.put(RecipeDetailController());
+    final recipeDetailController = Get.find<RecipeDetailController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -18,7 +33,10 @@ class RecipeDetailPage extends StatelessWidget {
         elevation: 0.0,
         leading: const Padding(
           padding: EdgeInsets.only(left: 25),
-          child: Icon(Icons.arrow_back_ios, color: Colors.black,),
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
         ),
         actions: [
           Padding(
@@ -29,11 +47,9 @@ class RecipeDetailPage extends StatelessWidget {
                 icon: const Icon(Icons.timer_sharp),
                 color: Colors.black,
                 onPressed: () {
-                  Get.dialog(
-                      const Dialog(
-                        child: RecipeDetailTimerWidget(),
-                      )
-                  );
+                  Get.dialog(const Dialog(
+                    child: RecipeDetailTimerWidget(),
+                  ));
                 },
               ),
             ),
@@ -47,7 +63,12 @@ class RecipeDetailPage extends StatelessWidget {
         child: Column(
           children: [
             // 레시피 사진
-            Image.asset('assets/images/tunamayo.png', fit: BoxFit.fill, height: 238, width: 390,),
+            Image.network(
+              '${recipeDetailController.thumbnail}',
+              fit: BoxFit.fill,
+              height: 238,
+              width: 390,
+            ),
 
             //레시피 제목
             Container(
@@ -63,13 +84,26 @@ class RecipeDetailPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(height: 50, width: 50,), //iconButton과 동일한 크기 지정하기 위함
+                      const SizedBox(
+                        height: 50,
+                        width: 50,
+                      ),
+                      //iconButton과 동일한 크기 지정하기 위함
                       Center(
                         child: Text(
-                          '참치마요 덮밥',
+                          recipeDetailController.name.value,
                           style: Theme.of(context).textTheme.titleLarge,
-                      ),),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.bookmark, color: lightColorScheme.secondary,))
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.bookmark,
+                            color:
+                                recipeDetailController.isBookmark.value == true
+                                    ? lightColorScheme.secondary
+                                    : Colors.grey,
+                          ))
                     ],
                   ),
                   const Padding(
@@ -87,7 +121,7 @@ class RecipeDetailPage extends StatelessWidget {
                         size: 15,
                       ),
                       Text(
-                        ' 15분  |  ',
+                        ' ${recipeDetailController.time.value}  |  ',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
 
@@ -97,7 +131,7 @@ class RecipeDetailPage extends StatelessWidget {
                         size: 15,
                       ),
                       Text(
-                        ' 초급  |  ',
+                        ' ${recipeDetailController.difficulty.value}  |  ',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
 
@@ -107,7 +141,7 @@ class RecipeDetailPage extends StatelessWidget {
                         size: 15,
                       ),
                       Text(
-                        ' 든든하게',
+                        ' ${recipeDetailController.composition.value}',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
@@ -133,7 +167,8 @@ class RecipeDetailPage extends StatelessWidget {
                     color: lightColorScheme.primary,
                   ),
                   indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorPadding: const EdgeInsets.only(left: 10, right: 10, top: 3, bottom: 3),
+                  indicatorPadding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 3, bottom: 3),
                   dividerColor: Colors.transparent,
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                   tabs: const <Widget>[
@@ -159,46 +194,58 @@ class RecipeDetailPage extends StatelessWidget {
                     // 재료 정보
                     Container(
                       padding: const EdgeInsets.only(
-                          top: 15, bottom: 15, left: 10, right: 10),
+                          top: 15, bottom: 15, left: 15, right: 15),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25.0),
                         color: Colors.white,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // 재료
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              '재료',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
-                          ingredientListWidget('참치캔', '1캔'),
-                          ingredientListWidget('마요네즈', '4.5큰술'),
-                          ingredientListWidget('쪽파', '약간'),
+                      child: SingleChildScrollView(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                                  // 재료
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: Text(
+                                      '재료',
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ),
+                                ] +
+                                recipeDetailController.ingredients
+                                    .map((element) => Text('${element}'))
+                                    .toList() +
+                                [
+                                  // ingredientListWidget('참치캔', '1캔'),
+                                  // ingredientListWidget('마요네즈', '4.5큰술'),
+                                  // ingredientListWidget('쪽파', '약간'),
 
-                          const Padding(padding: EdgeInsets.only(top: 20)),
-                          // 양념
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              '양념',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
-                          ingredientListWidget('진간장', '4큰술'),
-                          ingredientListWidget('올리고당', '1큰술'),
-                          ingredientListWidget('설탕', '1큰술'),
-                        ],
+                                  const Padding(
+                                      padding: EdgeInsets.only(top: 20)),
+                                  // 양념
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: Text(
+                                      '양념',
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ),
+                                  // ingredientListWidget('진간장', '4큰술'),
+                                  // ingredientListWidget('올리고당', '1큰술'),
+                                  // ingredientListWidget('설탕', '1큰술'),
+                                ] +
+                                recipeDetailController.seasoning
+                                    .map((element) => Text('${element}'))
+                                    .toList()),
                       ),
                     ),
 
                     // 조리 순서
                     Container(
                       padding: const EdgeInsets.only(
-                          top: 15, bottom: 15, left: 10, right: 10),
+                          top: 0, bottom: 0, left: 10, right: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25.0),
                         color: Colors.white,
@@ -210,16 +257,29 @@ class RecipeDetailPage extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              IconButton(onPressed: () {}, icon: const ImageIcon(
-                                AssetImage('assets/icons/speaker.png'),
-                                size: 20,
-                              ),),
-                              IconButton(onPressed: () {}, icon: Icon(Icons.photo, color: Colors.grey,)),
-                              IconButton(onPressed: () {}, icon: Icon(Icons.list, color: Colors.grey,))
+                              IconButton(
+                                onPressed: () {},
+                                icon: const ImageIcon(
+                                  AssetImage('assets/icons/speaker.png'),
+                                  size: 20,
+                                ),
+                              ),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.photo,
+                                    color: Colors.grey,
+                                  )),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.list,
+                                    color: Colors.grey,
+                                  ))
                             ],
                           ),
                           // 조리 순서 보여주는 수평 방향 tab widget
-                          RecipeDetailCookingOrderWidget(),
+                          const RecipeDetailCookingOrderWidget(),
                         ],
                       ),
                     ),
@@ -242,13 +302,13 @@ class RecipeDetailPage extends StatelessWidget {
   }
 
   // 재료 정보의 재료 이름/양 row list
-  Row ingredientListWidget(String ingredientName, String ingredientAmount) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(ingredientName),
-        Text(ingredientAmount),
-      ],
-    );
-  }
+  // Row ingredientListWidget(String ingredientName, String ingredientAmount) {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //     children: [
+  //       Text(ingredientName),
+  //       Text(ingredientAmount),
+  //     ],
+  //   );
+  // }
 }
