@@ -1,4 +1,4 @@
-import 'package:ottugi_curry/model/user.dart';
+import 'package:ottugi_curry/model/user_response.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -10,17 +10,17 @@ abstract class UserRepository {
 
   // 회원 정보 조회
   @GET('/api/user/getProfile')
-  Future<User> getProfile(@Query("id") int id);
+  Future<UserResponse> getProfile(@Query("id") int id);
   
   // 회원 정보 수정
   @PUT('/api/user/setProfile')
-  Future<User> setProfile(@Body() User user);
+  Future<UserResponse> setProfile(@Body() UserResponse user);
 
   // 회원 탈퇴
   @DELETE('/api/user/setWithdraw')
-  Future<User> setWithdraw(@Query("id") int id);
+  Future<UserResponse> setWithdraw(@Query("id") int id);
 
   // 소셜 회원가입과 로그인
   @POST('/auth/login')
-  Future<User> saveLogin(@Body() User user);
+  Future<UserResponse> saveLogin(@Body() UserResponse user);
 }
