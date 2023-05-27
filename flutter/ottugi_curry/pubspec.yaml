@@ -47,6 +47,7 @@ dependencies:
   localstorage: ^4.0.1+2
   assets_audio_player: ^3.0.6
   flutter_native_splash: ^2.2.19
+  kakao_flutter_sdk_user: ^1.4.1
 
 flutter_native_splash:
   background_image: assets/images/splash.png

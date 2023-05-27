@@ -1,19 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user.dart';
+part of 'user_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) => User(
+UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
       email: json['email'] as String?,
       id: json['id'] as int?,
       nickName: json['nickName'] as String?,
       token: json['token'] as String?,
     );
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
+    <String, dynamic>{
       'email': instance.email,
       'id': instance.id,
       'nickName': instance.nickName,
