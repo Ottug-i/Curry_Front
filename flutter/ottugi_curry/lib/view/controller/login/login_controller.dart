@@ -18,23 +18,28 @@ class LoginController {
     }
   }
 
-  void login(String email, String nickname) async {
+  void login(String email, String nickName) async {
     try {
       Dio dio = Dio();
       UserRepository userRepository = UserRepository(dio);
 
-      print('$nickname, $email');
+      print('$nickName, $email');
       final resp = await userRepository.saveLogin(
-          User(email: email, nickname: nickname));
-      print('response: ${resp.id}, ${resp.email}, ${resp.nickname}, ${resp.token}');
+          User(email: email, nickName: nickName));
+      print('response: ${resp.id}, ${resp.email}, ${resp.nickName}, ${resp.token}');
 
       // 로그인 성공
       // storage 에 token 저장
       await tokenStorage.write(key: 'token', value: resp.token.toString());
-      // local storage 에 id, email, nickname 저장
+      // local storage 에 id, email, nickName 저장
       userStorage.setItem('id', resp.id.toString());
-      userStorage.setItem('email', resp.email.toString());
-      userStorage.setItem('nickname', resp.nickname.toString());
+      userStorage.setItem('EMAIL', resp.email.toString());
+      userStorage.setItem('nickName', resp.nickName.toString());
+      // Get.put(UserController());
+      // final userController = Get.find<UserController>();
+      // userController.userId.value = resp.id!;
+      // userController.email.value = resp.email.toString();
+      // userController.nickName.value = resp.nickName.toString();
 
       // 메인 페이지 이동
       Get.offAndToNamed('/main');

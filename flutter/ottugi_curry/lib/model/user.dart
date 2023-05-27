@@ -6,13 +6,13 @@ part 'user.g.dart';
 class User {
   String? email;
   int? id;
-  String? nickname;
+  String? nickName;
   String? token;
 
   User({
     this.email,
     this.id,
-    this.nickname,
+    this.nickName,
     this.token,
   });
 
