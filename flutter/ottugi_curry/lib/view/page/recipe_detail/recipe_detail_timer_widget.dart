@@ -13,6 +13,13 @@ class RecipeDetailTimerWidget extends StatefulWidget {
 }
 
 class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
+
+  @override
+  void initState() {
+    // Get.find<RecipeDetailTimerController>().loadTimerAlarm();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Get.put(RecipeDetailTimerController());
@@ -40,6 +47,8 @@ class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
               color: Colors.black,
               onPressed: () {
                 Get.back();
+                // 알람 종료
+                timerController.stopTimerAlarm();
               },
             ),
           ),
@@ -52,64 +61,75 @@ class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
               children: [
                 // 분
                 Flexible(
-                  child: TextField(
-                    controller: timerController.minuteTextEditingController,
-                    decoration: InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 5,
-                            color: lightColorScheme.primary,
-                          ),
-                        ),
-                        enabledBorder: const UnderlineInputBorder(
+                  child: Obx(
+                    () => TextField(
+                      controller: timerController.minuteTextEditingController,
+                      decoration: InputDecoration(
+                          focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                          width: 5,
-                          color: Colors.grey,
-                        ))),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .displayMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(2),
-                    ],
-                    readOnly:
-                        timerController.isRunning.value == true ? true : false,
+                              width: 5,
+                              color: lightColorScheme.primary,
+                            ),
+                          ),
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                            width: 5,
+                            color: Colors.grey,
+                          ))),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .displayMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(2),
+                      ],
+                      readOnly:
+                          timerController.isRunning.value == true ? true : false,
+                      showCursor: timerController.isRunning.value == true
+                          ? false
+                          : true, // 수정 가능 여부에 맞춘 커서 유무
+                    ),
                   ),
                 ),
                 Text(":", style: Theme.of(context).textTheme.titleLarge),
                 // 초
                 Flexible(
-                  child: TextField(
-                    controller: timerController.secondTextEditingController,
-                    decoration: InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 5,
-                            color: lightColorScheme.primary,
-                          ),
-                        ),
-                        enabledBorder: const UnderlineInputBorder(
+                  child: Obx(
+                    () => TextField(
+                      controller: timerController.secondTextEditingController,
+                      decoration: InputDecoration(
+                          focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                          width: 5,
-                          color: Colors.grey,
-                        ))),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .displayMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(2),
-                    ],
-                    readOnly: timerController.isRunning.value == true
-                        ? true
-                        : false, // 수정 가능 여부
+                              width: 5,
+                              color: lightColorScheme.primary,
+                            ),
+                          ),
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                            width: 5,
+                            color: Colors.grey,
+                          ))),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .displayMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(2),
+                      ],
+                      readOnly: timerController.isRunning.value == true
+                          ? true
+                          : false,
+                      // 수정 가능 여부
+                      showCursor: timerController.isRunning.value == true
+                          ? false
+                          : true, // 수정 가능 여부에 맞춘 커서 유무
+                    ),
                   ),
                 ),
               ],

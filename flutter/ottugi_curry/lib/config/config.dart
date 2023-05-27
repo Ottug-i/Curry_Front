@@ -5,7 +5,7 @@ import 'package:ottugi_curry/view/page/bookmark/bookmark_page.dart';
 import 'package:ottugi_curry/view/page/login/login_page.dart';
 import 'package:ottugi_curry/view/page/main/main_page.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/recipe_camera_page.dart';
-import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_page_v2.dart';
+import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_page.dart';
 import 'package:ottugi_curry/view/page/user/user_page.dart';
 
 // token 저장하는 secure storage
@@ -22,7 +22,7 @@ class Config {
     GetPage(name: '/user', page: () => UserPage(), transition: Transition.noTransition),
     GetPage(name: '/bookmark', page: () => BookmarkPage(), transition: Transition.noTransition),
     GetPage(name: '/login', page: () => LoginPage(), transition: Transition.noTransition),
-    GetPage(name: '/recipe_detail', page: () => RecipeDetailPageV2(), transition: Transition.noTransition),
+    GetPage(name: '/recipe_detail', page: () => RecipeDetailPage(), transition: Transition.noTransition),
   ];
 
   // 레시피 상세 페이지에서 조리순서를 보는 방식: 음성/사진/즐글
