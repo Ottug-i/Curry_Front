@@ -29,4 +29,9 @@ class Config {
   static int soundView = 0;
   static int galleryView = 1;
   static int textListView = 2;
+
+  // storage 이름
+  static String id = 'id';
+  static String email = 'email';
+  static String nickName = 'nickName';
 }

@@ -81,9 +81,9 @@ class LoginController {
       // storage 에 token 저장
       await tokenStorage.write(key: 'token', value: resp.token.toString());
       // local storage 에 id, email, nickName 저장
-      userStorage.setItem('id', resp.id.toString());
-      userStorage.setItem('email', resp.email.toString());
-      userStorage.setItem('nickName', resp.nickName.toString());
+      userStorage.setItem(Config.id, resp.id.toString());
+      userStorage.setItem(Config.email, resp.email.toString());
+      userStorage.setItem(Config.nickName, resp.nickName.toString());
 
       // 메인 페이지 이동
       Get.offAndToNamed('/main');
