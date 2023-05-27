@@ -22,12 +22,12 @@ class RecipeDetailController {
   // 조리순서 보기 방식 선택
   RxInt orderViewOption = Config.galleryView.obs;
 
-  void loadRecipeDetail(int recipeId) async {
+  Future<void> loadRecipeDetail(int recipeId) async {
     try {
       Dio dio = Dio();
       RecipeRepository recipeRepository = RecipeRepository(dio);
       print('print getUserId(): ${getUserId()}');
-      final resp = await recipeRepository.getRecipeDetail(recipeId, getUserId());
+      final resp = await recipeRepository.getRecipeDetail(recipeId, 1);
 
       // 응답 값 변수에 저장
       composition.value = resp.composition!;
