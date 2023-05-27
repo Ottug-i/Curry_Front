@@ -25,7 +25,7 @@ class UserController extends GetxController {
       email.value = resp.email!;
       nickName.value = resp.nickName!;
     } on DioError catch (e) {
-      print('updateUserNickName: $e');
+      print('loadUserProfile: $e');
       return;
     }
   }
@@ -34,9 +34,8 @@ class UserController extends GetxController {
     try {
       Dio dio = Dio();
       UserRepository userRepository = UserRepository(dio);
-      print('getUserid ${getUserId()}');
       final resp = await userRepository.setProfile(UserResponse(id: userId.value, nickName: newNickName));
-      print(resp.nickName);
+      print('print newNickName: ${resp.nickName}');
       userStorage.setItem(Config.nickName, resp.nickName.toString());
       nickName.value =  resp.nickName.toString();
     } on DioError catch (e) {
@@ -53,7 +52,7 @@ class UserController extends GetxController {
       final resp = await latelyRepository.getLatelyAll(userId.value);
       latelyList.value = resp;
     } on DioError catch (e) {
-      print('handleLatelyRecipe: $e');
+      print('loadLatelyRecipe: $e');
       return;
     }
   }
@@ -69,7 +68,18 @@ class UserController extends GetxController {
     Get.offAndToNamed('/login');
   }
 
-  void handleWithdraw() {
-
+  Future<void> handleWithdraw() async {
+    try {
+      Dio dio = Dio();
+      UserRepository userRepository = UserRepository(dio);
+      print('print userIdValue: ${userId.value}');
+      bool resp = await userRepository.setWithdraw(userId.value);
+      if (resp) {
+        handleLogout();
+      }
+    } on DioError catch (e) {
+      print('handleWithdraw: $e');
+      return;
+    }
   }
 }

@@ -18,7 +18,7 @@ abstract class UserRepository {
 
   // 회원 탈퇴
   @DELETE('/api/user/setWithdraw')
-  Future<UserResponse> setWithdraw(@Query("id") int id);
+  Future<bool> setWithdraw(@Query("id") int id);
 
   // 소셜 회원가입과 로그인
   @POST('/auth/login')
