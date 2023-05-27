@@ -10,9 +10,9 @@ class RecipeCameraPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultLayoutWidget(body: Column(
       children: [
-        Text('recipe detail 로 연결'),
+        Text('recipe detail 로 연결(임시)'),
         ElevatedButton(onPressed: () {
-          Get.toNamed('/recipe_detail');
+          Get.toNamed('/recipe_detail', arguments: 6909678); // 6909678 // 6916853
         }, child: Text('1'))
       ],
     ));

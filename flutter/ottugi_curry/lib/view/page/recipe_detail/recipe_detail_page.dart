@@ -11,7 +11,8 @@ class RecipeDetailPage extends StatelessWidget {
   const RecipeDetailPage({Key? key}) : super(key: key);
 
   Future<void> _initRecipeDetail() async {
-    await Get.find<RecipeDetailController>().loadRecipeDetail(6916853);
+    print('print Get.arguments: ${Get.arguments}');
+    await Get.find<RecipeDetailController>().loadRecipeDetail(Get.arguments);
     Get.find<RecipeDetailTimerController>().loadTimerAlarm();
   }
 
