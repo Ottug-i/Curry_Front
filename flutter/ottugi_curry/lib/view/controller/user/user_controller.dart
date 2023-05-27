@@ -8,7 +8,7 @@ import 'package:ottugi_curry/repository/user_repository.dart';
 
 class UserController extends GetxController {
   RxInt userId = 0.obs;
-  RxString email = 'hh'.obs;
+  RxString email = ''.obs;
   RxString nickName = ''.obs;
 
   final RxList<LatelyResponse> latelyList = RxList<LatelyResponse>([]);
@@ -17,7 +17,7 @@ class UserController extends GetxController {
     try {
       Dio dio = Dio();
       UserRepository userRepository = UserRepository(dio);
-      print('getUserid ${userId()}');
+      print('getUserid ${getUserId()}');
       final resp = await userRepository.setProfile(User(id: userId.value, nickName: newNickName));
       print(resp.nickName);
       userStorage.setItem('nickName', resp.nickName.toString());
