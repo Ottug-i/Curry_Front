@@ -5,7 +5,6 @@ import 'package:ottugi_curry/model/lately_response.dart';
 import 'package:ottugi_curry/model/user.dart';
 import 'package:ottugi_curry/repository/lately_repository.dart';
 import 'package:ottugi_curry/repository/user_repository.dart';
-import 'package:ottugi_curry/utils/user_profile_utils.dart';
 
 class UserController extends GetxController {
   RxInt userId = 0.obs;
