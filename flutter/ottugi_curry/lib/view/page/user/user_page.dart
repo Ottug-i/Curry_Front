@@ -18,7 +18,12 @@ class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     Get.put(UserController());
-    Get.find<UserController>().handleLatelyRecipe();
+    final userController = Get.find<UserController>();
+
+    userController.handleLatelyRecipe();
+    userController.userId.value = getUserId();
+    userController.email.value = getUserEmail();
+    userController.nickName.value = getUserNickname();
     super.initState();
   }
 
@@ -26,7 +31,7 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     Get.put(UserController());
     final userController = Get.find<UserController>();
-    TextEditingController nicknameTextEditingController = TextEditingController(text: '');
+    print('user: ${userController.email}');
 
     return DefaultLayoutWidget(
       appBarTitle: '마이페이지',
@@ -62,113 +67,20 @@ class _UserPageState extends State<UserPage> {
                               constraints: const BoxConstraints(
                                 maxWidth: 145,
                               ),
-                              child: Text(
-                                getUserNickname(),
-                                style: Theme.of(context).textTheme.titleMedium,
-                                overflow: TextOverflow.ellipsis,
+                              child: Obx(
+                                () => Text(
+                                  userController.nickName.value,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                             const Padding(padding: EdgeInsets.only(right: 10)),
                             InkWell(
                               onTap: () {
-                                nicknameTextEditingController.text = '';
                                 // 닉네임 수정
-                                Get.dialog(Dialog(
-                                  child: Container(
-                                    height: 210,
-                                    padding: const EdgeInsets.only(
-                                        bottom: 20,
-                                        left: 20,
-                                        right: 20,
-                                        top: 50),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(25.0),
-                                        border: Border.all(
-                                          color: lightColorScheme.primary,
-                                          width: 5,
-                                        ),
-                                        color: Colors.white),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            const SizedBox(
-                                              width: 100,
-                                              child: Text(
-                                                '현재 닉네임 ',
-                                              ),
-                                            ),
-                                            Text(getUserNickname()),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            const SizedBox(
-                                              width: 100,
-                                              child: Text(
-                                                '새로운 닉네임 ',
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 150,
-                                              height: 35,
-                                              child: TextField(
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium,
-                                                controller: nicknameTextEditingController,
-                                                decoration: InputDecoration(
-                                                  contentPadding: const EdgeInsets.only(top: 25.0),
-                                                  hintText: '10자 이내',
-                                                  enabledBorder: UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      width: 2,
-                                                      color: lightColorScheme
-                                                          .primary,
-                                                    ),
-                                                  ),
-                                                ),
-                                                inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(
-                                                      10),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                            padding:
-                                                EdgeInsets.only(bottom: 20)),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            ElevatedButton(
-                                                onPressed: () {
-                                                  Get.back();
-                                                },
-                                                child: const Text('취소')),
-                                            const Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 20)),
-                                            ElevatedButton(
-                                                onPressed: () {
-                                                  userController.updateUserNickname(nicknameTextEditingController.text);
-                                                },
-                                                child: const Text('완료')),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ));
+                                updateUserNickNameDialog();
                               },
                               child: const ImageIcon(
                                 AssetImage('assets/icons/revise.png'),
@@ -179,17 +91,19 @@ class _UserPageState extends State<UserPage> {
                         ),
                         SizedBox(
                           width: 150,
-                          child: Text(
-                            getUserEmail(),
-                            style: Theme.of(context).textTheme.titleSmall,
-                            overflow: TextOverflow.ellipsis,
+                          child: Obx(
+                            () => Text(
+                              userController.email.value,
+                              style: Theme.of(context).textTheme.titleSmall,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
-                        const Padding(padding: EdgeInsets.only(bottom: 10)),
-                        Text(
-                          '요리초보',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
+                        // const Padding(padding: EdgeInsets.only(bottom: 10)),
+                        // Text(
+                        //   '요리초보',
+                        //   style: Theme.of(context).textTheme.bodySmall,
+                        // ),
                       ],
                     )
                   ],
@@ -206,33 +120,37 @@ class _UserPageState extends State<UserPage> {
                   borderRadius: BorderRadius.circular(25.0),
                   color: Colors.white,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '최근 본 레시피',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
+                child: Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '최근 본 레시피',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
 
-                    // 최근 본 레시피 리스트
-                    userController.latelyList.isNotEmpty
-                    ? SizedBox(
-                      height: 180,
-                      child: ListView.builder(
-                          padding: const EdgeInsets.only(top: 14, bottom: 14),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: userController.latelyList.length,
-                          itemBuilder: (BuildContext context, int idx) {
-                            print(userController.latelyList.length);
-                            return latelyRecipeCardWidget(
-                                userController.latelyList[idx]);
-                          }),
-                    ) : const Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Text('최근 본 레시피가 없습니다.'),
-                    )
-                  ],
+                      // 최근 본 레시피 리스트
+                      userController.latelyList.isNotEmpty
+                          ? SizedBox(
+                              height: 180,
+                              child: ListView.builder(
+                                  padding: const EdgeInsets.only(
+                                      top: 14, bottom: 14),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: userController.latelyList.length,
+                                  itemBuilder: (BuildContext context, int idx) {
+                                    print(userController.latelyList.length);
+                                    return latelyRecipeCardWidget(
+                                        userController.latelyList[idx]);
+                                  }),
+                            )
+                          : const Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Text('최근 본 레시피가 없습니다.'),
+                            )
+                    ],
+                  ),
                 ),
               ),
 
@@ -259,6 +177,96 @@ class _UserPageState extends State<UserPage> {
         ),
       ),
     );
+  }
+
+  void updateUserNickNameDialog() {
+    Get.put(UserController());
+    final userController = Get.find<UserController>();
+    TextEditingController nicknameTextEditingController =
+        TextEditingController(text: '');
+    // 닉네임 수정
+    Get.dialog(Dialog(
+      child: Container(
+        height: 210,
+        padding:
+            const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 50),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+              color: lightColorScheme.primary,
+              width: 5,
+            ),
+            color: Colors.white),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  width: 100,
+                  child: Text(
+                    '현재 닉네임 ',
+                  ),
+                ),
+                Obx(() => Text(userController.nickName.value)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  width: 100,
+                  child: Text(
+                    '새로운 닉네임 ',
+                  ),
+                ),
+                SizedBox(
+                  width: 150,
+                  height: 35,
+                  child: TextField(
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    controller: nicknameTextEditingController,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.only(top: 25.0),
+                      hintText: '10자 이내',
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 2,
+                          color: lightColorScheme.primary,
+                        ),
+                      ),
+                    ),
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(10),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const Padding(padding: EdgeInsets.only(bottom: 20)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: const Text('취소')),
+                const Padding(padding: EdgeInsets.only(right: 20)),
+                ElevatedButton(
+                    onPressed: () {
+                      userController.updateUserNickName(
+                          nicknameTextEditingController.text);
+                      Get.back();
+                    },
+                    child: const Text('완료')),
+              ],
+            )
+          ],
+        ),
+      ),
+    ));
   }
 
   Container latelyRecipeCardWidget(LatelyResponse latelyResponse) {
@@ -303,17 +311,21 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  Row _userSettingButton(String text, Function onPressed) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(text),
-        IconButton(
-            onPressed: () {
-              onPressed();
-            },
-            icon: const Icon(Icons.chevron_right_rounded)),
-      ],
+  InkWell _userSettingButton(String text, Function onPressed) {
+    return InkWell(
+      onTap: () {
+        onPressed();
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(text),
+            const Icon(Icons.chevron_right_rounded),
+          ],
+        ),
+      ),
     );
   }
 

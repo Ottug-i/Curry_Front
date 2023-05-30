@@ -45,7 +45,6 @@ class BottomNavBarWidget extends StatelessWidget {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
-
         currentIndex: Get.find<BottomNavBarController>().currentIdx.toInt(),
         onTap: handleOnTap,
         items: bottomNavBarItemLabel

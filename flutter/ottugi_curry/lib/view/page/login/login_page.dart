@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Padding(
           padding:
-          const EdgeInsets.only(left: 50, right: 50, top: 150, bottom: 100),
+              const EdgeInsets.only(left: 50, right: 50, top: 150, bottom: 100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                       'assets/icons/google2.png',
                       height: 25,
                     ),
-                    const Text('Google 로그인'),
+                    const Text('구글 로그인'),
                     const Padding(padding: EdgeInsets.only(left: 25)),
                   ],
                 ),
@@ -76,7 +76,9 @@ class _LoginPageState extends State<LoginPage> {
 
               // 카카오 로그인 버튼
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.find<LoginController>().loginKakao();
+                },
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
@@ -85,10 +87,10 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Image.asset(
-                      'assets/icons/kakao2.png',
+                      'assets/icons/kakao4.png',
                       height: 25,
                     ),
-                    const Text('Kakao 로그인'),
+                    const Text('카카오 로그인'),
                     const Padding(padding: EdgeInsets.only(left: 25)),
                   ],
                 ),

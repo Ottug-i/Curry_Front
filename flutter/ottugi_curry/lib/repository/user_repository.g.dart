@@ -21,13 +21,13 @@ class _UserRepository implements UserRepository {
   String? baseUrl;
 
   @override
-  Future<User> getProfile(int id) async {
+  Future<UserResponse> getProfile(int id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -39,19 +39,19 @@ class _UserRepository implements UserRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = User.fromJson(_result.data!);
+    final value = UserResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<User> setProfile(User user) async {
+  Future<UserResponse> setProfile(UserResponse user) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(user.toJson());
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserResponse>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
@@ -63,18 +63,18 @@ class _UserRepository implements UserRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = User.fromJson(_result.data!);
+    final value = UserResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<User> setWithdraw(int id) async {
+  Future<UserResponse> setWithdraw(int id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserResponse>(Options(
       method: 'DELETE',
       headers: _headers,
       extra: _extra,
@@ -86,19 +86,19 @@ class _UserRepository implements UserRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = User.fromJson(_result.data!);
+    final value = UserResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<User> saveLogin(User user) async {
+  Future<UserResponse> saveLogin(UserResponse user) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(user.toJson());
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -110,7 +110,7 @@ class _UserRepository implements UserRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = User.fromJson(_result.data!);
+    final value = UserResponse.fromJson(_result.data!);
     return value;
   }
 

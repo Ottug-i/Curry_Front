@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/config/custom_theme_data.dart';
-import 'config/config.dart';
 
 void main() async {
   // splash screen
   WidgetsFlutterBinding.ensureInitialized(); // 초기화 보장
-  await Future.delayed(const Duration(seconds: 2)); // 3초 지연
+  await Future.delayed(const Duration(seconds: 2)); // 지연
+
+  // kakao Flutter SDK
+  KakaoSdk.init(nativeAppKey: 'f058e8e5bc00f59848d0eb05b04aa3b6');
 
   runApp(const MyApp());
 }
@@ -14,7 +18,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -22,7 +25,6 @@ class MyApp extends StatelessWidget {
       theme: CustomThemeData.themeDataLight,
       initialRoute: '/main', // login
       getPages: Config.routers,
-      // home: LoginPage(), RecipeRecs
     );
   }
 }
