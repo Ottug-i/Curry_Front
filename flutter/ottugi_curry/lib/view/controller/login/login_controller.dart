@@ -10,7 +10,6 @@ import 'package:ottugi_curry/repository/user_repository.dart';
 class LoginController {
   Future<void> loginGoogle() async {
     GoogleSignIn googleSignIn = GoogleSignIn(
-      clientId: '533961426623-17qecigrqom78pqt8ts3p5kccjb1d6ns.apps.googleusercontent.com',
     );
     GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
