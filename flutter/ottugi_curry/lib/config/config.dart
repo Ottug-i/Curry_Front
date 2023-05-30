@@ -12,7 +12,7 @@ import 'package:ottugi_curry/view/page/user/user_page.dart';
 FlutterSecureStorage tokenStorage = const FlutterSecureStorage();
 // 회원 정보 저장하는 local storage: id, email, nickName, 소셜로그인 플랫폼 이름(kakao/google)
 LocalStorage userStorage = LocalStorage('user');
-LocalStorage socialStorage = LocalStorage('social');
+// LocalStorage socialStorage = LocalStorage('social');
 
 /// 앱 전체에 공유하는 static 변수 저장
 class Config {

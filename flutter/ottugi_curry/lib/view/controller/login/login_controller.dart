@@ -16,9 +16,7 @@ class LoginController {
 
     if (googleSignInAccount != null) {
       print('google login 성공: $googleSignInAccount');
-      // socialStorage.setItem(Config.social, Config.google);
-      // print('print socialStorageGe: ${socialStorage.getItem(Config.social)}');
-      social = SocialPlatform.google;
+      userStorage.setItem(Config.social, Config.google);
       login(googleSignInAccount.email, googleSignInAccount.displayName!);
     }
   }
@@ -64,9 +62,8 @@ class LoginController {
           String nickName = user.kakaoAccount?.profile?.nickname ?? '';
 
           if (email.isNotEmpty && nickName.isNotEmpty) {
-            // socialStorage.setItem(Config.social, Config.kakao);
-            // print('print userStorageGe: ${socialStorage.getItem(Config.social)}');
-            social = SocialPlatform.kakao;
+            userStorage.setItem(Config.social, Config.kakao);
+            print('print userStorageGe: ${userStorage.getItem(Config.social)}');
             login(email, nickName);
           }
     } catch (error) {
@@ -82,8 +79,7 @@ class LoginController {
       print('$nickName, $email');
       final resp = await userRepository.saveLogin(UserResponse(email: email, nickName: nickName));
       print('최종 로그인 성공: ${resp.id}, ${resp.email}, ${resp.nickName}, ${resp.token}');
-      print('print social: ${social}');
-      // print('print socialStorage: ${socialStorage.getItem(Config.social)}');
+      print('print socialStorage: ${userStorage.getItem(Config.social)}');
 
       // 로그인 성공
       // storage 에 token 저장
