@@ -11,10 +11,10 @@ class UserPage extends StatelessWidget {
   const UserPage({Key? key}) : super(key: key);
 
   Future _initUserInfo() async {
+    print('print getUserEmail: ${getUserEmail()}');
     Get.find<UserController>().userId.value = getUserId();
     Get.find<UserController>().email.value = getUserEmail();
     Get.find<UserController>().nickName.value = getUserNickname();
-    // await Get.find<UserController>().loadUserProfile();
     await Get.find<UserController>().loadLatelyRecipe();
   }
 

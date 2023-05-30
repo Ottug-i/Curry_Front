@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/model/lately_response.dart';
 import 'package:ottugi_curry/model/user_response.dart';
@@ -58,17 +60,55 @@ class UserController extends GetxController {
   }
 
   void handleLogout() async {
-    // userStorage.deleteItem('id');
+    // 소셜 로그인 플랫폼 로그아웃
+    // final social1 = socialStorage.getItem(Config.social);
+    // print('print social: ${social1}');
+    // if (social1 == Config.google) {
+    //   print('print configGoogle: ${Config.google}');
+    //   // 구글 로그아웃
+    //   await GoogleSignIn().signOut();
+    // } else if (social1 == Config.kakao) {
+    //   print('print configKakao: ${Config.kakao}');
+    //   // 카카오 로그아웃
+    //   try {
+    //     await UserApi.instance.logout();
+    //     print('로그아웃 성공, SDK에서 토큰 삭제');
+    //   } catch (error) {
+    //     print('로그아웃 실패, SDK에서 토큰 삭제 $error');
+    //   }
+    // }
+
+    print('print social: ${social}');
+    if (social == SocialPlatform.google) {
+      print('print configGoogle: ${Config.google}');
+      // 구글 로그아웃
+      await GoogleSignIn().signOut();
+    } else if (social == SocialPlatform.kakao) {
+      print('print configKakao: ${Config.kakao}');
+      // 카카오 로그아웃
+      try {
+        await UserApi.instance.logout();
+        print('로그아웃 성공, SDK에서 토큰 삭제');
+      } catch (error) {
+        print('로그아웃 실패, SDK에서 토큰 삭제 $error');
+      }
+    }
+
+    // 저장해둔 회원 정보 삭제
     await tokenStorage.delete(key: 'token');
-    
+
     userStorage.deleteItem(Config.id);
     userStorage.deleteItem(Config.email);
     userStorage.deleteItem(Config.nickName);
+    // socialStorage.deleteItem(Config.social);
+    social = SocialPlatform.none;
 
     Get.offAndToNamed('/login');
   }
 
+
   Future<void> handleWithdraw() async {
+    // Get.put(LoginController());
     try {
       Dio dio = Dio();
       UserRepository userRepository = UserRepository(dio);
