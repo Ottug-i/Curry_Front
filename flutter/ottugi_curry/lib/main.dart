@@ -12,6 +12,7 @@ void main() async {
 
   // kakao Flutter SDK
   KakaoSdk.init(nativeAppKey: 'f058e8e5bc00f59848d0eb05b04aa3b6');
+  await userStorage.ready;
 
   runApp(const MyApp());
 }

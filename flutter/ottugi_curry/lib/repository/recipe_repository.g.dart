@@ -13,7 +13,7 @@ class _RecipeRepository implements RecipeRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.0.2.2:8080';
+    baseUrl ??= 'http://172.20.8.186:8080';
   }
 
   final Dio _dio;
@@ -31,7 +31,7 @@ class _RecipeRepository implements RecipeRepository {
       r'userId': userId,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<RecipeResponse>(Options(
       method: 'GET',

@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 part 'user_repository.g.dart';
 
-@RestApi(baseUrl: "http://10.0.2.2:8080")
+@RestApi(baseUrl: "http://172.20.8.186:8080")
 abstract class UserRepository {
   factory UserRepository(Dio dio, {String baseUrl}) = _UserRepository;
 
@@ -18,7 +18,7 @@ abstract class UserRepository {
 
   // 회원 탈퇴
   @DELETE('/api/user/setWithdraw')
-  Future<UserResponse> setWithdraw(@Query("id") int id);
+  Future<bool> setWithdraw(@Query("id") int id);
 
   // 소셜 회원가입과 로그인
   @POST('/auth/login')

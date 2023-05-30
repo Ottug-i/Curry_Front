@@ -9,13 +9,14 @@ import 'package:ottugi_curry/repository/user_repository.dart';
 
 class LoginController {
   Future<void> loginGoogle() async {
+    Get.put(LoginController());
     GoogleSignIn googleSignIn = GoogleSignIn(
-      clientId: '533961426623-17qecigrqom78pqt8ts3p5kccjb1d6ns.apps.googleusercontent.com',
     );
     GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
       print('google login 성공: $googleSignInAccount');
+      userStorage.setItem(Config.social, Config.google);
       login(googleSignInAccount.email, googleSignInAccount.displayName!);
     }
   }
@@ -61,6 +62,8 @@ class LoginController {
           String nickName = user.kakaoAccount?.profile?.nickname ?? '';
 
           if (email.isNotEmpty && nickName.isNotEmpty) {
+            userStorage.setItem(Config.social, Config.kakao);
+            print('print userStorageGe: ${userStorage.getItem(Config.social)}');
             login(email, nickName);
           }
     } catch (error) {
@@ -76,14 +79,15 @@ class LoginController {
       print('$nickName, $email');
       final resp = await userRepository.saveLogin(UserResponse(email: email, nickName: nickName));
       print('최종 로그인 성공: ${resp.id}, ${resp.email}, ${resp.nickName}, ${resp.token}');
+      print('print socialStorage: ${userStorage.getItem(Config.social)}');
 
       // 로그인 성공
       // storage 에 token 저장
       await tokenStorage.write(key: 'token', value: resp.token.toString());
       // local storage 에 id, email, nickName 저장
-      userStorage.setItem('id', resp.id.toString());
-      userStorage.setItem('email', resp.email.toString());
-      userStorage.setItem('nickName', resp.nickName.toString());
+      userStorage.setItem(Config.id, resp.id.toString());
+      userStorage.setItem(Config.email, resp.email.toString());
+      userStorage.setItem(Config.nickName, resp.nickName.toString());
 
       // 메인 페이지 이동
       Get.offAndToNamed('/main');
@@ -95,6 +99,7 @@ class LoginController {
 
   void checkLogin() async {
     final token = await tokenStorage.read(key: 'token');
+    print('print token: ${token}');
     if (token != null) {
       Get.offAndToNamed('/main');
     }
