@@ -333,7 +333,7 @@ class RecipeDetailPage extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Text(
                               '재료',
-                              // style: Theme.of(context).textTheme.bodyLarge,
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                             ),
                           ),
                         ] +
@@ -351,7 +351,7 @@ class RecipeDetailPage extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Text(
                               '양념',
-                              // style: Theme.of(context).textTheme.bodyLarge,
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                             ),
                           ),
                           // ingredientListWidget('진간장', '4큰술'),
