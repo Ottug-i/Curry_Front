@@ -25,7 +25,7 @@ class _UserRepository implements UserRepository {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<UserResponse>(Options(
       method: 'GET',
@@ -72,7 +72,7 @@ class _UserRepository implements UserRepository {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<bool>(_setStreamType<bool>(Options(
       method: 'DELETE',
       headers: _headers,

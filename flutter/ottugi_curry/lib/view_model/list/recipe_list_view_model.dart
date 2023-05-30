@@ -7,6 +7,14 @@ import 'package:ottugi_curry/repository/menu_repository.dart';
 
 class MenuListViewModel extends GetxController {
   var MenuModelList = <MenuModel>[].obs;
+  /* RxInt id = 0.obs;
+  RxString name = ''.obs;
+  RxString thumbnail = ''.obs;
+  RxString time = ''.obs;
+  RxString difficulty = ''.obs;
+  RxString composition = ''.obs;
+  RxString ingredients = ''.obs;*/
+  RxBool isBookmark = false.obs;
 
   Rx<String> selectedCategory = 'null'.obs;
   Rx<String> selectedCategoryValue = '0'.obs;
@@ -35,9 +43,28 @@ class MenuListViewModel extends GetxController {
       MenuModelList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData) {
-        MenuModelList.add(menu);
+        //var ingredientsValue = menu.ingredients;
+        var ingredientsValue = menu.ingredients!
+            .split("#")
+            .where((element) => element.isNotEmpty)
+            .join(", ");
+
+        // MenuModel의 나머지 속성들은 그대로 유지
+        var updatedMenu = MenuModel(
+          id: menu.id,
+          name: menu.name,
+          thumbnail: menu.thumbnail,
+          time: menu.time,
+          difficulty: menu.difficulty,
+          composition: menu.composition,
+          ingredients: ingredientsValue,
+          isBookmark: menu.isBookmark,
+        );
+
+        MenuModelList.add(updatedMenu);
+
         // 디버깅용 코드
-        var jsonString = menu.toJson().toString();
+        var jsonString = updatedMenu.toJson().toString();
         print(jsonString);
       }
     } catch (error) {
@@ -98,5 +125,10 @@ class MenuListViewModel extends GetxController {
     print(filterData.length);
     MenuModelList.assignAll(filterData);
     //update();
+  }
+
+  void updateBookmark(bool newvalue) {
+    isBookmark.value = newvalue;
+    update();
   }
 }

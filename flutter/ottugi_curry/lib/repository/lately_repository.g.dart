@@ -25,7 +25,7 @@ class _LatelyRepository implements LatelyRepository {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'userId': id};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<LatelyResponse>>(Options(
       method: 'GET',
