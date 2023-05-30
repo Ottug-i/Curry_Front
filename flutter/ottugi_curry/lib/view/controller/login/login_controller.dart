@@ -9,12 +9,14 @@ import 'package:ottugi_curry/repository/user_repository.dart';
 
 class LoginController {
   Future<void> loginGoogle() async {
+    Get.put(LoginController());
     GoogleSignIn googleSignIn = GoogleSignIn(
     );
     GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
       print('google login 성공: $googleSignInAccount');
+      userStorage.setItem(Config.social, Config.google);
       login(googleSignInAccount.email, googleSignInAccount.displayName!);
     }
   }
@@ -60,6 +62,8 @@ class LoginController {
           String nickName = user.kakaoAccount?.profile?.nickname ?? '';
 
           if (email.isNotEmpty && nickName.isNotEmpty) {
+            userStorage.setItem(Config.social, Config.kakao);
+            print('print userStorageGe: ${userStorage.getItem(Config.social)}');
             login(email, nickName);
           }
     } catch (error) {
@@ -75,6 +79,7 @@ class LoginController {
       print('$nickName, $email');
       final resp = await userRepository.saveLogin(UserResponse(email: email, nickName: nickName));
       print('최종 로그인 성공: ${resp.id}, ${resp.email}, ${resp.nickName}, ${resp.token}');
+      print('print socialStorage: ${userStorage.getItem(Config.social)}');
 
       // 로그인 성공
       // storage 에 token 저장
@@ -94,6 +99,7 @@ class LoginController {
 
   void checkLogin() async {
     final token = await tokenStorage.read(key: 'token');
+    print('print token: ${token}');
     if (token != null) {
       Get.offAndToNamed('/main');
     }

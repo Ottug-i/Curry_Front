@@ -14,7 +14,6 @@ class UserPage extends StatelessWidget {
     Get.find<UserController>().userId.value = getUserId();
     Get.find<UserController>().email.value = getUserEmail();
     Get.find<UserController>().nickName.value = getUserNickname();
-    // await Get.find<UserController>().loadUserProfile();
     await Get.find<UserController>().loadLatelyRecipe();
   }
 
