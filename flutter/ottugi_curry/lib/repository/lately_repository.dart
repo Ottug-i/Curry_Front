@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 part 'lately_repository.g.dart';
 
-@RestApi(baseUrl: "http://localhost:8080")
+@RestApi(baseUrl: "http://172.20.8.186:8080")
 abstract class LatelyRepository {
   factory LatelyRepository(Dio dio, {String baseUrl}) = _LatelyRepository;
   
