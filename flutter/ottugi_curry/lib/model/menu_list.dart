@@ -4,7 +4,7 @@ part 'menu_list.g.dart';
 
 @JsonSerializable()
 class MenuList {
-  String? userId;
+  int? userId;
   List<String> recipeId;
 
   MenuList({this.userId, required this.recipeId});

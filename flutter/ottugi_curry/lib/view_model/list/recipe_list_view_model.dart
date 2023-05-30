@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 //import 'package:ottugi_curry/model/MenuModel.dart';
@@ -27,20 +25,21 @@ class MenuListViewModel extends GetxController {
     return menuModels;
   }
 */
-  Future<void> fetchData() async {
+  Future<void> fetchData(int userId, List<String> recipeIds) async {
+    print('fetchData 실행');
     try {
       final MenuRepository menuRepository = MenuRepository(Dio());
 
-      final menuList = MenuList(userId: "1", recipeId: ["6855278", "6909678"]);
+      final menuList = MenuList(userId: userId, recipeId: recipeIds);
       final menuData = await menuRepository.getMenuList(menuList);
       MenuModelList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData) {
         MenuModelList.add(menu);
+        // 디버깅용 코드
+        var jsonString = menu.toJson().toString();
+        print(jsonString);
       }
-
-      var print = MenuModelList.toJson();
-      log('MenuModelList: $print');
     } catch (error) {
       // 에러 처리
       print('Error fetching menu list: $error');

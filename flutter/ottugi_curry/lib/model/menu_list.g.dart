@@ -7,7 +7,7 @@ part of 'menu_list.dart';
 // **************************************************************************
 
 MenuList _$MenuListFromJson(Map<String, dynamic> json) => MenuList(
-      userId: json['userId'] as String?,
+      userId: json['userId'] as int?,
       recipeId:
           (json['recipeId'] as List<dynamic>).map((e) => e as String).toList(),
     );

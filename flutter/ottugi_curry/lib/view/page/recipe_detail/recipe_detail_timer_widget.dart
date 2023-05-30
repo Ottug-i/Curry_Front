@@ -43,7 +43,7 @@ class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
           Align(
             alignment: Alignment.topLeft,
             child: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
+              icon: const Icon(Icons.arrow_back_ios),
               color: Colors.black,
               onPressed: () {
                 Get.back();
@@ -56,7 +56,7 @@ class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
 
           // 타이머 분:초 Row
           Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: Row(
               children: [
                 // 분

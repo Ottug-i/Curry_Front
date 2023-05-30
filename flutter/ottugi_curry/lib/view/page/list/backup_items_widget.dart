@@ -11,8 +11,7 @@ class ItemsWidget extends StatefulWidget {
 
 class _ItemsWidgetState extends State<ItemsWidget> {
   Future<void> _initMenuList() async {
-    print('여기는 item_widget.dart');
-    //print('print Get.arguments: ${Get.arguments}');
+    print('print Get.arguments: ${Get.arguments}');
     await Get.find<MenuListViewModel>().fetchData(1, ["6855278", "6909678"]);
   }
 
@@ -32,8 +31,9 @@ class _ItemsWidgetState extends State<ItemsWidget> {
 
           final menuList = rListController.MenuModelList;
           if (menuList.isNotEmpty) {
-            return ListView.builder(
-              shrinkWrap: true,
+            return Expanded(
+                // 또는 SizedBox 등을 사용하여 사이즈를 제약할 수 있습니다.
+                child: ListView.builder(
               itemCount: menuList.length,
               itemBuilder: (context, index) {
                 final menuItem = menuList[index];
@@ -43,7 +43,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                   leading: Image.network(menuItem.thumbnail ?? ''),
                 );
               },
-            );
+            ));
           } else {
             return const Center(
               child: Text('추천 레시피를 찾지 못했습니다.'),

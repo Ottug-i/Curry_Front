@@ -28,4 +28,9 @@ class MenuModel {
   factory MenuModel.fromJson(Map<String, dynamic> json) =>
       _$MenuModelFromJson(json);
   Map<String, dynamic> toJson() => _$MenuModelToJson(this);
+
+  @override
+  String toString() {
+    return 'MenuModel(id: $id, name: $name, thumbnail: $thumbnail, time: $time, difficulty: $difficulty, composition: $composition, ingredients: $ingredients, isBookmark: $isBookmark)';
+  }
 }

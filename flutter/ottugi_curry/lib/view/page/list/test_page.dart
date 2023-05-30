@@ -15,7 +15,7 @@ class _MenuListPageState extends State<MenuListPage> {
   final MenuRepository _menuRepository = MenuRepository(Dio());
 
   Future<List<MenuModel>> _fetchMenuList() async {
-    final menuList = MenuList(userId: "1", recipeId: ["6855278", "6909678"]);
+    final menuList = MenuList(userId: 1, recipeId: ["6855278", "6909678"]);
     final menuModels = await _menuRepository.getMenuList(menuList);
     return menuModels;
   }

@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 part 'user_repository.g.dart';
 
-@RestApi(baseUrl: "http://172.20.8.186:8080")
+@RestApi(baseUrl: "http://10.0.2.2:8080")
 abstract class UserRepository {
   factory UserRepository(Dio dio, {String baseUrl}) = _UserRepository;
 

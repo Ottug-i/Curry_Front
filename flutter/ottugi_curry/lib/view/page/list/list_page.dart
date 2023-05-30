@@ -15,8 +15,24 @@ class ListPage extends StatefulWidget {
 final rListController = Get.put(MenuListViewModel());
 
 class ListPageState extends State<ListPage> {
+  Future<void> _initMenuList() async {
+    print('여기는 list_page.dart');
+    await rListController.fetchData(1, ["6855278", "6909678"]);
+    print(rListController.MenuModelList);
+  }
+
+  @override
+  void initState() {
+    print('initState 실행');
+    _initMenuList();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Get.put(MenuListViewModel());
+    final rListController = Get.find<MenuListViewModel>();
+
     return Scaffold(
       resizeToAvoidBottomInset: false, // overflowed 방지
       body: Container(
@@ -35,15 +51,21 @@ class ListPageState extends State<ListPage> {
                 const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(
+                      height: 20,
+                    ),
                     Text('검색 결과가 없습니다.'),
                   ],
                 )
               else
-                // 카테고리 위젯
-                const CategoriesWidget(),
-              const Expanded(
-                child: ItemsWidget(),
-              ),
+                const Column(mainAxisSize: MainAxisSize.min, children: [
+                  // 카테고리 위젯
+                  CategoriesWidget(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Flexible(child: ItemsWidget()),
+                ])
             ],
           ),
         ),
@@ -105,6 +127,9 @@ Column bookmarkMode() {
 }
 
 void searchRecipe(String query) {
+  Get.put(MenuListViewModel());
+  final rListController = Get.find<MenuListViewModel>();
+
   var MenuModelList = rListController.MenuModelList;
   // 검색어에 해당하는 새로운 레시피 정보들
   final suggestions = MenuModelList.where((recipe) {
