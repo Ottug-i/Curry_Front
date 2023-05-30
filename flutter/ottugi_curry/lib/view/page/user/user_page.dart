@@ -97,7 +97,7 @@ class _UserPageState extends State<UserPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 100,
                                               child: Text(
                                                 '현재 닉네임 ',
@@ -125,7 +125,7 @@ class _UserPageState extends State<UserPage> {
                                                     .bodyMedium,
                                                 controller: nicknameTextEditingController,
                                                 decoration: InputDecoration(
-                                                  contentPadding: EdgeInsets.only(top: 25.0),
+                                                  contentPadding: const EdgeInsets.only(top: 25.0),
                                                   hintText: '10자 이내',
                                                   enabledBorder: UnderlineInputBorder(
                                                     borderSide: BorderSide(
@@ -228,9 +228,9 @@ class _UserPageState extends State<UserPage> {
                             return latelyRecipeCardWidget(
                                 userController.latelyList[idx]);
                           }),
-                    ) : Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: const Text('최근 본 레시피가 없습니다.'),
+                    ) : const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text('최근 본 레시피가 없습니다.'),
                     )
                   ],
                 ),

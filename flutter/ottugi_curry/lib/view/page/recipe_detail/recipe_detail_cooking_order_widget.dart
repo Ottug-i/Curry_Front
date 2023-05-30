@@ -23,7 +23,7 @@ class _RecipeDetailCookingOrderWidgetState extends State<RecipeDetailCookingOrde
   void initState() {
     super.initState();
 
-    _nestedTabController = new TabController(length: cookingOrder.length, vsync: this);
+    _nestedTabController = TabController(length: cookingOrder.length, vsync: this);
   }
 
   @override
@@ -46,14 +46,14 @@ class _RecipeDetailCookingOrderWidgetState extends State<RecipeDetailCookingOrde
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25.0),
                   ),
-                  padding: EdgeInsets.all(15),
-                  margin: EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.all(15),
+                  margin: const EdgeInsets.only(left: 10, right: 10),
                   width: double.infinity,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Text('${e}'),
-                        Padding(padding: EdgeInsets.only(top: 20)),
+                        Text(e),
+                        const Padding(padding: EdgeInsets.only(top: 20)),
                         Image.asset('assets/images/cookingOrder${cookingOrder.indexOf(e)+1}.png'),
                       ],
                     ),

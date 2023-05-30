@@ -39,9 +39,9 @@ class Bookmark {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     //data['userId'] = this.userId;
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['thumbnail'] = this.thumbnail;
+    data['id'] = id;
+    data['name'] = name;
+    data['thumbnail'] = thumbnail;
     return data;
   }
 }

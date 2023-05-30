@@ -17,7 +17,7 @@ class RecipeDetailPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         leading: Padding(
-          padding: EdgeInsets.only(left: 25),
+          padding: const EdgeInsets.only(left: 25),
           child: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -244,20 +244,20 @@ class RecipeDetailPage extends StatelessWidget {
                               ),
                               IconButton(
                                   onPressed: () {},
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.photo,
                                     color: Colors.black,
                                   )),
                               IconButton(
                                   onPressed: () {},
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.list,
                                     color: Colors.grey,
                                   ))
                             ],
                           ),
                           // 조리 순서 보여주는 수평 방향 tab widget
-                          RecipeDetailCookingOrderWidget(),
+                          const RecipeDetailCookingOrderWidget(),
                         ],
                       ),
                     ),

@@ -21,7 +21,7 @@ class DefaultLayoutWidget extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: lightColorScheme.background,
         leading: Padding(
-          padding: EdgeInsets.only(left: 25),
+          padding: const EdgeInsets.only(left: 25),
           child: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
