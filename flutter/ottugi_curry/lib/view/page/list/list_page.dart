@@ -12,7 +12,7 @@ class ListPage extends StatefulWidget {
   ListPageState createState() => ListPageState();
 }
 
-final rListController = Get.put(RecipeListViewModel());
+final rListController = Get.put(MenuListViewModel());
 
 class ListPageState extends State<ListPage> {
   @override
@@ -31,7 +31,7 @@ class ListPageState extends State<ListPage> {
                   ? searchMode("감자, 치즈, 계란")
                   : bookmarkMode(),
               // 아이템 위젯
-              if (rListController.recipeList.isEmpty)
+              if (rListController.MenuModelList.isEmpty)
                 const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -41,7 +41,9 @@ class ListPageState extends State<ListPage> {
               else
                 // 카테고리 위젯
                 const CategoriesWidget(),
-              const ItemsWidget(),
+              const Expanded(
+                child: ItemsWidget(),
+              ),
             ],
           ),
         ),
@@ -103,9 +105,9 @@ Column bookmarkMode() {
 }
 
 void searchRecipe(String query) {
-  var recipelist = rListController.recipeList;
+  var MenuModelList = rListController.MenuModelList;
   // 검색어에 해당하는 새로운 레시피 정보들
-  final suggestions = recipelist.where((recipe) {
+  final suggestions = MenuModelList.where((recipe) {
     final recipeTitle = recipe.name!.toLowerCase();
     final input = query.toLowerCase(); // 검색창에 입력한 정보들
     return recipeTitle.contains(input);
@@ -116,5 +118,5 @@ void searchRecipe(String query) {
   }
 
   // 검색결과로 업데이트
-  recipelist.assignAll(suggestions);
+  MenuModelList.assignAll(suggestions);
 }

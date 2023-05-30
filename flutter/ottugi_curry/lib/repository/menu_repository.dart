@@ -5,7 +5,7 @@ import 'package:ottugi_curry/model/menu_list.dart';
 
 part 'menu_repository.g.dart';
 
-@RestApi(baseUrl: "http://localhost:8080")
+@RestApi(baseUrl: "http://10.0.2.2:8080")
 abstract class MenuRepository {
   factory MenuRepository(Dio dio, {String baseUrl}) = _MenuRepository;
 

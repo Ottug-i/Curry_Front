@@ -47,7 +47,7 @@ class Bookmark {
 }
 
 Future<List<Bookmark>> getData() async {
-  const url = 'http://localhost:8080/api/lately/getLatelyAll?userId=1';
+  const url = 'http://10.0.2.2:8080/api/lately/getLatelyAll?userId=1';
   final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {

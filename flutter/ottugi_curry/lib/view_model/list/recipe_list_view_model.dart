@@ -1,100 +1,50 @@
-import 'package:get/get.dart';
-import 'package:ottugi_curry/model/recipe.dart';
+import 'dart:developer';
 
-class RecipeListViewModel extends GetxController {
-  var recipeList = <Recipe>[].obs;
+import 'package:get/get.dart';
+import 'package:dio/dio.dart';
+//import 'package:ottugi_curry/model/MenuModel.dart';
+import 'package:ottugi_curry/model/menu.dart';
+import 'package:ottugi_curry/model/menu_list.dart';
+import 'package:ottugi_curry/repository/menu_repository.dart';
+
+class MenuListViewModel extends GetxController {
+  var MenuModelList = <MenuModel>[].obs;
 
   Rx<String> selectedCategory = 'null'.obs;
   Rx<String> selectedCategoryValue = '0'.obs;
 
-  @override // GetxController에서 복사해 온 메서드
+  /*@override // GetxController에서 복사해 온 메서드
   void onInit() {
     super.onInit();
     fetchData();
-  }
-
-/*void fetchData() async {
-    //Future<List<Recipe>> fetchData() async
-    // http 클라이언트와 데이터들을 불러와야 함
-    // 지금은 param이 없지만 param는 인식된 재료여야 함
-    var url = Uri.parse('http://10.0.2.2:8000/api/recipe/getRecipeList');
-    var data = {
-      "userId": 1,
-      "recipeId": [6855278, 6909678]
-    };
-
-    http.Response response = await http
-        .post(url,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: jsonEncode(data));
-
-    if (response.statusCode == 200) {
-      List result = jsonDecode(response.body) as List;
-      var menuData = result.map((e) => Recipe.fromJson(e)).toList();
-      print(menuData);
-      recipeList.assignAll(menuData);
-    } else {
-      throw Exception('Failed to load album');
-    }
   }*/
+/*
+  final MenuRepository _menuRepository = MenuRepository(Dio());
 
-  void fetchData() {
-    var menuData = [
-      Recipe(
-          name: '치즈 계란말이',
-          time: '10',
-          difficulty: '초급',
-          composition: '가볍게',
-          ingredients: '계란, 치즈, 당근, 대파, 양파',
-          thumbnail: 'eggroll.png',
-          isBookmark: true),
-      Recipe(
-          name: '치즈 감자전',
-          time: '30',
-          difficulty: '중급',
-          composition: '든든하게',
-          ingredients: '감자, 파, 부추, 올리브유, 소금, 모짜렐라 치즈',
-          thumbnail: 'cheesePotato.png',
-          isBookmark: false),
-      Recipe(
-          name: '시저 샐러드',
-          time: '10',
-          difficulty: '왕초보',
-          composition: '가볍게',
-          ingredients:
-              '닭가슴살, 마늘, 메추리알, 베이컨, 로메인상추, 계란노른자, 엔초비, 치즈',
-          thumbnail: 'salad.jpg',
-          isBookmark: false),
-      Recipe(
-          name: '치킨마요',
-          time: '30',
-          difficulty: '초급',
-          composition: '가볍게',
-          ingredients: '순살치킷(너겟), 양파, 계란, 김가루, 마요네즈',
-          thumbnail: 'chicken-mayo.jpg',
-          isBookmark: false),
-      Recipe(
-          name: '소세지 콘감자 크로켓',
-          time: '20',
-          difficulty: '중급',
-          composition: '가볍게',
-          ingredients:
-              '소세지, 감자 삶은것, 빵가루, 밀가루, 양파, 계란, 옥수수통조림',
-          thumbnail: 'sausageCorn.png',
-          isBookmark: true),
-      Recipe(
-          name: '두부스테이크',
-          time: '40',
-          difficulty: '고급',
-          composition: '든든하게',
-          ingredients:
-              '두부, 닭가슴살, 당근, 양파, 대파, 계란',
-          thumbnail: 'tofuSteak.png',
-          isBookmark: false)
-    ];
-    recipeList.assignAll(menuData);
+  Future<List<MenuModel>> _fetchMenuList() async {
+    final menuList = MenuList(userId: "1", recipeId: ["6855278", "6909678"]);
+    final menuModels = await _menuRepository.getMenuList(menuList);
+    return menuModels;
+  }
+*/
+  Future<void> fetchData() async {
+    try {
+      final MenuRepository menuRepository = MenuRepository(Dio());
+
+      final menuList = MenuList(userId: "1", recipeId: ["6855278", "6909678"]);
+      final menuData = await menuRepository.getMenuList(menuList);
+      MenuModelList.clear(); // 기존 데이터를 지우고 시작
+
+      for (var menu in menuData) {
+        MenuModelList.add(menu);
+      }
+
+      var print = MenuModelList.toJson();
+      log('MenuModelList: $print');
+    } catch (error) {
+      // 에러 처리
+      print('Error fetching menu list: $error');
+    }
   }
 
   void updateCategory(String category) {
@@ -107,7 +57,7 @@ class RecipeListViewModel extends GetxController {
     update();
   }
 
-  bool checkData(Recipe e) {
+  bool checkData(MenuModel e) {
     switch (selectedCategory.value) {
       case 'time':
         final datatime = int.tryParse(e.time ?? '0');
@@ -144,9 +94,10 @@ class RecipeListViewModel extends GetxController {
 
   void updateData() {
     print('updateData 실행');
-    var filterData = recipeList.where((element) => checkData(element)).toList();
+    var filterData =
+        MenuModelList.where((element) => checkData(element)).toList();
     print(filterData.length);
-    recipeList.assignAll(filterData);
+    MenuModelList.assignAll(filterData);
     //update();
   }
 }
