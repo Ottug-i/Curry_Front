@@ -14,7 +14,8 @@ class LatelyResponse {
     this.thumbnail,
   });
 
-  factory LatelyResponse.fromJson(Map<String, dynamic> json) => _$LatelyResponseFromJson(json);
+  factory LatelyResponse.fromJson(Map<String, dynamic> json) =>
+      _$LatelyResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$LatelyResponseToJson(this);
 }
