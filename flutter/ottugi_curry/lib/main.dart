@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:ottugi_curry/config/config.dart';
+//import 'package:ottugi_curry/view/page/list/test_page.dart';
 import 'package:ottugi_curry/config/custom_theme_data.dart';
 
 void main() async {
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: '카레',
       theme: CustomThemeData.themeDataLight,
-      initialRoute: '/login',
+      initialRoute: '/main', // login
       getPages: Config.routers,
+      //home: const MenuListPage(),
     );
   }
 }

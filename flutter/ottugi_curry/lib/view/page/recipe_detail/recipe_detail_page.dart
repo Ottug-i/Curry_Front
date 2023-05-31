@@ -107,8 +107,8 @@ class RecipeDetailPage extends StatelessWidget {
                                     timerController.stopTimerAlarm();
                                   },
                                   child: Container(
-                                    padding:
-                                        EdgeInsets.only(left: 15, right: 10),
+                                    padding: const EdgeInsets.only(
+                                        left: 15, right: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25.0),
                                       color: lightColorScheme.primary,
@@ -129,7 +129,7 @@ class RecipeDetailPage extends StatelessWidget {
                               blurRadius: 3,
                               color: Colors.black.withOpacity(0.2),
                               spreadRadius: 0,
-                              offset: Offset(-3, 5))
+                              offset: const Offset(-3, 5))
                         ]),
                         child: CircleAvatar(
                           backgroundColor: lightColorScheme.primary,
@@ -329,8 +329,8 @@ class RecipeDetailPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                           // 재료
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 10),
                             child: Text(
                               '재료',
                               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
@@ -338,7 +338,7 @@ class RecipeDetailPage extends StatelessWidget {
                           ),
                         ] +
                         recipeDetailController.ingredients
-                            .map((element) => Text('${element}'))
+                            .map((element) => Text(element))
                             .toList() +
                         [
                           // ingredientListWidget('참치캔', '1캔'),
@@ -347,8 +347,8 @@ class RecipeDetailPage extends StatelessWidget {
 
                           const Padding(padding: EdgeInsets.only(top: 20)),
                           // 양념
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 10),
                             child: Text(
                               '양념',
                               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
@@ -359,7 +359,7 @@ class RecipeDetailPage extends StatelessWidget {
                           // ingredientListWidget('설탕', '1큰술'),
                         ] +
                         recipeDetailController.seasoning
-                            .map((element) => Text('${element}'))
+                            .map((element) => Text(element))
                             .toList()),
               ),
             ),
@@ -425,7 +425,7 @@ class RecipeDetailPage extends StatelessWidget {
 
                     if (recipeDetailController.orderViewOption.value ==
                         Config.soundView) ...[
-                      Text('Sound')
+                      const Text('Sound')
                       // (추후) 화면은 갤러리 뷰에 + 음성 나오게 설정
                     ] else if (recipeDetailController.orderViewOption.value ==
                         Config.textListView) ...[
@@ -455,7 +455,7 @@ class RecipeDetailPage extends StatelessWidget {
         itemCount: recipeDetailController.orders.length,
         itemBuilder: (BuildContext context, int idx) {
           return Padding(
-              padding: EdgeInsets.only(bottom: 3),
+              padding: const EdgeInsets.only(bottom: 3),
               child: Text(recipeDetailController.orders[idx]));
         });
   }

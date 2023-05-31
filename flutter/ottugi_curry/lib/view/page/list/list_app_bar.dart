@@ -9,9 +9,9 @@ class ListAppBar extends StatelessWidget {
     return Container(
       color: const Color(0xffF5F5F5),
       padding: const EdgeInsets.all(20),
-      child: Row(
+      child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Icon(
               Icons.arrow_back_rounded,
               size: 20,

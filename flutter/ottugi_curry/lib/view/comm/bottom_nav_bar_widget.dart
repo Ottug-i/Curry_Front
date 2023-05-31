@@ -9,7 +9,19 @@ class BottomNavBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(BottomNavBarController());
+    final bottomNavBarController = Get.find<BottomNavBarController>();
     List<String> bottomNavBarItemLabel = ['main', 'recipe', 'user', 'bookmark'];
+
+    final url = Get.currentRoute;
+    if (url.contains('/main')) {
+      bottomNavBarController.currentIdx.value = 0;
+    } else if (url.contains('/recipe')) {
+      bottomNavBarController.currentIdx.value = 1;
+    } else if (url.contains('/user')) {
+      bottomNavBarController.currentIdx.value = 2;
+    } else if (url.contains('/bookmark')) {
+      bottomNavBarController.currentIdx.value = 3;
+    }
 
     void handleOnTap(int idx) {
       Get.put(BottomNavBarController());
@@ -35,7 +47,9 @@ class BottomNavBarWidget extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         currentIndex: Get.find<BottomNavBarController>().currentIdx.toInt(),
         onTap: handleOnTap,
-        items: bottomNavBarItemLabel.map((e) => bottomNavBarItem(bottomNavBarItemLabel.indexOf(e), e)).toList(),
+        items: bottomNavBarItemLabel
+            .map((e) => bottomNavBarItem(bottomNavBarItemLabel.indexOf(e), e))
+            .toList(),
       ),
     );
   }
@@ -45,15 +59,15 @@ class BottomNavBarWidget extends StatelessWidget {
     int currentIdx = Get.find<BottomNavBarController>().currentIdx.toInt();
 
     return BottomNavigationBarItem(
-      icon: CircleAvatar(
-        backgroundColor: currentIdx == idx? lightColorScheme.primary : Colors.transparent,
-        foregroundColor: currentIdx == idx? Colors.black : Colors.grey,
-        child: ImageIcon(
-          AssetImage('assets/icons/$label.png'),
-          size: 25,
+        icon: CircleAvatar(
+          backgroundColor:
+              currentIdx == idx ? lightColorScheme.primary : Colors.transparent,
+          foregroundColor: currentIdx == idx ? Colors.black : Colors.grey,
+          child: ImageIcon(
+            AssetImage('assets/icons/$label.png'),
+            size: 25,
+          ),
         ),
-      ),
-      label: label
-    );
+        label: label);
   }
 }

@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Padding(
           padding:
-          const EdgeInsets.only(left: 50, right: 50, top: 150, bottom: 100),
+              const EdgeInsets.only(left: 50, right: 50, top: 150, bottom: 100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,8 +66,8 @@ class _LoginPageState extends State<LoginPage> {
                       'assets/icons/google2.png',
                       height: 25,
                     ),
-                    Text('구글 로그인'),
-                    Padding(padding: EdgeInsets.only(left: 25)),
+                    const Text('구글 로그인'),
+                    const Padding(padding: EdgeInsets.only(left: 25)),
                   ],
                 ),
               ),
@@ -90,8 +90,8 @@ class _LoginPageState extends State<LoginPage> {
                       'assets/icons/kakao4.png',
                       height: 25,
                     ),
-                    Text('카카오 로그인'),
-                    Padding(padding: EdgeInsets.only(left: 25)),
+                    const Text('카카오 로그인'),
+                    const Padding(padding: EdgeInsets.only(left: 25)),
                   ],
                 ),
               ),

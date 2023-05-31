@@ -35,8 +35,8 @@ class UserPage extends StatelessWidget {
             appBarTitle: '마이페이지',
             body: SingleChildScrollView(
               child: Padding(
-                padding:
-                const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
+                padding: const EdgeInsets.only(
+                    left: 30, right: 30, top: 10, bottom: 10),
                 child: Column(
                   children: [
                     // 프로필
@@ -66,14 +66,17 @@ class UserPage extends StatelessWidget {
                                       maxWidth: 145,
                                     ),
                                     child: Obx(
-                                          ()=> Text(
+                                      () => Text(
                                         userController.nickName.value,
-                                        style: Theme.of(context).textTheme.titleMedium,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium,
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                   ),
-                                  const Padding(padding: EdgeInsets.only(right: 10)),
+                                  const Padding(
+                                      padding: EdgeInsets.only(right: 10)),
                                   InkWell(
                                     onTap: () {
                                       // 닉네임 수정
@@ -89,9 +92,10 @@ class UserPage extends StatelessWidget {
                               SizedBox(
                                 width: 150,
                                 child: Obx(
-                                      ()=> Text(
+                                  () => Text(
                                     userController.email.value,
-                                    style: Theme.of(context).textTheme.titleSmall,
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -113,7 +117,7 @@ class UserPage extends StatelessWidget {
                         color: Colors.white,
                       ),
                       child: Obx(
-                            ()=> Column(
+                        () => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -124,20 +128,24 @@ class UserPage extends StatelessWidget {
                             // 최근 본 레시피 리스트
                             userController.latelyList.isNotEmpty
                                 ? SizedBox(
-                              height: 180,
-                              child: ListView.builder(
-                                  padding: const EdgeInsets.only(top: 14, bottom: 14),
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: userController.latelyList.length,
-                                  itemBuilder: (BuildContext context, int idx) {
-                                    return latelyRecipeCardWidget(
-                                        userController.latelyList[idx]);
-                                  }),
-                            ) : const Padding(
-                              padding: EdgeInsets.only(top: 10),
-                              child: Text('최근 본 레시피가 없습니다.'),
-                            )
+                                    height: 180,
+                                    child: ListView.builder(
+                                        padding: const EdgeInsets.only(
+                                            top: 14, bottom: 14),
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount:
+                                            userController.latelyList.length,
+                                        itemBuilder:
+                                            (BuildContext context, int idx) {
+                                          return latelyRecipeCardWidget(
+                                              userController.latelyList[idx]);
+                                        }),
+                                  )
+                                : const Padding(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: Text('최근 본 레시피가 없습니다.'),
+                                  )
                           ],
                         ),
                       ),
@@ -155,8 +163,10 @@ class UserPage extends StatelessWidget {
                       child: Column(
                         children: [
                           _userSettingButton('문의하기', _onPressedContact),
-                          _userSettingButton('로그아웃', userController.handleLogout),
-                          _userSettingButton('탈퇴하기', userController.handleWithdraw),
+                          _userSettingButton(
+                              '로그아웃', userController.handleLogout),
+                          _userSettingButton(
+                              '탈퇴하기', userController.handleWithdraw),
                           _userSettingButton('오뚝이들', _onPressedProducerInfo)
                         ],
                       ),
@@ -172,31 +182,26 @@ class UserPage extends StatelessWidget {
   void updateUserNickNameDialog() {
     Get.put(UserController());
     final userController = Get.find<UserController>();
-    TextEditingController nicknameTextEditingController = TextEditingController(text: '');
+    TextEditingController nicknameTextEditingController =
+        TextEditingController(text: '');
     // 닉네임 수정
     Get.dialog(Dialog(
       child: Container(
         height: 210,
-        padding: const EdgeInsets.only(
-            bottom: 20,
-            left: 20,
-            right: 20,
-            top: 50),
+        padding:
+            const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 50),
         decoration: BoxDecoration(
-            borderRadius:
-            BorderRadius.circular(25.0),
+            borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
               color: lightColorScheme.primary,
               width: 5,
             ),
             color: Colors.white),
         child: Column(
-          crossAxisAlignment:
-          CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
-              mainAxisAlignment:
-              MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(
                   width: 100,
@@ -204,12 +209,11 @@ class UserPage extends StatelessWidget {
                     '현재 닉네임 ',
                   ),
                 ),
-                Obx(()=> Text(userController.nickName.value)),
+                Obx(() => Text(userController.nickName.value)),
               ],
             ),
             Row(
-              mainAxisAlignment:
-              MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(
                   width: 100,
@@ -221,45 +225,40 @@ class UserPage extends StatelessWidget {
                   width: 150,
                   height: 35,
                   child: TextField(
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.normal),
                     controller: nicknameTextEditingController,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(top: 25.0),
+                      contentPadding: const EdgeInsets.only(top: 25.0),
                       hintText: '10자 이내',
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           width: 2,
-                          color: lightColorScheme
-                              .primary,
+                          color: lightColorScheme.primary,
                         ),
                       ),
                     ),
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(
-                          10),
+                      LengthLimitingTextInputFormatter(10),
                     ],
                   ),
                 ),
               ],
             ),
-            const Padding(
-                padding:
-                EdgeInsets.only(bottom: 20)),
+            const Padding(padding: EdgeInsets.only(bottom: 20)),
             Row(
-              mainAxisAlignment:
-              MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                     onPressed: () {
                       Get.back();
                     },
                     child: const Text('취소')),
-                const Padding(
-                    padding:
-                    EdgeInsets.only(right: 20)),
+                const Padding(padding: EdgeInsets.only(right: 20)),
                 ElevatedButton(
                     onPressed: () {
-                      userController.updateUserNickName(nicknameTextEditingController.text);
+                      userController.updateUserNickName(
+                          nicknameTextEditingController.text);
                       Get.back();
                     },
                     child: const Text('완료')),

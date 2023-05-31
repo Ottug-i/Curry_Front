@@ -99,7 +99,7 @@ class LoginController {
 
   void checkLogin() async {
     final token = await tokenStorage.read(key: 'token');
-    print('print token: ${token}');
+    print('print token: $token');
     if (token != null) {
       Get.offAndToNamed('/main');
     }

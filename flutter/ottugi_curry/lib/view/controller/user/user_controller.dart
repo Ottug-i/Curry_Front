@@ -62,7 +62,7 @@ class UserController extends GetxController {
   void handleLogout() async {
     // 소셜 로그인 플랫폼 로그아웃
     final social = userStorage.getItem(Config.social);
-    print('print social: ${social}');
+    print('print social: $social');
     if (social == Config.google) {
       // 구글 로그아웃
       await GoogleSignIn().signOut();

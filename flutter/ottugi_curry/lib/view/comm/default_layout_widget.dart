@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/comm/bottom_nav_bar_widget.dart';
 
@@ -19,12 +20,21 @@ class DefaultLayoutWidget extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: lightColorScheme.background,
-        leading: const Padding(
-          padding: EdgeInsets.only(left: 25),
-          child: Icon(Icons.arrow_back_ios, color: Colors.black,),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 25),
+          child: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Get.back();
+            },
+          ),
         ),
-        title: Text(appBarTitle ?? '',
-        style: Theme.of(context).textTheme.bodyLarge,
+        title: Text(
+          appBarTitle ?? '',
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
       ),
       body: body,

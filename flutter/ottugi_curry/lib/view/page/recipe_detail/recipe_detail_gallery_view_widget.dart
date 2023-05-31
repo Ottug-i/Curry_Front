@@ -44,14 +44,14 @@ class _RecipeDetailGalleryViewWidgetState extends State<RecipeDetailGalleryViewW
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25.0),
                   ),
-                  padding: EdgeInsets.all(15),
-                  margin: EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.all(15),
+                  margin: const EdgeInsets.only(left: 10, right: 10),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Image.network('${recipeDetailController.photo[recipeDetailController.orders.indexOf(e)]}'),
+                        Image.network(recipeDetailController.photo[recipeDetailController.orders.indexOf(e)]),
                         const Padding(padding: EdgeInsets.only(top: 20)),
-                        Text('${e}'),
+                        Text(e),
                       ],
                     ),
                   ),
