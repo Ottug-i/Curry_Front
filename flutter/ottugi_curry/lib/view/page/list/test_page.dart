@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/menu_list.dart';
-import 'package:ottugi_curry/repository/menu_repository.dart';
+import 'package:ottugi_curry/repository/list_repository.dart';
 
 class MenuListPage extends StatefulWidget {
   const MenuListPage({Key? key}) : super(key: key);
