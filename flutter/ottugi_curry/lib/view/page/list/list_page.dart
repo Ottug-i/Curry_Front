@@ -45,9 +45,31 @@ class ListPageState extends State<ListPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    widget.mode == 'search'
-                        ? searchMode("감자, 치즈, 계란")
-                        : bookmarkMode(),
+                    const Row(children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text(
+                          "감자, 치즈, 계란",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Color(0xffFFD717),
+                            decorationThickness: 4,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Icon(
+                        Icons.edit_rounded,
+                        size: 20,
+                        color: Colors.black,
+                      ),
+                      Spacer(),
+                    ]),
                     // 아이템 위젯
                     if (rListController.MenuModelList.isEmpty)
                       const Column(
@@ -75,58 +97,6 @@ class ListPageState extends State<ListPage> {
           );
         });
   }
-}
-
-Row searchMode(String ingredients) {
-  // 식재료 text
-  return Row(children: [
-    Padding(
-      padding: const EdgeInsets.only(left: 20),
-      child: Text(
-        ingredients,
-        style: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color(0xffFFD717),
-          decorationThickness: 4,
-        ),
-      ),
-    ),
-    const SizedBox(
-      width: 4,
-    ),
-    const Icon(
-      Icons.edit_rounded,
-      size: 20,
-      color: Colors.black,
-    ),
-    const Spacer(),
-  ]);
-}
-
-Column bookmarkMode() {
-  final controller = TextEditingController();
-
-  return Column(
-    children: <Widget>[
-      Container(
-        margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-        child: TextField(
-          controller: controller, // controller 사용
-          //onSubmitted: searchRecipe,
-          decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
-              hintText: '레시피 이름을 입력하고 Enter를 눌러주세요..',
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: const BorderSide(
-                      color: Colors.black))), // InputDecoration
-        ), // TextField
-      ), // Container
-    ], // Widget
-  );
 }
 
 void searchRecipe(String query) {

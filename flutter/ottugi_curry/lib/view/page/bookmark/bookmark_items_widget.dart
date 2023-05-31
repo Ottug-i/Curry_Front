@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ottugi_curry/view_model/list/recipe_list_view_model.dart';
+import 'package:ottugi_curry/view_model/bookmark/bookmark_view_model.dart';
 
 class ItemsWidget extends StatefulWidget {
   const ItemsWidget({Key? key}) : super(key: key);
@@ -11,9 +11,9 @@ class ItemsWidget extends StatefulWidget {
 
 class _ItemsWidgetState extends State<ItemsWidget> {
   Future<void> _initMenuList() async {
-    print('여기는 item_widget.dart');
+    print('여기는 bookmrk_item_widget.dart');
     //print('print Get.arguments: ${Get.arguments}');
-    await Get.find<MenuListViewModel>().fetchData(1, ["6855278", "6909678"]);
+    await Get.find<BookmarkListViewModel>().fetchData(1);
   }
 
   @override
@@ -24,9 +24,9 @@ class _ItemsWidgetState extends State<ItemsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(MenuListViewModel());
-    final rListController = Get.find<MenuListViewModel>();
-    //final menuList = Get.find<MenuListViewModel>().MenuModelList;
+    Get.put(BookmarkListViewModel());
+    final rListController = Get.find<BookmarkListViewModel>();
+    //final menuList = Get.find<BookmarkListViewModel>().BoomrkList;
 
     return FutureBuilder(
         future: _initMenuList(),
@@ -37,7 +37,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
             );
           }
 
-          final menuList = rListController.MenuModelList;
+          final menuList = rListController.BoomrkList;
           if (menuList.isNotEmpty) {
             return ListView.builder(
               shrinkWrap: true,

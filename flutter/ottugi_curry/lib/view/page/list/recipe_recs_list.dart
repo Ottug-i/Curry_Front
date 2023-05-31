@@ -9,7 +9,7 @@ class RecipeRecs extends StatelessWidget {
   Widget build(BuildContext context) {
     return const DefaultLayoutWidget(
       appBarTitle: '추천 레시피',
-      body: ListPage(mode: 'search'),
+      body: ListPage(),
       // ListPage(mode: 'search', ingredients: ['', ''])
     );
   }
