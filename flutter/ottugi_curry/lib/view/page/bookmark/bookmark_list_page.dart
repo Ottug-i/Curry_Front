@@ -12,7 +12,7 @@ class BookmrkListPage extends StatefulWidget {
   BookmrkListPageState createState() => BookmrkListPageState();
 }
 
-//final rListController = Get.put(BookmarkListViewModel());
+//final bListController = Get.put(BookmarkListViewModel());
 
 class BookmrkListPageState extends State<BookmrkListPage> {
   Future<void> _initMenuList() async {
@@ -23,8 +23,9 @@ class BookmrkListPageState extends State<BookmrkListPage> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(BookmarkListViewModel());
-    final rListController = Get.find<BookmarkListViewModel>();
+    final bListController =
+        Get.put(BookmarkListViewModel(), tag: Get.parameters['bookmark']);
+
     final textController = TextEditingController();
 
     return FutureBuilder(
@@ -49,32 +50,30 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                     Column(
                       children: <Widget>[
                         Container(
-                            margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-                            child: Obx(
-                              () => TextField(
-                                controller: textController,
-                                onSubmitted: (String text) {
-                                  // 입력된 텍스트에 접근하여 원하는 작업 수행
-                                  print('입력된 텍스트: $text');
-                                  // rListController를 통해 데이터 업데이트 등의 작업 수행
-                                  rListController.searchData(
-                                      1, text); //userId, text
-                                },
-                                decoration: InputDecoration(
-                                    prefixIcon: const Icon(Icons.search),
-                                    hintText: '레시피 이름을 입력하고 Enter를 눌러주세요..',
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        borderSide: const BorderSide(
-                                            color: Colors
-                                                .black))), // InputDecoration
-                              ),
-                            ) // TextField
-                            ), // Container
+                          margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+                          child: TextField(
+                            controller: textController,
+                            onSubmitted: (String text) {
+                              // 입력된 텍스트에 접근하여 원하는 작업 수행
+                              print('입력된 텍스트: $text');
+                              // bListController를 통해 데이터 업데이트 등의 작업 수행
+                              bListController.searchData(
+                                  1, text); //userId, text
+                            },
+                            decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.search),
+                                hintText: '레시피 이름을 입력하고 Enter를 눌러주세요..',
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: const BorderSide(
+                                        color:
+                                            Colors.black))), // InputDecoration
+                          ), // TextField
+                        ), // Container
                       ], // Widget
                     ),
                     // 아이템 위젯
-                    if (rListController.BoomrkList.isEmpty)
+                    if (bListController.BoomrkList.isEmpty)
                       const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -85,13 +84,14 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                         ],
                       )
                     else
-                      const Column(mainAxisSize: MainAxisSize.min, children: [
+                      Column(mainAxisSize: MainAxisSize.min, children: [
                         // 카테고리 위젯
-                        CategoriesWidget(),
-                        SizedBox(
+                        const CategoriesWidget(),
+                        const SizedBox(
                           height: 20,
                         ),
-                        Flexible(child: ItemsWidget()),
+                        Flexible(
+                            child: ItemsWidget(controller: bListController)),
                       ])
                   ],
                 ),
@@ -104,9 +104,9 @@ class BookmrkListPageState extends State<BookmrkListPage> {
 
 void searchRecipe(String query) {
   Get.put(BookmarkListViewModel());
-  final rListController = Get.find<BookmarkListViewModel>();
+  final bListController = Get.find<BookmarkListViewModel>();
 
-  var BoomrkList = rListController.BoomrkList;
+  var BoomrkList = bListController.BoomrkList;
   // 검색어에 해당하는 새로운 레시피 정보들
   final suggestions = BoomrkList.where((recipe) {
     final recipeTitle = recipe.name!.toLowerCase();

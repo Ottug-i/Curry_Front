@@ -47,7 +47,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                 return GestureDetector(
                   onTap: () {
                     Get.toNamed('/recipe_detail',
-                        arguments: 6909678); //6909678: 레시피 아이디 예시
+                        arguments: menuItem.id); //6909678: 레시피 아이디 예시
                   },
                   child: Container(
                       padding: const EdgeInsets.all(20),
@@ -66,7 +66,9 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                               borderRadius: BorderRadius.circular(24.0),
                               child: Image.network(
                                 '${menuItem.thumbnail}' ?? '',
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
+                                height: 100,
+                                width: 150,
                               ),
                             ),
                           ),
@@ -106,34 +108,16 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                             left: 8, right: 8),
                                         alignment: Alignment.topLeft,
                                         //crossAxisAlignment: CrossAxisAlignment.start,
-                                        child: Icon(
-                                          menuItem.isBookmark!
+                                        child: IconButton(
+                                          icon: Icon(menuItem.isBookmark!
                                               ? Icons.bookmark_rounded
-                                              : Icons.bookmark_border_rounded,
-                                          size: 30,
+                                              : Icons.bookmark_border_rounded),
+                                          iconSize: 30,
                                           color: const Color(0xffFFD717),
-                                        ), /*Obx(
-                                          () => GestureDetector(
-                                            onTap: () {
-                                              bool value;
-                                              if (menuItem.isBookmark == true) {
-                                                value = false;
-                                              } else {
-                                                value = true;
-                                              }
-                                              rListController
-                                                  .updateBookmark(value);
-                                            },
-                                            child: Icon(
-                                              menuItem.isBookmark!
-                                                  ? Icons.bookmark_rounded
-                                                  : Icons
-                                                      .bookmark_border_rounded,
-                                              size: 30,
-                                              color: const Color(0xffFFD717),
-                                            ),
-                                          ),
-                                        ),*/
+                                          onPressed: () {
+                                            //controller.updateBookmark(1, menuItem.id)
+                                          },
+                                        ),
                                       ),
                                     ],
                                   ),

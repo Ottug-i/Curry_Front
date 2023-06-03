@@ -13,6 +13,12 @@ class BookmarkListViewModel extends GetxController {
   Rx<String> selectedCategory = 'null'.obs;
   Rx<String> selectedCategoryValue = '0'.obs;
 
+  @override
+  void onClose() {
+    print('controller updated');
+    super.onClose();
+  }
+
   Future<void> fetchData(int userId) async {
     print('Bookmrk의 fetchData 실행');
     try {
@@ -61,14 +67,14 @@ class BookmarkListViewModel extends GetxController {
     update();
   }
 
-  void updateData(int userId, String recipeId) async {
+  void updateBookmark(int userId, int recipeId) async {
     print('Bookmrk의 updateData 실행');
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
 
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
       await bookmrkRepository.updateBookmark(bookmrkItem);
-      fetchData(userId);
+      await fetchData(userId); // 재로딩
     } catch (error) {
       // 에러 처리
       print('Error updating bookmark: $error');
@@ -104,7 +110,7 @@ class BookmarkListViewModel extends GetxController {
         BoomrkList.add(updatedMenu);
         // 디버깅용 코드
         var jsonString = updatedMenu.toJson().toString();
-        print(jsonString);
+        print('검색 결과: $jsonString');
       }
     } catch (error) {
       // 에러 처리
@@ -147,7 +153,7 @@ class BookmarkListViewModel extends GetxController {
     }
   }
 
-  void changeBookmark() {
+  /*void changeBookmark() {
     print('changeBookmark 실행');
     var filterData = BoomrkList.where((element) => checkData(element)).toList();
     print(filterData.length);
@@ -158,5 +164,5 @@ class BookmarkListViewModel extends GetxController {
   void updateBookmark(bool newvalue) {
     isBookmark.value = newvalue;
     update();
-  }
+  }*/
 }

@@ -4,7 +4,7 @@ part 'menu.g.dart';
 
 @JsonSerializable()
 class MenuModel {
-  final int? id;
+  final int id;
   final String? name;
   final String? thumbnail;
   final String? time;
@@ -17,7 +17,7 @@ class MenuModel {
   // 생성자
   MenuModel(
       {this.name,
-      this.id,
+      required this.id,
       this.thumbnail,
       this.time,
       this.difficulty,

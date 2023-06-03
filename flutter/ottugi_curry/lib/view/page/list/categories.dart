@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/view/page/list/list_page_button.dart';
-import 'package:ottugi_curry/view_model/list/menu_view_model.dart';
+import 'package:ottugi_curry/view_model/list/recipe_list_view_model.dart';
 
 class CategoriesWidget extends StatefulWidget {
   const CategoriesWidget({super.key});
@@ -11,7 +11,7 @@ class CategoriesWidget extends StatefulWidget {
 }
 
 class CategoriesWidgetState extends State<CategoriesWidget> {
-  final menuController = Get.put(MenuViewModel());
+  final menuController = Get.put(MenuListViewModel());
 
   void toggleCategory(value) {
     if (menuController.selectedCategory.value == value) {
@@ -32,7 +32,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MenuViewModel>(
+    return GetBuilder<MenuListViewModel>(
         builder: (menuController) => Container(
               margin: const EdgeInsets.all(10),
               child: Column(
