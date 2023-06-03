@@ -270,44 +270,48 @@ class UserPage extends StatelessWidget {
     ));
   }
 
-  Container latelyRecipeCardWidget(LatelyResponse latelyResponse) {
-    return Container(
-      margin: const EdgeInsets.only(right: 20),
-      // padding: const EdgeInsets.only(bottom: 50, right: 20, top: 50),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-          border: Border.all(
-            color: lightColorScheme.primary,
-            width: 2,
-          ),
-          color: Colors.white),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25.0),
-              child: Image.network(
-                '${latelyResponse.thumbnail}',
-                fit: BoxFit.fill,
-                height: 80,
-                width: 80,
+  InkWell latelyRecipeCardWidget(LatelyResponse latelyResponse) {
+    return InkWell(
+      onTap: () {
+        Get.toNamed('/recipe_detail', arguments: latelyResponse.id);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(right: 20),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+              color: lightColorScheme.primary,
+              width: 2,
+            ),
+            color: Colors.white),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25.0),
+                child: Image.network(
+                  '${latelyResponse.thumbnail}',
+                  fit: BoxFit.fill,
+                  height: 80,
+                  width: 80,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Container(
-              constraints: const BoxConstraints(
-                maxWidth: 120,
-              ),
-              child: Text(
-                '${latelyResponse.name}',
-                overflow: TextOverflow.ellipsis,
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: Container(
+                constraints: const BoxConstraints(
+                  maxWidth: 120,
+                ),
+                child: Text(
+                  '${latelyResponse.name}',
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
