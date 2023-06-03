@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/view_model/bookmark/bookmark_view_model.dart';
 
 class ItemsWidget extends StatefulWidget {
-  final BookmarkListViewModel controller;
+  //final BookmarkListViewModel controller;
+  final String controllerTag;
 
-  const ItemsWidget({Key? key, required this.controller}) : super(key: key);
+  const ItemsWidget({Key? key, required this.controllerTag}) : super(key: key);
 
   @override
   _ItemsWidgetState createState() => _ItemsWidgetState();
@@ -16,9 +17,19 @@ class _ItemsWidgetState extends State<ItemsWidget> {
 
   @override
   void initState() {
-    print('bookmrk의 initState');
     super.initState();
-    controller = widget.controller;
+    //controller = Get.find<BookmarkListViewModel>(tag: widget.controllerTag);
+    controller = Get.put(BookmarkListViewModel(), tag: widget.controllerTag);
+
+    @override
+    void dependencies() {
+      // TODO: implement dependencies
+      Get.lazyPut(
+        () => BookmarkListViewModel(),
+        tag: widget.controllerTag, //tag 옵션과 함께 dependency 주입!
+      );
+    }
+
     _initMenuList();
   }
 

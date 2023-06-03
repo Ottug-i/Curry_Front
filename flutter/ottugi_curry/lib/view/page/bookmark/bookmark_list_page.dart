@@ -84,14 +84,13 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                         ],
                       )
                     else
-                      Column(mainAxisSize: MainAxisSize.min, children: [
+                      const Column(mainAxisSize: MainAxisSize.min, children: [
                         // 카테고리 위젯
-                        const CategoriesWidget(),
-                        const SizedBox(
+                        CategoriesWidget(),
+                        SizedBox(
                           height: 20,
                         ),
-                        Flexible(
-                            child: ItemsWidget(controller: bListController)),
+                        Flexible(child: ItemsWidget(controllerTag: 'bookmark')),
                       ])
                   ],
                 ),
