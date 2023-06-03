@@ -50,6 +50,7 @@ dependencies:
   popover: ^0.2.8+2
   just_the_tooltip: ^0.0.12
   kakao_flutter_sdk_user: ^1.4.1
+  firebase_core: ^2.13.1
 
 flutter_native_splash:
   background_image: assets/images/splash.png

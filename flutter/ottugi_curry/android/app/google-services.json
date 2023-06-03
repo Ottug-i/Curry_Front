@@ -1,1 +1,62 @@
-{"installed":{"client_id":"533961426623-jhj5eu1m06rkdavg5ca1p38g0ol3j7mh.apps.googleusercontent.com","project_id":"ottug-i-curry","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs"}}
+{
+  "project_info": {
+    "project_number": "533961426623",
+    "project_id": "ottug-i-curry",
+    "storage_bucket": "ottug-i-curry.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533961426623:android:46684aa785a626a71ee80a",
+        "android_client_info": {
+          "package_name": "com.ottugi.curry.ottugi_curry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533961426623-jhj5eu1m06rkdavg5ca1p38g0ol3j7mh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ottugi.curry.ottugi_curry",
+            "certificate_hash": "4a63b1c28ff71ce816184fddc067282e39196a5c"
+          }
+        },
+        {
+          "client_id": "533961426623-ju6goc93dmh8i99t91ebcb4l4dsvpccs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ottugi.curry.ottugi_curry",
+            "certificate_hash": "4cdaac2b13d8b960b1ff6827b503b8d803c98af8"
+          }
+        },
+        {
+          "client_id": "533961426623-q3un3jc5sfm1bn0t3p7bk4brpr54iqlq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgGuetxgYzYzmyKWL48ujif7UrdsQ33cs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533961426623-q3un3jc5sfm1bn0t3p7bk4brpr54iqlq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "533961426623-17qecigrqom78pqt8ts3p5kccjb1d6ns.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ottugi.curry.ottugiCurry"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
