@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/menu_list.dart';
 
-part 'list_repository.g.dart';
+part 'menu_repository.g.dart';
 
 @RestApi(baseUrl: "http://192.168.151.63:8080")
 abstract class MenuRepository {
