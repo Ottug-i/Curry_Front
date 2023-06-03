@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ottugi_curry/view/page/list/categories.dart';
 import 'package:ottugi_curry/view/page/list/item_widget.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/view_model/list/recipe_list_view_model.dart';
@@ -84,9 +83,9 @@ class ListPageState extends State<ListPage> {
                     else
                       const Column(mainAxisSize: MainAxisSize.min, children: [
                         // 카테고리 위젯
-                        CategoriesWidget(),
+                        // CategoriesWidget(),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Flexible(child: ItemsWidget()),
                       ])

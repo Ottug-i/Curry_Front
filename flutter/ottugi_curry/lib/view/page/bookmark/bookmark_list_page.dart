@@ -85,7 +85,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                         // 카테고리 위젯
                         const CategoriesWidget(),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Flexible(child: Obx(() => ItemList())),
                       ])

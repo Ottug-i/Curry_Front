@@ -13,6 +13,10 @@ class BookmarkListViewModel extends GetxController {
   Rx<String> selectedCategory = 'null'.obs;
   Rx<String> selectedCategoryValue = '0'.obs;
 
+  Rx<String> composition = 'null'.obs;
+  Rx<String> difficulty = 'null'.obs;
+  Rx<String> time = '0'.obs;
+
   @override
   void onClose() {
     print('controller updated');
@@ -51,6 +55,7 @@ class BookmarkListViewModel extends GetxController {
         var jsonString = updatedMenu.toJson().toString();
         print(jsonString);
       }
+      update();
     } catch (error) {
       // 에러 처리
       print('Error fetching menu list: $error');
@@ -67,11 +72,19 @@ class BookmarkListViewModel extends GetxController {
     update();
   }
 
+  void toggleValue(target, value) {
+    if (target.value == value) {
+      target.value = '';
+    } else {
+      target.value = value;
+    }
+    update();
+  }
+
   void updateBookmark(int userId, int recipeId) async {
     print('Bookmrk의 updateData 실행');
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
       await bookmrkRepository.updateBookmark(bookmrkItem);
       await fetchData(userId); // 재로딩
@@ -84,7 +97,6 @@ class BookmarkListViewModel extends GetxController {
   Future<void> searchData(int userId, String text) async {
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-
       final menuData = await bookmrkRepository.searchByName(userId, text);
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
 
@@ -108,6 +120,7 @@ class BookmarkListViewModel extends GetxController {
         );
 
         BoomrkList.add(updatedMenu);
+        update();
         // 디버깅용 코드
         var jsonString = updatedMenu.toJson().toString();
         print('검색 결과: $jsonString');
@@ -118,38 +131,43 @@ class BookmarkListViewModel extends GetxController {
     }
   }
 
-  bool checkData(MenuModel e) {
-    switch (selectedCategory.value) {
-      case 'time':
-        final datatime = int.tryParse(e.time ?? '0');
-        final selctedValue = int.parse(selectedCategoryValue.value);
-        if (selctedValue == 30) {
-          if (datatime! >= 30) {
-            return true;
-          } else {
-            return false;
-          }
-        } else if ((selctedValue - 10 < datatime!) &&
-            (datatime < selctedValue + 10)) {
-          return true;
-        } else {
-          return false;
-        }
-      case 'level':
-        if (e.difficulty == selectedCategoryValue.value) {
-          return true;
-        } else {
-          return false;
-        }
+  Future<void> updateData(int userId) async {
+    print("updateData 실행 - $composition, $time, $difficulty");
+    try {
+      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
 
-      case 'composition':
-        if (e.composition == selectedCategoryValue.value) {
-          return true;
-        } else {
-          return false;
-        }
-      default:
-        return true;
+      final menuData = await bookmrkRepository.searchByOption(
+          userId, composition.value, difficulty.value, time.value);
+      BoomrkList.clear(); // 기존 데이터를 지우고 시작
+
+      for (var menu in menuData) {
+        //var ingredientsValue = menu.ingredients;
+        var ingredientsValue = menu.ingredients!
+            .split("#")
+            .where((element) => element.isNotEmpty)
+            .join(", ");
+
+        // MenuModel의 나머지 속성들은 그대로 유지
+        var updatedMenu = MenuModel(
+          id: menu.id,
+          name: menu.name,
+          thumbnail: menu.thumbnail,
+          time: menu.time,
+          difficulty: menu.difficulty,
+          composition: menu.composition,
+          ingredients: ingredientsValue,
+          isBookmark: menu.isBookmark,
+        );
+
+        BoomrkList.add(updatedMenu);
+        update();
+        // 디버깅용 코드
+        var jsonString = updatedMenu.toJson().toString();
+        print('검색 결과: $jsonString');
+      }
+    } catch (error) {
+      // 에러 처리
+      print('Error updating bookmark: $error');
     }
   }
 
