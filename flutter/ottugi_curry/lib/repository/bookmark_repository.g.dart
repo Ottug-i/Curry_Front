@@ -13,7 +13,7 @@ class _BookmarkRepository implements BookmarkRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.0.51:8080';
+    baseUrl ??= 'http://192.168.80.1:8080';
   }
 
   final Dio _dio;
@@ -48,7 +48,7 @@ class _BookmarkRepository implements BookmarkRepository {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'userId': id};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<MenuModel>>(Options(
       method: 'GET',
@@ -79,7 +79,7 @@ class _BookmarkRepository implements BookmarkRepository {
       r'name': name,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<MenuModel>>(Options(
       method: 'GET',
@@ -115,7 +115,7 @@ class _BookmarkRepository implements BookmarkRepository {
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<MenuModel>>(Options(
       method: 'GET',

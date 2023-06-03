@@ -45,7 +45,7 @@ class ListPageState extends State<ListPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(children: [
+                    const Row(children: [
                       Padding(
                         padding: EdgeInsets.only(left: 20),
                         child: Text(
@@ -72,7 +72,7 @@ class ListPageState extends State<ListPage> {
                     ]),
                     // 아이템 위젯
                     if (rListController.MenuModelList.isEmpty)
-                      Column(
+                      const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
@@ -82,7 +82,7 @@ class ListPageState extends State<ListPage> {
                         ],
                       )
                     else
-                      Column(mainAxisSize: MainAxisSize.min, children: [
+                      const Column(mainAxisSize: MainAxisSize.min, children: [
                         // 카테고리 위젯
                         CategoriesWidget(),
                         SizedBox(

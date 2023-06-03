@@ -7,13 +7,7 @@ import 'package:ottugi_curry/repository/list_repository.dart';
 
 class MenuListViewModel extends GetxController {
   var MenuModelList = <MenuModel>[].obs;
-  /* RxInt id = 0.obs;
-  RxString name = ''.obs;
-  RxString thumbnail = ''.obs;
-  RxString time = ''.obs;
-  RxString difficulty = ''.obs;
-  RxString composition = ''.obs;
-  RxString ingredients = ''.obs;*/
+
   RxBool isBookmark = false.obs;
 
   Rx<String> selectedCategory = 'null'.obs;
@@ -125,10 +119,5 @@ class MenuListViewModel extends GetxController {
     print(filterData.length);
     MenuModelList.assignAll(filterData);
     //update();
-  }
-
-  void updateBookmark(bool newvalue) {
-    isBookmark.value = newvalue;
-    update();
   }
 }

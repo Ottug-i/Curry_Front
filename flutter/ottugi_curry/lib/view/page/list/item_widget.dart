@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/view_model/list/recipe_list_view_model.dart';
+import 'package:ottugi_curry/view_model/bookmark/bookmark_view_model.dart';
 
 class ItemsWidget extends StatefulWidget {
   const ItemsWidget({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
   Widget build(BuildContext context) {
     Get.put(MenuListViewModel());
     final rListController = Get.find<MenuListViewModel>();
+    final bListController = Get.put(BookmarkListViewModel());
     //final menuList = Get.find<MenuListViewModel>().MenuModelList;
 
     return FutureBuilder(
@@ -44,6 +46,10 @@ class _ItemsWidgetState extends State<ItemsWidget> {
               itemCount: menuList.length,
               itemBuilder: (BuildContext context, int i) {
                 final menuItem = menuList[i];
+                // 북마크 아이콘을 변경해서 전체 리스트를 reload하려면
+                //  다시 추천시스템을 거쳐야해서(23.06.04 기준)
+                // 북마크 update는 정상 작동하지만 그 결과를 받아와서 UI를 재구성하지는 않도록 함
+                bool? initBookmark = menuItem.isBookmark;
                 return GestureDetector(
                   onTap: () {
                     Get.toNamed('/recipe_detail',
@@ -107,15 +113,20 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                         margin: const EdgeInsets.only(
                                             left: 8, right: 8),
                                         alignment: Alignment.topLeft,
-                                        //crossAxisAlignment: CrossAxisAlignment.start,
                                         child: IconButton(
-                                          icon: Icon(menuItem.isBookmark!
+                                          icon: Icon(initBookmark!
                                               ? Icons.bookmark_rounded
                                               : Icons.bookmark_border_rounded),
                                           iconSize: 30,
                                           color: const Color(0xffFFD717),
                                           onPressed: () {
-                                            //controller.updateBookmark(1, menuItem.id)
+                                            bListController.updateBookmark(
+                                                1, menuItem.id);
+                                            if (initBookmark == true) {
+                                              initBookmark = false;
+                                            } else {
+                                              initBookmark = true;
+                                            }
                                           },
                                         ),
                                       ),
