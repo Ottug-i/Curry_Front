@@ -122,11 +122,13 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                           onPressed: () {
                                             bListController.updateBookmark(
                                                 1, menuItem.id);
-                                            if (initBookmark == true) {
-                                              initBookmark = false;
-                                            } else {
-                                              initBookmark = true;
-                                            }
+                                            setState(() {
+                                              if (initBookmark == true) {
+                                                initBookmark = false;
+                                              } else {
+                                                initBookmark = true;
+                                              }
+                                            });
                                           },
                                         ),
                                       ),

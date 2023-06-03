@@ -198,15 +198,18 @@ class RecipeDetailPage extends StatelessWidget {
                               ),
                             ),
                             IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.bookmark,
-                                  color:
-                                      recipeDetailController.isBookmark.value ==
+                                onPressed: () {
+                                  recipeDetailController.updateBookmark(
+                                      1, recipeDetailController.id.value);
+                                },
+                                icon: Obx(() => Icon(
+                                      Icons.bookmark,
+                                      color: recipeDetailController
+                                                  .isBookmark.value ==
                                               true
                                           ? lightColorScheme.secondary
                                           : Colors.grey,
-                                ))
+                                    )))
                           ],
                         ),
                         const Padding(
@@ -333,7 +336,8 @@ class RecipeDetailPage extends StatelessWidget {
                             padding: EdgeInsets.only(bottom: 10),
                             child: Text(
                               '재료',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
                             ),
                           ),
                         ] +
@@ -351,7 +355,8 @@ class RecipeDetailPage extends StatelessWidget {
                             padding: EdgeInsets.only(bottom: 10),
                             child: Text(
                               '양념',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
                             ),
                           ),
                           // ingredientListWidget('진간장', '4큰술'),

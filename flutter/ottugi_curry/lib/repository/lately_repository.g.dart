@@ -13,7 +13,7 @@ class _LatelyRepository implements LatelyRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.80.1:8080';
+    baseUrl ??= 'http://192.168.160.1:8080';
   }
 
   final Dio _dio;

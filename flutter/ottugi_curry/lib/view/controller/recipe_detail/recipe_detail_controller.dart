@@ -4,6 +4,8 @@ import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
 import 'package:ottugi_curry/utils/hash_to_list_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
+import 'package:ottugi_curry/model/bookmark_update.dart';
+import 'package:ottugi_curry/repository/bookmark_repository.dart';
 
 class RecipeDetailController {
   // RecipeResponse
@@ -27,7 +29,8 @@ class RecipeDetailController {
       Dio dio = Dio();
       RecipeRepository recipeRepository = RecipeRepository(dio);
       print('print getUserId(): ${getUserId()}');
-      final resp = await recipeRepository.getRecipeDetail(recipeId, 1); // TODO: userId 수정
+      final resp = await recipeRepository.getRecipeDetail(
+          recipeId, 1); // TODO: userId 수정
 
       // 응답 값 변수에 저장
       composition.value = resp.composition!;
@@ -49,5 +52,19 @@ class RecipeDetailController {
 
   void updateOrderViewOption(int newOption) {
     orderViewOption.value = newOption;
+  }
+
+  Future<void> updateBookmark(int userId, int recipeId) async {
+    print('Bookmrk의 updateData 실행');
+    try {
+      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
+
+      final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
+      await bookmrkRepository.updateBookmark(bookmrkItem);
+      await loadRecipeDetail(recipeId); // 재로딩
+    } catch (error) {
+      // 에러 처리
+      print('Error updating bookmark: $error');
+    }
   }
 }
