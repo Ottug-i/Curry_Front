@@ -75,7 +75,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                     ),
                     // 아이템 위젯
                     if (rListController.BoomrkList.isEmpty)
-                      const Column(
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
@@ -85,7 +85,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                         ],
                       )
                     else
-                      const Column(mainAxisSize: MainAxisSize.min, children: [
+                       Column(mainAxisSize: MainAxisSize.min, children: [
                         // 카테고리 위젯
                         CategoriesWidget(),
                         SizedBox(

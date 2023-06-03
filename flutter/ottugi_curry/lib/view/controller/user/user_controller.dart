@@ -51,7 +51,7 @@ class UserController extends GetxController {
       Dio dio = Dio();
       LatelyRepository latelyRepository = LatelyRepository(dio);
 
-      final resp = await latelyRepository.getLatelyAll(userId.value);
+      final resp = await latelyRepository.getLatelyAll(1);
       latelyList.value = resp;
     } on DioError catch (e) {
       print('loadLatelyRecipe: $e');
