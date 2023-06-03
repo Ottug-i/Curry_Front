@@ -13,7 +13,7 @@ class _BookmarkRepository implements BookmarkRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.151.63:8080';
+    baseUrl ??= 'http://192.168.0.51:8080';
   }
 
   final Dio _dio;
