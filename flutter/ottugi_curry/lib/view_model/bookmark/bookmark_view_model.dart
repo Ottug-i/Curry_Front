@@ -10,12 +10,12 @@ class BookmarkListViewModel extends GetxController {
 
   RxBool isBookmark = false.obs;
 
-  Rx<String> selectedCategory = 'null'.obs;
-  Rx<String> selectedCategoryValue = '0'.obs;
+  Rx<String> selectedCategory = ''.obs;
+  Rx<String> selectedCategoryValue = ''.obs;
 
-  Rx<String> composition = 'null'.obs;
-  Rx<String> difficulty = 'null'.obs;
-  Rx<String> time = '0'.obs;
+  Rx<String> composition = ''.obs;
+  Rx<String> difficulty = ''.obs;
+  Rx<String> time = ''.obs;
 
   @override
   void onClose() {
@@ -72,11 +72,12 @@ class BookmarkListViewModel extends GetxController {
     update();
   }
 
-  void toggleValue(target, value) {
-    if (target.value == value) {
+  void toggleValue(target, newvalue) {
+    print('toggle');
+    if (target.value == newvalue) {
       target.value = '';
     } else {
-      target.value = value;
+      target.value = newvalue;
     }
     update();
   }
@@ -131,13 +132,16 @@ class BookmarkListViewModel extends GetxController {
     }
   }
 
-  Future<void> updateData(int userId) async {
-    print("updateData 실행 - $composition, $time, $difficulty");
+  Future<void> serachByOption(int userId) async {
+    print("serachByOption 실행 - $composition, $time, $difficulty");
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
 
       final menuData = await bookmrkRepository.searchByOption(
           userId, composition.value, difficulty.value, time.value);
+      // 요청 URL 출력
+      //print('요청 URL: ${bookmrkRepository.options.path}');
+      print(menuData);
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData) {

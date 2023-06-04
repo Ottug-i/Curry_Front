@@ -16,7 +16,11 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
   //late String categories = controller.selectedCategory.value;
 
   void updateCategory(value) {
-    controller.updateCategory(value);
+    if (controller.selectedCategory.value == value) {
+      controller.updateCategory('');
+    } else {
+      controller.updateCategory(value);
+    }
   }
 
   @override
@@ -68,13 +72,14 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Obx(() => ListPageButton(
-                                    text: '10분',
+                                    text: '15분',
                                     isButtonClicked:
-                                        controller.time.value == '10분',
+                                        controller.time.value == '15분',
                                     themecolor: const Color(0xffFFA517),
                                     onPressed: () {
-                                      controller.time.value = '10분';
-                                      controller.updateData(1);
+                                      controller.toggleValue(
+                                          controller.time, '15분');
+                                      controller.serachByOption(1);
                                     },
                                   )),
                               const SizedBox(width: 10),
@@ -84,8 +89,9 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                         controller.time.value == '20분',
                                     themecolor: const Color(0xffFFA517),
                                     onPressed: () {
-                                      controller.time.value = '20분';
-                                      controller.updateData(1);
+                                      controller.toggleValue(
+                                          controller.time, '20분');
+                                      controller.serachByOption(1);
                                     },
                                   )),
                               const SizedBox(width: 10),
@@ -95,8 +101,9 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                         controller.time.value == '30분',
                                     themecolor: const Color(0xffFFA517),
                                     onPressed: () {
-                                      controller.time.value = '30분';
-                                      controller.updateData(1);
+                                      controller.toggleValue(
+                                          controller.time, '30분');
+                                      controller.serachByOption(1);
                                     },
                                   )),
                             ],
@@ -119,8 +126,9 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                         controller.difficulty.value == '왕초보',
                                     themecolor: const Color(0xffFFA517),
                                     onPressed: () {
-                                      controller.difficulty.value = '왕초보';
-                                      controller.updateData(1);
+                                      controller.toggleValue(
+                                          controller.difficulty, '왕초보');
+                                      controller.serachByOption(1);
                                     },
                                   )),
                               const SizedBox(width: 10),
@@ -132,7 +140,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                     onPressed: () {
                                       controller.toggleValue(
                                           controller.difficulty, '초급');
-                                      controller.updateData(1);
+                                      controller.serachByOption(1);
                                     },
                                   )),
                               const SizedBox(width: 10),
@@ -145,7 +153,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                   onPressed: () {
                                     controller.toggleValue(
                                         controller.difficulty, '중급');
-                                    controller.updateData(1);
+                                    controller.serachByOption(1);
                                   },
                                 ),
                               )
@@ -171,7 +179,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                     onPressed: () {
                                       controller.toggleValue(
                                           controller.composition, '가볍게');
-                                      controller.updateData(1);
+                                      controller.serachByOption(1);
                                     },
                                   )),
                               const SizedBox(width: 10),
@@ -183,7 +191,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                     onPressed: () {
                                       controller.toggleValue(
                                           controller.composition, '든든하게');
-                                      controller.updateData(1);
+                                      controller.serachByOption(1);
                                     },
                                   )),
                             ],
