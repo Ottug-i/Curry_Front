@@ -20,7 +20,6 @@ class BookmrkListPageState extends State<BookmrkListPage> {
   Future<void> _initMenuList() async {
     print('여기는 bookmark_list_page.dart');
     await Get.find<BookmarkListViewModel>().fetchData(1);
-    //print(Get.find<BookmarkListViewModel>().BoomrkList);
   }
 
   @override
@@ -34,64 +33,55 @@ class BookmrkListPageState extends State<BookmrkListPage> {
             );
           }
 
-          return Scaffold(
-            resizeToAvoidBottomInset: false, // overflowed 방지
-            body: Container(
-              width: double.infinity, // 또는 원하는 크기로 지정
-              padding: const EdgeInsets.only(top: 10),
-              color: const Color(0xffF5F5F5),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-                          child: TextField(
-                            controller: textController,
-                            onSubmitted: (String text) {
-                              // 입력된 텍스트에 접근하여 원하는 작업 수행
-                              print('입력된 텍스트: $text');
-                              // bListController를 통해 데이터 업데이트 등의 작업 수행
-                              bListController.searchData(
-                                  1, text); //userId, text
-                            },
-                            decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.search),
-                                hintText: '레시피 이름을 입력하고 Enter를 눌러주세요..',
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                        color:
-                                            Colors.black))), // InputDecoration
-                          ), // TextField
-                        ), // Container
-                      ], // Widget
-                    ),
-                    // 아이템 위젯
-                    if (bListController.BoomrkList.isEmpty)
-                      const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text('검색 결과가 없습니다.'),
-                        ],
-                      )
-                    else
-                      Column(mainAxisSize: MainAxisSize.min, children: [
-                        // 카테고리 위젯
-                        const CategoriesWidget(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Flexible(child: Obx(() => ItemList())),
-                      ])
-                  ],
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Column(
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+                      child: TextField(
+                        controller: textController,
+                        onSubmitted: (String text) {
+                          // 입력된 텍스트에 접근하여 원하는 작업 수행
+                          print('입력된 텍스트: $text');
+                          // bListController를 통해 데이터 업데이트 등의 작업 수행
+                          bListController.searchData(1, text); //userId, text
+                        },
+                        decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.search),
+                            hintText: '레시피 이름을 입력하고 Enter를 눌러주세요..',
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: const BorderSide(
+                                    color: Colors.black))), // InputDecoration
+                      ), // TextField
+                    ), // Container
+                  ], // Widget
                 ),
-              ),
+                // 아이템 위젯
+                if (bListController.BoomrkList.isEmpty)
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text('검색 결과가 없습니다.'),
+                    ],
+                  )
+                else
+                  Column(mainAxisSize: MainAxisSize.min, children: [
+                    // 카테고리 위젯
+                    const CategoriesWidget(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Flexible(child: Obx(() => ItemList())),
+                    // SingleChildScrollView
+                  ])
+              ],
             ),
           );
         });
@@ -102,6 +92,8 @@ class BookmrkListPageState extends State<BookmrkListPage> {
     if (menuList.isNotEmpty) {
       return ListView.builder(
         shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: menuList.length,
         itemBuilder: (BuildContext context, int i) {
           final menuItem = menuList[i];

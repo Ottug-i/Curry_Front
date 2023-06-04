@@ -43,6 +43,8 @@ class _ItemsWidgetState extends State<ItemsWidget> {
           if (menuList.isNotEmpty) {
             return ListView.builder(
               shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: menuList.length,
               itemBuilder: (BuildContext context, int i) {
                 final menuItem = menuList[i];
