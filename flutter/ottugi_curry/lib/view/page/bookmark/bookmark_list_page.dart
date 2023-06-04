@@ -62,7 +62,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                 ),
                 // 아이템 위젯
                 if (bListController.BoomrkList.isEmpty)
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
@@ -132,7 +132,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                           children: [
                             // 첫 번째 줄 (메뉴 이름, 북마크 아이콘)
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 // 음식 이름

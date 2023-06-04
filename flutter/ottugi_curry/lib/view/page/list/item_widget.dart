@@ -89,7 +89,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                   // 첫 번째 줄 (메뉴 이름, 북마크 아이콘)
                                   Row(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.end,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [

@@ -345,9 +345,6 @@ class RecipeDetailPage extends StatelessWidget {
                             .map((element) => Text(element))
                             .toList() +
                         [
-                          // ingredientListWidget('참치캔', '1캔'),
-                          // ingredientListWidget('마요네즈', '4.5큰술'),
-                          // ingredientListWidget('쪽파', '약간'),
 
                           const Padding(padding: EdgeInsets.only(top: 20)),
                           // 양념
@@ -359,9 +356,6 @@ class RecipeDetailPage extends StatelessWidget {
                                   fontSize: 18, fontWeight: FontWeight.w600),
                             ),
                           ),
-                          // ingredientListWidget('진간장', '4큰술'),
-                          // ingredientListWidget('올리고당', '1큰술'),
-                          // ingredientListWidget('설탕', '1큰술'),
                         ] +
                         recipeDetailController.seasoning
                             .map((element) => Text(element))
@@ -450,18 +444,21 @@ class RecipeDetailPage extends StatelessWidget {
     );
   }
 
-  ListView recipeDetailTextListViewWidget() {
+  SizedBox recipeDetailTextListViewWidget() {
     Get.put(RecipeDetailController());
     final recipeDetailController = Get.find<RecipeDetailController>();
 
-    return ListView.builder(
-        padding: const EdgeInsets.only(top: 10, bottom: 10),
-        shrinkWrap: true,
-        itemCount: recipeDetailController.orders.length,
-        itemBuilder: (BuildContext context, int idx) {
-          return Padding(
-              padding: const EdgeInsets.only(bottom: 3),
-              child: Text(recipeDetailController.orders[idx]));
-        });
+    return SizedBox(
+      height: 340,
+      child: ListView.builder(
+          padding: const EdgeInsets.only(top: 10, bottom: 0),
+          shrinkWrap: true,
+          itemCount: recipeDetailController.orders.length,
+          itemBuilder: (BuildContext context, int idx) {
+            return Padding(
+                padding: const EdgeInsets.only(bottom: 3),
+                child: Text(recipeDetailController.orders[idx]));
+          }),
+    );
   }
 }
