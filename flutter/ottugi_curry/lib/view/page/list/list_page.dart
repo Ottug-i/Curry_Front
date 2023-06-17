@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ottugi_curry/view/page/list/item_widget.dart';
 import 'package:get/get.dart';
-import 'package:ottugi_curry/view_model/list/recipe_list_view_model.dart';
+import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/view/page/list/list_item_widget.dart';
+import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 
 class ListPage extends StatefulWidget {
   final String mode;
@@ -11,19 +12,19 @@ class ListPage extends StatefulWidget {
   ListPageState createState() => ListPageState();
 }
 
-//final rListController = Get.put(MenuListViewModel());
+//final rListController = Get.put(MenuListController());
 
 class ListPageState extends State<ListPage> {
   Future<void> _initMenuList() async {
     print('여기는 list_page.dart');
-    await Get.find<MenuListViewModel>().fetchData(1, ["6855278", "6909678"]);
-    //print(Get.find<MenuListViewModel>().MenuModelList);
+    await Get.find<MenuListController>().fetchData(1, ["6855278", "6909678"]);
+    //print(Get.find<MenuListController>().MenuModelList);
   }
 
   @override
   Widget build(BuildContext context) {
-    Get.put(MenuListViewModel());
-    final rListController = Get.find<MenuListViewModel>();
+    Get.put(MenuListController());
+    final rListController = Get.find<MenuListController>();
 
     return FutureBuilder(
         future: _initMenuList(),
@@ -40,7 +41,7 @@ class ListPageState extends State<ListPage> {
               children: [
                 Row(children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 20),
                     child: Text(
                       "감자, 치즈, 계란",
                       style: TextStyle(
@@ -48,24 +49,24 @@ class ListPageState extends State<ListPage> {
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                         decoration: TextDecoration.underline,
-                        decorationColor: Color(0xffFFD717),
+                        decorationColor: lightColorScheme.primary,
                         decorationThickness: 4,
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 4,
                   ),
-                  Icon(
+                  const Icon(
                     Icons.edit_rounded,
                     size: 20,
                     color: Colors.black,
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ]),
                 // 아이템 위젯
                 if (rListController.MenuModelList.isEmpty)
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
@@ -75,7 +76,7 @@ class ListPageState extends State<ListPage> {
                     ],
                   )
                 else
-                  Column(mainAxisSize: MainAxisSize.min, children: [
+                  const Column(mainAxisSize: MainAxisSize.min, children: [
                     // 카테고리 위젯
                     // CategoriesWidget(),
                     SizedBox(
@@ -91,8 +92,8 @@ class ListPageState extends State<ListPage> {
 }
 
 void searchRecipe(String query) {
-  Get.put(MenuListViewModel());
-  final rListController = Get.find<MenuListViewModel>();
+  Get.put(MenuListController());
+  final rListController = Get.find<MenuListController>();
 
   var MenuModelList = rListController.MenuModelList;
   // 검색어에 해당하는 새로운 레시피 정보들

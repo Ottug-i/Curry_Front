@@ -7,10 +7,12 @@ class RecipeDetailGalleryViewWidget extends StatefulWidget {
   const RecipeDetailGalleryViewWidget({Key? key}) : super(key: key);
 
   @override
-  State<RecipeDetailGalleryViewWidget> createState() => _RecipeDetailGalleryViewWidgetState();
+  State<RecipeDetailGalleryViewWidget> createState() =>
+      _RecipeDetailGalleryViewWidgetState();
 }
 
-class _RecipeDetailGalleryViewWidgetState extends State<RecipeDetailGalleryViewWidget> with TickerProviderStateMixin {
+class _RecipeDetailGalleryViewWidgetState
+    extends State<RecipeDetailGalleryViewWidget> with TickerProviderStateMixin {
   late TabController _nestedTabController;
 
   @override
@@ -18,7 +20,8 @@ class _RecipeDetailGalleryViewWidgetState extends State<RecipeDetailGalleryViewW
     super.initState();
     Get.put(RecipeDetailController);
 
-    _nestedTabController = TabController(length: Get.find<RecipeDetailController>().orders.length, vsync: this);
+    _nestedTabController = TabController(
+        length: Get.find<RecipeDetailController>().orders.length, vsync: this);
   }
 
   @override
@@ -36,9 +39,9 @@ class _RecipeDetailGalleryViewWidgetState extends State<RecipeDetailGalleryViewW
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         SizedBox(
-          height: 300,
+          height: 230,
           child: TabBarView(
-            controller: _nestedTabController,
+              controller: _nestedTabController,
               children: recipeDetailController.orders.map((e) {
                 return Container(
                   decoration: BoxDecoration(
@@ -49,7 +52,8 @@ class _RecipeDetailGalleryViewWidgetState extends State<RecipeDetailGalleryViewW
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Image.network(recipeDetailController.photo[recipeDetailController.orders.indexOf(e)]),
+                        Image.network(recipeDetailController
+                            .photo[recipeDetailController.orders.indexOf(e)]),
                         const Padding(padding: EdgeInsets.only(top: 20)),
                         Text(e),
                       ],
@@ -63,16 +67,21 @@ class _RecipeDetailGalleryViewWidgetState extends State<RecipeDetailGalleryViewW
           child: SizedBox(
             width: recipeDetailController.orders.length * 15,
             child: TabBar(
-              controller: _nestedTabController,
-              labelColor: lightColorScheme.secondary,
-              unselectedLabelColor: Colors.grey,
-              indicator: BoxDecoration(
-                shape: BoxShape.circle,
-                color: lightColorScheme.secondary,
-              ),
-              dividerColor: Colors.transparent,
-              tabs: recipeDetailController.orders.map((e) => const Tab(icon: Icon(Icons.circle, size: 10,))).toList()
-            ),
+                controller: _nestedTabController,
+                labelColor: lightColorScheme.secondary,
+                unselectedLabelColor: Colors.grey,
+                indicator: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: lightColorScheme.secondary,
+                ),
+                dividerColor: Colors.transparent,
+                tabs: recipeDetailController.orders
+                    .map((e) => const Tab(
+                            icon: Icon(
+                          Icons.circle,
+                          size: 10,
+                        )))
+                    .toList()),
           ),
         ),
       ],

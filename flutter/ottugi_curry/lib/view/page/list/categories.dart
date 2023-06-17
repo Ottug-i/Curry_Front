@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/page/list/list_page_button.dart';
-import 'package:ottugi_curry/view_model/bookmark/bookmark_view_model.dart';
+import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
 
 class CategoriesWidget extends StatefulWidget {
   const CategoriesWidget({super.key});
@@ -11,8 +12,8 @@ class CategoriesWidget extends StatefulWidget {
 }
 
 class CategoriesWidgetState extends State<CategoriesWidget> {
-  //final controller = Get.put(MenuListViewModel());
-  final controller = Get.put(BookmarkListViewModel());
+  //final controller = Get.put(MenuListController());
+  final controller = Get.put(BookmarkListController());
   //late String categories = controller.selectedCategory.value;
 
   void updateCategory(value) {
@@ -25,7 +26,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<BookmarkListViewModel>(
+    return GetBuilder<BookmarkListController>(
         builder: (controller) => Container(
               margin: const EdgeInsets.all(10),
               child: Column(
@@ -36,7 +37,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                         text: '요리 시간',
                         isButtonClicked:
                             controller.selectedCategory.value == 'time',
-                        themecolor: const Color(0xffFFD717),
+                        themecolor: lightColorScheme.primary,
                         onPressed: () {
                           updateCategory('time');
                         },
@@ -46,7 +47,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                           text: '난이도',
                           isButtonClicked:
                               controller.selectedCategory.value == 'level',
-                          themecolor: const Color(0xffFFD717),
+                          themecolor: lightColorScheme.primary,
                           onPressed: () {
                             updateCategory('level');
                           }),
@@ -55,7 +56,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                         text: '구성',
                         isButtonClicked:
                             controller.selectedCategory.value == 'composition',
-                        themecolor: const Color(0xffFFD717),
+                        themecolor: lightColorScheme.primary,
                         onPressed: () {
                           updateCategory('composition');
                         },
@@ -75,7 +76,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                     text: '15분',
                                     isButtonClicked:
                                         controller.time.value == '15분',
-                                    themecolor: const Color(0xffFFA517),
+                                    themecolor: lightColorScheme.secondary,
                                     onPressed: () {
                                       controller.toggleValue(
                                           controller.time, '15분');
@@ -87,7 +88,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                     text: '20분',
                                     isButtonClicked:
                                         controller.time.value == '20분',
-                                    themecolor: const Color(0xffFFA517),
+                                    themecolor: lightColorScheme.secondary,
                                     onPressed: () {
                                       controller.toggleValue(
                                           controller.time, '20분');
@@ -99,7 +100,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                     text: '30분 이상',
                                     isButtonClicked:
                                         controller.time.value == '30분',
-                                    themecolor: const Color(0xffFFA517),
+                                    themecolor: lightColorScheme.secondary,
                                     onPressed: () {
                                       controller.toggleValue(
                                           controller.time, '30분');
@@ -121,22 +122,10 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Obx(() => ListPageButton(
-                                    text: '왕초보',
-                                    isButtonClicked:
-                                        controller.difficulty.value == '왕초보',
-                                    themecolor: const Color(0xffFFA517),
-                                    onPressed: () {
-                                      controller.toggleValue(
-                                          controller.difficulty, '왕초보');
-                                      controller.serachByOption(1);
-                                    },
-                                  )),
-                              const SizedBox(width: 10),
-                              Obx(() => ListPageButton(
                                     text: '초급',
                                     isButtonClicked:
                                         controller.difficulty.value == '초급',
-                                    themecolor: const Color(0xffFFA517),
+                                    themecolor: lightColorScheme.secondary,
                                     onPressed: () {
                                       controller.toggleValue(
                                           controller.difficulty, '초급');
@@ -149,14 +138,26 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                   text: '중급',
                                   isButtonClicked:
                                       controller.difficulty.value == '중급',
-                                  themecolor: const Color(0xffFFA517),
+                                  themecolor: lightColorScheme.secondary,
                                   onPressed: () {
                                     controller.toggleValue(
                                         controller.difficulty, '중급');
                                     controller.serachByOption(1);
                                   },
                                 ),
-                              )
+                              ),
+                              const SizedBox(width: 10),
+                              Obx(() => ListPageButton(
+                                    text: '고급',
+                                    isButtonClicked:
+                                        controller.difficulty.value == '고급',
+                                    themecolor: lightColorScheme.secondary,
+                                    onPressed: () {
+                                      controller.toggleValue(
+                                          controller.difficulty, '고급');
+                                      controller.serachByOption(1);
+                                    },
+                                  )),
                             ],
                           ),
                         )
@@ -175,7 +176,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                     text: '가볍게',
                                     isButtonClicked:
                                         controller.composition.value == '가볍게',
-                                    themecolor: const Color(0xffFFA517),
+                                    themecolor: lightColorScheme.secondary,
                                     onPressed: () {
                                       controller.toggleValue(
                                           controller.composition, '가볍게');
@@ -187,7 +188,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                     text: '든든하게',
                                     isButtonClicked:
                                         controller.composition.value == '든든하게',
-                                    themecolor: const Color(0xffFFA517),
+                                    themecolor: lightColorScheme.secondary,
                                     onPressed: () {
                                       controller.toggleValue(
                                           controller.composition, '든든하게');

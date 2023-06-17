@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ottugi_curry/view/page/list/categories.dart';
 import 'package:get/get.dart';
-import 'package:ottugi_curry/view_model/bookmark/bookmark_view_model.dart';
+import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/view/page/list/categories.dart';
+import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
 
 class BookmrkListPage extends StatefulWidget {
   final String mode;
@@ -11,15 +12,15 @@ class BookmrkListPage extends StatefulWidget {
   BookmrkListPageState createState() => BookmrkListPageState();
 }
 
-//final bListController = Get.put(BookmarkListViewModel());
+//final bListController = Get.put(BookmarkListController());
 
 class BookmrkListPageState extends State<BookmrkListPage> {
-  final bListController = Get.put(BookmarkListViewModel());
+  final bListController = Get.put(BookmarkListController());
   final textController = TextEditingController();
 
   Future<void> _initMenuList() async {
     print('여기는 bookmark_list_page.dart');
-    await Get.find<BookmarkListViewModel>().fetchData(1);
+    await Get.find<BookmarkListController>().fetchData(1);
   }
 
   @override
@@ -62,7 +63,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                 ),
                 // 아이템 위젯
                 if (bListController.BoomrkList.isEmpty)
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
@@ -147,26 +148,23 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     const SizedBox(
-                                      height: 12,
+                                      height: 10,
                                     ),
                                   ],
                                 ),
                                 // 북마크 아이콘
-                                Container(
-                                  margin:
-                                      const EdgeInsets.only(left: 8, right: 8),
-                                  alignment: Alignment.topLeft,
-                                  child: IconButton(
-                                    icon: Icon(menuItem.isBookmark!
-                                        ? Icons.bookmark_rounded
-                                        : Icons.bookmark_border_rounded),
-                                    iconSize: 30,
-                                    color: const Color(0xffFFD717),
-                                    onPressed: () {
-                                      bListController.updateBookmark(
-                                          1, menuItem.id);
-                                    },
-                                  ),
+                                IconButton(
+                                  icon: Icon(menuItem.isBookmark!
+                                      ? Icons.bookmark_rounded
+                                      : Icons.bookmark_border_rounded),
+                                  iconSize: 30,
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(),
+                                  color: lightColorScheme.primary,
+                                  onPressed: () {
+                                    bListController.updateBookmark(
+                                        1, menuItem.id);
+                                  },
                                 ),
                               ],
                             ),
@@ -180,7 +178,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                               )),
                             ]),
                             const SizedBox(
-                              height: 12,
+                              height: 10,
                             ),
                             // 세 번째 줄 (아이콘 - 시간, 난이도, 구성)
                             Row(
@@ -212,8 +210,8 @@ class BookmrkListPageState extends State<BookmrkListPage> {
 }
 
 void searchRecipe(String query) {
-  Get.put(BookmarkListViewModel());
-  final bListController = Get.find<BookmarkListViewModel>();
+  Get.put(BookmarkListController());
+  final bListController = Get.find<BookmarkListController>();
 
   var BoomrkList = bListController.BoomrkList;
   // 검색어에 해당하는 새로운 레시피 정보들

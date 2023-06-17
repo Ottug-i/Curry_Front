@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
-  primary: Color(0xFFFFD717),// 노랑색
+  primary: Color(0xffFFD717), // 노랑색
   onPrimary: Color(0xFF000000), //기본 글자 색상
   primaryContainer: Color(0xFF98F0FF),
   onPrimaryContainer: Color(0xFF001F24),

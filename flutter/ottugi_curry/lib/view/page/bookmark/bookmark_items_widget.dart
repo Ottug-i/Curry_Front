@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ottugi_curry/view_model/bookmark/bookmark_view_model.dart';
+import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
 
 class ItemsWidget extends StatefulWidget {
-  //final BookmarkListViewModel controller;
+  //final BookmarkListController controller;
   final String controllerTag;
 
   const ItemsWidget({Key? key, required this.controllerTag}) : super(key: key);
@@ -13,19 +14,19 @@ class ItemsWidget extends StatefulWidget {
 }
 
 class _ItemsWidgetState extends State<ItemsWidget> {
-  late BookmarkListViewModel controller;
+  late BookmarkListController controller;
 
   @override
   void initState() {
     super.initState();
-    //controller = Get.find<BookmarkListViewModel>(tag: widget.controllerTag);
-    controller = Get.put(BookmarkListViewModel(), tag: widget.controllerTag);
+    //controller = Get.find<BookmarkListController>(tag: widget.controllerTag);
+    controller = Get.put(BookmarkListController(), tag: widget.controllerTag);
 
     @override
     void dependencies() {
       // TODO: implement dependencies
       Get.lazyPut(
-        () => BookmarkListViewModel(),
+        () => BookmarkListController(),
         tag: widget.controllerTag, //tag 옵션과 함께 dependency 주입!
       );
     }
@@ -41,9 +42,9 @@ class _ItemsWidgetState extends State<ItemsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    //Get.put(BookmarkListViewModel());
-    //final controller = Get.find<BookmarkListViewModel>();
-    //final menuList = Get.find<BookmarkListViewModel>().BoomrkList;
+    //Get.put(BookmarkListController());
+    //final controller = Get.find<BookmarkListController>();
+    //final menuList = Get.find<BookmarkListController>().BoomrkList;
 
     return FutureBuilder(
         future: _initMenuList(),
@@ -130,7 +131,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                               ? Icons.bookmark_rounded
                                               : Icons.bookmark_border_rounded),
                                           iconSize: 30,
-                                          color: const Color(0xffFFD717),
+                                          color: lightColorScheme.primary,
                                           onPressed: () {
                                             controller.updateBookmark(
                                                 1, menuItem.id);

@@ -345,7 +345,6 @@ class RecipeDetailPage extends StatelessWidget {
                             .map((element) => Text(element))
                             .toList() +
                         [
-
                           const Padding(padding: EdgeInsets.only(top: 20)),
                           // 양념
                           const Padding(
@@ -449,7 +448,7 @@ class RecipeDetailPage extends StatelessWidget {
     final recipeDetailController = Get.find<RecipeDetailController>();
 
     return SizedBox(
-      height: 340,
+      height: 270,
       child: ListView.builder(
           padding: const EdgeInsets.only(top: 10, bottom: 0),
           shrinkWrap: true,

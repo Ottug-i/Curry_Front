@@ -4,8 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/menu_list.dart';
 import 'package:ottugi_curry/repository/list_repository.dart';
+import 'package:ottugi_curry/model/bookmark_update.dart';
+import 'package:ottugi_curry/repository/bookmark_repository.dart';
 
-class MenuListViewModel extends GetxController {
+class MenuListController extends GetxController {
   var MenuModelList = <MenuModel>[].obs;
 
   RxBool isBookmark = false.obs;
@@ -119,5 +121,18 @@ class MenuListViewModel extends GetxController {
     print(filterData.length);
     MenuModelList.assignAll(filterData);
     //update();
+  }
+
+  void updateBookmark(int userId, int recipeId, List<String> recipeIds) async {
+    print('Bookmrk의 updateData 실행');
+    try {
+      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
+      final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
+      await bookmrkRepository.updateBookmark(bookmrkItem);
+      await fetchData(userId, recipeIds); // 재로딩
+    } catch (error) {
+      // 에러 처리
+      print('Error updating bookmark: $error');
+    }
   }
 }

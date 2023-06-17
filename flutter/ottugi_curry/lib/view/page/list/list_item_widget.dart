@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ottugi_curry/view_model/list/recipe_list_view_model.dart';
-import 'package:ottugi_curry/view_model/bookmark/bookmark_view_model.dart';
+import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 
 class ItemsWidget extends StatefulWidget {
   const ItemsWidget({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
   Future<void> _initMenuList() async {
     print('여기는 item_widget.dart');
     //print('print Get.arguments: ${Get.arguments}');
-    await Get.find<MenuListViewModel>().fetchData(1, ["6855278", "6909678"]);
+    await Get.find<MenuListController>().fetchData(1, ["6855278", "6909678"]);
   }
 
   @override
@@ -25,10 +25,8 @@ class _ItemsWidgetState extends State<ItemsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(MenuListViewModel());
-    final rListController = Get.find<MenuListViewModel>();
-    final bListController = Get.put(BookmarkListViewModel());
-    //final menuList = Get.find<MenuListViewModel>().MenuModelList;
+    Get.put(MenuListController());
+    final rListController = Get.find<MenuListController>();
 
     return FutureBuilder(
         future: _initMenuList(),
@@ -88,8 +86,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                 children: [
                                   // 첫 번째 줄 (메뉴 이름, 북마크 아이콘)
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -106,34 +103,26 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           const SizedBox(
-                                            height: 12,
+                                            height: 10,
                                           ),
                                         ],
                                       ),
                                       // 북마크 아이콘
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                            left: 8, right: 8),
-                                        alignment: Alignment.topLeft,
-                                        child: IconButton(
-                                          icon: Icon(initBookmark!
-                                              ? Icons.bookmark_rounded
-                                              : Icons.bookmark_border_rounded),
-                                          iconSize: 30,
-                                          color: const Color(0xffFFD717),
-                                          onPressed: () {
-                                            bListController.updateBookmark(
-                                                1, menuItem.id);
-                                            setState(() {
-                                              if (initBookmark == true) {
-                                                initBookmark = false;
-                                              } else {
-                                                initBookmark = true;
-                                              }
-                                            });
-                                          },
-                                        ),
-                                      ),
+                                      IconButton(
+                                        icon: Icon(initBookmark!
+                                            ? Icons.bookmark_rounded
+                                            : Icons.bookmark_border_rounded),
+                                        iconSize: 30,
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(),
+                                        color: lightColorScheme.primary,
+                                        onPressed: () {
+                                          rListController.updateBookmark(
+                                              1,
+                                              menuItem.id,
+                                              ["6855278", "6909678"]);
+                                        },
+                                      )
                                     ],
                                   ),
                                   // 두 번째 줄 (재료 목록)
@@ -147,7 +136,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                     )),
                                   ]),
                                   const SizedBox(
-                                    height: 12,
+                                    height: 10,
                                   ),
                                   // 세 번째 줄 (아이콘 - 시간, 난이도, 구성)
                                   Row(

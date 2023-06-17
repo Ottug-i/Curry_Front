@@ -5,7 +5,7 @@ import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 
-class BookmarkListViewModel extends GetxController {
+class BookmarkListController extends GetxController {
   var BoomrkList = <MenuModel>[].obs;
 
   RxBool isBookmark = false.obs;
