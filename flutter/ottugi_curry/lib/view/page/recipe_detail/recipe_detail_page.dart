@@ -342,9 +342,7 @@ class RecipeDetailPage extends StatelessWidget {
                               ),
                             ] +
                             // 내용
-                            contentWidget(recipeDetailController
-                                .ingredientsTitle
-                                .indexOf(element)) +
+                            recipeDetailController.ingredientsContentList[recipeDetailController.ingredientsTitle.indexOf(element)].map((element) => Text(element)).toList() +
                             [
                               const Padding(
                                   padding: EdgeInsets.only(bottom: 20))
@@ -435,16 +433,24 @@ class RecipeDetailPage extends StatelessWidget {
     );
   }
 
-  List<Text> contentWidget(int index) {
-    List<String> ingredientsContent =
-        Get.find<RecipeDetailController>().ingredientsContent;
-    List<String> singleContents = [];
-
-    ingredientsContent.map((e) {
-      singleContents = e.split('| ');
-    }).toList();
-
-    return singleContents.map((e) => Text(e)).toList();
-    // return singleContents;
-  }
+  // List<Text> contentWidget() {
+  //   final controller = Get.find<RecipeDetailController>();
+  //
+  //   // ingredientsContentList
+  //   // List<String> singleContents = [];
+  //   // List<List<String>> singleContentsV2 = [];
+  //
+  //   controller.ingredientsContent.map((e) {
+  //     // print('print e: ${e}');
+  //     // print('print eSpl: ${e.split('| ')}');
+  //     // singleContents = e.split('| ');
+  //     // singleContentsV2.add(e.split('| '));
+  //     controller.ingredientsContentList.add(e.split('| '));
+  //     // print('print singleContents: ${singleContents}');
+  //
+  //   }).toList();
+  //
+  //   // return singleContents.map((e) => Text(e)).toList();
+  //   // return singleContents;
+  // }
 }

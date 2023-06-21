@@ -15,12 +15,10 @@ class RecipeDetailController {
   RxString ingredients = ''.obs;
   RxList<String> ingredientsTitle = <String>[].obs;
   RxList<String> ingredientsContent = <String>[].obs;
+  RxList<List<String>> ingredientsContentList = <List<String>>[[]].obs;
   RxBool isBookmark = false.obs;
   RxString name = ''.obs;
-  RxString ordersV2 = ''.obs;
   RxList<String> orders = <String>[].obs;
-  RxList<String> ordersTitle = <String>[].obs;
-  RxList<String> ordersContent = <String>[].obs;
   RxList<String> photo = <String>[].obs;
   RxString servings = ''.obs;
   RxString thumbnail = ''.obs;
@@ -35,6 +33,7 @@ class RecipeDetailController {
       RecipeRepository recipeRepository = RecipeRepository(dio);
       print('print getUserId(): ${getUserId()}');
       final resp = await recipeRepository.getRecipeDetail(recipeId, 1); // TODO: userId 수정
+      print('print respIngredients: ${resp.ingredients!}');
 
       // 응답 값 변수에 저장
       composition.value = resp.composition!;
@@ -44,15 +43,14 @@ class RecipeDetailController {
       isBookmark.value = resp.isBookmark!;
       name.value = resp.name!;
       orders.value = splitToVerBar(resp.orders!);
-      ordersV2.value = resp.orders!;
       photo.value = splitToVerBar(resp.photo!); // 문자열 |(vertical Bar)로 분할
       servings.value = resp.servings!;
       thumbnail.value = resp.thumbnail!;
       time.value = resp.time!;
 
-      // 문자열을 리스트로 분할
+      // 대괄호 있는 문자열 분할
       splitTitleAndContent(ingredients.value, ingredientsTitle, ingredientsContent);
-      splitTitleAndContent(ordersV2.value, ordersTitle, ordersContent);
+      splitIngredientsContent();
     } on DioError catch (e) {
       print('loadRecipeDetail: $e');
       return;
