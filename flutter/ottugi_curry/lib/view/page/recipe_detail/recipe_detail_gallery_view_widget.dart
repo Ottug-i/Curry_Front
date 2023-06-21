@@ -34,6 +34,8 @@ class _RecipeDetailGalleryViewWidgetState
   Widget build(BuildContext context) {
     Get.put(RecipeDetailController);
     final recipeDetailController = Get.find<RecipeDetailController>();
+    
+    print('print recipeDetailControllerOrdersTitle: ${recipeDetailController.ordersTitle}');
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -70,7 +72,7 @@ class _RecipeDetailGalleryViewWidgetState
                 controller: _nestedTabController,
                 labelColor: lightColorScheme.secondary,
                 unselectedLabelColor: Colors.grey,
-                indicator: const BoxDecoration(
+                indicator: BoxDecoration(
                   shape: BoxShape.circle,
                   color: lightColorScheme.secondary,
                 ),

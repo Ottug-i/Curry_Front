@@ -7,6 +7,8 @@ import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_gallery_view_
 import 'package:get/get.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_timer_widget.dart';
 
+import 'recipe_detail_text_list_view_widget.dart';
+
 class RecipeDetailPage extends StatelessWidget {
   const RecipeDetailPage({Key? key}) : super(key: key);
 
@@ -198,18 +200,15 @@ class RecipeDetailPage extends StatelessWidget {
                               ),
                             ),
                             IconButton(
-                                onPressed: () {
-                                  recipeDetailController.updateBookmark(
-                                      1, recipeDetailController.id.value);
-                                },
-                                icon: Obx(() => Icon(
-                                      Icons.bookmark,
-                                      color: recipeDetailController
-                                                  .isBookmark.value ==
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.bookmark,
+                                  color:
+                                      recipeDetailController.isBookmark.value ==
                                               true
                                           ? lightColorScheme.secondary
                                           : Colors.grey,
-                                    )))
+                                ))
                           ],
                         ),
                         const Padding(
@@ -330,35 +329,28 @@ class RecipeDetailPage extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                          // 재료
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              '재료',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ] +
-                        recipeDetailController.ingredients
-                            .map((element) => Text(element))
-                            .toList() +
-                        [
-                          const Padding(padding: EdgeInsets.only(top: 20)),
-                          // 양념
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              '양념',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ] +
-                        recipeDetailController.seasoning
-                            .map((element) => Text(element))
-                            .toList()),
+                    children:
+                        recipeDetailController.ingredientsTitle.map((element) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          // 제목 (대괄호)
+                              Text(
+                                element,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w600),
+                              ),
+                            ] +
+                            // 내용
+                            contentWidget(recipeDetailController
+                                .ingredientsTitle
+                                .indexOf(element)) +
+                            [
+                              const Padding(
+                                  padding: EdgeInsets.only(bottom: 20))
+                            ],
+                      );
+                    }).toList()),
               ),
             ),
 
@@ -443,21 +435,16 @@ class RecipeDetailPage extends StatelessWidget {
     );
   }
 
-  SizedBox recipeDetailTextListViewWidget() {
-    Get.put(RecipeDetailController());
-    final recipeDetailController = Get.find<RecipeDetailController>();
+  List<Text> contentWidget(int index) {
+    List<String> ingredientsContent =
+        Get.find<RecipeDetailController>().ingredientsContent;
+    List<String> singleContents = [];
 
-    return SizedBox(
-      height: 270,
-      child: ListView.builder(
-          padding: const EdgeInsets.only(top: 10, bottom: 0),
-          shrinkWrap: true,
-          itemCount: recipeDetailController.orders.length,
-          itemBuilder: (BuildContext context, int idx) {
-            return Padding(
-                padding: const EdgeInsets.only(bottom: 3),
-                child: Text(recipeDetailController.orders[idx]));
-          }),
-    );
+    ingredientsContent.map((e) {
+      singleContents = e.split('| ');
+    }).toList();
+
+    return singleContents.map((e) => Text(e)).toList();
+    // return singleContents;
   }
 }
