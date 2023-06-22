@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/page/list/list_page_button.dart';
-import 'package:ottugi_curry/view_model/list/menu_view_model.dart';
+import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
 
 class CategoriesWidget extends StatefulWidget {
   const CategoriesWidget({super.key});
@@ -11,29 +12,22 @@ class CategoriesWidget extends StatefulWidget {
 }
 
 class CategoriesWidgetState extends State<CategoriesWidget> {
-  final menuController = Get.put(MenuViewModel());
+  //final controller = Get.put(MenuListController());
+  final controller = Get.put(BookmarkListController());
+  //late String categories = controller.selectedCategory.value;
 
-  void toggleCategory(value) {
-    if (menuController.selectedCategory.value == value) {
-      menuController.updateCategory('');
+  void updateCategory(value) {
+    if (controller.selectedCategory.value == value) {
+      controller.updateCategory('');
     } else {
-      menuController.updateCategory(value);
+      controller.updateCategory(value);
     }
-  }
-
-  void toggleValue(value) {
-    if (menuController.selectedCategoryValue.value == value) {
-      menuController.updateCategoryValue('');
-    } else {
-      menuController.updateCategoryValue(value);
-    }
-    menuController.updateData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MenuViewModel>(
-        builder: (menuController) => Container(
+    return GetBuilder<BookmarkListController>(
+        builder: (controller) => Container(
               margin: const EdgeInsets.all(10),
               child: Column(
                 children: [
@@ -42,37 +36,34 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                       ListPageButton(
                         text: '요리 시간',
                         isButtonClicked:
-                            menuController.selectedCategory.value == 'time'
-                                ? true
-                                : false,
-                        themecolor: const Color(0xffFFD717),
+                            controller.selectedCategory.value == 'time',
+                        themecolor: lightColorScheme.primary,
                         onPressed: () {
-                          toggleCategory('time');
+                          updateCategory('time');
                         },
                       ),
                       const SizedBox(width: 10),
                       ListPageButton(
                           text: '난이도',
                           isButtonClicked:
-                              menuController.selectedCategory.value == 'level',
-                          themecolor: const Color(0xffFFD717),
+                              controller.selectedCategory.value == 'level',
+                          themecolor: lightColorScheme.primary,
                           onPressed: () {
-                            toggleCategory('level');
+                            updateCategory('level');
                           }),
                       const SizedBox(width: 10),
                       ListPageButton(
                         text: '구성',
                         isButtonClicked:
-                            menuController.selectedCategory.value ==
-                                'composition',
-                        themecolor: const Color(0xffFFD717),
+                            controller.selectedCategory.value == 'composition',
+                        themecolor: lightColorScheme.primary,
                         onPressed: () {
-                          toggleCategory('composition');
+                          updateCategory('composition');
                         },
                       )
                     ],
                   ),
-                  if (menuController.selectedCategory.value == 'time')
+                  if (controller.selectedCategory.value == 'time')
                     Row(
                       children: [
                         Padding(
@@ -81,44 +72,47 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ListPageButton(
-                                text: '10분',
-                                isButtonClicked: menuController
-                                        .selectedCategoryValue.value ==
-                                    '10',
-                                themecolor: const Color(0xffFFA517),
-                                onPressed: () {
-                                  toggleValue('10');
-                                },
-                              ),
+                              Obx(() => ListPageButton(
+                                    text: '15분',
+                                    isButtonClicked:
+                                        controller.time.value == '15분',
+                                    themecolor: lightColorScheme.secondary,
+                                    onPressed: () {
+                                      controller.toggleValue(
+                                          controller.time, '15분');
+                                      controller.serachByOption(1);
+                                    },
+                                  )),
                               const SizedBox(width: 10),
-                              ListPageButton(
-                                text: '20분',
-                                isButtonClicked: menuController
-                                        .selectedCategoryValue.value ==
-                                    '20',
-                                themecolor: const Color(0xffFFA517),
-                                onPressed: () {
-                                  toggleValue('20');
-                                },
-                              ),
+                              Obx(() => ListPageButton(
+                                    text: '20분',
+                                    isButtonClicked:
+                                        controller.time.value == '20분',
+                                    themecolor: lightColorScheme.secondary,
+                                    onPressed: () {
+                                      controller.toggleValue(
+                                          controller.time, '20분');
+                                      controller.serachByOption(1);
+                                    },
+                                  )),
                               const SizedBox(width: 10),
-                              ListPageButton(
-                                text: '30분 이상',
-                                isButtonClicked: menuController
-                                        .selectedCategoryValue.value ==
-                                    '30',
-                                themecolor: const Color(0xffFFA517),
-                                onPressed: () {
-                                  toggleValue('30');
-                                },
-                              ),
+                              Obx(() => ListPageButton(
+                                    text: '30분 이상',
+                                    isButtonClicked:
+                                        controller.time.value == '30분',
+                                    themecolor: lightColorScheme.secondary,
+                                    onPressed: () {
+                                      controller.toggleValue(
+                                          controller.time, '30분');
+                                      controller.serachByOption(1);
+                                    },
+                                  )),
                             ],
                           ),
                         )
                       ],
                     )
-                  else if (menuController.selectedCategory.value == 'level')
+                  else if (controller.selectedCategory.value == 'level')
                     Row(
                       children: [
                         Padding(
@@ -127,47 +121,49 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ListPageButton(
-                                text: '왕초보',
-                                isButtonClicked: menuController
-                                        .selectedCategoryValue.value ==
-                                    '왕초보',
-                                themecolor: const Color(0xffFFA517),
-                                onPressed: () {
-                                  toggleValue('왕초보');
-                                },
+                              Obx(() => ListPageButton(
+                                    text: '초급',
+                                    isButtonClicked:
+                                        controller.difficulty.value == '초급',
+                                    themecolor: lightColorScheme.secondary,
+                                    onPressed: () {
+                                      controller.toggleValue(
+                                          controller.difficulty, '초급');
+                                      controller.serachByOption(1);
+                                    },
+                                  )),
+                              const SizedBox(width: 10),
+                              Obx(
+                                () => ListPageButton(
+                                  text: '중급',
+                                  isButtonClicked:
+                                      controller.difficulty.value == '중급',
+                                  themecolor: lightColorScheme.secondary,
+                                  onPressed: () {
+                                    controller.toggleValue(
+                                        controller.difficulty, '중급');
+                                    controller.serachByOption(1);
+                                  },
+                                ),
                               ),
                               const SizedBox(width: 10),
-                              ListPageButton(
-                                text: '초급',
-                                isButtonClicked: menuController
-                                        .selectedCategoryValue.value ==
-                                    '초급',
-                                themecolor: const Color(0xffFFA517),
-                                onPressed: () {
-                                  // "초급" 버튼 눌렀을 때 동작 구현
-                                  toggleValue('초급');
-                                },
-                              ),
-                              const SizedBox(width: 10),
-                              ListPageButton(
-                                text: '중급',
-                                isButtonClicked: menuController
-                                        .selectedCategoryValue.value ==
-                                    '중급',
-                                themecolor: const Color(0xffFFA517),
-                                onPressed: () {
-                                  // "중급" 버튼 눌렀을 때 동작 구현
-                                  toggleValue('중급');
-                                },
-                              ),
+                              Obx(() => ListPageButton(
+                                    text: '고급',
+                                    isButtonClicked:
+                                        controller.difficulty.value == '고급',
+                                    themecolor: lightColorScheme.secondary,
+                                    onPressed: () {
+                                      controller.toggleValue(
+                                          controller.difficulty, '고급');
+                                      controller.serachByOption(1);
+                                    },
+                                  )),
                             ],
                           ),
                         )
                       ],
                     )
-                  else if (menuController.selectedCategory.value ==
-                      'composition')
+                  else if (controller.selectedCategory.value == 'composition')
                     Row(
                       children: [
                         Padding(
@@ -176,29 +172,29 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ListPageButton(
-                                text: '가볍게',
-                                isButtonClicked: menuController
-                                        .selectedCategoryValue.value ==
-                                    '가볍게',
-                                themecolor: const Color(0xffFFA517),
-                                onPressed: () {
-                                  // "가볍게" 버튼 눌렀을 때 동작 구현
-                                  toggleValue('가볍게');
-                                },
-                              ),
+                              Obx(() => ListPageButton(
+                                    text: '가볍게',
+                                    isButtonClicked:
+                                        controller.composition.value == '가볍게',
+                                    themecolor: lightColorScheme.secondary,
+                                    onPressed: () {
+                                      controller.toggleValue(
+                                          controller.composition, '가볍게');
+                                      controller.serachByOption(1);
+                                    },
+                                  )),
                               const SizedBox(width: 10),
-                              ListPageButton(
-                                text: '든든하게',
-                                isButtonClicked: menuController
-                                        .selectedCategoryValue.value ==
-                                    '든든하게',
-                                themecolor: const Color(0xffFFA517),
-                                onPressed: () {
-                                  // "든든하게" 버튼 눌렀을 때 동작 구현
-                                  toggleValue('든든하게');
-                                },
-                              ),
+                              Obx(() => ListPageButton(
+                                    text: '든든하게',
+                                    isButtonClicked:
+                                        controller.composition.value == '든든하게',
+                                    themecolor: lightColorScheme.secondary,
+                                    onPressed: () {
+                                      controller.toggleValue(
+                                          controller.composition, '든든하게');
+                                      controller.serachByOption(1);
+                                    },
+                                  )),
                             ],
                           ),
                         )

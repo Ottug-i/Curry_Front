@@ -8,7 +8,7 @@ part of 'bookmark_update.dart';
 
 Bookmark _$BookmarkFromJson(Map<String, dynamic> json) => Bookmark(
       userId: json['userId'] as int,
-      recipeId: json['recipeId'] as String,
+      recipeId: json['recipeId'] as int,
     );
 
 Map<String, dynamic> _$BookmarkToJson(Bookmark instance) => <String, dynamic>{

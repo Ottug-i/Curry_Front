@@ -5,13 +5,23 @@ import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 
-class BookmarkListViewModel extends GetxController {
+class BookmarkListController extends GetxController {
   var BoomrkList = <MenuModel>[].obs;
 
   RxBool isBookmark = false.obs;
 
-  Rx<String> selectedCategory = 'null'.obs;
-  Rx<String> selectedCategoryValue = '0'.obs;
+  Rx<String> selectedCategory = ''.obs;
+  Rx<String> selectedCategoryValue = ''.obs;
+
+  Rx<String> composition = ''.obs;
+  Rx<String> difficulty = ''.obs;
+  Rx<String> time = ''.obs;
+
+  @override
+  void onClose() {
+    print('controller updated');
+    super.onClose();
+  }
 
   Future<void> fetchData(int userId) async {
     print('Bookmrk의 fetchData 실행');
@@ -45,6 +55,7 @@ class BookmarkListViewModel extends GetxController {
         var jsonString = updatedMenu.toJson().toString();
         print(jsonString);
       }
+      update();
     } catch (error) {
       // 에러 처리
       print('Error fetching menu list: $error');
@@ -61,14 +72,23 @@ class BookmarkListViewModel extends GetxController {
     update();
   }
 
-  void updateData(int userId, String recipeId) async {
+  void toggleValue(target, newvalue) {
+    print('toggle');
+    if (target.value == newvalue) {
+      target.value = '';
+    } else {
+      target.value = newvalue;
+    }
+    update();
+  }
+
+  void updateBookmark(int userId, int recipeId) async {
     print('Bookmrk의 updateData 실행');
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
       await bookmrkRepository.updateBookmark(bookmrkItem);
-      fetchData(userId);
+      await fetchData(userId); // 재로딩
     } catch (error) {
       // 에러 처리
       print('Error updating bookmark: $error');
@@ -78,7 +98,6 @@ class BookmarkListViewModel extends GetxController {
   Future<void> searchData(int userId, String text) async {
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-
       final menuData = await bookmrkRepository.searchByName(userId, text);
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
 
@@ -102,9 +121,10 @@ class BookmarkListViewModel extends GetxController {
         );
 
         BoomrkList.add(updatedMenu);
+        update();
         // 디버깅용 코드
         var jsonString = updatedMenu.toJson().toString();
-        print(jsonString);
+        print('검색 결과: $jsonString');
       }
     } catch (error) {
       // 에러 처리
@@ -112,42 +132,50 @@ class BookmarkListViewModel extends GetxController {
     }
   }
 
-  bool checkData(MenuModel e) {
-    switch (selectedCategory.value) {
-      case 'time':
-        final datatime = int.tryParse(e.time ?? '0');
-        final selctedValue = int.parse(selectedCategoryValue.value);
-        if (selctedValue == 30) {
-          if (datatime! >= 30) {
-            return true;
-          } else {
-            return false;
-          }
-        } else if ((selctedValue - 10 < datatime!) &&
-            (datatime < selctedValue + 10)) {
-          return true;
-        } else {
-          return false;
-        }
-      case 'level':
-        if (e.difficulty == selectedCategoryValue.value) {
-          return true;
-        } else {
-          return false;
-        }
+  Future<void> serachByOption(int userId) async {
+    print("serachByOption 실행 - $composition, $time, $difficulty");
+    try {
+      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
 
-      case 'composition':
-        if (e.composition == selectedCategoryValue.value) {
-          return true;
-        } else {
-          return false;
-        }
-      default:
-        return true;
+      final menuData = await bookmrkRepository.searchByOption(
+          userId, composition.value, difficulty.value, time.value);
+      // 요청 URL 출력
+      //print('요청 URL: ${bookmrkRepository.options.path}');
+      print(menuData);
+      BoomrkList.clear(); // 기존 데이터를 지우고 시작
+
+      for (var menu in menuData) {
+        //var ingredientsValue = menu.ingredients;
+        var ingredientsValue = menu.ingredients!
+            .split("#")
+            .where((element) => element.isNotEmpty)
+            .join(", ");
+
+        // MenuModel의 나머지 속성들은 그대로 유지
+        var updatedMenu = MenuModel(
+          id: menu.id,
+          name: menu.name,
+          thumbnail: menu.thumbnail,
+          time: menu.time,
+          difficulty: menu.difficulty,
+          composition: menu.composition,
+          ingredients: ingredientsValue,
+          isBookmark: menu.isBookmark,
+        );
+
+        BoomrkList.add(updatedMenu);
+        update();
+        // 디버깅용 코드
+        var jsonString = updatedMenu.toJson().toString();
+        print('검색 결과: $jsonString');
+      }
+    } catch (error) {
+      // 에러 처리
+      print('Error updating bookmark: $error');
     }
   }
 
-  void changeBookmark() {
+  /*void changeBookmark() {
     print('changeBookmark 실행');
     var filterData = BoomrkList.where((element) => checkData(element)).toList();
     print(filterData.length);
@@ -158,5 +186,5 @@ class BookmarkListViewModel extends GetxController {
   void updateBookmark(bool newvalue) {
     isBookmark.value = newvalue;
     update();
-  }
+  }*/
 }

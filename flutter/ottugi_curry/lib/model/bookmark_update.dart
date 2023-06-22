@@ -5,7 +5,7 @@ part 'bookmark_update.g.dart';
 @JsonSerializable()
 class Bookmark {
   int userId;
-  String recipeId;
+  int recipeId;
 
   Bookmark({required this.userId, required this.recipeId});
 

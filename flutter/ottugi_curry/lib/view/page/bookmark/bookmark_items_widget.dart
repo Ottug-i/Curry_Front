@@ -1,32 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ottugi_curry/view_model/bookmark/bookmark_view_model.dart';
+import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
 
 class ItemsWidget extends StatefulWidget {
-  const ItemsWidget({Key? key}) : super(key: key);
+  //final BookmarkListController controller;
+  final String controllerTag;
+
+  const ItemsWidget({Key? key, required this.controllerTag}) : super(key: key);
 
   @override
   _ItemsWidgetState createState() => _ItemsWidgetState();
 }
 
 class _ItemsWidgetState extends State<ItemsWidget> {
-  Future<void> _initMenuList() async {
-    print('여기는 bookmrk_item_widget.dart');
-    //print('print Get.arguments: ${Get.arguments}');
-    await Get.find<BookmarkListViewModel>().fetchData(1);
-  }
+  late BookmarkListController controller;
 
   @override
   void initState() {
     super.initState();
+    //controller = Get.find<BookmarkListController>(tag: widget.controllerTag);
+    controller = Get.put(BookmarkListController(), tag: widget.controllerTag);
+
+    @override
+    void dependencies() {
+      // TODO: implement dependencies
+      Get.lazyPut(
+        () => BookmarkListController(),
+        tag: widget.controllerTag, //tag 옵션과 함께 dependency 주입!
+      );
+    }
+
     _initMenuList();
+  }
+
+  Future<void> _initMenuList() async {
+    print('여기는 bookmrk_item_widget.dart');
+    //print('print Get.arguments: ${Get.arguments}');
+    await controller.fetchData(1);
   }
 
   @override
   Widget build(BuildContext context) {
-    Get.put(BookmarkListViewModel());
-    final rListController = Get.find<BookmarkListViewModel>();
-    //final menuList = Get.find<BookmarkListViewModel>().BoomrkList;
+    //Get.put(BookmarkListController());
+    //final controller = Get.find<BookmarkListController>();
+    //final menuList = Get.find<BookmarkListController>().BoomrkList;
 
     return FutureBuilder(
         future: _initMenuList(),
@@ -37,7 +55,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
             );
           }
 
-          final menuList = rListController.BoomrkList;
+          final menuList = controller.BoomrkList;
           if (menuList.isNotEmpty) {
             return ListView.builder(
               shrinkWrap: true,
@@ -47,7 +65,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                 return GestureDetector(
                   onTap: () {
                     Get.toNamed('/recipe_detail',
-                        arguments: 6909678); //6909678: 레시피 아이디 예시
+                        arguments: menuItem.id); //6909678: 레시피 아이디 예시
                   },
                   child: Container(
                       padding: const EdgeInsets.all(20),
@@ -66,7 +84,9 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                               borderRadius: BorderRadius.circular(24.0),
                               child: Image.network(
                                 '${menuItem.thumbnail}' ?? '',
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
+                                height: 100,
+                                width: 150,
                               ),
                             ),
                           ),
@@ -106,34 +126,17 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                             left: 8, right: 8),
                                         alignment: Alignment.topLeft,
                                         //crossAxisAlignment: CrossAxisAlignment.start,
-                                        child: Icon(
-                                          menuItem.isBookmark!
+                                        child: IconButton(
+                                          icon: Icon(menuItem.isBookmark!
                                               ? Icons.bookmark_rounded
-                                              : Icons.bookmark_border_rounded,
-                                          size: 30,
-                                          color: const Color(0xffFFD717),
-                                        ), /*Obx(
-                                          () => GestureDetector(
-                                            onTap: () {
-                                              bool value;
-                                              if (menuItem.isBookmark == true) {
-                                                value = false;
-                                              } else {
-                                                value = true;
-                                              }
-                                              rListController
-                                                  .updateBookmark(value);
-                                            },
-                                            child: Icon(
-                                              menuItem.isBookmark!
-                                                  ? Icons.bookmark_rounded
-                                                  : Icons
-                                                      .bookmark_border_rounded,
-                                              size: 30,
-                                              color: const Color(0xffFFD717),
-                                            ),
-                                          ),
-                                        ),*/
+                                              : Icons.bookmark_border_rounded),
+                                          iconSize: 30,
+                                          color: lightColorScheme.primary,
+                                          onPressed: () {
+                                            controller.updateBookmark(
+                                                1, menuItem.id);
+                                          },
+                                        ),
                                       ),
                                     ],
                                   ),

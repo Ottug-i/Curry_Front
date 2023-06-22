@@ -6,7 +6,6 @@ import 'package:ottugi_curry/config/custom_theme_data.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
 void main() async {
   // firebase
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ottugi_curry/view_model/list/recipe_list_view_model.dart';
+import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 
 class ItemsWidget extends StatefulWidget {
   const ItemsWidget({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
   Future<void> _initMenuList() async {
     print('여기는 item_widget.dart');
     //print('print Get.arguments: ${Get.arguments}');
-    await Get.find<MenuListViewModel>().fetchData(1, ["6855278", "6909678"]);
+    await Get.find<MenuListController>().fetchData(1, ["6855278", "6909678"]);
   }
 
   @override
@@ -24,9 +25,8 @@ class _ItemsWidgetState extends State<ItemsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(MenuListViewModel());
-    final rListController = Get.find<MenuListViewModel>();
-    //final menuList = Get.find<MenuListViewModel>().MenuModelList;
+    Get.put(MenuListController());
+    final rListController = Get.find<MenuListController>();
 
     return FutureBuilder(
         future: _initMenuList(),
@@ -41,13 +41,19 @@ class _ItemsWidgetState extends State<ItemsWidget> {
           if (menuList.isNotEmpty) {
             return ListView.builder(
               shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: menuList.length,
               itemBuilder: (BuildContext context, int i) {
                 final menuItem = menuList[i];
+                // 북마크 아이콘을 변경해서 전체 리스트를 reload하려면
+                //  다시 추천시스템을 거쳐야해서(23.06.04 기준)
+                // 북마크 update는 정상 작동하지만 그 결과를 받아와서 UI를 재구성하지는 않도록 함
+                bool? initBookmark = menuItem.isBookmark;
                 return GestureDetector(
                   onTap: () {
                     Get.toNamed('/recipe_detail',
-                        arguments: 6909678); //6909678: 레시피 아이디 예시
+                        arguments: menuItem.id); //6909678: 레시피 아이디 예시
                   },
                   child: Container(
                       padding: const EdgeInsets.all(20),
@@ -66,7 +72,9 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                               borderRadius: BorderRadius.circular(24.0),
                               child: Image.network(
                                 '${menuItem.thumbnail}' ?? '',
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
+                                height: 100,
+                                width: 150,
                               ),
                             ),
                           ),
@@ -78,8 +86,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                 children: [
                                   // 첫 번째 줄 (메뉴 이름, 북마크 아이콘)
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -96,45 +103,26 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           const SizedBox(
-                                            height: 12,
+                                            height: 10,
                                           ),
                                         ],
                                       ),
                                       // 북마크 아이콘
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                            left: 8, right: 8),
-                                        alignment: Alignment.topLeft,
-                                        //crossAxisAlignment: CrossAxisAlignment.start,
-                                        child: Icon(
-                                          menuItem.isBookmark!
-                                              ? Icons.bookmark_rounded
-                                              : Icons.bookmark_border_rounded,
-                                          size: 30,
-                                          color: const Color(0xffFFD717),
-                                        ), /*Obx(
-                                          () => GestureDetector(
-                                            onTap: () {
-                                              bool value;
-                                              if (menuItem.isBookmark == true) {
-                                                value = false;
-                                              } else {
-                                                value = true;
-                                              }
-                                              rListController
-                                                  .updateBookmark(value);
-                                            },
-                                            child: Icon(
-                                              menuItem.isBookmark!
-                                                  ? Icons.bookmark_rounded
-                                                  : Icons
-                                                      .bookmark_border_rounded,
-                                              size: 30,
-                                              color: const Color(0xffFFD717),
-                                            ),
-                                          ),
-                                        ),*/
-                                      ),
+                                      IconButton(
+                                        icon: Icon(initBookmark!
+                                            ? Icons.bookmark_rounded
+                                            : Icons.bookmark_border_rounded),
+                                        iconSize: 30,
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(),
+                                        color: lightColorScheme.primary,
+                                        onPressed: () {
+                                          rListController.updateBookmark(
+                                              1,
+                                              menuItem.id,
+                                              ["6855278", "6909678"]);
+                                        },
+                                      )
                                     ],
                                   ),
                                   // 두 번째 줄 (재료 목록)
@@ -148,7 +136,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                     )),
                                   ]),
                                   const SizedBox(
-                                    height: 12,
+                                    height: 10,
                                   ),
                                   // 세 번째 줄 (아이콘 - 시간, 난이도, 구성)
                                   Row(

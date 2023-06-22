@@ -1,0 +1,220 @@
+*   [33mddfca50[m[33m ([m[1;36mHEAD -> [m[1;32mbookmark[m[33m)[m Merge remote-tracking branch 'origin/listpage' into bookmark
+[31m|[m[32m\[m  
+[31m|[m * [33m18fe4d8[m[33m ([m[1;31morigin/listpage[m[33m, [m[1;32mlistpage[m[33m)[m Implement Basic Bookmark Page
+* [32m|[m [33mb551eec[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Merge pull request #4 from Ottug-i/listpage
+[33m|[m[32m\[m[32m|[m 
+[33m|[m * [33mee71fab[m (WIP) Implement Retrofit in list page
+[33m|[m * [33m1566afa[m Fix api error & size error
+[33m|[m *   [33mb438a6d[m Merge branch 'main' into listpage
+[33m|[m [35m|[m[33m\[m  
+[33m|[m [35m|[m[33m/[m  
+[33m|[m[33m/[m[35m|[m   
+* [35m|[m   [33m18cc7d4[m Merge pull request #7 from Ottug-i/login
+[1;31m|[m[1;32m\[m [35m\[m  
+[1;31m|[m * [35m|[m [33m1b67244[m[33m ([m[1;31morigin/login[m[33m)[m Revise Social Logout
+[1;31m|[m * [35m|[m [33m1c5fbcb[m Add Social Logout
+[1;31m|[m[1;31m/[m [35m/[m  
+* [35m|[m   [33m8c0b0d9[m Merge pull request #6 from Ottug-i/user
+[1;33m|[m[1;34m\[m [35m\[m  
+[1;33m|[m * [35m|[m [33md298a66[m[33m ([m[1;31morigin/user[m[33m)[m Add Withdrawal to UserPage
+[1;33m|[m * [35m|[m [33me8be2a0[m Add FutureBuilder to UserPage
+* [1;34m|[m [35m|[m   [33mbf8165d[m Merge pull request #5 from Ottug-i/login
+[1;34m|[m[1;36m\[m [1;34m\[m [35m\[m  
+[1;34m|[m [1;36m|[m[1;34m/[m [35m/[m  
+[1;34m|[m[1;34m/[m[1;36m|[m [35m|[m   
+[1;34m|[m * [35m|[m [33m1715b34[m Revise Social Login (use current IP address)
+[1;34m|[m [1;36m|[m * [33m841188b[m WIP (Retrofit api)
+[1;34m|[m [1;36m|[m * [33mb194abd[m Update minSdkVersion
+[1;34m|[m [1;36m|[m * [33mab9264f[m Delete Backend code
+[1;34m|[m [1;36m|[m * [33m3cd3aca[m Resolve conflict of merge
+[1;34m|[m [1;36m|[m *   [33mf71cb31[m Merge branch 'main' into listpage
+[1;34m|[m [1;36m|[m [31m|[m[1;34m\[m  
+[1;34m|[m [1;36m|[m[1;34m_[m[31m|[m[1;34m/[m  
+[1;34m|[m[1;34m/[m[1;36m|[m [31m|[m   
+* [1;36m|[m [31m|[m [33m8a42fa0[m Merge pull request #3 from Ottug-i/login
+[33m|[m[1;36m\[m[1;36m|[m [31m|[m 
+[33m|[m * [31m|[m [33m04f3075[m Implement Kakao Login
+[33m|[m[33m/[m [31m/[m  
+* [31m|[m   [33m962f6b8[m Merge pull request #2 from Ottug-i/recipe_detail
+[35m|[m[36m\[m [31m\[m  
+[35m|[m * [31m\[m   [33m503c033[m[33m ([m[1;31morigin/recipe_detail[m[33m)[m Merge remote-tracking branch 'origin/recipe_detail' into recipe_detail
+[35m|[m [1;31m|[m[1;32m\[m [31m\[m  
+[35m|[m * [1;32m|[m [31m|[m [33m539bb81[m Add Navigation Arguments RecipeId to Api
+* [1;32m|[m [1;32m|[m [31m|[m   [33mf30e611[m Merge pull request #1 from Ottug-i/recipe_detail
+[1;33m|[m[1;32m\[m [1;32m\[m [1;32m\[m [31m\[m  
+[1;33m|[m [1;32m|[m [1;32m|[m[1;32m/[m [31m/[m  
+[1;33m|[m [1;32m|[m[1;32m/[m[1;32m|[m [31m|[m   
+[1;33m|[m * [1;32m|[m [31m|[m   [33m874e3a8[m Merge branch 'main' into recipe_detail
+[1;33m|[m [1;32m|[m[1;33m\[m [1;32m\[m [31m\[m  
+[1;33m|[m [1;32m|[m[1;33m/[m [1;32m/[m [31m/[m  
+[1;33m|[m[1;33m/[m[1;32m|[m [1;32m/[m [31m/[m   
+[1;33m|[m [1;32m|[m[1;32m/[m [31m/[m    
+* [1;32m|[m [31m|[m   [33md427bc8[m Merge remote-tracking branch 'origin/main'
+[31m|[m[32m\[m [1;32m\[m [31m\[m  
+[31m|[m [32m|[m * [31m\[m   [33m7eb9cb3[m Merge remote-tracking branch 'origin/recipe_detail' into recipe_detail
+[31m|[m [32m|[m [33m|[m[31m\[m [31m\[m  
+[31m|[m [32m|[m[31m_[m[33m|[m[31m/[m [31m/[m  
+[31m|[m[31m/[m[32m|[m [33m|[m [31m|[m   
+* [32m|[m [33m|[m [31m|[m [33m3d4aaa9[m Delete Back Code
+[34m|[m [32m|[m * [31m|[m [33md2a77af[m Add Timer Alarm to RecipeDetailTimer
+[34m|[m [32m|[m * [31m|[m [33mfbfe0da[m Add FutureBuilder to RecipeDetail
+[34m|[m [32m|[m * [31m|[m [33m8b17639[m Add Timer to Recipe Detail AppBar
+[34m|[m [32m|[m * [31m|[m [33mcfb9ef5[m Add Recipe order view options
+[34m|[m [32m|[m * [31m|[m [33m85c816d[m Add Recipe Detail api
+[34m|[m [32m|[m[32m/[m [31m/[m  
+[34m|[m * [31m|[m [33mb006547[m[33m ([m[1;31mupstream/user[m[33m)[m Revise UserProfile in UserPage
+[34m|[m [34m|[m * [33mb1b9019[m Create retrofit api
+[34m|[m [34m|[m * [33mbf96750[m Revise RecipeDetailPage data
+[34m|[m [34m|[m * [33mef96b94[m Add Serach Method (unfinshed)
+[34m|[m [34m|[m * [33m2b43038[m Implement Tooltip in Main Page
+[34m|[m [34m|[m * [33m74209b6[m Fix Build Error
+[34m|[m [34m|[m *   [33mef2a7eb[m Merge branch 'main' into listpage
+[34m|[m [34m|[m [35m|[m[34m\[m  
+[34m|[m [34m|[m[34m_[m[35m|[m[34m/[m  
+[34m|[m[34m/[m[34m|[m [35m|[m   
+* [34m|[m [35m|[m   [33m2e66712[m[33m ([m[1;31mupstream/main[m[33m, [m[1;31mupstream/HEAD[m[33m)[m Merge pull request #28 from GaGa-Kim/config
+[1;31m|[m[1;32m\[m [34m\[m [35m\[m  
+[1;31m|[m * [34m|[m [35m|[m [33ma670a7d[m[33m ([m[1;31mupstream/config[m[33m, [m[1;31morigin/config[m[33m)[m Implement Splash Screen (Loading Screen)
+[1;31m|[m * [34m|[m [35m|[m   [33m5a49b08[m Merge remote-tracking branch 'origin/main' into config
+[1;31m|[m [1;33m|[m[1;31m\[m [34m\[m [35m\[m  
+[1;31m|[m [1;33m|[m[1;31m/[m [34m/[m [35m/[m  
+[1;31m|[m[1;31m/[m[1;33m|[m [34m|[m [35m|[m   
+* [1;33m|[m [34m|[m [35m|[m   [33mc595d3f[m Merge pull request #27 from GaGa-Kim/user
+[1;35m|[m[34m\[m [1;33m\[m [34m\[m [35m\[m  
+[1;35m|[m [34m|[m [1;33m|[m[34m/[m [35m/[m  
+[1;35m|[m [34m|[m[34m/[m[1;33m|[m [35m|[m   
+[1;35m|[m * [1;33m|[m [35m|[m [33m0479f41[m Add update User Nickname
+[1;35m|[m * [1;33m|[m [35m|[m [33m9407d43[m Add UserProfile
+[1;35m|[m * [1;33m|[m [35m|[m [33m121fb8e[m Implement Lately Recipe
+[1;35m|[m * [1;33m|[m [35m|[m [33m54efbf8[m Add checkLogin, logout
+[1;35m|[m * [1;33m|[m [35m|[m   [33me7239d7[m Merge branch 'main' of https://github.com/GaGa-Kim/Ottug-i_Curry into user
+[1;35m|[m [31m|[m[32m\[m [1;33m\[m [35m\[m  
+[1;35m|[m * [32m\[m [1;33m\[m [35m\[m   [33m4142324[m Merge remote-tracking branch 'origin/user' into user
+[1;35m|[m [33m|[m[34m\[m [32m\[m [1;33m\[m [35m\[m  
+[1;35m|[m * [34m|[m [32m|[m [1;33m|[m [35m|[m [33m3e63f85[m Revise CustomThemeData
+[1;35m|[m [34m|[m [34m|[m [32m|[m * [35m|[m [33m32cdcd1[m Set AppIcon, AppName
+[1;35m|[m [34m|[m [34m|[m [32m|[m * [35m|[m [33me3a6dd7[m Revise CustomThemeData
+[1;35m|[m [34m|[m [34m|[m [32m|[m [34m|[m * [33macdb73f[m Implement List Item onTap function
+[1;35m|[m [34m|[m [34m|[m [32m|[m [34m|[m * [33m8258ced[m Implement Main Page
+[1;35m|[m [34m|[m [34m|[m [32m|[m [34m|[m * [33m673c2b8[m Change img in camera result check page
+[1;35m|[m [34m|[m [34m|[m [32m|[m [34m|[m * [33mf5be812[m Rmv comment
+[1;35m|[m [34m|[m [34m|[m [32m|[m [34m|[m * [33m3d73e7b[m Implement Checkbox in Dialog
+[1;35m|[m [34m|[m [34m|[m [32m|[m [34m|[m *   [33m94c0ff4[m Merge remote-tracking branch 'origin' into listpage
+[1;35m|[m [34m|[m [34m|[m [32m|[m [34m|[m [35m|[m[1;35m\[m  
+[1;35m|[m [34m|[m[1;35m_[m[34m|[m[1;35m_[m[32m|[m[1;35m_[m[34m|[m[1;35m_[m[35m|[m[1;35m/[m  
+[1;35m|[m[1;35m/[m[34m|[m [34m|[m [32m|[m [34m|[m [35m|[m   
+* [34m|[m [34m|[m [32m|[m [34m|[m [35m|[m   [33mb539625[m Merge pull request #25 from GaGa-Kim/log
+[32m|[m[1;32m\[m [34m\[m [34m\[m [32m\[m [34m\[m [35m\[m  
+[32m|[m [1;32m|[m[32m_[m[34m|[m[32m_[m[34m|[m[32m/[m [34m/[m [35m/[m  
+[32m|[m[32m/[m[1;32m|[m [34m|[m [34m|[m [34m|[m [35m|[m   
+[32m|[m * [34m|[m [34m|[m [34m|[m [35m|[m [33m44f9bca[m[33m ([m[1;31mupstream/log[m[33m, [m[1;31morigin/log[m[33m)[m Add Interceptor & Logback and Fix WebConfig deprecated
+[32m|[m[32m/[m [34m/[m [34m/[m [34m/[m [35m/[m  
+* [34m|[m [34m|[m [34m|[m [35m|[m   [33med2b1c9[m Merge pull request #24 from GaGa-Kim/login
+[1;33m|[m[1;34m\[m [34m\[m [34m\[m [34m\[m [35m\[m  
+[1;33m|[m * [34m|[m [34m|[m [34m|[m [35m|[m [33m5ac577c[m[33m ([m[1;31mupstream/login[m[33m)[m Add Login api
+[1;33m|[m * [34m|[m [34m|[m [34m|[m [35m|[m [33m2e75afe[m Merge branch 'main' of https://github.com/GaGa-Kim/Ottug-i_Curry into login
+[1;33m|[m [1;35m|[m[34m\[m[34m|[m [34m|[m [34m|[m [35m|[m 
+[1;33m|[m * [34m|[m [34m|[m [34m|[m [35m|[m [33m935d676[m Add GoogleSignIn
+[1;33m|[m [1;36m|[m [34m|[m [34m|[m [34m|[m * [33m8509c67[m Implement Result Check Page
+[1;33m|[m [1;36m|[m [34m|[m [34m|[m [34m|[m * [33m43396ab[m Add image files & Fix Image widget as a local ver
+[1;33m|[m [1;36m|[m [34m|[m [34m|[m [34m|[m * [33m336f479[m Implement bookmark page withour search & Fix UI of list page
+[1;33m|[m [1;36m|[m [34m|[m [34m|[m [34m|[m *   [33m69728cc[m Merge remote-tracking branch 'origin' into listpage
+[1;33m|[m [1;36m|[m [34m|[m [34m|[m [34m|[m [31m|[m[1;33m\[m  
+[1;33m|[m [1;36m|[m[1;33m_[m[34m|[m[1;33m_[m[34m|[m[1;33m_[m[34m|[m[1;33m_[m[31m|[m[1;33m/[m  
+[1;33m|[m[1;33m/[m[1;36m|[m [34m|[m [34m|[m [34m|[m [31m|[m   
+* [1;36m|[m [34m|[m [34m|[m [34m|[m [31m|[m   [33m6ed1954[m Merge pull request #23 from GaGa-Kim/lately
+[33m|[m[34m\[m [1;36m\[m [34m\[m [34m\[m [34m\[m [31m\[m  
+[33m|[m * [1;36m|[m [34m|[m [34m|[m [34m|[m [31m|[m [33md3d6974[m[33m ([m[1;31mupstream/lately[m[33m, [m[1;31morigin/lately[m[33m)[m Refactor Lately Test
+[33m|[m[33m/[m [1;36m/[m [34m/[m [34m/[m [34m/[m [31m/[m  
+* [1;36m|[m [34m|[m [34m|[m [34m|[m [31m|[m   [33m697b06c[m Merge pull request #21 from GaGa-Kim/bookmark
+[35m|[m[36m\[m [1;36m\[m [34m\[m [34m\[m [34m\[m [31m\[m  
+[35m|[m * [1;36m|[m [34m|[m [34m|[m [34m|[m [31m|[m [33maced3be[m[33m ([m[1;31mupstream/bookmark[m[33m, [m[1;31morigin/bookmark[m[33m)[m Refactor Bookmark Test
+[35m|[m[35m/[m [1;36m/[m [34m/[m [34m/[m [34m/[m [31m/[m  
+* [1;36m|[m [34m|[m [34m|[m [34m|[m [31m|[m   [33mb6c8091[m Merge pull request #20 from GaGa-Kim/recipe
+[1;31m|[m[1;32m\[m [1;36m\[m [34m\[m [34m\[m [34m\[m [31m\[m  
+[1;31m|[m * [1;36m|[m [34m|[m [34m|[m [34m|[m [31m|[m [33m7b25735[m[33m ([m[1;31mupstream/recipe[m[33m, [m[1;31morigin/recipe[m[33m)[m Refactor Recipe Test
+[1;31m|[m[1;31m/[m [1;36m/[m [34m/[m [34m/[m [34m/[m [31m/[m  
+[1;31m|[m [1;36m|[m [34m|[m [34m|[m [34m|[m * [33m16a854d[m wip
+[1;31m|[m [1;36m|[m [34m|[m [34m|[m [34m|[m * [33me972d0b[m Implement api (finished)
+[1;31m|[m [1;36m|[m [34m|[m [34m|[m [34m|[m *   [33m234a9ae[m Merge branch 'main' into listpage
+[1;31m|[m [1;36m|[m [34m|[m [34m|[m [34m|[m [1;33m|[m[1;31m\[m  
+[1;31m|[m [1;36m|[m[1;31m_[m[34m|[m[1;31m_[m[34m|[m[1;31m_[m[34m|[m[1;31m_[m[1;33m|[m[1;31m/[m  
+[1;31m|[m[1;31m/[m[1;36m|[m [34m|[m [34m|[m [34m|[m [1;33m|[m   
+* [1;36m|[m [34m|[m [34m|[m [34m|[m [1;33m|[m   [33m68e9ac3[m Merge pull request #19 from GaGa-Kim/user
+[1;35m|[m[34m\[m [1;36m\[m [34m\[m [34m\[m [34m\[m [1;33m\[m  
+[1;35m|[m [34m|[m [1;36m|[m[34m_[m[34m|[m[34m/[m [34m/[m [1;33m/[m  
+[1;35m|[m [34m|[m[34m/[m[1;36m|[m [34m|[m [34m|[m [1;33m|[m   
+[1;35m|[m * [1;36m|[m [34m|[m [34m|[m [1;33m|[m [33m71c7ae6[m Refactor User Test
+* [1;36m|[m [1;36m|[m [34m|[m [34m|[m [1;33m|[m [33m3884a40[m Merge pull request #18 from GaGa-Kim/user
+[34m|[m[1;36m\[m[1;36m|[m [1;36m|[m [34m|[m [34m|[m [1;33m|[m 
+[34m|[m [1;36m|[m[34m_[m[1;36m|[m[34m/[m [34m/[m [1;33m/[m  
+[34m|[m[34m/[m[1;36m|[m [1;36m|[m [34m|[m [1;33m|[m   
+[34m|[m * [1;36m|[m [34m|[m [1;33m|[m [33m01e6940[m Fix sql encoding
+[34m|[m[34m/[m [1;36m/[m [34m/[m [1;33m/[m  
+* [1;36m|[m [34m|[m [1;33m|[m   [33ma96d83b[m Merge pull request #15 from GaGa-Kim/listpage
+[33m|[m[34m\[m [1;36m\[m [34m\[m [1;33m\[m  
+[33m|[m [34m|[m [1;36m|[m [34m|[m * [33m6a934e9[m Implement api
+[33m|[m [34m|[m [1;36m|[m [34m|[m * [33m1627a35[m Implement api (unfinished)
+[33m|[m [34m|[m [1;36m|[m[34m_[m[34m|[m[34m/[m  
+[33m|[m [34m|[m[34m/[m[1;36m|[m [34m|[m   
+[33m|[m * [1;36m|[m [34m|[m [33m16b1f54[m Implement List Page
+[33m|[m[33m/[m [1;36m/[m [34m/[m  
+* [1;36m|[m [34m|[m   [33m71fea96[m Merge pull request #14 from GaGa-Kim/user
+[35m|[m[36m\[m [1;36m\[m [34m\[m  
+[35m|[m * [1;36m|[m [34m|[m [33m616ac71[m Add User Page (UI)
+* [36m|[m [1;36m|[m [34m|[m [33mbe0a9c3[m Merge pull request #13 from GaGa-Kim/recipe_detail
+[1;31m|[m[36m\[m[36m|[m [1;36m|[m [34m|[m 
+[1;31m|[m * [1;36m|[m [34m|[m [33m3ef0519[m[33m ([m[1;31mupstream/recipe_detail[m[33m)[m Add Timer Dialog to Recipe Detail
+[1;31m|[m[1;31m/[m [1;36m/[m [34m/[m  
+* [1;36m|[m [34m/[m [33me471505[m Merge pull request #12 from GaGa-Kim/login
+[34m|[m[1;36m\[m[1;36m|[m [34m|[m 
+[34m|[m [1;36m|[m[34m/[m  
+[34m|[m[34m/[m[1;36m|[m   
+[34m|[m * [33ma2d0e7d[m Add Login Page (UI)
+[34m|[m[34m/[m  
+*   [33m5587ca8[m Merge pull request #11 from GaGa-Kim/config
+[1;35m|[m[1;36m\[m  
+[1;35m|[m * [33m1941585[m Add DefaultLayout, BottomNavigationBar
+[1;35m|[m[1;35m/[m  
+*   [33mc7315f6[m Merge pull request #10 from GaGa-Kim/recipe_detail
+[31m|[m[32m\[m  
+[31m|[m * [33m2c9b9d5[m Move RecipeDetail files to folders
+[31m|[m * [33mc6e06ae[m Add RecipeDetailPage
+[31m|[m[31m/[m  
+*   [33m96e4b8c[m Merge pull request #9 from GaGa-Kim/config
+[33m|[m[34m\[m  
+[33m|[m * [33mc655624[m Add CustomThemeData
+* [34m|[m [33m8fe5caf[m Merge pull request #8 from GaGa-Kim/recipe_detail
+[35m|[m[34m\[m[34m|[m 
+[35m|[m * [33m38785bc[m init
+[35m|[m[35m/[m  
+*   [33m5481031[m Merge pull request #7 from GaGa-Kim/user
+[1;31m|[m[1;32m\[m  
+[1;31m|[m * [33m3e23c58[m Add JWT Token
+[1;31m|[m[1;31m/[m  
+*   [33m845c97a[m Merge pull request #6 from GaGa-Kim/lately
+[1;33m|[m[1;34m\[m  
+[1;33m|[m * [33m2dbe0e9[m Add Swagger
+* [1;34m|[m [33m7bf80db[m Merge pull request #5 from GaGa-Kim/lately
+[1;35m|[m[1;34m\[m[1;34m|[m 
+[1;35m|[m * [33mddc147a[m Add Lately API And Test
+[1;35m|[m * [33m9f820d2[m Add Lately Domain
+[1;35m|[m[1;35m/[m  
+*   [33mc3558d8[m Merge pull request #4 from GaGa-Kim/bookmark
+[31m|[m[32m\[m  
+[31m|[m * [33mad48065[m Add Bookmark API And Test
+[31m|[m * [33mee585e2[m Add Bookmark Domain
+[31m|[m[31m/[m  
+*   [33me88a4c1[m Merge pull request #2 from GaGa-Kim/recipe
+[33m|[m[34m\[m  
+[33m|[m * [33m6b49699[m Add Recipe API And Test
+[33m|[m * [33m02b4cd5[m Add Recipe Domain
+[33m|[m[33m/[m  
+*   [33m3bca68c[m Merge pull request #1 from GaGa-Kim/user
+[35m|[m[36m\[m  
+[35m|[m * [33m2d741e3[m Add User API And Test
+[35m|[m * [33m87349fc[m Add User Domain
+[35m|[m * [33mdabe3ac[m Initial
+[35m|[m[35m/[m  
+* [33m93a14f1[m Create temp.text
+* [33m64a5bca[m Create README.md
