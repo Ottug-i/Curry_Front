@@ -70,7 +70,7 @@ class _RecipeDetailGalleryViewWidgetState
                 controller: _nestedTabController,
                 labelColor: lightColorScheme.secondary,
                 unselectedLabelColor: Colors.grey,
-                indicator: const BoxDecoration(
+                indicator: BoxDecoration(
                   shape: BoxShape.circle,
                   color: lightColorScheme.secondary,
                 ),
