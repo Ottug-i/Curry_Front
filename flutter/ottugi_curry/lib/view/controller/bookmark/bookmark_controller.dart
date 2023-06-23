@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
+import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 
 class BookmarkListController extends GetxController {
   var BoomrkList = <MenuModel>[].obs;
@@ -31,11 +32,15 @@ class BookmarkListController extends GetxController {
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData) {
+        // 기존 ingredients 문자열 정리
         //var ingredientsValue = menu.ingredients;
-        var ingredientsValue = menu.ingredients!
-            .split("#")
-            .where((element) => element.isNotEmpty)
-            .join(", ");
+        // var ingredientsValue = menu.ingredients!
+        //     .split("#")
+        //     .where((element) => element.isNotEmpty)
+        //     .join(", ");
+
+        // 변경: ingredients 문자열 정리
+        final ingredientsValue = extractOnlyContent(menu.ingredients!);
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(
