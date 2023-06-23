@@ -63,7 +63,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                 ),
                 // 아이템 위젯
                 if (bListController.BoomrkList.isEmpty)
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
