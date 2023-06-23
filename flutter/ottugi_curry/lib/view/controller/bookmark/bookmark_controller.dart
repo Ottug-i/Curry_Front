@@ -32,10 +32,27 @@ class BookmarkListController extends GetxController {
 
       for (var menu in menuData) {
         //var ingredientsValue = menu.ingredients;
-        var ingredientsValue = menu.ingredients!
-            .split("#")
-            .where((element) => element.isNotEmpty)
-            .join(", ");
+        var ingredientsValue = menu.ingredients!;
+
+        // '['부터 ']'까지의 부분을 제거합니다.
+        ingredientsValue = ingredientsValue.replaceAll(RegExp(r"\[.*?\]"), "");
+
+        // '|'를 쉼표(,)로 바꿉니다.
+        ingredientsValue = ingredientsValue.replaceAll("|", ",");
+
+        // 문자열을 "|"로 분할하여 각 항목을 배열로 추출합니다.
+        List<String> itemList = ingredientsValue.split(",");
+
+        // 분할된 항목을 반복하면서 앞뒤 공백을 제거합니다.
+        String formattedString = "";
+        for (String item in itemList) {
+          String formattedItem = item.trim();
+          formattedString += "$formattedItem, ";
+        }
+
+        // 마지막에 추가된 쉼표와 공백을 제거합니다.
+        formattedString =
+            formattedString.substring(0, formattedString.length - 2);
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(
