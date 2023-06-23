@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_controller.dart';
 
-SizedBox recipeDetailTextListViewWidget() {
+Widget recipeDetailTextListViewWidget() {
   Get.put(RecipeDetailController());
   final recipeDetailController = Get.find<RecipeDetailController>();
 
-  return SizedBox(
-    height: 340,
+  return Expanded(
     child: ListView.builder(
         padding: const EdgeInsets.only(top: 10, bottom: 0),
         shrinkWrap: true,
