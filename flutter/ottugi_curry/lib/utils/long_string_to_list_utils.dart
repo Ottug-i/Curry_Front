@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_controller.dart';
 
 // 수직바 포함된 문자열을 리스트로 분핧하기
 List<String> splitToVerBar(String longText) {
@@ -9,7 +10,6 @@ List<String> splitToVerBar(String longText) {
 // 대괄호(제목)와 수직바(내용) 포함된 문자열을 제목 리스트와 내용 리스트로 분할하기
 void splitTitleAndContent(String longText, RxList<String> titleList, RxList<String> contentList) {
  longText = longText.replaceFirst('[', '');
-
  List<String> text = longText.split(' [');
  List<String> titleText = [];
  List<String> contentText = [];
@@ -30,6 +30,16 @@ void splitTitleAndContent(String longText, RxList<String> titleList, RxList<Stri
  titleList.value = titleText;
  contentList.value = contentText;
 }
+
+void splitIngredientsContent() {
+ final controller = Get.find<RecipeDetailController>();
+ controller.ingredientsContentList.clear();
+
+ controller.ingredientsContent.map((e) {
+  controller.ingredientsContentList.add(e.split('| '));
+ }).toList();
+}
+
 
 // 레시피 리스트에서 재료만 보여주기 위해서, 대괄호 수직바 제거 후 재료만 추출하는 함수
 String extractOnlyContent(String longText) {

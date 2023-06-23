@@ -318,7 +318,7 @@ class RecipeDetailPage extends StatelessWidget {
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: TabBarView(
           children: [
-            // 재료 정보
+            // 재료 정보 탭뷰
             Container(
               padding: const EdgeInsets.only(
                   top: 15, bottom: 15, left: 15, right: 15),
@@ -329,32 +329,41 @@ class RecipeDetailPage extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children:
+                    children: <Widget>[
+                          Text('${recipeDetailController.servings.toString()} 기준',
+                          style: const TextStyle(
+                            fontSize: 14
+                          ),),
+                          const Padding(padding: EdgeInsets.only(bottom: 10)),
+                        ] +
                         recipeDetailController.ingredientsTitle.map((element) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          // 제목 (대괄호)
-                              Text(
-                                element,
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w600),
-                              ),
-                            ] +
-                            // 내용
-                            contentWidget(recipeDetailController
-                                .ingredientsTitle
-                                .indexOf(element)) +
-                            [
-                              const Padding(
-                                  padding: EdgeInsets.only(bottom: 20))
-                            ],
-                      );
-                    }).toList()),
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                                  // 제목 (대괄호)
+                                  Text(
+                                    element,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ] +
+                                // 내용
+                                recipeDetailController.ingredientsContentList[
+                                        recipeDetailController.ingredientsTitle
+                                            .indexOf(element)]
+                                    .map((element) => Text(element))
+                                    .toList() +
+                                [
+                                  const Padding(
+                                      padding: EdgeInsets.only(bottom: 20))
+                                ],
+                          );
+                        }).toList()),
               ),
             ),
 
-            // 조리 순서
+            // 조리 순서 탭뷰
             Container(
               padding:
                   const EdgeInsets.only(top: 0, bottom: 0, left: 15, right: 15),
@@ -433,17 +442,5 @@ class RecipeDetailPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  List<Text> contentWidget(int index) {
-    List<String> ingredientsContent =
-        Get.find<RecipeDetailController>().ingredientsContent;
-    List<String> singleContents = [];
-
-    ingredientsContent.map((e) {
-      singleContents = e.split('| ');
-    }).toList();
-
-    return singleContents.map((e) => Text(e)).toList();
   }
 }
