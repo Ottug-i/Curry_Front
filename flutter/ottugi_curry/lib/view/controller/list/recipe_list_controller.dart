@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-//import 'package:ottugi_curry/model/MenuModel.dart';
+import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/menu_list.dart';
-import 'package:ottugi_curry/repository/list_repository.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
+import 'package:ottugi_curry/repository/recipe_repository.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 
 class MenuListController extends GetxController {
@@ -32,18 +32,14 @@ class MenuListController extends GetxController {
   Future<void> fetchData(int userId, List<String> recipeIds) async {
     print('fetchData 실행');
     try {
-      final MenuRepository menuRepository = MenuRepository(Dio());
+      final RecipeRepository recipeRepository = RecipeRepository(Dio());
 
       final menuList = MenuList(userId: userId, recipeId: recipeIds);
-      final menuData = await menuRepository.getMenuList(menuList);
+      final menuData = await recipeRepository.getMenuList(menuList);
       MenuModelList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData) {
-        //var ingredientsValue = menu.ingredients;
-        var ingredientsValue = menu.ingredients!
-            .split("#")
-            .where((element) => element.isNotEmpty)
-            .join(", ");
+        final ingredientsValue = extractOnlyContent(menu.ingredients!);
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(

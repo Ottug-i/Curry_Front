@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/menu_list.dart';
-import 'package:ottugi_curry/repository/list_repository.dart';
+import 'package:ottugi_curry/repository/recipe_repository.dart';
 
 class MenuListPage extends StatefulWidget {
   const MenuListPage({Key? key}) : super(key: key);
@@ -12,11 +12,11 @@ class MenuListPage extends StatefulWidget {
 }
 
 class _MenuListPageState extends State<MenuListPage> {
-  final MenuRepository _menuRepository = MenuRepository(Dio());
+  final RecipeRepository _recipeRepository = RecipeRepository(Dio());
 
   Future<List<MenuModel>> _fetchMenuList() async {
     final menuList = MenuList(userId: 1, recipeId: ["6855278", "6909678"]);
-    final menuModels = await _menuRepository.getMenuList(menuList);
+    final menuModels = await _recipeRepository.getMenuList(menuList);
     return menuModels;
   }
 

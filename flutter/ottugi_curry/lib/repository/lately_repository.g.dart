@@ -13,7 +13,7 @@ class _LatelyRepository implements LatelyRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.219.110:8080';
+    baseUrl ??= 'http://192.168.0.114:8080';
   }
 
   final Dio _dio;
@@ -25,7 +25,7 @@ class _LatelyRepository implements LatelyRepository {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'userId': id};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<LatelyResponse>>(Options(
       method: 'GET',
