@@ -1,6 +1,5 @@
 import 'package:ottugi_curry/model/recipe_response.dart';
-import 'package:ottugi_curry/model/menu.dart';
-import 'package:ottugi_curry/model/menu_list.dart';
+import 'package:ottugi_curry/model/recipe_list_response.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -16,5 +15,5 @@ abstract class RecipeRepository {
 
   // 전체 결과
   @POST('/api/recipe/getRecipeList')
-  Future<List<MenuModel>> getMenuList(@Body() MenuList param);
+  Future<RecipeListResponse> getMenuList(@Body() requestJson);
 }

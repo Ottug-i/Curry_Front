@@ -8,11 +8,16 @@ part of 'menu_list.dart';
 
 MenuList _$MenuListFromJson(Map<String, dynamic> json) => MenuList(
       userId: json['userId'] as int?,
-      recipeId:
-          (json['recipeId'] as List<dynamic>).map((e) => e as String).toList(),
+      ingredients: (json['ingredients'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      page: json['page'] as int?,
+      size: json['size'] as int?,
     );
 
 Map<String, dynamic> _$MenuListToJson(MenuList instance) => <String, dynamic>{
       'userId': instance.userId,
-      'recipeId': instance.recipeId,
+      'ingredients': instance.ingredients,
+      'page': instance.page,
+      'size': instance.size,
     };

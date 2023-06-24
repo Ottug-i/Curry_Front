@@ -6,7 +6,7 @@ part 'recipe_response.g.dart';
 class RecipeResponse {
   String? composition;
   String? difficulty;
-  int? id;
+  int? recipeId;
   String? ingredients;
   bool? isBookmark;
   String? name;
@@ -19,7 +19,7 @@ class RecipeResponse {
   RecipeResponse({
     this.composition,
     this.difficulty,
-    this.id,
+    this.recipeId,
     this.ingredients,
     this.isBookmark,
     this.name,
@@ -30,7 +30,8 @@ class RecipeResponse {
     this.time,
   });
 
-  factory RecipeResponse.fromJson(Map<String, dynamic> json) => _$RecipeResponseFromJson(json);
+  factory RecipeResponse.fromJson(Map<String, dynamic> json) =>
+      _$RecipeResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$RecipeResponseToJson(this);
 }

@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/model/menu.dart';
-import 'package:ottugi_curry/model/menu_list.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
@@ -29,21 +28,26 @@ class MenuListController extends GetxController {
     return menuModels;
   }
 */
-  Future<void> fetchData(int userId, List<String> recipeIds) async {
+  Future<void> fetchData(int userId, List<String> ingredientList) async {
     print('fetchData 실행');
     try {
       final RecipeRepository recipeRepository = RecipeRepository(Dio());
 
-      final menuList = MenuList(userId: userId, recipeId: recipeIds);
+      Map<String, dynamic> menuList = {
+        "userId": userId,
+        "ingredients": ingredientList,
+        "page": 1,
+        "size": 10
+      };
       final menuData = await recipeRepository.getMenuList(menuList);
       MenuModelList.clear(); // 기존 데이터를 지우고 시작
 
-      for (var menu in menuData) {
+      for (var menu in menuData.content) {
         final ingredientsValue = extractOnlyContent(menu.ingredients!);
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(
-          id: menu.id,
+          recipeId: menu.recipeId,
           name: menu.name,
           thumbnail: menu.thumbnail,
           time: menu.time,
@@ -56,8 +60,8 @@ class MenuListController extends GetxController {
         MenuModelList.add(updatedMenu);
 
         // 디버깅용 코드
-        var jsonString = updatedMenu.toJson().toString();
-        print(jsonString);
+        //var jsonString = updatedMenu.toJson().toString();
+        //print(jsonString);
       }
     } catch (error) {
       // 에러 처리

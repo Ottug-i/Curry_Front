@@ -15,9 +15,10 @@ class _MenuListPageState extends State<MenuListPage> {
   final RecipeRepository _recipeRepository = RecipeRepository(Dio());
 
   Future<List<MenuModel>> _fetchMenuList() async {
-    final menuList = MenuList(userId: 1, recipeId: ["6855278", "6909678"]);
+    final menuList =
+        MenuList(userId: 1, ingredients: ["달걀", "베이컨"], page: 1, size: 10);
     final menuModels = await _recipeRepository.getMenuList(menuList);
-    return menuModels;
+    return menuModels.content;
   }
 
   @override

@@ -37,7 +37,7 @@ class BookmarkListController extends GetxController {
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(
-          id: menu.id,
+          recipeId: menu.recipeId,
           name: menu.name,
           thumbnail: menu.thumbnail,
           time: menu.time,
@@ -108,7 +108,7 @@ class BookmarkListController extends GetxController {
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(
-          id: menu.id,
+          recipeId: menu.recipeId,
           name: menu.name,
           thumbnail: menu.thumbnail,
           time: menu.time,
@@ -151,7 +151,7 @@ class BookmarkListController extends GetxController {
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(
-          id: menu.id,
+          recipeId: menu.recipeId,
           name: menu.name,
           thumbnail: menu.thumbnail,
           time: menu.time,

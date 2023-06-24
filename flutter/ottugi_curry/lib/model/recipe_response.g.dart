@@ -10,7 +10,7 @@ RecipeResponse _$RecipeResponseFromJson(Map<String, dynamic> json) =>
     RecipeResponse(
       composition: json['composition'] as String?,
       difficulty: json['difficulty'] as String?,
-      id: json['id'] as int?,
+      recipeId: json['recipeId'] as int?,
       ingredients: json['ingredients'] as String?,
       isBookmark: json['isBookmark'] as bool?,
       name: json['name'] as String?,
@@ -25,7 +25,7 @@ Map<String, dynamic> _$RecipeResponseToJson(RecipeResponse instance) =>
     <String, dynamic>{
       'composition': instance.composition,
       'difficulty': instance.difficulty,
-      'id': instance.id,
+      'recipeId': instance.recipeId,
       'ingredients': instance.ingredients,
       'isBookmark': instance.isBookmark,
       'name': instance.name,

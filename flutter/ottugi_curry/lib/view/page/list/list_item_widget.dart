@@ -14,7 +14,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
   Future<void> _initMenuList() async {
     print('여기는 item_widget.dart');
     //print('print Get.arguments: ${Get.arguments}');
-    await Get.find<MenuListController>().fetchData(1, ["6855278", "6909678"]);
+    await Get.find<MenuListController>().fetchData(1, ["달걀", "베이컨"]);
   }
 
   @override
@@ -53,7 +53,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                 return GestureDetector(
                   onTap: () {
                     Get.toNamed('/recipe_detail',
-                        arguments: menuItem.id); //6909678: 레시피 아이디 예시
+                        arguments: menuItem.recipeId); //6909678: 레시피 아이디 예시
                   },
                   child: Container(
                       padding: const EdgeInsets.all(20),
@@ -119,7 +119,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                         onPressed: () {
                                           rListController.updateBookmark(
                                               1,
-                                              menuItem.id,
+                                              menuItem.recipeId,
                                               ["6855278", "6909678"]);
                                         },
                                       )

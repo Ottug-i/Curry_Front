@@ -50,14 +50,13 @@ class _RecipeRepository implements RecipeRepository {
   }
 
   @override
-  Future<List<MenuModel>> getMenuList(MenuList param) async {
+  Future<RecipeListResponse> getMenuList(dynamic requestJson) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(param.toJson());
-    final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<MenuModel>>(Options(
+    final _data = requestJson;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<RecipeListResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -69,9 +68,7 @@ class _RecipeRepository implements RecipeRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => MenuModel.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = RecipeListResponse.fromJson(_result.data!);
     return value;
   }
 
