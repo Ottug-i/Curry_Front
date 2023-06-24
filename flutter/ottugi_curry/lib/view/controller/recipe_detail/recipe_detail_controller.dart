@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
-import 'package:ottugi_curry/utils/hash_to_list_utils.dart';
+import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
@@ -12,12 +12,15 @@ class RecipeDetailController {
   RxString composition = ''.obs;
   RxString difficulty = ''.obs;
   RxInt id = 0.obs;
-  RxList<String> ingredients = <String>[].obs;
+  RxString ingredients = ''.obs;
+  RxList<String> ingredientsTitle = <String>[].obs;
+  RxList<String> ingredientsContent = <String>[].obs;
+  RxList<List<String>> ingredientsContentList = <List<String>>[[]].obs;
   RxBool isBookmark = false.obs;
   RxString name = ''.obs;
   RxList<String> orders = <String>[].obs;
   RxList<String> photo = <String>[].obs;
-  RxList<String> seasoning = <String>[].obs;
+  RxString servings = ''.obs;
   RxString thumbnail = ''.obs;
   RxString time = ''.obs;
 
@@ -29,21 +32,25 @@ class RecipeDetailController {
       Dio dio = Dio();
       RecipeRepository recipeRepository = RecipeRepository(dio);
       print('print getUserId(): ${getUserId()}');
-      final resp = await recipeRepository.getRecipeDetail(
-          recipeId, 1); // TODO: userId 수정
+      final resp = await recipeRepository.getRecipeDetail(recipeId, 1); // TODO: userId 수정
+      print('print respIngredients: ${resp.ingredients!}');
 
       // 응답 값 변수에 저장
       composition.value = resp.composition!;
       difficulty.value = resp.difficulty!;
       id.value = resp.id!;
-      ingredients.value = hashToList(resp.ingredients!);
+      ingredients.value = resp.ingredients!;
       isBookmark.value = resp.isBookmark!;
       name.value = resp.name!;
-      orders.value = hashToList(resp.orders!);
-      photo.value = hashToList(resp.photo!);
-      seasoning.value = hashToList(resp.seasoning!);
+      orders.value = splitToVerBar(resp.orders!);
+      photo.value = splitToVerBar(resp.photo!); // 문자열 |(vertical Bar)로 분할
+      servings.value = resp.servings!;
       thumbnail.value = resp.thumbnail!;
       time.value = resp.time!;
+
+      // 대괄호 있는 문자열 분할
+      splitTitleAndContent(ingredients.value, ingredientsTitle, ingredientsContent);
+      splitIngredientsContent();
     } on DioError catch (e) {
       print('loadRecipeDetail: $e');
       return;

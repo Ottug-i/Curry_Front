@@ -35,56 +35,57 @@ class _RecipeDetailGalleryViewWidgetState
     Get.put(RecipeDetailController);
     final recipeDetailController = Get.find<RecipeDetailController>();
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        SizedBox(
-          height: 230,
-          child: TabBarView(
-              controller: _nestedTabController,
-              children: recipeDetailController.orders.map((e) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                  padding: const EdgeInsets.all(15),
-                  margin: const EdgeInsets.only(left: 10, right: 10),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Image.network(recipeDetailController
-                            .photo[recipeDetailController.orders.indexOf(e)]),
-                        const Padding(padding: EdgeInsets.only(top: 20)),
-                        Text(e),
-                      ],
+    return Expanded(
+      child: TabBarView(
+          controller: _nestedTabController,
+          children: recipeDetailController.orders.map((e) {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              padding: const EdgeInsets.all(15),
+              margin: const EdgeInsets.only(left: 10, right: 10),
+              child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    // 사진
+                    Image.network(recipeDetailController
+                        .photo[recipeDetailController.orders.indexOf(e)]),
+                    const Padding(padding: EdgeInsets.only(top: 20)),
+
+                    //설명
+                    Text(e),
+                    const Padding(padding: EdgeInsets.only(top: 20)),
+
+                    // 탭바 개수 점
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: SizedBox(
+                        width: recipeDetailController.orders.length * 15,
+                        child: TabBar(
+                            controller: _nestedTabController,
+                            labelColor: lightColorScheme.secondary,
+                            unselectedLabelColor: Colors.grey,
+                            indicator: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: lightColorScheme.secondary,
+                            ),
+                            dividerColor: Colors.transparent,
+                            tabs: recipeDetailController.orders
+                                .map((e) => const Tab(
+                                icon: Icon(
+                                  Icons.circle,
+                                  size: 9,
+                                )))
+                                .toList()),
+                      ),
                     ),
-                  ),
-                );
-              }).toList()),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 15),
-          child: SizedBox(
-            width: recipeDetailController.orders.length * 15,
-            child: TabBar(
-                controller: _nestedTabController,
-                labelColor: lightColorScheme.secondary,
-                unselectedLabelColor: Colors.grey,
-                indicator: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: lightColorScheme.secondary,
+                  ],
                 ),
-                dividerColor: Colors.transparent,
-                tabs: recipeDetailController.orders
-                    .map((e) => const Tab(
-                            icon: Icon(
-                          Icons.circle,
-                          size: 10,
-                        )))
-                    .toList()),
-          ),
-        ),
-      ],
+              ),
+            );
+          }).toList()),
     );
   }
 }

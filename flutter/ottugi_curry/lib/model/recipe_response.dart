@@ -12,7 +12,7 @@ class RecipeResponse {
   String? name;
   String? orders;
   String? photo;
-  String? seasoning;
+  String? servings;
   String? thumbnail;
   String? time;
 
@@ -25,7 +25,7 @@ class RecipeResponse {
     this.name,
     this.orders,
     this.photo,
-    this.seasoning,
+    this.servings,
     this.thumbnail,
     this.time,
   });

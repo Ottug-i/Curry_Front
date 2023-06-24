@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
+import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 
 class BookmarkListController extends GetxController {
   var BoomrkList = <MenuModel>[].obs;
@@ -31,28 +32,15 @@ class BookmarkListController extends GetxController {
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData) {
+        // 기존 ingredients 문자열 정리
         //var ingredientsValue = menu.ingredients;
-        var ingredientsValue = menu.ingredients!;
+        // var ingredientsValue = menu.ingredients!
+        //     .split("#")
+        //     .where((element) => element.isNotEmpty)
+        //     .join(", ");
 
-        // '['부터 ']'까지의 부분을 제거합니다.
-        ingredientsValue = ingredientsValue.replaceAll(RegExp(r"\[.*?\]"), "");
-
-        // '|'를 쉼표(,)로 바꿉니다.
-        ingredientsValue = ingredientsValue.replaceAll("|", ",");
-
-        // 문자열을 "|"로 분할하여 각 항목을 배열로 추출합니다.
-        List<String> itemList = ingredientsValue.split(",");
-
-        // 분할된 항목을 반복하면서 앞뒤 공백을 제거합니다.
-        String formattedString = "";
-        for (String item in itemList) {
-          String formattedItem = item.trim();
-          formattedString += "$formattedItem, ";
-        }
-
-        // 마지막에 추가된 쉼표와 공백을 제거합니다.
-        formattedString =
-            formattedString.substring(0, formattedString.length - 2);
+        // 변경: ingredients 문자열 정리
+        final ingredientsValue = extractOnlyContent(menu.ingredients!);
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(
