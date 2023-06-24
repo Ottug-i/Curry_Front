@@ -17,7 +17,8 @@ class ListPage extends StatefulWidget {
 class ListPageState extends State<ListPage> {
   Future<void> _initMenuList() async {
     print('여기는 list_page.dart');
-    await Get.find<MenuListController>().fetchData(1, ["6855278", "6909678"]);
+    // 갯수 확인을 위해 api 요청보냄 - 실질적으로 화면에 뿌려주는건 list_item_widget에서
+    await Get.find<MenuListController>().fetchData(1, ["달걀", "베이컨"]);
     //print(Get.find<MenuListController>().MenuModelList);
   }
 
@@ -43,7 +44,7 @@ class ListPageState extends State<ListPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Text(
-                      "감자, 치즈, 계란",
+                      "달걀, 베이컨",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -66,7 +67,7 @@ class ListPageState extends State<ListPage> {
                 ]),
                 // 아이템 위젯
                 if (rListController.MenuModelList.isEmpty)
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
@@ -76,7 +77,7 @@ class ListPageState extends State<ListPage> {
                     ],
                   )
                 else
-                  Column(mainAxisSize: MainAxisSize.min, children: [
+                  const Column(mainAxisSize: MainAxisSize.min, children: [
                     // 카테고리 위젯
                     // CategoriesWidget(),
                     SizedBox(

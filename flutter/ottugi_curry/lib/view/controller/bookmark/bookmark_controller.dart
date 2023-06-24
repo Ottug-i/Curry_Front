@@ -32,19 +32,12 @@ class BookmarkListController extends GetxController {
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData) {
-        // 기존 ingredients 문자열 정리
-        //var ingredientsValue = menu.ingredients;
-        // var ingredientsValue = menu.ingredients!
-        //     .split("#")
-        //     .where((element) => element.isNotEmpty)
-        //     .join(", ");
-
-        // 변경: ingredients 문자열 정리
+        // ingredients 문자열 정리
         final ingredientsValue = extractOnlyContent(menu.ingredients!);
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(
-          id: menu.id,
+          recipeId: menu.recipeId,
           name: menu.name,
           thumbnail: menu.thumbnail,
           time: menu.time,
@@ -115,7 +108,7 @@ class BookmarkListController extends GetxController {
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(
-          id: menu.id,
+          recipeId: menu.recipeId,
           name: menu.name,
           thumbnail: menu.thumbnail,
           time: menu.time,
@@ -158,7 +151,7 @@ class BookmarkListController extends GetxController {
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(
-          id: menu.id,
+          recipeId: menu.recipeId,
           name: menu.name,
           thumbnail: menu.thumbnail,
           time: menu.time,

@@ -63,7 +63,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                 ),
                 // 아이템 위젯
                 if (bListController.BoomrkList.isEmpty)
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
@@ -101,7 +101,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
           return GestureDetector(
             onTap: () {
               Get.toNamed('/recipe_detail',
-                  arguments: menuItem.id); //6909678: 레시피 아이디 예시
+                  arguments: menuItem.recipeId); //6909678: 레시피 아이디 예시
             },
             child: Container(
                 padding: const EdgeInsets.all(20),
@@ -163,7 +163,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                   color: lightColorScheme.primary,
                                   onPressed: () {
                                     bListController.updateBookmark(
-                                        1, menuItem.id);
+                                        1, menuItem.recipeId);
                                   },
                                 ),
                               ],

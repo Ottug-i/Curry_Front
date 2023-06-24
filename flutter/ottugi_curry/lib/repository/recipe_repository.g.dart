@@ -13,7 +13,7 @@ class _RecipeRepository implements RecipeRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.0.51:8080';
+    baseUrl ??= 'http://192.168.0.114:8080';
   }
 
   final Dio _dio;
@@ -46,6 +46,29 @@ class _RecipeRepository implements RecipeRepository {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = RecipeResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<RecipeListResponse> getMenuList(dynamic requestJson) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = requestJson;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<RecipeListResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/recipe/getRecipeList',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = RecipeListResponse.fromJson(_result.data!);
     return value;
   }
 

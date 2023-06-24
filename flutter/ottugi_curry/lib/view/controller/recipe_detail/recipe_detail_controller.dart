@@ -32,13 +32,14 @@ class RecipeDetailController {
       Dio dio = Dio();
       RecipeRepository recipeRepository = RecipeRepository(dio);
       print('print getUserId(): ${getUserId()}');
-      final resp = await recipeRepository.getRecipeDetail(recipeId, 1); // TODO: userId 수정
+      final resp = await recipeRepository.getRecipeDetail(
+          recipeId, 1); // TODO: userId 수정
       print('print respIngredients: ${resp.ingredients!}');
 
       // 응답 값 변수에 저장
       composition.value = resp.composition!;
       difficulty.value = resp.difficulty!;
-      id.value = resp.id!;
+      id.value = resp.recipeId!;
       ingredients.value = resp.ingredients!;
       isBookmark.value = resp.isBookmark!;
       name.value = resp.name!;
@@ -49,7 +50,8 @@ class RecipeDetailController {
       time.value = resp.time!;
 
       // 대괄호 있는 문자열 분할
-      splitTitleAndContent(ingredients.value, ingredientsTitle, ingredientsContent);
+      splitTitleAndContent(
+          ingredients.value, ingredientsTitle, ingredientsContent);
       splitIngredientsContent();
     } on DioError catch (e) {
       print('loadRecipeDetail: $e');
