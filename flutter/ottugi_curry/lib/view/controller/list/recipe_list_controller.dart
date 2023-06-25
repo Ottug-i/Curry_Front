@@ -123,13 +123,14 @@ class MenuListController extends GetxController {
     //update();
   }
 
-  void updateBookmark(int userId, int recipeId, List<String> recipeIds) async {
-    print('Bookmrk의 updateData 실행');
+  void updateBookmark(
+      int userId, int recipeId, List<String> ingredientList) async {
+    print('List page의 updateData 실행');
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
       await bookmrkRepository.updateBookmark(bookmrkItem);
-      await fetchData(userId, recipeIds); // 재로딩
+      await fetchData(userId, ingredientList); // 재로딩
     } catch (error) {
       // 에러 처리
       print('Error updating bookmark: $error');
