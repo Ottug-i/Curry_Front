@@ -4,12 +4,12 @@ part 'lately_response.g.dart';
 
 @JsonSerializable()
 class LatelyResponse {
-  int? id;
+  int? recipeId;
   String? name;
   String? thumbnail;
 
   LatelyResponse({
-    this.id,
+    this.recipeId,
     this.name,
     this.thumbnail,
   });

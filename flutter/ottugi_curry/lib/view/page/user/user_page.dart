@@ -273,7 +273,7 @@ class UserPage extends StatelessWidget {
   InkWell latelyRecipeCardWidget(LatelyResponse latelyResponse) {
     return InkWell(
       onTap: () {
-        Get.toNamed('/recipe_detail', arguments: latelyResponse.id);
+        Get.toNamed('/recipe_detail', arguments: latelyResponse.recipeId);
       },
       child: Container(
         margin: const EdgeInsets.only(right: 20),

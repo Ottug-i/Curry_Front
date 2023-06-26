@@ -8,14 +8,14 @@ part of 'lately_response.dart';
 
 LatelyResponse _$LatelyResponseFromJson(Map<String, dynamic> json) =>
     LatelyResponse(
-      id: json['id'] as int?,
+      recipeId: json['recipeId'] as int?,
       name: json['name'] as String?,
       thumbnail: json['thumbnail'] as String?,
     );
 
 Map<String, dynamic> _$LatelyResponseToJson(LatelyResponse instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'recipeId': instance.recipeId,
       'name': instance.name,
       'thumbnail': instance.thumbnail,
     };
