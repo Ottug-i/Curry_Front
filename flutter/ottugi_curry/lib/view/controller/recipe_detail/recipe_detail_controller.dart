@@ -34,7 +34,7 @@ class RecipeDetailController {
       print('print getUserId(): ${getUserId()}');
       final resp = await recipeRepository.getRecipeDetail(
           recipeId, 1); // TODO: userId 수정
-      print('print respIngredients: ${resp.ingredients!}');
+      print('print isBookmark: ${isBookmark}');
 
       // 응답 값 변수에 저장
       composition.value = resp.composition!;
