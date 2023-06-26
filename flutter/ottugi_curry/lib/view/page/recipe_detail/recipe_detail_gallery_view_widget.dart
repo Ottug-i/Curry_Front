@@ -50,8 +50,11 @@ class _RecipeDetailGalleryViewWidgetState
                 child: Column(
                   children: [
                     // 사진
-                    Image.network(recipeDetailController
-                        .photo[recipeDetailController.orders.indexOf(e)]),
+                    recipeDetailController.photo[recipeDetailController.orders.indexOf(e)].isNotEmpty
+                        ? Image.network(recipeDetailController
+                        .photo[recipeDetailController.orders.indexOf(e)],
+                    )
+                        : const SizedBox(),
                     const Padding(padding: EdgeInsets.only(top: 20)),
 
                     //설명
