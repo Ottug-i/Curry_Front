@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
-import 'package:ottugi_curry/view/page/list/list_item_widget.dart';
 import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
+import 'package:ottugi_curry/view/page/list/list_item_widget.dart';
 
 class ListPage extends StatefulWidget {
-  final String mode;
-  const ListPage({super.key, this.mode = 'search'});
+  //List<String> ingredientList;
+  //ListPage(this.ingredientList, {super.key});
+  const ListPage({super.key});
 
   @override
   ListPageState createState() => ListPageState();
@@ -15,6 +16,8 @@ class ListPage extends StatefulWidget {
 //final rListController = Get.put(MenuListController());
 
 class ListPageState extends State<ListPage> {
+  //List<String> get ingredientList => widget.ingredientList;
+
   Future<void> _initMenuList() async {
     print('여기는 list_page.dart');
     // 갯수 확인을 위해 api 요청보냄 - 실질적으로 화면에 뿌려주는건 list_item_widget에서
@@ -73,49 +76,32 @@ class ListPageState extends State<ListPage> {
                   ),
                   const Spacer(),
                 ]),
+                const SizedBox(
+                  height: 20,
+                ),
                 // 아이템 위젯
                 if (rListController.MenuModelList.isEmpty)
                   const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
                       Text('검색 결과가 없습니다.'),
                     ],
                   )
                 else
-                  const Column(mainAxisSize: MainAxisSize.min, children: [
-                    // 카테고리 위젯
-                    // CategoriesWidget(),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Flexible(child: ItemsWidget()),
-                  ])
+                  Obx(
+                    () => ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: rListController.MenuModelList.length,
+                        itemBuilder: (BuildContext context, int i) {
+                          return ItemsWidget(rListController.MenuModelList[i],
+                              const ["달걀", "베이컨"]);
+                        }),
+                  )
               ],
             ),
           );
         });
   }
-}
-
-void searchRecipe(String query) {
-  Get.put(MenuListController());
-  final rListController = Get.find<MenuListController>();
-
-  var MenuModelList = rListController.MenuModelList;
-  // 검색어에 해당하는 새로운 레시피 정보들
-  final suggestions = MenuModelList.where((recipe) {
-    final recipeTitle = recipe.name!.toLowerCase();
-    final input = query.toLowerCase(); // 검색창에 입력한 정보들
-    return recipeTitle.contains(input);
-  }).toList();
-
-  for (var e in suggestions) {
-    debugPrint(e.toString());
-  }
-
-  // 검색결과로 업데이트
-  MenuModelList.assignAll(suggestions);
 }

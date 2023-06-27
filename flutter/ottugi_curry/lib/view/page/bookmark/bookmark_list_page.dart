@@ -209,26 +209,6 @@ class BookmrkListPageState extends State<BookmrkListPage> {
   }
 }
 
-void searchRecipe(String query) {
-  Get.put(BookmarkListController());
-  final bListController = Get.find<BookmarkListController>();
-
-  var BoomrkList = bListController.BoomrkList;
-  // 검색어에 해당하는 새로운 레시피 정보들
-  final suggestions = BoomrkList.where((recipe) {
-    final recipeTitle = recipe.name!.toLowerCase();
-    final input = query.toLowerCase(); // 검색창에 입력한 정보들
-    return recipeTitle.contains(input);
-  }).toList();
-
-  for (var e in suggestions) {
-    debugPrint(e.toString());
-  }
-
-  // 검색결과로 업데이트
-  BoomrkList.assignAll(suggestions);
-}
-
 Column iconWithText(BuildContext context, IconData icon, String text) {
   return Column(
     children: [
