@@ -46,15 +46,23 @@ class ListPageState extends State<ListPage> {
                 Row(children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      "달걀, 베이컨",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        decoration: TextDecoration.underline,
-                        decorationColor: lightColorScheme.primary,
-                        decorationThickness: 4,
+                    child: Container( // 검색어 밑줄 변경 - 기존에 글자와 밑줄 사이의 여백이 너무 작아서 Container border로 변경
+                      decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(
+                          color: lightColorScheme.primary,
+                          width: 4.0
+                        ))
+                    ),
+                      child: const Text(
+                        "달걀, 베이컨",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          // decoration: TextDecoration.underline,
+                          // decorationColor: lightColorScheme.primary,
+                          // decorationThickness: 4,
+                        ),
                       ),
                     ),
                   ),

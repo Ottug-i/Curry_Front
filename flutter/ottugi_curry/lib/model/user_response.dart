@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_response.g.dart';
 
 @JsonSerializable()
-class UserResponse {
+class  UserResponse {
   String? email;
   int? id;
   String? nickName;

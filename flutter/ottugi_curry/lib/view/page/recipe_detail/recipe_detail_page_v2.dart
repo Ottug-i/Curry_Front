@@ -35,6 +35,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
           }
 
           return Scaffold(
+            extendBodyBehindAppBar: true,
             body: DefaultTabController(
                 length: 2,
                 child: NestedScrollView(
@@ -42,14 +43,16 @@ class RecipeDetailPageV2 extends StatelessWidget {
                   headerSliverBuilder: (context, innerBoxIsScrolled) {
                     // 레시피 이미지, 제목, 옵션 / 탭바
                     return <Widget>[
-                      SliverAppBar(
+                      SliverOverlapAbsorber(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                      sliver: SliverAppBar(
+                        // scrolledUnderElevation: 0.0,
+                        // forceMaterialTransparency: true,
+                        // backgroundColor: lightColorScheme.background,
                         backgroundColor: Colors.transparent,
                         elevation: 0.0,
-                        // expandedHeight: 360,
                         pinned: true,
                         floating: false,
                         snap: false,
-                        // stretch: false,
                         forceElevated: innerBoxIsScrolled,
 
                         // 앱바 좌측
@@ -75,79 +78,79 @@ class RecipeDetailPageV2 extends StatelessWidget {
                               color: lightColorScheme.primary,
                             ),
                             child: Obx(
-                              () => Row(children: [
+                                  () => Row(children: [
                                 timerController.isRunning.value ==
-                                        true // 앱바 위의 타이머 위젯
+                                    true // 앱바 위의 타이머 위젯
                                     ? Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 7, left: 15),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 25,
-                                              child: TextField(
-                                                controller: timerController
-                                                    .minuteTextEditingController,
-                                                decoration:
-                                                    const InputDecoration(
-                                                        isDense: true,
-                                                        border:
-                                                            InputBorder.none),
-                                                enabled: true,
-                                                readOnly: true,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium,
-                                              ),
-                                            ),
-                                            Text(
-                                              ': ',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium,
-                                            ),
-                                            SizedBox(
-                                              width: 25,
-                                              child: TextField(
-                                                controller: timerController
-                                                    .secondTextEditingController,
-                                                decoration:
-                                                    const InputDecoration(
-                                                        isDense: true,
-                                                        border:
-                                                            InputBorder.none),
-                                                enabled: true,
-                                                readOnly: true,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium,
-                                              ),
-                                            )
-                                          ],
-                                        ))
+                                    padding: const EdgeInsets.only(
+                                        right: 7, left: 15),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 25,
+                                          child: TextField(
+                                            controller: timerController
+                                                .minuteTextEditingController,
+                                            decoration:
+                                            const InputDecoration(
+                                                isDense: true,
+                                                border:
+                                                InputBorder.none),
+                                            enabled: true,
+                                            readOnly: true,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
+                                          ),
+                                        ),
+                                        Text(
+                                          ': ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                        ),
+                                        SizedBox(
+                                          width: 25,
+                                          child: TextField(
+                                            controller: timerController
+                                                .secondTextEditingController,
+                                            decoration:
+                                            const InputDecoration(
+                                                isDense: true,
+                                                border:
+                                                InputBorder.none),
+                                            enabled: true,
+                                            readOnly: true,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
+                                          ),
+                                        )
+                                      ],
+                                    ))
                                     : timerController.isRingingAlarm.value ==
-                                            true // 알림 종료 버튼 보여주기
-                                        ? InkWell(
-                                            onTap: () {
-                                              timerController.stopTimerAlarm();
-                                            },
-                                            child: Container(
-                                              padding: const EdgeInsets.only(
-                                                  left: 15, right: 10),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(25.0),
-                                                color: lightColorScheme.primary,
-                                              ),
-                                              child: Text(
-                                                '종료',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium,
-                                              ),
-                                            ),
-                                          )
-                                        : const SizedBox(),
+                                    true // 알림 종료 버튼 보여주기
+                                    ? InkWell(
+                                  onTap: () {
+                                    timerController.stopTimerAlarm();
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 15, right: 10),
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(25.0),
+                                      color: lightColorScheme.primary,
+                                    ),
+                                    child: Text(
+                                      '종료',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                  ),
+                                )
+                                    : const SizedBox(),
                                 Container(
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
@@ -155,7 +158,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                         BoxShadow(
                                             blurRadius: 3,
                                             color:
-                                                Colors.black.withOpacity(0.2),
+                                            Colors.black.withOpacity(0.2),
                                             spreadRadius: 0,
                                             offset: const Offset(-3, 5))
                                       ]),
@@ -179,7 +182,10 @@ class RecipeDetailPageV2 extends StatelessWidget {
                           ),
                           // ),
                         ],
-                      ),
+                      )
+                        ,),
+
+
                       SliverToBoxAdapter(
                         child: Column(
                           children: [
@@ -224,14 +230,19 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                         ),
                                       ),
                                       IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            Icons.bookmark,
-                                            color: recipeDetailController
-                                                        .isBookmark.value ==
-                                                    true
-                                                ? lightColorScheme.secondary
-                                                : Colors.grey,
+                                          onPressed: () {
+                                            recipeDetailController.updateBookmark(
+                                                1, recipeDetailController.id.value);
+                                          },
+                                          icon: Obx(
+                                            ()=> Icon(
+                                              Icons.bookmark,
+                                              color: recipeDetailController
+                                                          .isBookmark.value ==
+                                                      true
+                                                  ? lightColorScheme.secondary
+                                                  : Colors.grey.shade300,
+                                            ),
                                           ))
                                     ],
                                   ),
@@ -259,7 +270,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                       // 난이도
                                       const ImageIcon(
                                         AssetImage('assets/icons/chef.png'),
-                                        size: 15,
+                                        size: 14,
                                       ),
                                       Text(
                                         ' ${recipeDetailController.difficulty.value}  |  ',
@@ -271,7 +282,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                       // 구성
                                       const ImageIcon(
                                         AssetImage('assets/icons/meal.png'),
-                                        size: 15,
+                                        size: 19,
                                       ),
                                       Text(
                                         ' ${recipeDetailController.composition.value}',
@@ -368,11 +379,29 @@ class RecipeDetailPageV2 extends StatelessWidget {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-                  Text(
-                    '${recipeDetailController.servings.toString()} 기준',
-                    style: const TextStyle(fontSize: 14),
+                  Row(
+                    children: [
+                      ImageIcon(
+                        const AssetImage('assets/icons/fork2.png'),
+                        size: 17,
+                        color: lightColorScheme.primary,
+                      ),
+                      const Padding(padding: EdgeInsets.only(right: 5)),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(
+                                color: lightColorScheme.primary,
+                                width: 1.0
+                            ))
+                        ),
+                        child: Text(
+                          '${recipeDetailController.servings.toString()} 기준',
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ],
                   ),
-                  const Padding(padding: EdgeInsets.only(bottom: 10)),
+                  const Padding(padding: EdgeInsets.only(bottom: 20)),
                 ] +
                 recipeDetailController.ingredientsTitle.map((element) {
                   return Column(
