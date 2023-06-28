@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:get/get.dart';
 
 part 'menu.g.dart';
 
@@ -13,8 +12,6 @@ class MenuModel {
   final String? composition;
   final String? ingredients;
   final bool? isBookmark;
-
-  var like = false.obs;
 
   //List<String>? ingredients;
   // 생성자

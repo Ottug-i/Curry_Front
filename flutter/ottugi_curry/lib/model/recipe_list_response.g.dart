@@ -8,8 +8,8 @@ part of 'recipe_list_response.dart';
 
 RecipeListResponse _$RecipeListResponseFromJson(Map<String, dynamic> json) =>
     RecipeListResponse(
-      content: (json['content'] as List<dynamic>)
-          .map((e) => MenuModel.fromJson(e as Map<String, dynamic>))
+      content: (json['content'] as List<dynamic>?)
+          ?.map((e) => MenuModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalPages: json['totalPages'] as int?,
       totalElements: json['totalElements'] as int?,

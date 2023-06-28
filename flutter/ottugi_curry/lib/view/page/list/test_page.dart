@@ -18,7 +18,7 @@ class _MenuListPageState extends State<MenuListPage> {
     final menuList =
         MenuList(userId: 1, ingredients: ["달걀", "베이컨"], page: 1, size: 10);
     final menuModels = await _recipeRepository.getMenuList(menuList);
-    return menuModels.content;
+    return menuModels.content!;
   }
 
   @override

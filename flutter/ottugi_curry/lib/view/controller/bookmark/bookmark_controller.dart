@@ -50,8 +50,8 @@ class BookmarkListController extends GetxController {
         BoomrkList.add(updatedMenu);
 
         // 디버깅용 코드
-        var jsonString = updatedMenu.toJson().toString();
-        print(jsonString);
+        // var jsonString = updatedMenu.toJson().toString();
+        // print(jsonString);
       }
       update();
     } catch (error) {
