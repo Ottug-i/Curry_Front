@@ -5,7 +5,7 @@ part 'recipe_list_response.g.dart';
 
 @JsonSerializable()
 class RecipeListResponse {
-  List<MenuModel> content;
+  List<MenuModel>? content;
   int? totalPages;
   int? totalElements;
   int? size;
@@ -15,7 +15,7 @@ class RecipeListResponse {
   bool? empty;
 
   RecipeListResponse({
-    required this.content,
+    this.content,
     this.totalPages,
     this.totalElements,
     this.last,
