@@ -19,10 +19,12 @@ class ListPageState extends State<ListPage> {
 
   Future<void> _initMenuList() async {
     print('여기는 list_page.dart');
-    await Get.find<MenuListController>().fetchData(1, ["달걀", "베이컨"], 1);
+    await Get.find<MenuListController>().fetchData(1, 1);
   }
 
   late final MenuListController rListController;
+  final NumberPaginatorController _controller = NumberPaginatorController();
+  bool isChange = false;
 
   @override
   void initState() {
@@ -55,15 +57,15 @@ class ListPageState extends State<ListPage> {
                               bottom: BorderSide(
                                   color: lightColorScheme.primary,
                                   width: 4.0))),
-                      child: const Text(
-                        "달걀, 베이컨",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          // decoration: TextDecoration.underline,
-                          // decorationColor: lightColorScheme.primary,
-                          // decorationThickness: 4,
+                      child: Obx(
+                        () => Text(
+                          rListController.selectedIngredient.value
+                              .reduce((value, element) => '$value, $element'),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -71,15 +73,86 @@ class ListPageState extends State<ListPage> {
                   const SizedBox(
                     width: 4,
                   ),
-                  const Icon(
-                    Icons.edit_rounded,
-                    size: 20,
+                  IconButton(
+                    icon: const Icon(Icons.edit_rounded),
+                    iconSize: 20,
                     color: Colors.black,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return StatefulBuilder(
+                            builder:
+                                (BuildContext context, StateSetter setState) {
+                              return Dialog(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        const Text('촬영한 재료가 아니라면 선택을 해제하세요.'),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Column(
+                                            children: rListController
+                                                .ingredientList.value
+                                                .map((favorite) {
+                                          return CheckboxListTile(
+                                              activeColor: lightColorScheme
+                                                  .primary,
+                                              checkboxShape:
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                              value: favorite["isChecked"],
+                                              title: Text(favorite["name"],
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium),
+                                              onChanged: (val) {
+                                                // 재료 변경 없이 완료 누르면 현재 페이지에 있는게 맞음
+                                                isChange = true;
+                                                setState(() {
+                                                  favorite["isChecked"] = val;
+                                                });
+                                              });
+                                        }).toList()),
+                                        SizedBox(
+                                          width: 100,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              if (isChange) {
+                                                rListController
+                                                    .saveIngredients();
+                                                rListController.fetchData(1, 1);
+                                                _controller.navigateToPage(
+                                                    0); // 1페이지로 이동(초기화)
+                                              }
+                                              isChange = false;
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('완료'),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
                   ),
-                  const Spacer(),
                 ]),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 // 아이템 위젯
                 if (rListController.MenuModelList.isEmpty)
@@ -101,13 +174,30 @@ class ListPageState extends State<ListPage> {
                             itemBuilder: (BuildContext context, int i) {
                               return ItemsWidget(
                                   rListController.MenuModelList[i],
-                                  const ["달걀", "베이컨"]);
+                                  rListController.selectedIngredient.value);
                             }),
                       ),
                       if (rListController.response.value.totalPages != 1)
-                        const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30),
-                            child: NumbersPage()),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Obx(() => NumberPaginator(
+                                  // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
+                                  numberPages: rListController
+                                      .response.value.totalPages!,
+                                  controller: _controller,
+                                  onPageChange: (int index) {
+                                    rListController.fetchData(1, index + 1);
+                                    rListController.currentPage.value =
+                                        index + 1;
+                                  },
+                                  config: NumberPaginatorUIConfig(
+                                    buttonSelectedForegroundColor: Colors.black,
+                                    buttonUnselectedForegroundColor:
+                                        Colors.grey,
+                                    buttonSelectedBackgroundColor:
+                                        lightColorScheme.primary,
+                                  ),
+                                ))),
                     ],
                   )
               ],
@@ -125,26 +215,21 @@ class NumbersPage extends StatefulWidget {
 }
 
 class _NumbersPageState extends State<NumbersPage> {
-  int _currentPage = 0;
   final rListController = Get.find<MenuListController>();
 
   @override
   Widget build(BuildContext context) {
-    return NumberPaginator(
-      numberPages: rListController.response.value.totalPages!,
-      onPageChange: (int index) {
-        setState(() {
-          // NumberPaginator위젯이 변화 감지를 위한 부분.
-          // 감지하면 자동 업뎃되어 동그라미가 현재 페이지로 이동하게 됨
-          _currentPage = index;
-        });
-        rListController.fetchData(1, ["달걀", "베이컨"], index + 1);
-      },
-      config: NumberPaginatorUIConfig(
-        buttonSelectedForegroundColor: Colors.black,
-        buttonUnselectedForegroundColor: Colors.grey,
-        buttonSelectedBackgroundColor: lightColorScheme.primary,
-      ),
-    );
+    return Obx(() => // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
+        NumberPaginator(
+          numberPages: rListController.response.value.totalPages!,
+          onPageChange: (int index) {
+            rListController.fetchData(1, index + 1);
+          },
+          config: NumberPaginatorUIConfig(
+            buttonSelectedForegroundColor: Colors.black,
+            buttonUnselectedForegroundColor: Colors.grey,
+            buttonSelectedBackgroundColor: lightColorScheme.primary,
+          ),
+        ));
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/page/list/recipe_recs_list.dart';
 
@@ -20,9 +23,18 @@ class ResultCheck extends StatefulWidget {
 }
 
 class _ResultCheckState extends State<ResultCheck> {
-  bool _isCheckTuna = true;
-  bool _isCheckRice = true;
-  bool _isCheckCheese = true;
+  // 인식 결과로 받아온 변수
+  var ingredient = ["감자", "달걀", "베이컨", "버터"];
+
+  late final MenuListController rListController;
+
+  @override
+  void initState() {
+    super.initState();
+    rListController = Get.put(MenuListController());
+    // 인식 결과로 받아온 변수를 controller에 저장
+    rListController.setIngredientList(ingredient);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,25 +72,31 @@ class _ResultCheckState extends State<ResultCheck> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  checkList('감자', _isCheckTuna, (value) {
-                                    setState(() {
-                                      _isCheckTuna = value!;
-                                    });
-                                  }),
-                                  checkList('치즈', _isCheckRice, (value) {
-                                    setState(() {
-                                      _isCheckRice = value!;
-                                    });
-                                  }),
-                                  checkList('계란', _isCheckCheese, (value) {
-                                    setState(() {
-                                      _isCheckCheese = value!;
-                                    });
-                                  }),
+                                  Column(
+                                      children: rListController
+                                          .ingredientList.value
+                                          .map((favorite) {
+                                    return CheckboxListTile(
+                                        activeColor: lightColorScheme.primary,
+                                        checkboxShape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        value: favorite["isChecked"],
+                                        title: Text(favorite["name"],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium),
+                                        onChanged: (val) {
+                                          setState(() {
+                                            favorite["isChecked"] = val;
+                                          });
+                                        });
+                                  }).toList()),
                                   SizedBox(
                                     width: 100,
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        rListController.saveIngredients();
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text('완료'),

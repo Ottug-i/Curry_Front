@@ -11,10 +11,31 @@ class MenuListController extends GetxController {
   var response = RecipeListResponse().obs;
   var MenuModelList = <MenuModel>[].obs; // response.value.content 와 같은 셈
 
-  var currentPage = 1.obs; // 북마크 업데이트 시 reload를 위해 필요함
+  RxList<dynamic> ingredientList = [].obs; // List<dynamic>
+  RxList<String> selectedIngredient = [""].obs; // List<String>
 
-  Future<void> fetchData(
-      int userId, List<String> ingredientList, int page) async {
+  RxInt currentPage = 1.obs; // 북마크 업데이트 시 reload를 위해 필요함
+
+  void setIngredientList(List<String> input) {
+    ingredientList.clear();
+    for (var item in input) {
+      var data = {"name": item, "isChecked": true};
+      ingredientList.add(data);
+      selectedIngredient.add(item);
+    }
+  }
+
+  void saveIngredients() {
+    selectedIngredient.clear();
+    // 재료 확인 페이지에서 사용
+    for (var item in ingredientList.value) {
+      if (item["isChecked"] == true) {
+        selectedIngredient.add(item["name"]);
+      }
+    }
+  }
+
+  Future<void> fetchData(int userId, int page) async {
     print('fetchData 실행');
 
     currentPage.value = page;
@@ -24,7 +45,7 @@ class MenuListController extends GetxController {
 
       Map<String, dynamic> request = {
         "userId": userId,
-        "ingredients": ingredientList,
+        "ingredients": selectedIngredient,
         "page": page,
         "size": 3
       };
@@ -61,6 +82,8 @@ class MenuListController extends GetxController {
       response.value.first = menuData.first;
       response.value.empty = menuData.empty;
 
+      response.refresh();
+
       update();
     } catch (error) {
       // 에러 처리
@@ -74,15 +97,10 @@ class MenuListController extends GetxController {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
       await bookmrkRepository.updateBookmark(bookmrkItem);
-      await fetchData(userId, recipeIds, currentPage.value); // 재로딩
+      await fetchData(userId, currentPage.value); // 재로딩
     } catch (error) {
       // 에러 처리
       print('Error updating bookmark: $error');
     }
-  }
-
-  void updatePage(int page) {
-    currentPage.value = page;
-    update();
   }
 }
