@@ -11,7 +11,6 @@ class ItemsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(menuItem.name);
     Get.put(MenuListController());
     final rListController = Get.find<MenuListController>();
 
