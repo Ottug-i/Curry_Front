@@ -8,8 +8,8 @@ import 'package:ottugi_curry/repository/recipe_repository.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 
 class MenuListController extends GetxController {
-  var response = RecipeListResponse().obs;
-  var MenuModelList = <MenuModel>[].obs; // response.value.content 와 같은 셈
+  Rx<RecipeListResponse> response = RecipeListResponse().obs;
+  RxList<MenuModel> MenuModelList = <MenuModel>[].obs; // response.value.content 와 같은 셈
 
   RxList<dynamic> ingredientList = [].obs; // List<dynamic>
   RxList<String> selectedIngredient = [""].obs; // List<String>
@@ -47,7 +47,7 @@ class MenuListController extends GetxController {
         "userId": userId,
         "ingredients": selectedIngredient,
         "page": page,
-        "size": 3
+        "size": 10
       };
       final menuData = await recipeRepository.getMenuList(request);
       MenuModelList.clear(); // 기존 데이터를 지우고 시작
