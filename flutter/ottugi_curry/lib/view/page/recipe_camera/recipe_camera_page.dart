@@ -24,7 +24,7 @@ class ResultCheck extends StatefulWidget {
 
 class _ResultCheckState extends State<ResultCheck> {
   // 인식 결과로 받아온 변수
-  var ingredient = ["감자", "달걀", "베이컨", "버터"];
+  var ingredient = ["달걀", "베이컨", "감자", "치즈"];
 
   late final MenuListController rListController;
 

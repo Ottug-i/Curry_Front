@@ -98,15 +98,22 @@ class ListPageState extends State<ListPage> {
                                           height: 20,
                                         ),
                                         Column(
-                                            children: rListController.ingredientList.value .map((favorite) {
+                                            children: rListController
+                                                .ingredientList.value
+                                                .map((favorite) {
                                           return CheckboxListTile(
-                                              activeColor: lightColorScheme .primary,
-                                              checkboxShape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(5)
-                                              ),
+                                              activeColor: lightColorScheme
+                                                  .primary,
+                                              checkboxShape:
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
                                               value: favorite["isChecked"],
                                               title: Text(favorite["name"],
-                                                  style: Theme.of(context).textTheme.titleMedium),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium),
                                               onChanged: (val) {
                                                 // 재료 변경 없이 완료 누르면 현재 페이지에 있는게 맞음
                                                 isChange = true;
@@ -120,9 +127,11 @@ class ListPageState extends State<ListPage> {
                                           child: ElevatedButton(
                                             onPressed: () {
                                               if (isChange) {
-                                                rListController .saveIngredients();
+                                                rListController
+                                                    .saveIngredients();
                                                 rListController.fetchData(1, 1);
-                                                pageController.navigateToPage(0); // 1페이지로 이동(초기화)
+                                                pageController.navigateToPage(
+                                                    0); // 1페이지로 이동(초기화)
                                               }
                                               isChange = false;
                                               Navigator.of(context).pop();
@@ -168,24 +177,23 @@ class ListPageState extends State<ListPage> {
                                   rListController.selectedIngredient.value);
                             }),
                       ),
-                      if (rListController.response.value.totalPages != 1)
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Obx(() => NumberPaginator(
-                                  // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
-                                  numberPages: rListController.response.value.totalPages!,
-                                  controller: pageController,
-                                  onPageChange: (int index) {
-                                    rListController.fetchData(1, index + 1);
-                                    rListController.currentPage.value = index + 1;
-                                  },
-                                  config: NumberPaginatorUIConfig(
-                                    buttonSelectedForegroundColor: Colors.black,
-                                    buttonUnselectedForegroundColor: Colors.grey,
-                                    buttonSelectedBackgroundColor: lightColorScheme.primary,
-                                  ),
-                                ))
-                      ),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: Obx(() => NumberPaginator(
+                                // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
+                                numberPages:
+                                    rListController.response.value.totalPages!,
+                                controller: pageController,
+                                onPageChange: (int index) {
+                                  rListController.fetchData(1, index + 1);
+                                },
+                                config: NumberPaginatorUIConfig(
+                                  buttonSelectedForegroundColor: Colors.black,
+                                  buttonUnselectedForegroundColor: Colors.grey,
+                                  buttonSelectedBackgroundColor:
+                                      lightColorScheme.primary,
+                                ),
+                              ))),
                     ],
                   )
               ],

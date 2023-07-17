@@ -9,7 +9,8 @@ import 'package:ottugi_curry/repository/bookmark_repository.dart';
 
 class MenuListController extends GetxController {
   Rx<RecipeListResponse> response = RecipeListResponse().obs;
-  RxList<MenuModel> MenuModelList = <MenuModel>[].obs; // response.value.content 와 같은 셈
+  RxList<MenuModel> MenuModelList =
+      <MenuModel>[].obs; // response.value.content 와 같은 셈
 
   RxList<dynamic> ingredientList = [].obs; // List<dynamic>
   RxList<String> selectedIngredient = [""].obs; // List<String>
@@ -18,6 +19,7 @@ class MenuListController extends GetxController {
 
   void setIngredientList(List<String> input) {
     ingredientList.clear();
+    selectedIngredient.clear();
     for (var item in input) {
       var data = {"name": item, "isChecked": true};
       ingredientList.add(data);
@@ -38,6 +40,7 @@ class MenuListController extends GetxController {
   Future<void> fetchData(int userId, int page) async {
     print('fetchData 실행');
 
+    // 클릭 시 마다 현재 위치를 저장해두어야 북마크 업데이트 시 페이지 안 변함
     currentPage.value = page;
 
     try {
@@ -81,6 +84,7 @@ class MenuListController extends GetxController {
       response.value.last = menuData.last;
       response.value.first = menuData.first;
       response.value.empty = menuData.empty;
+      response.value.numberOfElements = menuData.numberOfElements;
 
       response.refresh();
 

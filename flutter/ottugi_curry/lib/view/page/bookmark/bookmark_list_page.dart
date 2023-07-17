@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/page/list/categories.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
@@ -17,10 +18,11 @@ class BookmrkListPage extends StatefulWidget {
 class BookmrkListPageState extends State<BookmrkListPage> {
   final bListController = Get.put(BookmarkListController());
   final textController = TextEditingController();
+  final NumberPaginatorController pageController = NumberPaginatorController();
 
   Future<void> _initMenuList() async {
     print('여기는 bookmark_list_page.dart');
-    await Get.find<BookmarkListController>().fetchData(1);
+    await Get.find<BookmarkListController>().fetchData(1, 1);
   }
 
   @override
@@ -62,7 +64,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                   ], // Widget
                 ),
                 // 아이템 위젯
-                if (bListController.BoomrkList.isEmpty)
+                if (bListController.response.value.content!.isEmpty)
                   const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -79,7 +81,26 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Flexible(child: Obx(() => ItemList())),
+                    Column(children: [
+                      Obx(() => ItemList()),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: Obx(() => NumberPaginator(
+                                // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
+                                numberPages:
+                                    bListController.response.value.totalPages!,
+                                controller: pageController,
+                                onPageChange: (int index) {
+                                  bListController.fetchData(1, index + 1);
+                                },
+                                config: NumberPaginatorUIConfig(
+                                  buttonSelectedForegroundColor: Colors.black,
+                                  buttonUnselectedForegroundColor: Colors.grey,
+                                  buttonSelectedBackgroundColor:
+                                      lightColorScheme.primary,
+                                ),
+                              ))),
+                    ]),
                     // SingleChildScrollView
                   ])
               ],
@@ -89,8 +110,8 @@ class BookmrkListPageState extends State<BookmrkListPage> {
   }
 
   Widget ItemList() {
-    final menuList = bListController.BoomrkList;
-    if (menuList.isNotEmpty) {
+    final menuList = bListController.response.value.content;
+    if (menuList!.isNotEmpty) {
       return ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
@@ -162,7 +183,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                   constraints: const BoxConstraints(),
                                   color: lightColorScheme.primary,
                                   onPressed: () {
-                                    bListController.updateBookmark(
+                                    bListController.deleteBookmark(
                                         1, menuItem.recipeId);
                                   },
                                 ),
