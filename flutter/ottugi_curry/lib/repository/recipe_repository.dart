@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 
 part 'recipe_repository.g.dart';
 
-@RestApi(baseUrl: "http://192.168.219.105:8080")
+@RestApi(baseUrl: "http://192.168.219.104:8080")
 abstract class RecipeRepository {
   factory RecipeRepository(Dio dio, {String baseUrl}) = _RecipeRepository;
 

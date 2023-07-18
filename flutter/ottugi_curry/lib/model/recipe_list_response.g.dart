@@ -18,6 +18,7 @@ RecipeListResponse _$RecipeListResponseFromJson(Map<String, dynamic> json) =>
       number: json['number'] as int?,
       first: json['first'] as bool?,
       empty: json['empty'] as bool?,
+      numberOfElements: json['numberOfElements'] as int?,
     );
 
 Map<String, dynamic> _$RecipeListResponseToJson(RecipeListResponse instance) =>
@@ -30,4 +31,5 @@ Map<String, dynamic> _$RecipeListResponseToJson(RecipeListResponse instance) =>
       'last': instance.last,
       'first': instance.first,
       'empty': instance.empty,
+      'numberOfElements': instance.numberOfElements,
     };

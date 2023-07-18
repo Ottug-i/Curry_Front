@@ -35,9 +35,8 @@ class _ItemsWidgetState extends State<ItemsWidget> {
   }
 
   Future<void> _initMenuList() async {
-    print('여기는 bookmrk_item_widget.dart');
     //print('print Get.arguments: ${Get.arguments}');
-    await controller.fetchData(1);
+    await controller.fetchData(1, 1);
   }
 
   @override
@@ -133,7 +132,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                           iconSize: 30,
                                           color: lightColorScheme.primary,
                                           onPressed: () {
-                                            controller.updateBookmark(
+                                            controller.deleteBookmark(
                                                 1, menuItem.recipeId);
                                           },
                                         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/page/list/categories.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
@@ -17,14 +18,15 @@ class BookmrkListPage extends StatefulWidget {
 class BookmrkListPageState extends State<BookmrkListPage> {
   final bListController = Get.put(BookmarkListController());
   final textController = TextEditingController();
+  final NumberPaginatorController pageController = NumberPaginatorController();
 
   Future<void> _initMenuList() async {
-    print('여기는 bookmark_list_page.dart');
-    await Get.find<BookmarkListController>().fetchData(1);
+    await Get.find<BookmarkListController>().fetchData(1, 1);
   }
 
   @override
   Widget build(BuildContext context) {
+    print(bListController.response.value.empty);
     return FutureBuilder(
         future: _initMenuList(),
         builder: (context, snap) {
@@ -61,145 +63,167 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                     ), // Container
                   ], // Widget
                 ),
-                // 아이템 위젯
-                if (bListController.BoomrkList.isEmpty)
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text('검색 결과가 없습니다.'),
-                    ],
-                  )
-                else
-                  Column(mainAxisSize: MainAxisSize.min, children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                     // 카테고리 위젯
                     const CategoriesWidget(),
-                    const SizedBox(
-                      height: 10,
+                    // 아이템 위젯
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Obx(() => itemList()),
+                      ],
                     ),
-                    Flexible(child: Obx(() => ItemList())),
-                    // SingleChildScrollView
-                  ])
+                  ],
+                ),
               ],
             ),
           );
         });
   }
 
-  Widget ItemList() {
-    final menuList = bListController.BoomrkList;
-    if (menuList.isNotEmpty) {
-      return ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: menuList.length,
-        itemBuilder: (BuildContext context, int i) {
-          final menuItem = menuList[i];
-          return GestureDetector(
-            onTap: () {
-              Get.toNamed('/recipe_detail',
-                  arguments: menuItem.recipeId); //6909678: 레시피 아이디 예시
-            },
-            child: Container(
-                padding: const EdgeInsets.all(20),
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                // card
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(24.0),
-                        child: Image.network(
-                          '${menuItem.thumbnail}' ?? '',
-                          fit: BoxFit.fill,
-                          height: 100,
-                          width: 150,
+  Widget itemList() {
+    final menuList = bListController.response.value.content;
+    if (menuList!.isNotEmpty) {
+      return Column(
+        children: [
+          // 아이템 그리는 부분
+          ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: menuList.length,
+            itemBuilder: (BuildContext context, int i) {
+              final menuItem = menuList[i];
+              return GestureDetector(
+                onTap: () {
+                  Get.toNamed('/recipe_detail',
+                      arguments: menuItem.recipeId); //6909678: 레시피 아이디 예시
+                },
+                child: Container(
+                    padding: const EdgeInsets.all(20),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                    // card
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(24.0),
+                            child: Image.network(
+                              '${menuItem.thumbnail}' ?? '',
+                              fit: BoxFit.fill,
+                              height: 100,
+                              width: 150,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 7,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Column(
-                          children: [
-                            // 첫 번째 줄 (메뉴 이름, 북마크 아이콘)
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Expanded(
+                          flex: 7,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Column(
                               children: [
-                                // 음식 이름
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                // 첫 번째 줄 (메뉴 이름, 북마크 아이콘)
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      '${menuItem.name}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                      overflow: TextOverflow.ellipsis,
+                                    // 음식 이름
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${menuItem.name}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(
-                                      height: 10,
+                                    // 북마크 아이콘
+                                    IconButton(
+                                      icon: Icon(menuItem.isBookmark!
+                                          ? Icons.bookmark_rounded
+                                          : Icons.bookmark_border_rounded),
+                                      iconSize: 30,
+                                      padding: EdgeInsets.zero,
+                                      constraints: const BoxConstraints(),
+                                      color: lightColorScheme.primary,
+                                      onPressed: () {
+                                        bListController.deleteBookmark(
+                                            1, menuItem.recipeId);
+                                      },
                                     ),
                                   ],
                                 ),
-                                // 북마크 아이콘
-                                IconButton(
-                                  icon: Icon(menuItem.isBookmark!
-                                      ? Icons.bookmark_rounded
-                                      : Icons.bookmark_border_rounded),
-                                  iconSize: 30,
-                                  padding: EdgeInsets.zero,
-                                  constraints: const BoxConstraints(),
-                                  color: lightColorScheme.primary,
-                                  onPressed: () {
-                                    bListController.updateBookmark(
-                                        1, menuItem.recipeId);
-                                  },
+                                // 두 번째 줄 (재료 목록)
+                                Row(children: [
+                                  Expanded(
+                                      child: Text(
+                                    '${menuItem.ingredients}',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                    overflow: TextOverflow.ellipsis,
+                                  )),
+                                ]),
+                                const SizedBox(
+                                  height: 10,
                                 ),
+                                // 세 번째 줄 (아이콘 - 시간, 난이도, 구성)
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    iconWithText(context, Icons.timer,
+                                        '${menuItem.time}'),
+                                    iconWithText(
+                                        context,
+                                        Icons.handshake_outlined,
+                                        '${menuItem.difficulty}'),
+                                    iconWithText(
+                                        context,
+                                        Icons.food_bank_rounded,
+                                        '${menuItem.composition}'),
+                                  ],
+                                )
                               ],
                             ),
-                            // 두 번째 줄 (재료 목록)
-                            Row(children: [
-                              Expanded(
-                                  child: Text(
-                                '${menuItem.ingredients}',
-                                style: Theme.of(context).textTheme.bodySmall,
-                                overflow: TextOverflow.ellipsis,
-                              )),
-                            ]),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            // 세 번째 줄 (아이콘 - 시간, 난이도, 구성)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                iconWithText(
-                                    context, Icons.timer, '${menuItem.time}'),
-                                iconWithText(context, Icons.handshake_outlined,
-                                    '${menuItem.difficulty}'),
-                                iconWithText(context, Icons.food_bank_rounded,
-                                    '${menuItem.composition}'),
-                              ],
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                )),
-          );
-        },
+                      ],
+                    )),
+              );
+            },
+          ),
+          // 페이지네이션
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: NumberPaginator(
+                numberPages: bListController.response.value.totalPages!,
+                controller: pageController,
+                onPageChange: (int index) {
+                  bListController.fetchData(1, index + 1);
+                },
+                config: NumberPaginatorUIConfig(
+                  buttonSelectedForegroundColor: Colors.black,
+                  buttonUnselectedForegroundColor: Colors.grey,
+                  buttonSelectedBackgroundColor: lightColorScheme.primary,
+                ),
+              )),
+        ],
       );
     } else {
       return const Center(

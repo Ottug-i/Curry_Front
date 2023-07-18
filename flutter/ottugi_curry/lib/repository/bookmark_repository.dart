@@ -1,11 +1,11 @@
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
-import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
+import 'package:ottugi_curry/model/recipe_list_response.dart';
 
 part 'bookmark_repository.g.dart';
 
-@RestApi(baseUrl: "http://192.168.219.105:8080")
+@RestApi(baseUrl: "http://192.168.219.104:8080")
 abstract class BookmarkRepository {
   factory BookmarkRepository(Dio dio, {String baseUrl}) = _BookmarkRepository;
 
@@ -15,16 +15,22 @@ abstract class BookmarkRepository {
 
   // 북마크 목록
   @GET('/api/bookmark/getBookmarkAll')
-  Future<List<MenuModel>> getBookmark(@Query("userId") int id);
+  Future<RecipeListResponse> getBookmark(@Query("page") int? page,
+      @Query("size") int? size, @Query("userId") int id);
 
   // 이름으로 검색
   @GET('/api/bookmark/searchByName')
-  Future<List<MenuModel>> searchByName(
-      @Query("userId") int id, @Query("name") String name);
+  Future<RecipeListResponse> searchByName(
+      @Query("page") int? page,
+      @Query("size") int? size,
+      @Query("userId") int id,
+      @Query("name") String name);
 
   // 옵션으로 검색
   @GET('/api/bookmark/searchByOption')
-  Future<List<MenuModel>> searchByOption(
+  Future<RecipeListResponse> searchByOption(
+      @Query("page") int? page,
+      @Query("size") int? size,
       @Query("userId") int id,
       @Query("composition") String? composition,
       @Query("difficulty") String? difficulty,

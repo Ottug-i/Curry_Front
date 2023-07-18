@@ -13,7 +13,7 @@ class _BookmarkRepository implements BookmarkRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.219.105:8080';
+    baseUrl ??= 'http://192.168.219.104:8080';
   }
 
   final Dio _dio;
@@ -44,13 +44,22 @@ class _BookmarkRepository implements BookmarkRepository {
   }
 
   @override
-  Future<List<MenuModel>> getBookmark(int id) async {
+  Future<RecipeListResponse> getBookmark(
+    int? page,
+    int? size,
+    int id,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'userId': id};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'size': size,
+      r'userId': id,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<MenuModel>>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<RecipeListResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -62,26 +71,29 @@ class _BookmarkRepository implements BookmarkRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => MenuModel.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = RecipeListResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<List<MenuModel>> searchByName(
+  Future<RecipeListResponse> searchByName(
+    int? page,
+    int? size,
     int id,
     String name,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'size': size,
       r'userId': id,
       r'name': name,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<MenuModel>>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<RecipeListResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -93,14 +105,14 @@ class _BookmarkRepository implements BookmarkRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => MenuModel.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = RecipeListResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<List<MenuModel>> searchByOption(
+  Future<RecipeListResponse> searchByOption(
+    int? page,
+    int? size,
     int id,
     String? composition,
     String? difficulty,
@@ -108,6 +120,8 @@ class _BookmarkRepository implements BookmarkRepository {
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'size': size,
       r'userId': id,
       r'composition': composition,
       r'difficulty': difficulty,
@@ -116,8 +130,8 @@ class _BookmarkRepository implements BookmarkRepository {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<MenuModel>>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<RecipeListResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -129,9 +143,7 @@ class _BookmarkRepository implements BookmarkRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => MenuModel.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = RecipeListResponse.fromJson(_result.data!);
     return value;
   }
 

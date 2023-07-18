@@ -24,7 +24,7 @@ class ResultCheck extends StatefulWidget {
 
 class _ResultCheckState extends State<ResultCheck> {
   // 인식 결과로 받아온 변수
-  var ingredient = ["감자", "달걀", "베이컨", "버터"];
+  var ingredient = ["달걀", "베이컨", "감자", "치즈"];
 
   late final MenuListController rListController;
 
@@ -96,7 +96,6 @@ class _ResultCheckState extends State<ResultCheck> {
                                     width: 100,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        rListController.saveIngredients();
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text('완료'),
@@ -119,6 +118,9 @@ class _ResultCheckState extends State<ResultCheck> {
             ),
             ElevatedButton(
               onPressed: () {
+                // 모달창을 열지 않고 바로 완료를 눌렀을 때까지 커버함
+                rListController.changeIngredients();
+                // 리스트 페이지로 이동
                 Navigator.push(
                     context,
                     MaterialPageRoute(

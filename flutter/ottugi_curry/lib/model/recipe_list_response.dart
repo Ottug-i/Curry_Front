@@ -13,17 +13,18 @@ class RecipeListResponse {
   bool? last;
   bool? first;
   bool? empty;
+  int? numberOfElements;
 
-  RecipeListResponse({
-    this.content,
-    this.totalPages,
-    this.totalElements,
-    this.last,
-    this.size,
-    this.number,
-    this.first,
-    this.empty,
-  });
+  RecipeListResponse(
+      {this.content,
+      this.totalPages,
+      this.totalElements,
+      this.last,
+      this.size,
+      this.number,
+      this.first,
+      this.empty,
+      this.numberOfElements});
 
   factory RecipeListResponse.fromJson(Map<String, dynamic> json) =>
       _$RecipeListResponseFromJson(json);
