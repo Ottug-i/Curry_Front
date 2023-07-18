@@ -21,7 +21,6 @@ class BookmrkListPageState extends State<BookmrkListPage> {
   final NumberPaginatorController pageController = NumberPaginatorController();
 
   Future<void> _initMenuList() async {
-    print('여기는 bookmark_list_page.dart');
     await Get.find<BookmarkListController>().fetchData(1, 1);
   }
 

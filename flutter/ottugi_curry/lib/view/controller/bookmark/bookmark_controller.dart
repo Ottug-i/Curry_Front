@@ -28,8 +28,41 @@ class BookmarkListController extends GetxController {
     super.onClose();
   }
 
+  void saveResponse(menuData) {
+    for (var menu in menuData.content!) {
+      // ingredients 문자열 정리
+      final ingredientsValue = extractOnlyContent(menu.ingredients!);
+
+      // MenuModel의 나머지 속성들은 그대로 유지
+      var updatedMenu = MenuModel(
+        recipeId: menu.recipeId,
+        name: menu.name,
+        thumbnail: menu.thumbnail,
+        time: menu.time,
+        difficulty: menu.difficulty,
+        composition: menu.composition,
+        ingredients: ingredientsValue,
+        isBookmark: menu.isBookmark,
+      );
+
+      BoomrkList.add(updatedMenu);
+
+      // 디버깅용 코드
+      // var jsonString = updatedMenu.toJson().toString();
+      // print(jsonString);
+    }
+    response.value.content = BoomrkList;
+    response.value.totalPages = menuData.totalPages;
+    response.value.totalElements = menuData.totalElements;
+    response.value.size = menuData.size;
+    response.value.number = menuData.number;
+    response.value.last = menuData.last;
+    response.value.first = menuData.first;
+    response.value.empty = menuData.empty;
+    response.value.numberOfElements = menuData.numberOfElements;
+  }
+
   Future<void> fetchData(int userId, int page) async {
-    print("fetchData");
     // 클릭 시 마다 현재 위치를 저장해두어야 북마크 업데이트 시 페이지 안 변함
     currentPage.value = page;
 
@@ -40,42 +73,9 @@ class BookmarkListController extends GetxController {
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
       response.value = RecipeListResponse();
 
-      for (var menu in menuData.content!) {
-        // ingredients 문자열 정리
-        final ingredientsValue = extractOnlyContent(menu.ingredients!);
-
-        // MenuModel의 나머지 속성들은 그대로 유지
-        var updatedMenu = MenuModel(
-          recipeId: menu.recipeId,
-          name: menu.name,
-          thumbnail: menu.thumbnail,
-          time: menu.time,
-          difficulty: menu.difficulty,
-          composition: menu.composition,
-          ingredients: ingredientsValue,
-          isBookmark: menu.isBookmark,
-        );
-
-        BoomrkList.add(updatedMenu);
-
-        // 디버깅용 코드
-        // var jsonString = updatedMenu.toJson().toString();
-        // print(jsonString);
-      }
-      response.value.content = BoomrkList;
-      response.value.totalPages = menuData.totalPages;
-      response.value.totalElements = menuData.totalElements;
-      response.value.size = menuData.size;
-      response.value.number = menuData.number;
-      response.value.last = menuData.last;
-      response.value.first = menuData.first;
-      response.value.empty = menuData.empty;
-      response.value.numberOfElements = menuData.numberOfElements;
-
+      saveResponse(menuData);
       response.refresh();
       update();
-      var jsonString = response.value.toJson().toString();
-      print(jsonString);
     } catch (error) {
       // 에러 처리
       print('Error fetching menu list: $error');
@@ -135,38 +135,7 @@ class BookmarkListController extends GetxController {
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
       response.value = RecipeListResponse();
 
-      for (var menu in menuData.content!) {
-        //var ingredientsValue = menu.ingredients;
-        var ingredientsValue = menu.ingredients!
-            .split("#")
-            .where((element) => element.isNotEmpty)
-            .join(", ");
-
-        // MenuModel의 나머지 속성들은 그대로 유지
-        var updatedMenu = MenuModel(
-          recipeId: menu.recipeId,
-          name: menu.name,
-          thumbnail: menu.thumbnail,
-          time: menu.time,
-          difficulty: menu.difficulty,
-          composition: menu.composition,
-          ingredients: ingredientsValue,
-          isBookmark: menu.isBookmark,
-        );
-
-        BoomrkList.add(updatedMenu);
-      }
-
-      response.value.content = BoomrkList;
-      response.value.totalPages = menuData.totalPages;
-      response.value.totalElements = menuData.totalElements;
-      response.value.size = menuData.size;
-      response.value.number = menuData.number;
-      response.value.last = menuData.last;
-      response.value.first = menuData.first;
-      response.value.empty = menuData.empty;
-      response.value.numberOfElements = menuData.numberOfElements;
-
+      saveResponse(menuData);
       response.refresh();
       update();
     } catch (error) {
@@ -192,39 +161,7 @@ class BookmarkListController extends GetxController {
       //print(menuData.empty);
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
 
-      for (var menu in menuData.content!) {
-        //var ingredientsValue = menu.ingredients;
-        var ingredientsValue = menu.ingredients!
-            .split("#")
-            .where((element) => element.isNotEmpty)
-            .join(", ");
-
-        // MenuModel의 나머지 속성들은 그대로 유지
-        var updatedMenu = MenuModel(
-          recipeId: menu.recipeId,
-          name: menu.name,
-          thumbnail: menu.thumbnail,
-          time: menu.time,
-          difficulty: menu.difficulty,
-          composition: menu.composition,
-          ingredients: ingredientsValue,
-          isBookmark: menu.isBookmark,
-        );
-
-        BoomrkList.add(updatedMenu);
-      }
-      response.value.content = BoomrkList;
-      response.value.totalPages = menuData.totalPages;
-      response.value.totalElements = menuData.totalElements;
-      response.value.size = menuData.size;
-      response.value.number = menuData.number;
-      response.value.last = menuData.last;
-      response.value.first = menuData.first;
-      response.value.empty = menuData.empty;
-      response.value.numberOfElements = menuData.numberOfElements;
-
-      print(response.value.empty);
-
+      saveResponse(menuData);
       response.refresh();
       update();
     } catch (error) {

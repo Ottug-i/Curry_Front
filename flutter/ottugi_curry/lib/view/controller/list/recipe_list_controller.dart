@@ -13,23 +13,21 @@ class MenuListController extends GetxController {
       <MenuModel>[].obs; // response.value.content 와 같은 셈
 
   RxList<dynamic> ingredientList = [].obs; // List<dynamic>
-  RxList<String> selectedIngredient = [""].obs; // List<String>
+  RxList<String> selectedIngredient = <String>[].obs; // List<String>
 
   RxInt currentPage = 1.obs; // 북마크 업데이트 시 reload를 위해 필요함
 
   void setIngredientList(List<String> input) {
     ingredientList.clear();
-    selectedIngredient.clear();
     for (var item in input) {
       var data = {"name": item, "isChecked": true};
       ingredientList.add(data);
-      selectedIngredient.add(item);
     }
   }
 
-  void saveIngredients() {
+  void changeIngredients() {
     selectedIngredient.clear();
-    // 재료 확인 페이지에서 사용
+    // 재료 확인 페이지 & 모달창에서 사용
     for (var item in ingredientList.value) {
       if (item["isChecked"] == true) {
         selectedIngredient.add(item["name"]);
@@ -38,8 +36,6 @@ class MenuListController extends GetxController {
   }
 
   Future<void> fetchData(int userId, int page) async {
-    print('fetchData 실행');
-
     // 클릭 시 마다 현재 위치를 저장해두어야 북마크 업데이트 시 페이지 안 변함
     currentPage.value = page;
 
@@ -96,7 +92,6 @@ class MenuListController extends GetxController {
   }
 
   void updateBookmark(int userId, int recipeId, List<String> recipeIds) async {
-    print('Bookmrk의 updateData 실행');
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);

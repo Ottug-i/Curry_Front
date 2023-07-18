@@ -18,7 +18,6 @@ class ListPageState extends State<ListPage> {
   //List<String> get ingredientList => widget.ingredientList;
 
   Future<void> _initMenuList() async {
-    print('여기는 list_page.dart');
     await Get.find<MenuListController>().fetchData(1, 1);
   }
 
@@ -128,7 +127,7 @@ class ListPageState extends State<ListPage> {
                                             onPressed: () {
                                               if (isChange) {
                                                 rListController
-                                                    .saveIngredients();
+                                                    .changeIngredients();
                                                 rListController.fetchData(1, 1);
                                                 pageController.navigateToPage(
                                                     0); // 1페이지로 이동(초기화)

@@ -35,7 +35,6 @@ class _ItemsWidgetState extends State<ItemsWidget> {
   }
 
   Future<void> _initMenuList() async {
-    print('여기는 bookmrk_item_widget.dart');
     //print('print Get.arguments: ${Get.arguments}');
     await controller.fetchData(1, 1);
   }
