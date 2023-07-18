@@ -5,6 +5,7 @@ import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/recipe_list_response.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
+import 'package:ottugi_curry/config/config.dart';
 
 class BookmarkListController extends GetxController {
   Rx<RecipeListResponse> response = RecipeListResponse().obs;
@@ -20,7 +21,6 @@ class BookmarkListController extends GetxController {
   Rx<String> time = ''.obs;
 
   RxInt currentPage = 1.obs; // 북마크 업데이트 시 reload를 위해 필요함
-  int size = 10;
 
   @override
   void onClose() {
@@ -35,7 +35,8 @@ class BookmarkListController extends GetxController {
 
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-      final menuData = await bookmrkRepository.getBookmark(page, size, userId);
+      final menuData =
+          await bookmrkRepository.getBookmark(page, Config.elementNum, userId);
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
       response.value = RecipeListResponse();
 
@@ -117,6 +118,7 @@ class BookmarkListController extends GetxController {
   }
 
   bool isPageChange() {
+    // 현재 페이지의 마지막 북마크 삭제 시, 페이지 전환이 필요한 경우가 있다.
     if (response.value.numberOfElements == 1) {
       // 업데이트 되기 전 정보
       return true;
@@ -128,8 +130,8 @@ class BookmarkListController extends GetxController {
   Future<void> searchData(int userId, String text) async {
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-      final menuData =
-          await bookmrkRepository.searchByName(1, size, userId, text);
+      final menuData = await bookmrkRepository.searchByName(
+          1, Config.elementNum, userId, text);
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
       response.value = RecipeListResponse();
 
@@ -179,10 +181,15 @@ class BookmarkListController extends GetxController {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
 
       final menuData = await bookmrkRepository.searchByOption(
-          1, size, userId, composition.value, difficulty.value, time.value);
+          1,
+          Config.elementNum,
+          userId,
+          composition.value,
+          difficulty.value,
+          time.value);
       // 요청 URL 출력
       //print('요청 URL: ${bookmrkRepository.options.path}');
-      print(menuData);
+      //print(menuData.empty);
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData.content!) {
@@ -215,6 +222,8 @@ class BookmarkListController extends GetxController {
       response.value.first = menuData.first;
       response.value.empty = menuData.empty;
       response.value.numberOfElements = menuData.numberOfElements;
+
+      print(response.value.empty);
 
       response.refresh();
       update();
