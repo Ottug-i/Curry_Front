@@ -5,7 +5,6 @@ import 'package:ottugi_curry/view/page/bookmark/bookmark_page.dart';
 import 'package:ottugi_curry/view/page/login/login_page.dart';
 import 'package:ottugi_curry/view/page/main/main_page.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/recipe_camera_page.dart';
-import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_page.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_page_v2.dart';
 import 'package:ottugi_curry/view/page/user/user_page.dart';
 
@@ -57,6 +56,25 @@ class Config {
   static String social = 'social';
   static String kakao = 'kakao';
   static String google = 'google';
+
+  // 리스트 화면에서 한 페이지당 보여줄 갯수
+  static int elementNum = 10;
+
+  // 검색 필터들
+  final timeType = [
+    '5분 이내',
+    '10분 이내',
+    '20분 이내',
+    '30분 이내',
+    '60분 이내',
+    '90분 이내',
+    '120분 이내',
+    '2시간 이상'
+  ];
+
+  final compoType = ['가볍게', '든든하게', '푸짐하게'];
+
+  final levelType = ['아무나', '초급', '중급', '고급', '마스터'];
 }
 
 enum SocialPlatform { none, google, kakao }
