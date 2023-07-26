@@ -91,7 +91,7 @@ class MenuListController extends GetxController {
     }
   }
 
-  void updateBookmark(int userId, int recipeId, List<String> recipeIds) async {
+  void updateBookmark(int userId, int recipeId) async {
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);

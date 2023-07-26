@@ -6,6 +6,7 @@ import 'package:ottugi_curry/view/page/login/login_page.dart';
 import 'package:ottugi_curry/view/page/main/main_page.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/recipe_camera_page.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_page_v2.dart';
+import 'package:ottugi_curry/view/page/search/search_page.dart';
 import 'package:ottugi_curry/view/page/user/user_page.dart';
 
 // token 저장하는 secure storage
@@ -41,6 +42,10 @@ class Config {
     GetPage(
         name: '/recipe_detail',
         page: () => const RecipeDetailPageV2(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: '/search',
+        page: () => const TextSearchPage(),
         transition: Transition.noTransition),
   ];
 

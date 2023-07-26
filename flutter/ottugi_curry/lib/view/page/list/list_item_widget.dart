@@ -6,8 +6,8 @@ import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 
 class ItemsWidget extends StatelessWidget {
   final MenuModel menuItem;
-  List<String> ingredientList;
-  ItemsWidget(this.menuItem, this.ingredientList, {super.key});
+  // List<String> ingredientList;
+  ItemsWidget(this.menuItem, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class ItemsWidget extends StatelessWidget {
                             color: lightColorScheme.primary,
                             onPressed: () {
                               rListController.updateBookmark(
-                                  1, menuItem.recipeId, ingredientList);
+                                  1, menuItem.recipeId);
                             },
                           )
                         ],

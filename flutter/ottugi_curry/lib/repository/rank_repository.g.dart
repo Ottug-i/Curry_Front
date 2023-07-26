@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'lately_repository.dart';
+part of 'rank_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'lately_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _LatelyRepository implements LatelyRepository {
-  _LatelyRepository(
+class _RankRepository implements RankRepository {
+  _RankRepository(
     this._dio, {
     this.baseUrl,
   }) {
@@ -21,26 +21,26 @@ class _LatelyRepository implements LatelyRepository {
   String? baseUrl;
 
   @override
-  Future<List<LatelyResponse>> getLatelyAll(int id) async {
+  Future<List<RankResponse>> getRankList() async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'userId': id};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<LatelyResponse>>(Options(
+        .fetch<List<dynamic>>(_setStreamType<List<RankResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/api/lately/getLatelyAll',
+              '/api/rank/getRankList',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
-        .map((dynamic i) => LatelyResponse.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => RankResponse.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }

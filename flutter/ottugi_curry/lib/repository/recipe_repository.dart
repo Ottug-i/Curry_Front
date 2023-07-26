@@ -1,5 +1,6 @@
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/recipe_list_response.dart';
+import 'package:ottugi_curry/model/search_queries.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -16,4 +17,8 @@ abstract class RecipeRepository {
   // 전체 결과
   @POST('/api/recipe/getRecipeList')
   Future<RecipeListResponse> getMenuList(@Body() requestJson);
+
+  @GET('/api/recipe/searchByBox')
+  Future<RecipeListResponse> searchByBox(
+      @Queries() SearchQueries searchQueries);
 }

@@ -14,7 +14,7 @@ class UserController extends GetxController {
   RxString email = ''.obs;
   RxString nickName = ''.obs;
 
-  final RxList<LatelyResponse> latelyList = RxList<LatelyResponse>([]);
+  final RxList<LatelyResponse> latelyList = <LatelyResponse>[].obs;
 
   Future<void> loadUserProfile() async {
     //현재는 api로 회원정보 불러오는 것보다 storage에 저장한 값을 우선적으로 불러와서 사용중
