@@ -84,7 +84,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                   onPressed: () {
                                     controller.toggleValue(
                                         controller.time, itemT);
-                                    controller.serachByOption(1);
+                                    controller.searchByOption(1);
                                   },
                                 )),
                           const SizedBox(width: 10)
@@ -108,7 +108,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                 onPressed: () {
                                   controller.toggleValue(
                                       controller.difficulty, itemL);
-                                  controller.serachByOption(1);
+                                  controller.searchByOption(1);
                                 },
                               )),
                         const SizedBox(width: 10)
@@ -131,7 +131,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                                 onPressed: () {
                                   controller.toggleValue(
                                       controller.composition, itmeC);
-                                  controller.serachByOption(1);
+                                  controller.searchByOption(1);
                                 },
                               )),
                         const SizedBox(width: 10)

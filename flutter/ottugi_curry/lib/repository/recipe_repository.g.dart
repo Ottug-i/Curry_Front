@@ -13,7 +13,7 @@ class _RecipeRepository implements RecipeRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.219.104:8080';
+    baseUrl ??= 'http://192.168.151.183:8080';
   }
 
   final Dio _dio;
@@ -64,6 +64,30 @@ class _RecipeRepository implements RecipeRepository {
             .compose(
               _dio.options,
               '/api/recipe/getRecipeList',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = RecipeListResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<RecipeListResponse> searchByBox(SearchQueries searchQueries) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(searchQueries.toJson());
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<RecipeListResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/recipe/searchByBox',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/menu.dart';
+import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 
 class ItemsWidget extends StatelessWidget {
   final MenuModel menuItem;
-  List<String> ingredientList;
-  ItemsWidget(this.menuItem, this.ingredientList, {super.key});
+  // List<String> ingredientList;
+  ItemsWidget(this.menuItem, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,32 +53,38 @@ class ItemsWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           // 음식 이름
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${menuItem.name}',
-                                style: Theme.of(context).textTheme.titleMedium,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                            ],
+                          Expanded(
+                            flex: 8,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${menuItem.name}',
+                                  style: Theme.of(context).textTheme.titleMedium,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
                           ),
                           // 북마크 아이콘
-                          IconButton(
-                            icon: Icon(menuItem.isBookmark!
-                                ? Icons.bookmark_rounded
-                                : Icons.bookmark_border_rounded),
-                            iconSize: 30,
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            color: lightColorScheme.primary,
-                            onPressed: () {
-                              rListController.updateBookmark(
-                                  1, menuItem.recipeId, ingredientList);
-                            },
+                          Expanded(
+                            flex: 2,
+                            child: IconButton(
+                              icon: Icon(menuItem.isBookmark!
+                                  ? Icons.bookmark_rounded
+                                  : Icons.bookmark_border_rounded),
+                              iconSize: 30,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                              color: lightColorScheme.primary,
+                              onPressed: () {
+                                rListController.updateBookmark(
+                                    1, menuItem.recipeId);
+                              },
+                            ),
                           )
                         ],
                       ),
@@ -85,7 +92,7 @@ class ItemsWidget extends StatelessWidget {
                       Row(children: [
                         Expanded(
                             child: Text(
-                          '${menuItem.ingredients}',
+                          '${extractOnlyContent(menuItem.ingredients ?? '')}',
                           style: Theme.of(context).textTheme.bodySmall,
                           overflow: TextOverflow.ellipsis,
                         )),

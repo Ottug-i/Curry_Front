@@ -15,7 +15,7 @@ class _MainPageState extends State<MainPage> {
   final humanTooltip = JustTheController();
   final ladleTooltip = JustTheController();
 
-  bool isCliked = false;
+  bool isClicked = false;
 
   void showBookTooltip() {
     bookTooltip.showTooltip();
@@ -32,7 +32,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isCliked ? Colors.grey : Colors.white,
+      backgroundColor: isClicked ? Colors.grey : Colors.white,
       body: Center(
         child: Stack(
           children: [
@@ -44,7 +44,7 @@ class _MainPageState extends State<MainPage> {
             ),
             Container(
                 alignment: const Alignment(0.0, -1.15),
-                child: isCliked
+                child: isClicked
                     ? Image.asset(
                         'assets/images/light_on.png',
                         height: 215,
@@ -62,7 +62,20 @@ class _MainPageState extends State<MainPage> {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    Get.toNamed('/recipe');
+                    Get.dialog(
+                      AlertDialog(
+                        title: Text('레시피'),
+                       actions: [
+                         ElevatedButton(onPressed: () {
+                           Get.toNamed('/recipe');
+                         }, child: Text('레시피 추천')),
+                         ElevatedButton(onPressed: () {
+                           Get.toNamed('/search');
+                         }, child: Text('레시피 검색')),
+                       ],
+                      )
+                    );
+                    // Get.toNamed('/recipe');
                   },
                   child: Image.asset(
                     'assets/images/ladle.png',
@@ -118,15 +131,15 @@ class _MainPageState extends State<MainPage> {
                 alignment: const Alignment(0.9, -0.9),
                 child: IconButton(
                   iconSize: 50,
-                  icon: isCliked
+                  icon: isClicked
                       ? const Icon(Icons.close_rounded)
                       : const Icon(Icons.info_rounded),
                   color: lightColorScheme.primary,
                   onPressed: () {
                     debugPrint('onpressed 눌림');
                     setState(() {
-                      isCliked = !isCliked;
-                      if (isCliked == true) {
+                      isClicked = !isClicked;
+                      if (isClicked == true) {
                         showBookTooltip();
                         showHumanTooltip();
                         showLadleTooltip();

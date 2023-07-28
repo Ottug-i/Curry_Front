@@ -4,7 +4,6 @@ import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/recipe_list_response.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
-import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/config/config.dart';
 
 class BookmarkListController extends GetxController {
@@ -30,18 +29,18 @@ class BookmarkListController extends GetxController {
 
   void saveResponse(menuData) {
     for (var menu in menuData.content!) {
-      // ingredients 문자열 정리
-      final ingredientsValue = extractOnlyContent(menu.ingredients!);
+      // ingredients 문자열 정리 -> It₩em Widget에서 바꾸기로 변경
+      // final ingredientsValue = extractOnlyContent(menu.ingredients!);
 
       // MenuModel의 나머지 속성들은 그대로 유지
       var updatedMenu = MenuModel(
         recipeId: menu.recipeId,
         name: menu.name,
         thumbnail: menu.thumbnail,
-        time: menu.time,
-        difficulty: menu.difficulty,
-        composition: menu.composition,
-        ingredients: ingredientsValue,
+        time: menu.searchTime,
+        difficulty: menu.searchDifficulty,
+        composition: menu.searchComposition,
+        ingredients: menu.ingredients,
         isBookmark: menu.isBookmark,
       );
 
@@ -144,7 +143,7 @@ class BookmarkListController extends GetxController {
     }
   }
 
-  Future<void> serachByOption(int userId) async {
+  Future<void> searchByOption(int userId) async {
     print("serachByOption 실행 - $composition, $time, $difficulty");
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());

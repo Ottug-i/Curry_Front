@@ -4,21 +4,8 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_timer_controller.dart';
 
-class RecipeDetailTimerWidget extends StatefulWidget {
+class RecipeDetailTimerWidget extends StatelessWidget {
   const RecipeDetailTimerWidget({Key? key}) : super(key: key);
-
-  @override
-  State<RecipeDetailTimerWidget> createState() =>
-      _RecipeDetailTimerWidgetState();
-}
-
-class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
-
-  @override
-  void initState() {
-    // Get.find<RecipeDetailTimerController>().loadTimerAlarm();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +49,7 @@ class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
                 // 분
                 Flexible(
                   child: Obx(
-                    () => TextField(
+                        () => TextField(
                       controller: timerController.minuteTextEditingController,
                       decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
@@ -73,9 +60,9 @@ class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
                           ),
                           enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
-                            width: 5,
-                            color: Colors.grey,
-                          ))),
+                                width: 5,
+                                color: Colors.grey,
+                              ))),
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -87,7 +74,7 @@ class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
                         LengthLimitingTextInputFormatter(2),
                       ],
                       readOnly:
-                          timerController.isRunning.value == true ? true : false,
+                      timerController.isRunning.value == true ? true : false,
                       showCursor: timerController.isRunning.value == true
                           ? false
                           : true, // 수정 가능 여부에 맞춘 커서 유무
@@ -98,7 +85,7 @@ class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
                 // 초
                 Flexible(
                   child: Obx(
-                    () => TextField(
+                        () => TextField(
                       controller: timerController.secondTextEditingController,
                       decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
@@ -109,9 +96,9 @@ class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
                           ),
                           enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
-                            width: 5,
-                            color: Colors.grey,
-                          ))),
+                                width: 5,
+                                color: Colors.grey,
+                              ))),
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -148,7 +135,7 @@ class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
                   child: const Text('취소')),
               const Padding(padding: EdgeInsets.only(right: 20)),
               Obx(
-                () => ElevatedButton(
+                    () => ElevatedButton(
                     onPressed: () {
                       if (timerController.startButtonText.value == '일시정지') {
                         //일시정지
@@ -166,4 +153,5 @@ class _RecipeDetailTimerWidgetState extends State<RecipeDetailTimerWidget> {
       ),
     );
   }
+
 }

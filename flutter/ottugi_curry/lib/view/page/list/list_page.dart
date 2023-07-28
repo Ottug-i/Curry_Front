@@ -172,12 +172,11 @@ class ListPageState extends State<ListPage> {
                             itemCount: rListController.MenuModelList.length,
                             itemBuilder: (BuildContext context, int i) {
                               return ItemsWidget(
-                                  rListController.MenuModelList[i],
-                                  rListController.selectedIngredient.value);
+                                  rListController.MenuModelList[i]);
                             }),
                       ),
                       Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Obx(() => NumberPaginator(
                                 // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
                                 numberPages:
