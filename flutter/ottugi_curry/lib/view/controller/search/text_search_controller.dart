@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/rank_response.dart';
 import 'package:ottugi_curry/model/recipe_list_response.dart';
@@ -12,6 +13,8 @@ class TextSearchController {
   RxList<RankResponse> rankList = <RankResponse>[].obs;
   Rx<TextEditingController> textEditingController =
   TextEditingController(text: '').obs;
+  Rx<NumberPaginatorController> pageController =
+  NumberPaginatorController().obs;
 
   // pageable, sort 데이터 생략
   Rx<RecipeListResponse> recipeListResponse = RecipeListResponse(
@@ -26,11 +29,15 @@ class TextSearchController {
     empty: false,
   ).obs;
 
+  Rx<String> selectedCategory = ''.obs;
+  Rx<String> selectedCategoryValue = ''.obs;
+
   RxString searchName = ''.obs;
-  RxString searchComposition = ''.obs;
-  RxString searchDifficulty = ''.obs;
-  RxString searchTime = ''.obs;
-  RxInt currentPages = 0.obs;
+
+  Rx<String> searchComposition = ''.obs;
+  Rx<String> searchDifficulty = ''.obs;
+  Rx<String> searchTime = ''.obs;
+
 
   Future<void> loadRankList() async {
     try {
@@ -59,15 +66,28 @@ class TextSearchController {
       String? difficulty,
       String? time,
       int? page}) async {
+
+    // 검색어 및 옵션 변경시 - 페이징 인덱스 리셋
+    if (searchName.value != name || searchComposition.value != composition || searchDifficulty.value != difficulty || searchTime.value != time) {
+      pageController.value.currentPage = 0;
+    }
+
     // 검색어 및 옵션 저장
     searchName.value = name;
-    searchComposition.value = composition ?? '';
-    searchDifficulty.value = difficulty ?? '';
-    searchTime.value = time ?? '';
+    // 옵션 변경 시(null 외의 값 들어왔을 떄) 저장
+    if (composition != null) {
+      searchComposition.value = composition;
+    }
+    if (difficulty != null) {
+      searchDifficulty.value = difficulty;
+    }
+    if (time != null) {
+      searchTime.value = time;
+    }
 
-    print('print composition: ${composition}');
-    print('print difficulty: ${difficulty}');
-    print('print time: ${time}');
+    print('print searchCompositionValue: ${searchComposition.value}');
+    print('print searchDifficultyValue: ${searchDifficulty.value}');
+    print('print searchTimeValue: ${searchTime.value}');
 
     try {
       Dio dio = Dio();
@@ -76,22 +96,16 @@ class TextSearchController {
       SearchQueries searchQueries = SearchQueries(
           userId: 1,
           name: name,
-          composition: composition ?? '',
-          difficulty: difficulty ?? '',
-          time: time ?? '',
+          composition: searchComposition.value,
+          difficulty: searchDifficulty.value,
+          time: searchTime.value,
           page: page ?? 1,
           size: 10);
       final resp = await recipeRepository.searchByBox(searchQueries);
-      print('print respContentLength: ${resp.content}');
-      print('print respTotalPages: ${resp.totalPages}');
       // 응답 값 변수에 저장
       recipeListResponse.value = resp;
-      print(
-          'print recipeListResponse.value.content?.first.name: ${recipeListResponse.value.content?.first.name}');
-      print('print recipeListResponseValueSize: ${recipeListResponse.value.size}');
-      print('print searchControllerRecipeListResponseValueTotalPages: ${recipeListResponse.value.totalPages}');
+      print('print respContentLength: ${resp.totalElements!}');
 
-      // 응답 값 변수에 저장
     } on DioError catch (e) {
       print('loadRankList: $e');
       return;
@@ -99,7 +113,7 @@ class TextSearchController {
   }
 
   void handlePaging(int pageIndex) {
-    print('print searchControllerRecipeListResponseValueTotalPages: ${recipeListResponse.value.totalPages}');
+    print('print TotalPages: ${recipeListResponse.value.totalPages}');
     print('print pageIndex: ${pageIndex}');
 
     handleTextSearch(
@@ -108,5 +122,22 @@ class TextSearchController {
         difficulty: searchDifficulty.value,
         time: searchTime.value,
         page: pageIndex);
+  }
+
+  void toggleValue(target, newValue) {
+    if (target.value == newValue) {
+      target.value = '';
+    } else {
+      target.value = newValue;
+    }
+  }
+
+  void updateCategory(value) {
+    if (selectedCategory.value == value) {
+      selectedCategory.value = '';
+    } else {
+      selectedCategory.value = value;
+    }
+    print('print SelectedCategoryValue: ${selectedCategory.value}');
   }
 }

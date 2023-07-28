@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/recipe_list_response.dart';
@@ -52,7 +51,8 @@ class MenuListController extends GetxController {
       MenuModelList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData.content!) {
-        final ingredientsValue = extractOnlyContent(menu.ingredients!);
+        // item Widget에서 재료 문자열 정리하는 것으로 변경 -> 주석처리 함
+        // final ingredientsValue = extractOnlyContent(menu.ingredients!);
 
         // MenuModel의 나머지 속성들은 그대로 유지
         var updatedMenu = MenuModel(
@@ -62,7 +62,7 @@ class MenuListController extends GetxController {
           time: menu.time,
           difficulty: menu.difficulty,
           composition: menu.composition,
-          ingredients: ingredientsValue,
+          ingredients: menu.ingredients,
           isBookmark: menu.isBookmark,
         );
 

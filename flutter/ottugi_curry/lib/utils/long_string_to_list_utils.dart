@@ -43,6 +43,9 @@ void splitIngredientsContent() {
 
 // 레시피 리스트에서 재료만 보여주기 위해서, 대괄호 수직바 제거 후 재료만 추출하는 함수
 String extractOnlyContent(String longText) {
+ if (longText == '') {
+  return '';
+ }
  longText = longText.replaceFirst('[', '');
  List<String> text = longText.split(' [');
  String contentText = '';

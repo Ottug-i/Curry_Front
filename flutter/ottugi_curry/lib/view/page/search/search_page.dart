@@ -4,8 +4,8 @@ import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/controller/search/text_search_controller.dart';
-import 'package:ottugi_curry/view/page/list/categories.dart';
 import 'package:ottugi_curry/view/page/list/list_item_widget.dart';
+import 'package:ottugi_curry/view/page/search/search_categories_widget.dart';
 
 class TextSearchPage extends StatelessWidget {
   const TextSearchPage({Key? key}) : super(key: key);
@@ -18,9 +18,6 @@ class TextSearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(TextSearchController());
     final searchController = Get.find<TextSearchController>();
-    final NumberPaginatorController pageController =
-        NumberPaginatorController();
-
 
     return FutureBuilder(
         future: _initRankList(),
@@ -67,8 +64,11 @@ class TextSearchPage extends StatelessWidget {
                       ), // TextField
                     ),
 
-                    const CategoriesWidget(),
-                    // 아이템 위젯
+                    // 옵션 위젯
+                    Obx(() => searchController.searchName.isNotEmpty
+                        ? const SearchCategoriesWidget()
+                        : const SizedBox(),
+                    ),
 
                     // 검색 결과
                     Obx(
@@ -103,8 +103,10 @@ class TextSearchPage extends StatelessWidget {
                                       // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
                                       numberPages:
                                       searchController.recipeListResponse.value.totalPages ?? 0,
-                                      controller: pageController,
+                                      controller: searchController.pageController.value,
                                       onPageChange: (int index) {
+                                        print('print index: ${index}');
+                                        print('print pageControllerCurrentPage: ${searchController.pageController.value.currentPage}');
                                         searchController.handlePaging(index+1);
                                       },
                                       initialPage: 0,
@@ -114,7 +116,10 @@ class TextSearchPage extends StatelessWidget {
                                         buttonSelectedBackgroundColor:
                                         lightColorScheme.primary,
                                       ),
-                                    ))) : const SizedBox()
+                                    ))) : const Padding(
+                                      padding: EdgeInsets.only(top: 10),
+                                      child: Text('검색 결과가 없습니다.'),
+                                    )
                               ],
                             )
 
@@ -193,130 +198,6 @@ class TextSearchPage extends StatelessWidget {
                                 )
                               : const SizedBox(),
                     ),
-                    // Obx(() => searchController.recipeListResponse.value.content != []
-                    //     ? searchController.rankList.isNotEmpty
-                    //         ? Column(
-                    //             crossAxisAlignment: CrossAxisAlignment.start,
-                    //             children: [
-                    //               Padding(
-                    //                 padding: const EdgeInsets.only(
-                    //                     top: 20, left: 30),
-                    //                 child: Text(
-                    //                   '인기 검색어',
-                    //                   style: Theme.of(context)
-                    //                       .textTheme
-                    //                       .titleMedium,
-                    //                 ),
-                    //               ),
-                    //               SizedBox(
-                    //                 height: 450,
-                    //                 child: ListView.builder(
-                    //                   padding: const EdgeInsets.only(
-                    //                       top: 17,
-                    //                       bottom: 14,
-                    //                       left: 30,
-                    //                       right: 30),
-                    //                   itemCount:
-                    //                       searchController.rankList.length,
-                    //                   itemBuilder:
-                    //                       (BuildContext context, int idx) {
-                    //                     return Column(
-                    //                       crossAxisAlignment:
-                    //                           CrossAxisAlignment.start,
-                    //                       children: [
-                    //                         InkWell(
-                    //                           onTap: () {
-                    //                             searchController
-                    //                                 .handleTextSearch(
-                    //                               name:
-                    //                                   '${searchController.rankList[idx].name}',
-                    //                             );
-                    //                           },
-                    //                           child: Padding(
-                    //                             padding: const EdgeInsets.only(
-                    //                                 top: 3, bottom: 3),
-                    //                             child: RichText(
-                    //                                 text: TextSpan(
-                    //                                     text: '${idx + 1}   ',
-                    //                                     style: TextStyle(
-                    //                                       fontSize: 17,
-                    //                                       fontWeight:
-                    //                                           FontWeight.w500,
-                    //                                       color:
-                    //                                           lightColorScheme
-                    //                                               .primary,
-                    //                                     ),
-                    //                                     children: [
-                    //                                   TextSpan(
-                    //                                       text:
-                    //                                           '${searchController.rankList[idx].name}',
-                    //                                       style: DefaultTextStyle
-                    //                                               .of(context)
-                    //                                           .style)
-                    //                                 ])),
-                    //                           ),
-                    //                         ),
-                    //                         const Divider(
-                    //                           thickness: 0.3,
-                    //                           color: Colors.grey,
-                    //                         ),
-                    //                       ],
-                    //                     );
-                    //                   },
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //           )
-                    //         : const SizedBox()
-                    //     : Column(
-                    //         children: [
-                    //           // 결과
-                    //           Obx(
-                    //             () => ListView.builder(
-                    //                 shrinkWrap: true,
-                    //                 scrollDirection: Axis.vertical,
-                    //                 physics:
-                    //                     const NeverScrollableScrollPhysics(),
-                    //                 itemCount: searchController
-                    //                     .recipeListResponse
-                    //                     .value
-                    //                     .content
-                    //                     ?.length,
-                    //                 itemBuilder: (BuildContext context, int i) {
-                    //                   return ItemsWidget(
-                    //                     searchController.recipeListResponse
-                    //                         .value.content![i],
-                    //                   );
-                    //                 }),
-                    //           ),
-                    //
-                    //           // 페이징
-                    //           Padding(
-                    //               padding: const EdgeInsets.only(
-                    //                   left: 20, right: 20, top: 5, bottom: 10),
-                    //               child: Obx(() => NumberPaginator(
-                    //                     // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
-                    //                     numberPages: searchController
-                    //                             .recipeListResponse
-                    //                             .value
-                    //                             .totalPages ??
-                    //                         1,
-                    //                     controller: pageController,
-                    //                     onPageChange: (int index) {
-                    //                       searchController
-                    //                           .handlePaging(index + 1);
-                    //                     },
-                    //                     config: NumberPaginatorUIConfig(
-                    //                       buttonSelectedForegroundColor:
-                    //                           Colors.black,
-                    //                       buttonUnselectedForegroundColor:
-                    //                           Colors.grey,
-                    //                       buttonSelectedBackgroundColor:
-                    //                           lightColorScheme.primary,
-                    //                     ),
-                    //                   ))),
-                    //         ],
-                    //       )),
                   ],
                 ),
               ));
