@@ -94,9 +94,10 @@ class RecipeDetailController {
 
   Future<void> speakOrderTTS() async { // 전체 옵션 기준으로 실행
     if (ttsStatus.value == true) {
-      tts.value.speak(ordersList.toString());
-      // tts.value.awaitSpeakCompletion(false);
-      // ttsStatus.value = false;
+      await tts.value.speak(ordersList.toString());
+      // tts가 읽는 동안 기다렸다가, 종료되면 status를 false로 변경
+      await tts.value.awaitSpeakCompletion(true);
+      ttsStatus.value = false;
     } else {
       tts.value.stop();
     }

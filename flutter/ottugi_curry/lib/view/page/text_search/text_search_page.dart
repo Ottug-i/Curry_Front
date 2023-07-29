@@ -44,13 +44,6 @@ class TextSearchPage extends StatelessWidget {
                           searchController.handleTextSearch(
                               name: text, page: 1);
                         }
-                        print(
-                            'print searchController.textEditingController.valueText: ${searchController.textEditingController.value.text}');
-                        print(
-                            'print searchController.textEditingController.valueTextIsEmpty: ${searchController.textEditingController.value.text.isEmpty}');
-                      },
-                      onChanged: (String text) {
-                        print('print text: ${text}');
                       },
                       decoration: InputDecoration(
                           prefixIcon: IconButton(
