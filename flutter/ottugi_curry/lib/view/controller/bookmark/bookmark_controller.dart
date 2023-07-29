@@ -37,9 +37,9 @@ class BookmarkListController extends GetxController {
         recipeId: menu.recipeId,
         name: menu.name,
         thumbnail: menu.thumbnail,
-        time: menu.searchTime,
-        difficulty: menu.searchDifficulty,
-        composition: menu.searchComposition,
+        time: menu.time,
+        difficulty: menu.difficulty,
+        composition: menu.composition,
         ingredients: menu.ingredients,
         isBookmark: menu.isBookmark,
       );
@@ -73,6 +73,7 @@ class BookmarkListController extends GetxController {
       response.value = RecipeListResponse();
 
       saveResponse(menuData);
+
       response.refresh();
       update();
     } catch (error) {

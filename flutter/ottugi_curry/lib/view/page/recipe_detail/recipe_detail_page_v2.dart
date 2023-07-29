@@ -48,9 +48,6 @@ class RecipeDetailPageV2 extends StatelessWidget {
                         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                             context),
                         sliver: SliverAppBar(
-                          // scrolledUnderElevation: 0.0,
-                          // forceMaterialTransparency: true,
-                          // backgroundColor: lightColorScheme.background,
                           backgroundColor: Colors.transparent,
                           elevation: 0.0,
                           pinned: true,
@@ -194,9 +191,9 @@ class RecipeDetailPageV2 extends StatelessWidget {
                         child: Column(
                           children: [
                             // 레시피 사진
-                            recipeDetailController.thumbnail.value.isNotEmpty
+                            recipeDetailController.recipeResponse.value.thumbnail != null
                                 ? Image.network(
-                                    '${recipeDetailController.thumbnail}',
+                                    '${recipeDetailController.recipeResponse.value.thumbnail}',
                                     fit: BoxFit.fill,
                                     height: 238,
                                     width: 390,
@@ -227,7 +224,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                       //iconButton과 동일한 크기 지정하기 위함
                                       Center(
                                         child: Text(
-                                          recipeDetailController.name.value,
+                                          recipeDetailController.recipeResponse.value.name ?? '',
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge,
@@ -238,14 +235,12 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                             recipeDetailController
                                                 .updateBookmark(
                                                     1,
-                                                    recipeDetailController
-                                                        .id.value);
                                           },
                                           icon: Obx(
                                             () => Icon(
                                               Icons.bookmark,
                                               color: recipeDetailController
-                                                          .isBookmark.value ==
+                                                          .recipeResponse.value.isBookmark ==
                                                       true
                                                   ? lightColorScheme.secondary
                                                   : Colors.grey.shade300,
@@ -268,7 +263,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                         size: 15,
                                       ),
                                       Text(
-                                        ' ${recipeDetailController.time.value}  |  ',
+                                        ' ${recipeDetailController.recipeResponse.value.time}  |  ',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall,
@@ -280,7 +275,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                         size: 14,
                                       ),
                                       Text(
-                                        ' ${recipeDetailController.difficulty.value}  |  ',
+                                        ' ${recipeDetailController.recipeResponse.value.difficulty}  |  ',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall,
@@ -292,7 +287,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                         size: 19,
                                       ),
                                       Text(
-                                        ' ${recipeDetailController.composition.value}',
+                                        ' ${recipeDetailController.recipeResponse.value.composition}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall,
@@ -430,7 +425,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                     color: lightColorScheme.primary,
                                     width: 1.0))),
                         child: Text(
-                          '${recipeDetailController.servings.toString()} 기준',
+                          '${recipeDetailController.recipeResponse.value.servings.toString()} 기준',
                           style: const TextStyle(fontSize: 15),
                         ),
                       ),
@@ -483,15 +478,16 @@ class RecipeDetailPageV2 extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {
-                    recipeDetailController.orderViewOption(Config.soundView);
+                    recipeDetailController.ttsStatus.value = !recipeDetailController.ttsStatus.value;
+                    recipeDetailController.speakOrderTTS();
+                    // recipeDetailController.orderViewOption(Config.soundView);
                   },
                   icon: const ImageIcon(
                     AssetImage('assets/icons/speaker.png'),
                     size: 20,
                   ),
-                  color: recipeDetailController.orderViewOption.value ==
-                          Config.soundView
-                      ? Colors.black
+                  color: recipeDetailController.ttsStatus.value == true
+                      ? lightColorScheme.secondary
                       : Colors.grey,
                 ),
                 IconButton(
@@ -521,13 +517,15 @@ class RecipeDetailPageV2 extends StatelessWidget {
               ],
             ),
 
+            // if (recipeDetailController.orderViewOption.value ==
+            //     Config.soundView) ...[
+            //   recipeDetailTextListViewWidget()
+            //   // (추후) 화면은 갤러리 뷰에 + 음성 나오게 설정
+            // ] else
             if (recipeDetailController.orderViewOption.value ==
-                Config.soundView) ...[
-              const Text('Sound')
-              // (추후) 화면은 갤러리 뷰에 + 음성 나오게 설정
-            ] else if (recipeDetailController.orderViewOption.value ==
                 Config.textListView) ...[
-              recipeDetailTextListViewWidget()
+              // recipeDetailTextListViewWidget()
+              const RecipeDetailTextListViewWidget()
             ] else ...[
               const RecipeDetailGalleryViewWidget(),
             ],
