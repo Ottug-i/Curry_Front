@@ -22,6 +22,9 @@ void main() async {
   KakaoSdk.init(nativeAppKey: 'f058e8e5bc00f59848d0eb05b04aa3b6');
   await userStorage.ready;
 
+  // ChatGpt API Key
+  //await dotenv.load(fileName: "./assets/config/.env");
+
   runApp(const MyApp());
 }
 
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
       theme: CustomThemeData.themeDataLight,
       //initialRoute: '/main', // login
       getPages: Config.routers,
-      home: ChatPage(),
+      home: const ChatPage(),
     );
   }
 }

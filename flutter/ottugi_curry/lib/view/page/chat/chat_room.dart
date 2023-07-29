@@ -1,19 +1,27 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/page/chat/chat_composer.dart';
 import 'package:ottugi_curry/view/page/chat/conversation.dart';
-import 'package:ottugi_curry/view/page/chat/user_model.dart';
+import 'package:ottugi_curry/view/controller/chat/chat_controller.dart';
 
 class ChatRoom extends StatefulWidget {
-  const ChatRoom({super.key, required this.user});
+  const ChatRoom({super.key});
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
-
-  final User user;
 }
 
 class _ChatRoomState extends State<ChatRoom> {
+  final chatContorller = Get.put(ChatController());
+  final scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    Get.delete<ChatController>();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,11 +44,12 @@ class _ChatRoomState extends State<ChatRoom> {
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30)),
-                child: Conversation(user: widget.user),
+                child: Conversation(scrollController: scrollController),
               ),
             ),
           ),
-          const buildChatComposer()
+          // 메세지 입력창
+          buildChatComposer(scrollController: scrollController),
         ]),
       ),
     );

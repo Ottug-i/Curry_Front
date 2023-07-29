@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:get/get.dart';
+import 'package:ottugi_curry/view/controller/chat/chat_controller.dart';
+import 'package:ottugi_curry/model/message_model.dart';
 
 class buildChatComposer extends StatelessWidget {
-  const buildChatComposer({
-    super.key,
-  });
+  final ScrollController scrollController; // Add this line
+
+  const buildChatComposer({required this.scrollController, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final chatContorller = Get.find<ChatController>();
+    TextEditingController textController = TextEditingController();
+
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         color: Colors.white,
@@ -34,6 +40,7 @@ class buildChatComposer extends StatelessWidget {
                       ),
                       Expanded(
                         child: TextField(
+                          controller: textController,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Type your message ...',
@@ -46,11 +53,19 @@ class buildChatComposer extends StatelessWidget {
             const SizedBox(
               width: 16,
             ),
-            // 우측 음성 입력 버튼
-            CircleAvatar(
+            /*CircleAvatar(
               backgroundColor: lightColorScheme.primary,
               child: const Icon(Icons.send, color: Colors.white),
-            )
+            ),*/
+            IconButton(
+              icon: const Icon(Icons.send),
+              onPressed: () {
+                String question = textController.text.trim();
+                chatContorller.addToChat(question, Message.SENT_BY_ME);
+                textController.clear();
+                chatContorller.callAPI(question);
+              },
+            ),
           ],
         ));
   }
