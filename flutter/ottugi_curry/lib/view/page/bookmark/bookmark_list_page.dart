@@ -118,7 +118,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(24.0),
                             child: Image.network(
-                              '${menuItem.thumbnail}' ?? '',
+                              '${menuItem.thumbnail}',
                               fit: BoxFit.fill,
                               height: 100,
                               width: 150,
@@ -174,7 +174,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                 Row(children: [
                                   Expanded(
                                       child: Text(
-                                    '${extractOnlyContent(menuItem.ingredients ?? '')}',
+                                    '${menuItem.ingredients}',
                                     style:
                                         Theme.of(context).textTheme.bodySmall,
                                     overflow: TextOverflow.ellipsis,

@@ -26,7 +26,7 @@ class RecipeListPageState extends State<RecipeListPage> {
   @override
   void initState() {
     super.initState();
-    rListController = Get.put(RecipeListController());
+    rListController = Get.put(MenuListController());
   }
 
   @override
@@ -96,7 +96,7 @@ class RecipeListPageState extends State<RecipeListPage> {
                                         ),
                                         Column(
                                             children: rListController
-                                                .ingredientList.value
+                                                .ingredientList
                                                 .map((favorite) {
                                           return CheckboxListTile(
                                               activeColor: lightColorScheme
