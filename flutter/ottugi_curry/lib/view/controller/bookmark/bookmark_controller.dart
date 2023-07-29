@@ -29,7 +29,6 @@ class BookmarkListController extends GetxController {
 
   void saveResponse(menuData) {
     for (var menu in menuData.content!) {
-      print('print menu: ${menu}');
       // ingredients 문자열 정리 -> It₩em Widget에서 바꾸기로 변경
       // final ingredientsValue = extractOnlyContent(menu.ingredients!);
 
@@ -72,10 +71,8 @@ class BookmarkListController extends GetxController {
           await bookmrkRepository.getBookmark(page, Config.elementNum, userId);
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
       response.value = RecipeListResponse();
-      print('print menuData: ${menuData}');
 
       saveResponse(menuData);
-      print('print menuData: ${menuData}');
 
       response.refresh();
       update();
