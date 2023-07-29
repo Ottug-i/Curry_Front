@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
+import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/rank_response.dart';
 import 'package:ottugi_curry/model/recipe_list_response.dart';
@@ -37,7 +38,6 @@ class TextSearchController {
   Rx<String> searchComposition = ''.obs;
   Rx<String> searchDifficulty = ''.obs;
   Rx<String> searchTime = ''.obs;
-
 
   Future<void> loadRankList() async {
     try {
@@ -100,7 +100,7 @@ class TextSearchController {
           difficulty: searchDifficulty.value,
           time: searchTime.value,
           page: page ?? 1,
-          size: 10);
+          size: Config.elementNum);
       final resp = await recipeRepository.searchByBox(searchQueries);
       // 응답 값 변수에 저장
       recipeListResponse.value = resp;
