@@ -5,15 +5,15 @@ import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 
-class ItemsWidget extends StatelessWidget {
+class ListItemWidget extends StatelessWidget {
   final MenuModel menuItem;
   // List<String> ingredientList;
-  ItemsWidget(this.menuItem, {super.key});
+  const ListItemWidget(this.menuItem, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(MenuListController());
-    final rListController = Get.find<MenuListController>();
+    Get.put(RecipeListController());
+    final rListController = Get.find<RecipeListController>();
 
     return GestureDetector(
       onTap: () {
@@ -60,7 +60,8 @@ class ItemsWidget extends StatelessWidget {
                               children: [
                                 Text(
                                   '${menuItem.name}',
-                                  style: Theme.of(context).textTheme.titleMedium,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(
@@ -92,7 +93,7 @@ class ItemsWidget extends StatelessWidget {
                       Row(children: [
                         Expanded(
                             child: Text(
-                          '${extractOnlyContent(menuItem.ingredients ?? '')}',
+                          extractOnlyContent(menuItem.ingredients ?? ''),
                           style: Theme.of(context).textTheme.bodySmall,
                           overflow: TextOverflow.ellipsis,
                         )),

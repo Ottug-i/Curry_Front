@@ -26,12 +26,12 @@ class _ResultCheckState extends State<ResultCheck> {
   // 인식 결과로 받아온 변수
   var ingredient = ["달걀", "베이컨", "감자", "치즈"];
 
-  late final MenuListController rListController;
+  late final RecipeListController rListController;
 
   @override
   void initState() {
     super.initState();
-    rListController = Get.put(MenuListController());
+    rListController = Get.put(RecipeListController());
     // 인식 결과로 받아온 변수를 controller에 저장
     rListController.setIngredientList(ingredient);
   }

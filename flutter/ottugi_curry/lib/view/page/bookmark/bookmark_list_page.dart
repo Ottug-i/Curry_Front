@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
-import 'package:ottugi_curry/view/page/list/categories.dart';
+import 'package:ottugi_curry/view/page/list/categories_widget.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
 
 class BookmrkListPage extends StatefulWidget {

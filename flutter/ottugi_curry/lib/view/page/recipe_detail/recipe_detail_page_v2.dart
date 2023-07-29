@@ -3,6 +3,7 @@ import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_controller.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_timer_controller.dart';
+import 'package:ottugi_curry/view/page/chat/chat_page.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_gallery_view_widget.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_timer_widget.dart';
@@ -234,7 +235,6 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                             recipeDetailController
                                                 .updateBookmark(
                                                     1,
-                                                    recipeDetailController.recipeResponse.value.recipeId!);
                                           },
                                           icon: Obx(
                                             () => Icon(
@@ -356,7 +356,36 @@ class RecipeDetailPageV2 extends StatelessWidget {
 
             // 챗봇 플로팅 버튼
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                // Get.to(() => const ChatPage());
+                /*showDialog(
+                    context: context,
+                    barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: const ChatPage(),
+                        actions: [
+                          TextButton(
+                            child: const Text('확인'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });?*/
+                showGeneralDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    barrierLabel: MaterialLocalizations.of(context)
+                        .modalBarrierDismissLabel,
+                    barrierColor: Colors.black.withOpacity(0.5),
+                    transitionDuration: const Duration(milliseconds: 200),
+                    pageBuilder: (BuildContext buildContext,
+                        Animation animation, Animation secondaryAnimation) {
+                      return const ChatPage();
+                    });
+              },
               backgroundColor: const Color(0xFF8BC6B8),
               foregroundColor: Colors.white,
               shape: const CircleBorder(),

@@ -37,22 +37,31 @@ class TextSearchPage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
                       child: TextField(
-                        controller: searchController.textEditingController.value,
+                        controller:
+                            searchController.textEditingController.value,
                         onSubmitted: (String text) {
-                          if (searchController.textEditingController.value.text.isNotEmpty) {
-                            searchController.handleTextSearch(name: text, page: 1);
+                          if (searchController
+                              .textEditingController.value.text.isNotEmpty) {
+                            searchController.handleTextSearch(
+                                name: text, page: 1);
                           }
-                          print('print searchController.textEditingController.valueText: ${searchController.textEditingController.value.text}');
-                          print('print searchController.textEditingController.valueTextIsEmpty: ${searchController.textEditingController.value.text.isEmpty}');
+                          print(
+                              'print searchController.textEditingController.valueText: ${searchController.textEditingController.value.text}');
+                          print(
+                              'print searchController.textEditingController.valueTextIsEmpty: ${searchController.textEditingController.value.text.isEmpty}');
                         },
                         onChanged: (String text) {
-                          print('print text: ${text}');
+                          print('print text: $text');
                         },
                         decoration: InputDecoration(
                             prefixIcon: IconButton(
-                              icon: Icon(Icons.search, color: lightColorScheme.primary,),
+                              icon: Icon(
+                                Icons.search,
+                                color: lightColorScheme.primary,
+                              ),
                               onPressed: () {
-                                searchController.textEditingController.value.text = '';
+                                searchController
+                                    .textEditingController.value.text = '';
                                 searchController.searchName.value = '';
                               },
                             ),
@@ -65,9 +74,10 @@ class TextSearchPage extends StatelessWidget {
                     ),
 
                     // 옵션 위젯
-                    Obx(() => searchController.searchName.isNotEmpty
-                        ? const SearchCategoriesWidget()
-                        : const SizedBox(),
+                    Obx(
+                      () => searchController.searchName.isNotEmpty
+                          ? const SearchCategoriesWidget()
+                          : const SizedBox(),
                     ),
 
                     // 검색 결과
@@ -87,8 +97,9 @@ class TextSearchPage extends StatelessWidget {
                                           .value
                                           .content
                                           ?.length,
-                                      itemBuilder: (BuildContext context, int i) {
-                                        return ItemsWidget(
+                                      itemBuilder:
+                                          (BuildContext context, int i) {
+                                        return ListItemWidget(
                                           searchController.recipeListResponse
                                               .value.content![i],
                                         );
@@ -96,34 +107,48 @@ class TextSearchPage extends StatelessWidget {
                                 ),
 
                                 // 페이징
-                                searchController.recipeListResponse.value.content!.isNotEmpty
-                                ? Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 10),
-                                    child: Obx(() => NumberPaginator(
-                                      // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
-                                      numberPages:
-                                      searchController.recipeListResponse.value.totalPages ?? 0,
-                                      controller: searchController.pageController.value,
-                                      onPageChange: (int index) {
-                                        print('print index: ${index}');
-                                        print('print pageControllerCurrentPage: ${searchController.pageController.value.currentPage}');
-                                        searchController.handlePaging(index+1);
-                                      },
-                                      initialPage: 0,
-                                      config: NumberPaginatorUIConfig(
-                                        buttonSelectedForegroundColor: Colors.black,
-                                        buttonUnselectedForegroundColor: Colors.grey,
-                                        buttonSelectedBackgroundColor:
-                                        lightColorScheme.primary,
-                                      ),
-                                    ))) : const Padding(
-                                      padding: EdgeInsets.only(top: 10),
-                                      child: Text('검색 결과가 없습니다.'),
-                                    )
+                                searchController.recipeListResponse.value
+                                        .content!.isNotEmpty
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 20,
+                                            top: 5,
+                                            bottom: 10),
+                                        child: Obx(() => NumberPaginator(
+                                              // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
+                                              numberPages: searchController
+                                                      .recipeListResponse
+                                                      .value
+                                                      .totalPages ??
+                                                  0,
+                                              controller: searchController
+                                                  .pageController.value,
+                                              onPageChange: (int index) {
+                                                print('print index: $index');
+                                                print(
+                                                    'print pageControllerCurrentPage: ${searchController.pageController.value.currentPage}');
+                                                searchController
+                                                    .handlePaging(index + 1);
+                                              },
+                                              initialPage: 0,
+                                              config: NumberPaginatorUIConfig(
+                                                buttonSelectedForegroundColor:
+                                                    Colors.black,
+                                                buttonUnselectedForegroundColor:
+                                                    Colors.grey,
+                                                buttonSelectedBackgroundColor:
+                                                    lightColorScheme.primary,
+                                              ),
+                                            )))
+                                    : const Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text('검색 결과가 없습니다.'),
+                                      )
                               ],
                             )
 
-                        // 인기 검색어
+                          // 인기 검색어
                           : searchController.rankList.isNotEmpty
                               ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,14 +181,22 @@ class TextSearchPage extends StatelessWidget {
                                             children: [
                                               InkWell(
                                                 onTap: () {
-                                                  searchController.handleTextSearch(
-                                                    name:'${searchController.rankList[idx].name}',
+                                                  searchController
+                                                      .handleTextSearch(
+                                                    name:
+                                                        '${searchController.rankList[idx].name}',
                                                   );
-                                                  searchController.textEditingController.value.text = searchController.rankList[idx].name!;
+                                                  searchController
+                                                          .textEditingController
+                                                          .value
+                                                          .text =
+                                                      searchController
+                                                          .rankList[idx].name!;
                                                 },
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 3, bottom: 3),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 3, bottom: 3),
                                                   child: RichText(
                                                       text: TextSpan(
                                                           text: '${idx + 1}   ',

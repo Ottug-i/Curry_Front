@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:ottugi_curry/config/config.dart';
@@ -21,6 +22,9 @@ void main() async {
   KakaoSdk.init(nativeAppKey: 'f058e8e5bc00f59848d0eb05b04aa3b6');
   await userStorage.ready;
 
+  // ChatGpt API Key
+  await dotenv.load(fileName: "assets/config/.env");
+
   runApp(const MyApp());
 }
 
@@ -34,7 +38,7 @@ class MyApp extends StatelessWidget {
       theme: CustomThemeData.themeDataLight,
       initialRoute: '/main', // login
       getPages: Config.routers,
-      //home: const CheckBox(),
+      //home: const ChatPage(),
     );
   }
 }

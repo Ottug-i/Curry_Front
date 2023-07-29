@@ -13,7 +13,7 @@ class CategoriesWidget extends StatefulWidget {
 }
 
 class CategoriesWidgetState extends State<CategoriesWidget> {
-  //final controller = Get.put(MenuListController());
+  //final controller = Get.put(RecipeListController());
   final controller = Get.put(BookmarkListController());
   //late String categories = controller.selectedCategory.value;
 
