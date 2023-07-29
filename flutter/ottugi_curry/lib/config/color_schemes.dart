@@ -32,6 +32,11 @@ const lightColorScheme = ColorScheme(
   surfaceTint: Color(0xFF006874),
 );
 
+class customColorScheme {
+  customColorScheme._();
+  static Color chatgptColor = const Color(0xFF74AA9C);
+}
+
 // const darkColorScheme = ColorScheme(
 //   brightness: Brightness.dark,
 //   primary: Color(0xFF45D8ED),
