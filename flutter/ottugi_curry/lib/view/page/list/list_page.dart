@@ -18,17 +18,17 @@ class ListPageState extends State<ListPage> {
   //List<String> get ingredientList => widget.ingredientList;
 
   Future<void> _initMenuList() async {
-    await Get.find<MenuListController>().fetchData(1, 1);
+    await Get.find<RecipeListController>().fetchData(1, 1);
   }
 
-  late final MenuListController rListController;
+  late final RecipeListController rListController;
   final NumberPaginatorController pageController = NumberPaginatorController();
   bool isChange = false;
 
   @override
   void initState() {
     super.initState();
-    rListController = Get.put(MenuListController());
+    rListController = Get.put(RecipeListController());
   }
 
   @override
@@ -171,7 +171,7 @@ class ListPageState extends State<ListPage> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: rListController.MenuModelList.length,
                             itemBuilder: (BuildContext context, int i) {
-                              return ItemsWidget(
+                              return ListItemWidget(
                                   rListController.MenuModelList[i]);
                             }),
                       ),

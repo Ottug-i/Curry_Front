@@ -6,7 +6,7 @@ import 'package:ottugi_curry/model/recipe_list_response.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 
-class MenuListController extends GetxController {
+class RecipeListController extends GetxController {
   Rx<RecipeListResponse> response = RecipeListResponse().obs;
   RxList<MenuModel> MenuModelList =
       <MenuModel>[].obs; // response.value.content 와 같은 셈
