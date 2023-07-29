@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 //import 'package:badges/badges.dart';
 
-class ListAppBar extends StatelessWidget {
-  const ListAppBar({super.key});
+class RecipeListAppBar extends StatelessWidget {
+  const RecipeListAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {

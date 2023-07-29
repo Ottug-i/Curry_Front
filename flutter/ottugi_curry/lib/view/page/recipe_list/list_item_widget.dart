@@ -3,17 +3,15 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
-import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 
 class ListItemWidget extends StatelessWidget {
   final MenuModel menuItem;
-  // List<String> ingredientList;
-  const ListItemWidget(this.menuItem, {super.key});
+  final controller;
+
+  const ListItemWidget({required this.menuItem, this.controller, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Get.put(RecipeListController());
-    final rListController = Get.find<RecipeListController>();
 
     return GestureDetector(
       onTap: () {
@@ -34,7 +32,7 @@ class ListItemWidget extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24.0),
                   child: Image.network(
-                    '${menuItem.thumbnail}' ?? '',
+                    '${menuItem.thumbnail}',
                     fit: BoxFit.fill,
                     height: 100,
                     width: 150,
@@ -82,8 +80,10 @@ class ListItemWidget extends StatelessWidget {
                               constraints: const BoxConstraints(),
                               color: lightColorScheme.primary,
                               onPressed: () {
-                                rListController.updateBookmark(
-                                    1, menuItem.recipeId);
+                                // 공통 위젯을 위한 컨트롤러 변수 사용
+                                controller.updateBookmark(
+                                  1, menuItem.recipeId
+                                );
                               },
                             ),
                           )

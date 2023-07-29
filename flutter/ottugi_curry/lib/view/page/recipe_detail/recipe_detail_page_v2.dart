@@ -234,7 +234,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                           onPressed: () {
                                             recipeDetailController
                                                 .updateBookmark(
-                                                    1,
+                                                    1, recipeDetailController.recipeResponse.value.recipeId!);
                                           },
                                           icon: Obx(
                                             () => Icon(
@@ -479,8 +479,8 @@ class RecipeDetailPageV2 extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     recipeDetailController.ttsStatus.value = !recipeDetailController.ttsStatus.value;
+                    print('print ttsStatusValue: ${recipeDetailController.ttsStatus.value}');
                     recipeDetailController.speakOrderTTS();
-                    // recipeDetailController.orderViewOption(Config.soundView);
                   },
                   icon: const ImageIcon(
                     AssetImage('assets/icons/speaker.png'),
@@ -517,11 +517,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
               ],
             ),
 
-            // if (recipeDetailController.orderViewOption.value ==
-            //     Config.soundView) ...[
-            //   recipeDetailTextListViewWidget()
-            //   // (추후) 화면은 갤러리 뷰에 + 음성 나오게 설정
-            // ] else
+            // 조리 순서 보여주는 탭
             if (recipeDetailController.orderViewOption.value ==
                 Config.textListView) ...[
               // recipeDetailTextListViewWidget()
@@ -529,8 +525,6 @@ class RecipeDetailPageV2 extends StatelessWidget {
             ] else ...[
               const RecipeDetailGalleryViewWidget(),
             ],
-
-            // 조리 순서 보여주는 수평 방향 tab widget
           ],
         ),
       ),

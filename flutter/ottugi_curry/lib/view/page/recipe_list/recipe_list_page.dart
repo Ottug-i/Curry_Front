@@ -3,18 +3,16 @@ import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
-import 'package:ottugi_curry/view/page/list/list_item_widget.dart';
+import 'package:ottugi_curry/view/page/recipe_list/list_item_widget.dart';
 
-class ListPage extends StatefulWidget {
-  //List<String> ingredientList;
-  //ListPage(this.ingredientList, {super.key});
-  const ListPage({super.key});
+class RecipeListPage extends StatefulWidget {
+  const RecipeListPage({super.key});
 
   @override
-  ListPageState createState() => ListPageState();
+  RecipeListPageState createState() => RecipeListPageState();
 }
 
-class ListPageState extends State<ListPage> {
+class RecipeListPageState extends State<RecipeListPage> {
   //List<String> get ingredientList => widget.ingredientList;
 
   Future<void> _initMenuList() async {
@@ -58,7 +56,7 @@ class ListPageState extends State<ListPage> {
                                   width: 4.0))),
                       child: Obx(
                         () => Text(
-                          rListController.selectedIngredient.value
+                          rListController.selectedIngredient
                               .reduce((value, element) => '$value, $element'),
                           style: const TextStyle(
                             fontSize: 18,
@@ -172,7 +170,7 @@ class ListPageState extends State<ListPage> {
                             itemCount: rListController.MenuModelList.length,
                             itemBuilder: (BuildContext context, int i) {
                               return ListItemWidget(
-                                  rListController.MenuModelList[i]);
+                                  menuItem: rListController.MenuModelList[i], controller: rListController);
                             }),
                       ),
                       Padding(

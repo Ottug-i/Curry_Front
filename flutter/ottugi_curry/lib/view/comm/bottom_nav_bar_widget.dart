@@ -10,17 +10,19 @@ class BottomNavBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(BottomNavBarController());
     final bottomNavBarController = Get.find<BottomNavBarController>();
-    List<String> bottomNavBarItemLabel = ['main', 'recipe', 'user', 'bookmark'];
+    List<String> bottomNavBarItemLabel = ['main', 'search', 'recipe', 'user', 'bookmark'];
 
     final url = Get.currentRoute;
     if (url.contains('/main')) {
       bottomNavBarController.currentIdx.value = 0;
-    } else if (url.contains('/recipe')) {
+    } else if (url.contains('/search')) {
       bottomNavBarController.currentIdx.value = 1;
-    } else if (url.contains('/user')) {
+    } else if (url.contains('/recipe')) {
       bottomNavBarController.currentIdx.value = 2;
-    } else if (url.contains('/bookmark')) {
+    } else if (url.contains('/user')) {
       bottomNavBarController.currentIdx.value = 3;
+    } else if (url.contains('/bookmark')) {
+      bottomNavBarController.currentIdx.value = 4;
     }
 
     void handleOnTap(int idx) {
@@ -29,10 +31,12 @@ class BottomNavBarWidget extends StatelessWidget {
       if (idx == 0) {
         Get.offAndToNamed('/main');
       } else if (idx == 1) {
-        Get.offAndToNamed('/recipe');
+        Get.offAndToNamed('/search');
       } else if (idx == 2) {
-        Get.offAndToNamed('/user');
+        Get.offAndToNamed('/recipe');
       } else if (idx == 3) {
+        Get.offAndToNamed('/user');
+      } else if (idx == 4) {
         Get.offAndToNamed('/bookmark');
       }
     }
@@ -57,6 +61,7 @@ class BottomNavBarWidget extends StatelessWidget {
   BottomNavigationBarItem bottomNavBarItem(int idx, String label) {
     Get.put(BottomNavBarController());
     int currentIdx = Get.find<BottomNavBarController>().currentIdx.toInt();
+    List<double> bottomNavBarItemIconSize = [24, 26, 25, 26, 25];
 
     return BottomNavigationBarItem(
         icon: CircleAvatar(
@@ -65,7 +70,7 @@ class BottomNavBarWidget extends StatelessWidget {
           foregroundColor: currentIdx == idx ? Colors.black : Colors.grey,
           child: ImageIcon(
             AssetImage('assets/icons/$label.png'),
-            size: 25,
+            size: bottomNavBarItemIconSize[idx],
           ),
         ),
         label: label);

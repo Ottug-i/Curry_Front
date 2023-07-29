@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
-import 'package:ottugi_curry/view/page/list/recipe_recs_list.dart';
+import 'package:ottugi_curry/view/page/recipe_list/recipe_recs_list.dart';
 
 class RecipeCameraPage extends StatelessWidget {
   const RecipeCameraPage({Key? key}) : super(key: key);
@@ -74,7 +74,7 @@ class _ResultCheckState extends State<ResultCheck> {
                                   ),
                                   Column(
                                       children: rListController
-                                          .ingredientList.value
+                                          .ingredientList
                                           .map((favorite) {
                                     return CheckboxListTile(
                                         activeColor: lightColorScheme.primary,
