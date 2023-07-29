@@ -3,6 +3,7 @@ import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_controller.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_timer_controller.dart';
+import 'package:ottugi_curry/view/page/chat/chat_page.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_gallery_view_widget.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_timer_widget.dart';
@@ -43,149 +44,152 @@ class RecipeDetailPageV2 extends StatelessWidget {
                   headerSliverBuilder: (context, innerBoxIsScrolled) {
                     // 레시피 이미지, 제목, 옵션 / 탭바
                     return <Widget>[
-                      SliverOverlapAbsorber(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                      sliver: SliverAppBar(
-                        // scrolledUnderElevation: 0.0,
-                        // forceMaterialTransparency: true,
-                        // backgroundColor: lightColorScheme.background,
-                        backgroundColor: Colors.transparent,
-                        elevation: 0.0,
-                        pinned: true,
-                        floating: false,
-                        snap: false,
-                        forceElevated: innerBoxIsScrolled,
+                      SliverOverlapAbsorber(
+                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                            context),
+                        sliver: SliverAppBar(
+                          // scrolledUnderElevation: 0.0,
+                          // forceMaterialTransparency: true,
+                          // backgroundColor: lightColorScheme.background,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0.0,
+                          pinned: true,
+                          floating: false,
+                          snap: false,
+                          forceElevated: innerBoxIsScrolled,
 
-                        // 앱바 좌측
-                        leading: Padding(
-                          padding: const EdgeInsets.only(left: 25),
-                          child: IconButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            icon: const Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.black,
+                          // 앱바 좌측
+                          leading: Padding(
+                            padding: const EdgeInsets.only(left: 25),
+                            child: IconButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
-                        ),
 
-                        // 앱바 우측 - 타이머
-                        actions: [
-                          Container(
-                            margin: const EdgeInsets.only(right: 15),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25.0),
-                              color: lightColorScheme.primary,
-                            ),
-                            child: Obx(
-                                  () => Row(children: [
-                                timerController.isRunning.value ==
-                                    true // 앱바 위의 타이머 위젯
-                                    ? Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 7, left: 15),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 25,
-                                          child: TextField(
-                                            controller: timerController
-                                                .minuteTextEditingController,
-                                            decoration:
-                                            const InputDecoration(
-                                                isDense: true,
-                                                border:
-                                                InputBorder.none),
-                                            enabled: true,
-                                            readOnly: true,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium,
-                                          ),
-                                        ),
-                                        Text(
-                                          ': ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium,
-                                        ),
-                                        SizedBox(
-                                          width: 25,
-                                          child: TextField(
-                                            controller: timerController
-                                                .secondTextEditingController,
-                                            decoration:
-                                            const InputDecoration(
-                                                isDense: true,
-                                                border:
-                                                InputBorder.none),
-                                            enabled: true,
-                                            readOnly: true,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium,
-                                          ),
-                                        )
-                                      ],
-                                    ))
-                                    : timerController.isRingingAlarm.value ==
-                                    true // 알림 종료 버튼 보여주기
-                                    ? InkWell(
-                                  onTap: () {
-                                    timerController.stopTimerAlarm();
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 15, right: 10),
+                          // 앱바 우측 - 타이머
+                          actions: [
+                            Container(
+                              margin: const EdgeInsets.only(right: 15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: lightColorScheme.primary,
+                              ),
+                              child: Obx(
+                                () => Row(children: [
+                                  timerController.isRunning.value ==
+                                          true // 앱바 위의 타이머 위젯
+                                      ? Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 7, left: 15),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 25,
+                                                child: TextField(
+                                                  controller: timerController
+                                                      .minuteTextEditingController,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          isDense: true,
+                                                          border:
+                                                              InputBorder.none),
+                                                  enabled: true,
+                                                  readOnly: true,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium,
+                                                ),
+                                              ),
+                                              Text(
+                                                ': ',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
+                                              ),
+                                              SizedBox(
+                                                width: 25,
+                                                child: TextField(
+                                                  controller: timerController
+                                                      .secondTextEditingController,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          isDense: true,
+                                                          border:
+                                                              InputBorder.none),
+                                                  enabled: true,
+                                                  readOnly: true,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium,
+                                                ),
+                                              )
+                                            ],
+                                          ))
+                                      : timerController.isRingingAlarm.value ==
+                                              true // 알림 종료 버튼 보여주기
+                                          ? InkWell(
+                                              onTap: () {
+                                                timerController
+                                                    .stopTimerAlarm();
+                                              },
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 15, right: 10),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          25.0),
+                                                  color:
+                                                      lightColorScheme.primary,
+                                                ),
+                                                child: Text(
+                                                  '종료',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium,
+                                                ),
+                                              ),
+                                            )
+                                          : const SizedBox(),
+                                  Container(
                                     decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(25.0),
-                                      color: lightColorScheme.primary,
-                                    ),
-                                    child: Text(
-                                      '종료',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                    ),
-                                  ),
-                                )
-                                    : const SizedBox(),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            blurRadius: 3,
-                                            color:
-                                            Colors.black.withOpacity(0.2),
-                                            spreadRadius: 0,
-                                            offset: const Offset(-3, 5))
-                                      ]),
-                                  child: CircleAvatar(
-                                    backgroundColor: lightColorScheme.primary,
-                                    child: IconButton(
-                                      icon: const Icon(Icons.timer_sharp),
-                                      color: Colors.black,
-                                      onPressed: () {
-                                        // 알림 울리는 중이면 종료
-                                        timerController.stopTimerAlarm();
-                                        Get.dialog(const Dialog(
-                                          child: RecipeDetailTimerWidget(),
-                                        ));
-                                      },
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              blurRadius: 3,
+                                              color:
+                                                  Colors.black.withOpacity(0.2),
+                                              spreadRadius: 0,
+                                              offset: const Offset(-3, 5))
+                                        ]),
+                                    child: CircleAvatar(
+                                      backgroundColor: lightColorScheme.primary,
+                                      child: IconButton(
+                                        icon: const Icon(Icons.timer_sharp),
+                                        color: Colors.black,
+                                        onPressed: () {
+                                          // 알림 울리는 중이면 종료
+                                          timerController.stopTimerAlarm();
+                                          Get.dialog(const Dialog(
+                                            child: RecipeDetailTimerWidget(),
+                                          ));
+                                        },
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ]),
+                                ]),
+                              ),
                             ),
-                          ),
-                          // ),
-                        ],
-                      )
-                        ,),
-
-
+                            // ),
+                          ],
+                        ),
+                      ),
                       SliverToBoxAdapter(
                         child: Column(
                           children: [
@@ -231,11 +235,14 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                       ),
                                       IconButton(
                                           onPressed: () {
-                                            recipeDetailController.updateBookmark(
-                                                1, recipeDetailController.id.value);
+                                            recipeDetailController
+                                                .updateBookmark(
+                                                    1,
+                                                    recipeDetailController
+                                                        .id.value);
                                           },
                                           icon: Obx(
-                                            ()=> Icon(
+                                            () => Icon(
                                               Icons.bookmark,
                                               color: recipeDetailController
                                                           .isBookmark.value ==
@@ -354,7 +361,36 @@ class RecipeDetailPageV2 extends StatelessWidget {
 
             // 챗봇 플로팅 버튼
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                // Get.to(() => const ChatPage());
+                /*showDialog(
+                    context: context,
+                    barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: const ChatPage(),
+                        actions: [
+                          TextButton(
+                            child: const Text('확인'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });?*/
+                showGeneralDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    barrierLabel: MaterialLocalizations.of(context)
+                        .modalBarrierDismissLabel,
+                    barrierColor: Colors.black.withOpacity(0.5),
+                    transitionDuration: const Duration(milliseconds: 200),
+                    pageBuilder: (BuildContext buildContext,
+                        Animation animation, Animation secondaryAnimation) {
+                      return const ChatPage();
+                    });
+              },
               backgroundColor: const Color(0xFF8BC6B8),
               foregroundColor: Colors.white,
               shape: const CircleBorder(),
@@ -389,11 +425,10 @@ class RecipeDetailPageV2 extends StatelessWidget {
                       const Padding(padding: EdgeInsets.only(right: 5)),
                       Container(
                         decoration: BoxDecoration(
-                            border: Border(bottom: BorderSide(
-                                color: lightColorScheme.primary,
-                                width: 1.0
-                            ))
-                        ),
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: lightColorScheme.primary,
+                                    width: 1.0))),
                         child: Text(
                           '${recipeDetailController.servings.toString()} 기준',
                           style: const TextStyle(fontSize: 15),

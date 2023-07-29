@@ -300,7 +300,7 @@ class RecipeDetailPage extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {},
-              backgroundColor: const Color(0xFF8BC6B8),
+              backgroundColor: customColorScheme.chatgptColor,
               foregroundColor: Colors.white,
               shape: const CircleBorder(),
               child: const Icon(Icons.chat),
@@ -330,10 +330,10 @@ class RecipeDetailPage extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                          Text('${recipeDetailController.servings.toString()} 기준',
-                          style: const TextStyle(
-                            fontSize: 14
-                          ),),
+                          Text(
+                            '${recipeDetailController.servings.toString()} 기준',
+                            style: const TextStyle(fontSize: 14),
+                          ),
                           const Padding(padding: EdgeInsets.only(bottom: 10)),
                         ] +
                         recipeDetailController.ingredientsTitle.map((element) {

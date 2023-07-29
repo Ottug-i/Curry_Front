@@ -16,7 +16,7 @@ class buildChatComposer extends StatelessWidget {
 
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.7),
         height: 100,
         child: Row(
           // 하단 메세지 입력창 부분
