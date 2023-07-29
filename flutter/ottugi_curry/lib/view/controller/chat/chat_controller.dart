@@ -2,11 +2,12 @@ import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ottugi_curry/model/message_model.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ChatController extends GetxController {
   RxList<Message> messageList = <Message>[].obs;
 
-  //String api_key = dotenv.get("chatgptKey");
+  String api_key = dotenv.get("chatgptKey");
 
   void addToChat(String message, String sentBy) {
     messageList.add(Message(message, sentBy));
@@ -40,7 +41,7 @@ class ChatController extends GetxController {
     final response = await http.post(
       Uri.parse("https://api.openai.com/v1/chat/completions"),
       headers: {
-        "Authorization": "Bearer ",
+        "Authorization": "Bearer $api_key",
         "Content-Type": "application/json",
       },
       body: jsonEncode(requestBody),
