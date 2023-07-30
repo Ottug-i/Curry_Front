@@ -12,7 +12,7 @@ class UserPage extends StatelessWidget {
 
   Future _initUserInfo() async {
     Get.find<UserController>().userId.value = getUserId();
-    Get.find<UserController>().email.value = 'smcurry2023@gmail.com';
+    Get.find<UserController>().email.value = 'smcurry2023@gmail.com'; //수정
     Get.find<UserController>().nickName.value = getUserNickname();
     await Get.find<UserController>().loadLatelyRecipe();
   }
@@ -22,18 +22,18 @@ class UserPage extends StatelessWidget {
     Get.put(UserController());
     final userController = Get.find<UserController>();
 
-    return FutureBuilder(
-        future: _initUserInfo(),
-        builder: (context, snap) {
-          if (snap.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+    return DefaultLayoutWidget(
+      appBarTitle: '마이페이지',
+      body: FutureBuilder(
+          future: _initUserInfo(),
+          builder: (context, snap) {
+            if (snap.connectionState != ConnectionState.done) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          return DefaultLayoutWidget(
-            appBarTitle: '마이페이지',
-            body: SingleChildScrollView(
+            return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(
                     left: 30, right: 30, top: 10, bottom: 10),
@@ -66,7 +66,7 @@ class UserPage extends StatelessWidget {
                                       maxWidth: 145,
                                     ),
                                     child: Obx(
-                                      () => Text(
+                                          () => Text(
                                         userController.nickName.value,
                                         style: Theme.of(context)
                                             .textTheme
@@ -92,10 +92,10 @@ class UserPage extends StatelessWidget {
                               SizedBox(
                                 width: 150,
                                 child: Obx(
-                                  () => Text(
+                                      () => Text(
                                     userController.email.value,
                                     style:
-                                        Theme.of(context).textTheme.titleSmall,
+                                    Theme.of(context).textTheme.titleSmall,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -117,7 +117,7 @@ class UserPage extends StatelessWidget {
                         color: Colors.white,
                       ),
                       child: Obx(
-                        () => Column(
+                            () => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -128,24 +128,24 @@ class UserPage extends StatelessWidget {
                             // 최근 본 레시피 리스트
                             userController.latelyList.isNotEmpty
                                 ? SizedBox(
-                                    height: 180,
-                                    child: ListView.builder(
-                                        padding: const EdgeInsets.only(
-                                            top: 14, bottom: 14),
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount:
-                                            userController.latelyList.length,
-                                        itemBuilder:
-                                            (BuildContext context, int idx) {
-                                          return latelyRecipeCardWidget(
-                                              userController.latelyList[idx]);
-                                        }),
-                                  )
+                              height: 180,
+                              child: ListView.builder(
+                                  padding: const EdgeInsets.only(
+                                      top: 14, bottom: 14),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount:
+                                  userController.latelyList.length,
+                                  itemBuilder:
+                                      (BuildContext context, int idx) {
+                                    return latelyRecipeCardWidget(
+                                        userController.latelyList[idx]);
+                                  }),
+                            )
                                 : const Padding(
-                                    padding: EdgeInsets.only(top: 10),
-                                    child: Text('최근 본 레시피가 없습니다.'),
-                                  )
+                              padding: EdgeInsets.only(top: 10),
+                              child: Text('최근 본 레시피가 없습니다.'),
+                            )
                           ],
                         ),
                       ),
@@ -174,9 +174,9 @@ class UserPage extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 
   void updateUserNickNameDialog() {

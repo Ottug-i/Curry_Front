@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
-import 'package:ottugi_curry/view/page/list/categories_widget.dart';
+import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
+import 'package:ottugi_curry/view/page/recipe_list/categories_widget.dart';
 
 class BookmrkListPage extends StatefulWidget {
   final String mode;
@@ -117,7 +118,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(24.0),
                             child: Image.network(
-                              '${menuItem.thumbnail}' ?? '',
+                              '${menuItem.thumbnail}',
                               fit: BoxFit.fill,
                               height: 100,
                               width: 150,

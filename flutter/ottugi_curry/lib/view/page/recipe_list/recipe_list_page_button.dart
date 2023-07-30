@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class ListPageButton extends StatelessWidget {
+class RecipeListPageButton extends StatelessWidget {
   final String text;
   final bool isButtonClicked;
   final Color themecolor;
   final VoidCallback onPressed;
 
-  const ListPageButton({
+  const RecipeListPageButton({
     super.key,
     required this.text,
     required this.isButtonClicked,

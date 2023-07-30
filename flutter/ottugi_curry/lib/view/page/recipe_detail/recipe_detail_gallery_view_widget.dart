@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_controller.dart';
@@ -42,7 +41,6 @@ class _RecipeDetailGalleryViewWidgetState
         child: TabBarView(
             controller: _nestedTabController,
             children: recipeDetailController.ordersList.map((e) {
-              // recipeDetailController.speakTTS(e);
 
               return Container(
                 decoration: BoxDecoration(

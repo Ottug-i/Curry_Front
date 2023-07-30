@@ -55,11 +55,12 @@ class RecipeDetailPageV2 extends StatelessWidget {
                           snap: false,
                           forceElevated: innerBoxIsScrolled,
 
-                          // 앱바 좌측
+                          // 앱바 좌측 - 뒤로가기 버튼
                           leading: Padding(
                             padding: const EdgeInsets.only(left: 25),
                             child: IconButton(
                               onPressed: () {
+                                recipeDetailController.tts.value.stop();
                                 Get.back();
                               },
                               icon: const Icon(
@@ -234,7 +235,7 @@ class RecipeDetailPageV2 extends StatelessWidget {
                                           onPressed: () {
                                             recipeDetailController
                                                 .updateBookmark(
-                                                    1,
+                                                    1, recipeDetailController.recipeResponse.value.recipeId!);
                                           },
                                           icon: Obx(
                                             () => Icon(
@@ -477,10 +478,9 @@ class RecipeDetailPageV2 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     recipeDetailController.ttsStatus.value = !recipeDetailController.ttsStatus.value;
                     recipeDetailController.speakOrderTTS();
-                    // recipeDetailController.orderViewOption(Config.soundView);
                   },
                   icon: const ImageIcon(
                     AssetImage('assets/icons/speaker.png'),
@@ -517,20 +517,13 @@ class RecipeDetailPageV2 extends StatelessWidget {
               ],
             ),
 
-            // if (recipeDetailController.orderViewOption.value ==
-            //     Config.soundView) ...[
-            //   recipeDetailTextListViewWidget()
-            //   // (추후) 화면은 갤러리 뷰에 + 음성 나오게 설정
-            // ] else
+            // 조리 순서 보여주는 탭
             if (recipeDetailController.orderViewOption.value ==
                 Config.textListView) ...[
-              // recipeDetailTextListViewWidget()
               const RecipeDetailTextListViewWidget()
             ] else ...[
               const RecipeDetailGalleryViewWidget(),
             ],
-
-            // 조리 순서 보여주는 수평 방향 tab widget
           ],
         ),
       ),

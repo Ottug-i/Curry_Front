@@ -2,11 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
-import 'package:ottugi_curry/config/config.dart';
+import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/menu.dart';
 import 'package:ottugi_curry/model/rank_response.dart';
 import 'package:ottugi_curry/model/recipe_list_response.dart';
 import 'package:ottugi_curry/model/search_queries.dart';
+import 'package:ottugi_curry/repository/bookmark_repository.dart';
 import 'package:ottugi_curry/repository/rank_repository.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
 
@@ -38,6 +39,7 @@ class TextSearchController {
   Rx<String> searchComposition = ''.obs;
   Rx<String> searchDifficulty = ''.obs;
   Rx<String> searchTime = ''.obs;
+
 
   Future<void> loadRankList() async {
     try {
@@ -100,7 +102,7 @@ class TextSearchController {
           difficulty: searchDifficulty.value,
           time: searchTime.value,
           page: page ?? 1,
-          size: Config.elementNum);
+          size: 10);
       final resp = await recipeRepository.searchByBox(searchQueries);
       // 응답 값 변수에 저장
       recipeListResponse.value = resp;
@@ -139,5 +141,19 @@ class TextSearchController {
       selectedCategory.value = value;
     }
     print('print SelectedCategoryValue: ${selectedCategory.value}');
+  }
+
+  void updateBookmark(int userId, int recipeId) async {
+    try {
+      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
+      final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
+      await bookmrkRepository.updateBookmark(bookmrkItem);
+
+      handleTextSearch(name: searchName.value);
+      // await fetchData(userId, currentPage.value); // 재로딩
+    } catch (error) {
+      // 에러 처리
+      print('Error updating bookmark: $error');
+    }
   }
 }

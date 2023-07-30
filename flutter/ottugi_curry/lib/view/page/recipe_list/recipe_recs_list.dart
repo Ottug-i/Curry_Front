@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
-import 'package:ottugi_curry/view/page/list/list_page.dart';
+import 'package:ottugi_curry/view/page/recipe_list/recipe_list_page.dart';
 
 class RecipeRecs extends StatelessWidget {
   const RecipeRecs({Key? key}) : super(key: key);
@@ -9,7 +9,7 @@ class RecipeRecs extends StatelessWidget {
   Widget build(BuildContext context) {
     return const DefaultLayoutWidget(
       appBarTitle: '추천 레시피',
-      body: ListPage(),
+      body: RecipeListPage(),
       // ListPage(mode: 'search', ingredients: ['', ''])
     );
   }

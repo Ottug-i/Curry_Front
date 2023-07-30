@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/config/config.dart';
-import 'package:ottugi_curry/view/page/list/list_page_button.dart';
+import 'package:ottugi_curry/view/page/recipe_list/recipe_list_page_button.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
 
 class CategoriesWidget extends StatefulWidget {
@@ -34,7 +34,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                 children: [
                   Row(
                     children: [
-                      ListPageButton(
+                      RecipeListPageButton(
                         text: '요리 시간',
                         isButtonClicked:
                             controller.selectedCategory.value == 'time',
@@ -44,7 +44,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                         },
                       ),
                       const SizedBox(width: 10),
-                      ListPageButton(
+                      RecipeListPageButton(
                           text: '난이도',
                           isButtonClicked:
                               controller.selectedCategory.value == 'level',
@@ -53,7 +53,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                             updateCategory('level');
                           }),
                       const SizedBox(width: 10),
-                      ListPageButton(
+                      RecipeListPageButton(
                         text: '구성',
                         isButtonClicked:
                             controller.selectedCategory.value == 'composition',
@@ -76,7 +76,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                         runSpacing: 5,
                         children: [
                           for (final itemT in Config().timeType)
-                            Obx(() => ListPageButton(
+                            Obx(() => RecipeListPageButton(
                                   text: itemT,
                                   isButtonClicked:
                                       controller.time.value == itemT,
@@ -100,7 +100,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                       runSpacing: 5,
                       children: [
                         for (final itemL in Config().levelType)
-                          Obx(() => ListPageButton(
+                          Obx(() => RecipeListPageButton(
                                 text: itemL,
                                 isButtonClicked:
                                     controller.difficulty.value == itemL,
@@ -123,7 +123,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                       runSpacing: 5,
                       children: [
                         for (final itmeC in Config().compoType)
-                          Obx(() => ListPageButton(
+                          Obx(() => RecipeListPageButton(
                                 text: itmeC,
                                 isButtonClicked:
                                     controller.composition.value == itmeC,

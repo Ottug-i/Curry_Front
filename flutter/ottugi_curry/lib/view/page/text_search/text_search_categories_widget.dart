@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/config/config.dart';
-import 'package:ottugi_curry/view/controller/search/text_search_controller.dart';
-import 'package:ottugi_curry/view/page/list/list_page_button.dart';
+import 'package:ottugi_curry/view/controller/text_search/text_search_controller.dart';
+import 'package:ottugi_curry/view/page/recipe_list/recipe_list_page_button.dart';
 
-class SearchCategoriesWidget extends StatelessWidget {
-  const SearchCategoriesWidget({Key? key}) : super(key: key);
+class TextSearchCategoriesWidget extends StatelessWidget {
+  const TextSearchCategoriesWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class SearchCategoriesWidget extends StatelessWidget {
           Obx(
             ()=> Row(
               children: [
-                ListPageButton(
+                RecipeListPageButton(
                   text: '요리 시간',
                   isButtonClicked:
                   searchController.selectedCategory.value == 'time',
@@ -30,7 +30,7 @@ class SearchCategoriesWidget extends StatelessWidget {
                   },
                 ),
                 const SizedBox(width: 10),
-                ListPageButton(
+                RecipeListPageButton(
                     text: '난이도',
                     isButtonClicked:
                     searchController.selectedCategory.value == 'level',
@@ -39,7 +39,7 @@ class SearchCategoriesWidget extends StatelessWidget {
                       searchController.updateCategory('level');
                     }),
                 const SizedBox(width: 10),
-                ListPageButton(
+                RecipeListPageButton(
                   text: '구성',
                   isButtonClicked:
                   searchController.selectedCategory.value == 'composition',
@@ -66,7 +66,7 @@ class SearchCategoriesWidget extends StatelessWidget {
                       runSpacing: 5,
                       children: [
                         for (final itemT in Config().timeType)
-                          Obx(() => ListPageButton(
+                          Obx(() => RecipeListPageButton(
                             text: itemT,
                             isButtonClicked:
                             searchController.searchTime.value == itemT,
@@ -89,7 +89,7 @@ class SearchCategoriesWidget extends StatelessWidget {
                         runSpacing: 5,
                         children: [
                           for (final itemL in Config().levelType)
-                            Obx(() => ListPageButton(
+                            Obx(() => RecipeListPageButton(
                               text: itemL,
                               isButtonClicked:
                               searchController.searchDifficulty.value == itemL,
@@ -113,7 +113,7 @@ class SearchCategoriesWidget extends StatelessWidget {
                         runSpacing: 5,
                         children: [
                           for (final itemC in Config().compoType)
-                            Obx(() => ListPageButton(
+                            Obx(() => RecipeListPageButton(
                               text: itemC,
                               isButtonClicked:
                               searchController.searchComposition.value == itemC,

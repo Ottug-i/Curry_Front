@@ -23,25 +23,18 @@ class RecipeDetailController {
     servings: '',
     thumbnail: '',
     time: '',
-
   ).obs;
-  // RxString composition = ''.obs;
-  // RxString difficulty = ''.obs;
-  // RxInt id = 0.obs;
-  // RxString ingredients = ''.obs;
+
+  // 줄글 데이터 변환하여 저장하는 변수들
   RxList<String> ingredientsTitle = <String>[].obs;
   RxList<String> ingredientsContent = <String>[].obs;
   RxList<List<String>> ingredientsContentList = <List<String>>[[]].obs;
-  // RxBool isBookmark = false.obs;
-  // RxString name = ''.obs;
   RxList<String> ordersList = <String>[].obs;
   RxList<String> photoList = <String>[].obs;
-  // RxString servings = ''.obs;
-  // RxString thumbnail = ''.obs;
-  // RxString time = ''.obs;
 
   // 조리순서 보기 방식 선택
   RxInt orderViewOption = Config.galleryView.obs;
+
   // TTS 음성 출력 여부
   RxBool ttsStatus = false.obs;
   Rx<FlutterTts> tts = FlutterTts().obs;
@@ -57,17 +50,8 @@ class RecipeDetailController {
       recipeResponse.value = resp;
 
       // 응답 값 변수에 저장
-      // composition.value = resp.composition!;
-      // difficulty.value = resp.difficulty!;
-      // id.value = resp.recipeId!;
-      // ingredients.value = resp.ingredients!;
-      // isBookmark.value = resp.isBookmark!;
-      // name.value = resp.name!;
       ordersList.value = splitToVerBar(recipeResponse.value.orders!);
       photoList.value = splitToVerBar(recipeResponse.value.photo!); // 문자열 |(vertical Bar)로 분할
-      // servings.value = resp.servings!;
-      // thumbnail.value = resp.thumbnail!;
-      // time.value = resp.time!;
 
       // 대괄호 있는 문자열 분할
       splitTitleAndContent(
@@ -99,20 +83,21 @@ class RecipeDetailController {
     tts.value.setVolume(1.0);
   }
 
-  void speakTTS(String text) { // 각 옵션에서 실행
-    print('print ttsStatusValue: ${ttsStatus.value}');
-    if (ttsStatus.value == true) {
-      tts.value.speak(text); // tts 실행
-    } else {
-      tts.value.stop();
-    }
-  }
+  // void speakTTS(String text) { // 각 옵션에서 실행 -> 전체 옵션 실행을 기본으로 함.
+  //   print('print ttsStatusValue: ${ttsStatus.value}');
+  //   if (ttsStatus.value == true) {
+  //     tts.value.speak(text); // tts 실행
+  //   } else {
+  //     tts.value.stop();
+  //   }
+  // }
 
-  void speakOrderTTS() { // 전체 옵션 기준으로 실행
-    print('print ordersListToString: ${ordersList.toString()}');
-    print('print ttsStatusValue: ${ttsStatus.value}');
+  Future<void> speakOrderTTS() async { // 전체 옵션 기준으로 실행
     if (ttsStatus.value == true) {
-      tts.value.speak(ordersList.toString());
+      await tts.value.speak(ordersList.toString());
+      // tts가 읽는 동안 기다렸다가, 종료되면 status를 false로 변경
+      await tts.value.awaitSpeakCompletion(true);
+      ttsStatus.value = false;
     } else {
       tts.value.stop();
     }
