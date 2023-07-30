@@ -26,7 +26,7 @@ class RecipeListPageState extends State<RecipeListPage> {
   @override
   void initState() {
     super.initState();
-    rListController = Get.put(MenuListController());
+    rListController = Get.put(RecipeListController());
   }
 
   @override
