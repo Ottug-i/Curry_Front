@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/view/controller/chat/chat_controller.dart';
 import 'package:ottugi_curry/model/message_model.dart';
+import 'package:ottugi_curry/view/controller/chat/page_scroll_controller.dart';
 
-class buildChatComposer extends StatelessWidget {
-  final ScrollController scrollController; // Add this line
+class ChatComposer extends StatefulWidget {
+  final PageScrollController pageScroller;
 
-  const buildChatComposer({required this.scrollController, Key? key})
-      : super(key: key);
+  const ChatComposer({required this.pageScroller, Key? key}) : super(key: key);
 
+  @override
+  State<ChatComposer> createState() => _ChatComposerState();
+}
+
+class _ChatComposerState extends State<ChatComposer> {
   @override
   Widget build(BuildContext context) {
     final chatContorller = Get.find<ChatController>();
@@ -64,6 +69,12 @@ class buildChatComposer extends StatelessWidget {
                 chatContorller.addToChat(question, Message.SENT_BY_ME);
                 textController.clear();
                 chatContorller.callAPI(question);
+                widget.pageScroller.scrollController.animateTo(
+                    // 가장 최근 것 말고 그 전 것으로 올라감..!
+                    widget
+                        .pageScroller.scrollController.position.maxScrollExtent,
+                    duration: const Duration(milliseconds: 700),
+                    curve: Curves.ease);
               },
             ),
           ],

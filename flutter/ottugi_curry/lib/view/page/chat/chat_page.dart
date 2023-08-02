@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:ottugi_curry/view/controller/chat/page_scroll_controller.dart';
 import 'package:ottugi_curry/view/page/chat/chat_composer.dart';
 import 'package:ottugi_curry/view/page/chat/conversation.dart';
 import 'package:ottugi_curry/view/controller/chat/chat_controller.dart';
@@ -13,11 +14,12 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final chatContorller = Get.put(ChatController());
-  final scrollController = ScrollController();
+  final pageController = Get.put(PageScrollController());
 
   @override
   void dispose() {
     Get.delete<ChatController>();
+    Get.delete<PageScrollController>();
     super.dispose();
   }
 
@@ -53,12 +55,12 @@ class _ChatPageState extends State<ChatPage> {
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30)),
-                child: Conversation(scrollController: scrollController),
+                child: Conversation(pageScroller: pageController),
               ),
             ),
           ),
           // 메세지 입력창
-          buildChatComposer(scrollController: scrollController),
+          ChatComposer(pageScroller: pageController),
         ]),
       ),
     );
