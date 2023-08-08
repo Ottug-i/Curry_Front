@@ -5,7 +5,7 @@ import 'package:ottugi_curry/model/recipe_list_response.dart';
 
 part 'bookmark_repository.g.dart';
 
-@RestApi(baseUrl: "http://192.168.0.51:8080")
+@RestApi(baseUrl: "http://172.30.1.92:8080")
 abstract class BookmarkRepository {
   factory BookmarkRepository(Dio dio, {String baseUrl}) = _BookmarkRepository;
 
