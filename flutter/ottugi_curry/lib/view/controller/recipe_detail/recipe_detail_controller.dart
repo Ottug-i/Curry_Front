@@ -84,15 +84,6 @@ class RecipeDetailController {
   }
 
   Future<void> speakTTS() async { // 전체 옵션 기준으로 실행
-    // if (ttsStatus.value == Config.playing) {
-    //   await tts.value.speak(ordersList.toString());
-    //   // tts가 읽는 동안 기다렸다가, 종료되면 status를 false로 변경
-    //   await tts.value.awaitSpeakCompletion(true);
-    //   ttsStatus.value = Config.stopped;
-    // } else {
-    //   tts.value.stop();
-    // }
-
     // tts 실행
     ttsStatus.value = Config.playing;
     await tts.value.speak(ordersList.toString());
