@@ -36,8 +36,8 @@ class RecipeDetailController {
   RxInt orderViewOption = Config.galleryView.obs;
 
   // TTS 음성 출력 여부
-  RxBool ttsStatus = false.obs;
   Rx<FlutterTts> tts = FlutterTts().obs;
+  RxString ttsStatus = Config.stopped.obs;
 
   Future<void> loadRecipeDetail(int recipeId) async {
     try {
@@ -83,23 +83,24 @@ class RecipeDetailController {
     tts.value.setVolume(1.0);
   }
 
-  // void speakTTS(String text) { // 각 옵션에서 실행 -> 전체 옵션 실행을 기본으로 함.
-  //   print('print ttsStatusValue: ${ttsStatus.value}');
-  //   if (ttsStatus.value == true) {
-  //     tts.value.speak(text); // tts 실행
-  //   } else {
-  //     tts.value.stop();
-  //   }
-  // }
+  Future<void> speakTTS() async { // 전체 옵션 기준으로 실행
+    // tts 실행
+    ttsStatus.value = Config.playing;
+    await tts.value.speak(ordersList.toString());
+    await tts.value.awaitSpeakCompletion(true);
 
-  Future<void> speakOrderTTS() async { // 전체 옵션 기준으로 실행
-    if (ttsStatus.value == true) {
-      await tts.value.speak(ordersList.toString());
-      // tts가 읽는 동안 기다렸다가, 종료되면 status를 false로 변경
-      await tts.value.awaitSpeakCompletion(true);
-      ttsStatus.value = false;
-    } else {
-      tts.value.stop();
-    }
+    // tts가 읽는 동안 기다렸다가, 종료되면 status를 stopped로 변경
+    ttsStatus.value = Config.stopped;
+    tts.value.stop();
+  }
+
+  void pauseTTS() {
+    ttsStatus.value = Config.paused;
+    tts.value.pause();
+  }
+
+  void stopTTS() {
+    ttsStatus.value = Config.stopped;
+    tts.value.stop();
   }
 }

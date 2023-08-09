@@ -17,6 +17,8 @@ class RecipeDetailPageV2 extends StatelessWidget {
     print('print Get.arguments: ${Get.arguments}');
     await Get.find<RecipeDetailController>().loadRecipeDetail(Get.arguments);
     Get.find<RecipeDetailTimerController>().loadTimerAlarm();
+
+    Get.find<RecipeDetailController>().ttsStatus.value = Config.stopped;
   }
 
   @override
@@ -475,45 +477,107 @@ class RecipeDetailPageV2 extends StatelessWidget {
           children: [
             // 조리 순서 보기 방식 아이콘
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                IconButton(
-                  onPressed: () async {
-                    recipeDetailController.ttsStatus.value = !recipeDetailController.ttsStatus.value;
-                    recipeDetailController.speakOrderTTS();
-                  },
-                  icon: const ImageIcon(
-                    AssetImage('assets/icons/speaker.png'),
-                    size: 20,
-                  ),
-                  color: recipeDetailController.ttsStatus.value == true
-                      ? lightColorScheme.secondary
-                      : Colors.grey,
+                // TTS 관련 버튼
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // 스피커
+                    IconButton(
+                      onPressed: () async {
+                        if (recipeDetailController.ttsStatus.value == Config.playing) { // 실행-> 정지
+                          recipeDetailController.stopTTS();
+                        } else { // 정지 -> 실행
+                          recipeDetailController.speakTTS();
+                        }
+                      },
+                      icon: const ImageIcon(
+                        AssetImage('assets/icons/speaker.png'),
+                        size: 20,
+                      ),
+                      color: recipeDetailController.ttsStatus.value != Config.stopped
+                          ? lightColorScheme.primary
+                          : Colors.grey,
+                    ),
+
+                    recipeDetailController.ttsStatus.value == Config.playing || recipeDetailController.ttsStatus.value == Config.paused
+                    ? Container(
+                      height: 37,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: lightColorScheme.primary,
+                        ),
+                        borderRadius: BorderRadius.circular(25.0),
+                        // color: Colors.grey.shade200,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // 시작, 일시정지 버튼
+                          IconButton(
+                            iconSize: 23,
+                            onPressed: () async {
+                              if (recipeDetailController.ttsStatus.value == Config.playing) { // 실행-> 일시정지
+                                recipeDetailController.pauseTTS();
+                              } else { // 일시 정지 -> 실행
+                                recipeDetailController.speakTTS();
+                              }
+                            },
+                            icon: recipeDetailController.ttsStatus.value == Config.playing
+                                ? const Icon(Icons.pause)
+                                : const Icon(Icons.play_arrow),
+                            color: Colors.black,
+                          ),
+                          // 정지 버튼
+                          IconButton(
+                            iconSize: 23,
+                            onPressed: () async {
+                              // 일시정지, 실행 -> 정지
+                              recipeDetailController.stopTTS();
+                            },
+                            icon: const Icon(Icons.stop),
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                    )
+                    : const SizedBox(),
+
+                  ],
                 ),
-                IconButton(
-                    onPressed: () {
-                      recipeDetailController
-                          .orderViewOption(Config.galleryView);
-                    },
-                    icon: Icon(
-                      Icons.photo,
-                      color: recipeDetailController.orderViewOption.value ==
-                              Config.galleryView
-                          ? Colors.black
-                          : Colors.grey,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      recipeDetailController
-                          .orderViewOption(Config.textListView);
-                    },
-                    icon: Icon(
-                      Icons.list,
-                      color: recipeDetailController.orderViewOption.value ==
+
+                // 갤러리 뷰
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          recipeDetailController
+                              .orderViewOption(Config.galleryView);
+                        },
+                        icon: Icon(
+                          Icons.photo,
+                          color: recipeDetailController.orderViewOption.value ==
+                                  Config.galleryView
+                              ? Colors.black
+                              : Colors.grey,
+                        )),
+                    IconButton(
+                        onPressed: () {
+                          recipeDetailController
+                              .orderViewOption(Config.textListView);
+                        },
+                        icon: Icon(
+                          Icons.list,
+                          color: recipeDetailController.orderViewOption.value ==
                               Config.textListView
-                          ? Colors.black
-                          : Colors.grey,
-                    ))
+                              ? Colors.black
+                              : Colors.grey,
+                        ))
+                  ],
+                ),
+                // 텍스트 뷰
               ],
             ),
 

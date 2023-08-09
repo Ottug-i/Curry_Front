@@ -53,6 +53,11 @@ class Config {
   static int galleryView = 0;
   static int textListView = 1;
 
+  // 레시피 상세 페이지에서 TTS 상태: 대기(정지)/실행/일시정지
+  static String stopped = 'stopped';
+  static String playing = 'playing';
+  static String paused = 'paused';
+
   // storage 이름
   static String id = 'id';
   static String email = 'email';
