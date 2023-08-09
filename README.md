@@ -1,5 +1,5 @@
 # 🍽오뚝이 프론트엔드
-
+2023.04 ~ 현재
 <center><img src="https://github.com/GaGa-Kim/Ottug-i_Curry/assets/87821678/5290eb28-d7d2-4398-8fe3-8e458ae573c5" width="500"></center>
 
 
