@@ -15,12 +15,16 @@ class RecommendController {
   // 북마크한 레시피 아이디 담는 셋
   RxSet<int> bookmarkIdList = <int>{}.obs;
 
+  // 북마크 토글 상태 저장
+  RxList<bool> toggleSelected = <bool>[].obs;
+
   Future<void> loadBookmarkRec({int? page, required int recipeId}) async { // 레시피 북마크 추천
     try {
       Dio dio = Dio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
       final resp = await recommendRepository.getBookmark(page ?? 1, recipeId, 1);
       bookmarkRecList.value = resp;
+      print('print bookmarkRecListFirstName: ${bookmarkRecList.first.name}');
 
     } on DioException catch (e) {
       print('loadBookmarkRec error : $e');

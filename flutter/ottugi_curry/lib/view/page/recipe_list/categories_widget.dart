@@ -29,7 +29,7 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
   Widget build(BuildContext context) {
     return GetBuilder<BookmarkListController>(
         builder: (controller) => Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: Column(
                 children: [
                   Row(

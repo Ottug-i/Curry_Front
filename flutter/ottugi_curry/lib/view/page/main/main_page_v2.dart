@@ -49,7 +49,7 @@ class MainPageV2 extends StatelessWidget {
                             child: Container(
                                 width: double.infinity,
                                 padding: const EdgeInsets.only(
-                                    top: 10, bottom: 7, left: 20, right: 20),
+                                    top: 20, bottom: 7, left: 20, right: 20),
                                 margin: const EdgeInsets.only(top: 15),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25.0),
@@ -79,7 +79,7 @@ class MainPageV2 extends StatelessWidget {
                                               .ratingRecList.length,
                                           itemBuilder:
                                               (BuildContext context, int idx) {
-                                            return recipeRecCardWidget(
+                                            return ratingRecCardWidget(
                                                 recommendController
                                                     .ratingRecList[idx]);
                                           }),
@@ -275,7 +275,7 @@ class MainPageV2 extends StatelessWidget {
     );
   }
 
-  InkWell recipeRecCardWidget(RecipeResponse recipeResponse) {
+  InkWell ratingRecCardWidget(RecipeResponse recipeResponse) {
     return InkWell(
       onTap: () {
         Get.toNamed('/recipe_detail', arguments: recipeResponse.recipeId);

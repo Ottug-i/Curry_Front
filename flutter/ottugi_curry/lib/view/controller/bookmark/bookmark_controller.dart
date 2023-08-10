@@ -5,6 +5,7 @@ import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/recipe_list_page_response.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 import 'package:ottugi_curry/config/config.dart';
+import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
 
 class BookmarkListController extends GetxController {
   Rx<RecipeListPageResponse> response = RecipeListPageResponse().obs;
@@ -73,6 +74,11 @@ class BookmarkListController extends GetxController {
       response.value = RecipeListPageResponse();
 
       saveResponse(menuData);
+
+
+      // 북마크 추천 토글 상태를 저장하는 리스트 초기화
+      Get.find<RecommendController>().toggleSelected.clear();
+      response.value.content!.map((e) => Get.find<RecommendController>().toggleSelected.add(false)).toList();
 
       response.refresh();
       update();
