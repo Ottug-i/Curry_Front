@@ -91,7 +91,7 @@ class LoginController {
 
       // 메인 페이지 이동
       Get.offAndToNamed('/main');
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print('$e');
       return;
     }

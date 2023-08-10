@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bookmark_repository.dart';
+part of 'recommend_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,12 +8,12 @@ part of 'bookmark_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _BookmarkRepository implements BookmarkRepository {
-  _BookmarkRepository(
+class _RecommendRepository implements RecommendRepository {
+  _RecommendRepository(
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.0.114:8080';
+    baseUrl ??= 'http://192.168.0.51:8080';
   }
 
   final Dio _dio;
@@ -21,12 +21,107 @@ class _BookmarkRepository implements BookmarkRepository {
   String? baseUrl;
 
   @override
-  Future<bool> updateBookmark(Bookmark param) async {
+  Future<List<RecipeResponse>> getBookmark(
+    int page,
+    int recipeId,
+    int userId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'recipeId': recipeId,
+      r'userId': userId,
+    };
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<List<RecipeResponse>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/recommend/bookmark',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value = _result.data!
+        .map((dynamic i) => RecipeResponse.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  Future<List<RecipeResponse>> getRating(
+    int page,
+    List<int> bookmarkList,
+    int userId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'bookmarkList': bookmarkList,
+      r'userId': userId,
+    };
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<List<RecipeResponse>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/recommend/rating',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value = _result.data!
+        .map((dynamic i) => RecipeResponse.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  Future<RatingResponse> getUserRating(
+    int recipeId,
+    int userId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'recipeId': recipeId,
+      r'userId': userId,
+    };
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<RatingResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/recommend/user',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = RatingResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<bool> postUserRating(RatingRequest ratingRequest) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(param.toJson());
+    _data.addAll(ratingRequest.toJson());
     final _result = await _dio.fetch<bool>(_setStreamType<bool>(Options(
       method: 'POST',
       headers: _headers,
@@ -34,116 +129,12 @@ class _BookmarkRepository implements BookmarkRepository {
     )
         .compose(
           _dio.options,
-          '/api/bookmark/addAndRemoveBookmark',
+          '/api/recommend/user',
           queryParameters: queryParameters,
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data!;
-    return value;
-  }
-
-  @override
-  Future<RecipeListPageResponse> getBookmark(
-    int? page,
-    int? size,
-    int id,
-  ) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'page': page,
-      r'size': size,
-      r'userId': id,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<RecipeListPageResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/api/bookmark/getBookmarkAll',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = RecipeListPageResponse.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<RecipeListPageResponse> searchByName(
-    int? page,
-    int? size,
-    int id,
-    String name,
-  ) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'page': page,
-      r'size': size,
-      r'userId': id,
-      r'name': name,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<RecipeListPageResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/api/bookmark/searchByName',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = RecipeListPageResponse.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<RecipeListPageResponse> searchByOption(
-    int? page,
-    int? size,
-    int id,
-    String? composition,
-    String? difficulty,
-    String? time,
-  ) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'page': page,
-      r'size': size,
-      r'userId': id,
-      r'composition': composition,
-      r'difficulty': difficulty,
-      r'time': time,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<RecipeListPageResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/api/bookmark/searchByOption',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = RecipeListPageResponse.fromJson(_result.data!);
     return value;
   }
 
