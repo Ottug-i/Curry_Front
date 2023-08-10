@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:ottugi_curry/config/config.dart';
-import 'package:ottugi_curry/model/recipe_response.dart';
+import 'package:ottugi_curry/model/recipe_detail_response.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
@@ -11,7 +11,7 @@ import 'package:ottugi_curry/repository/bookmark_repository.dart';
 
 class RecipeDetailController {
   // RecipeResponse
-  Rx<RecipeResponse> recipeResponse = RecipeResponse(
+  Rx<RecipeDetailResponse> recipeResponse = RecipeDetailResponse(
     composition: '',
     difficulty: '',
     recipeId: 0,
@@ -57,7 +57,7 @@ class RecipeDetailController {
       splitTitleAndContent(
           recipeResponse.value.ingredients ?? '', ingredientsTitle, ingredientsContent);
       splitIngredientsContent();
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print('loadRecipeDetail: $e');
       return;
     }

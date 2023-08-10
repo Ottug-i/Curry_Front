@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:ottugi_curry/model/menu.dart';
+import 'package:ottugi_curry/model/recipe_response.dart';
 
-part 'recipe_list_response.g.dart';
+part 'recipe_list_page_response.g.dart';
 
 @JsonSerializable()
-class RecipeListResponse {
-  List<MenuModel>? content;
+class RecipeListPageResponse {
+  List<RecipeResponse>? content;
   int? totalPages;
   int? totalElements;
   int? size;
@@ -15,7 +15,7 @@ class RecipeListResponse {
   bool? empty;
   int? numberOfElements;
 
-  RecipeListResponse(
+  RecipeListPageResponse(
       {this.content,
       this.totalPages,
       this.totalElements,
@@ -26,7 +26,7 @@ class RecipeListResponse {
       this.empty,
       this.numberOfElements});
 
-  factory RecipeListResponse.fromJson(Map<String, dynamic> json) =>
-      _$RecipeListResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$RecipeListResponseToJson(this);
+  factory RecipeListPageResponse.fromJson(Map<String, dynamic> json) =>
+      _$RecipeListPageResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$RecipeListPageResponseToJson(this);
 }

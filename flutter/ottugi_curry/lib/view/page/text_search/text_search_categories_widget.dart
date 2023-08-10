@@ -14,7 +14,7 @@ class TextSearchCategoriesWidget extends StatelessWidget {
     final searchController = Get.find<TextSearchController>();
 
     return Container(
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Column(
         children: [
           Obx(

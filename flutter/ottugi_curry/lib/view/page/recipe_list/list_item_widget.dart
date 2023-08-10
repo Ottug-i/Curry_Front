@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
-import 'package:ottugi_curry/model/menu.dart';
+import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 
 class ListItemWidget extends StatelessWidget {
-  final MenuModel menuItem;
+  final RecipeResponse menuItem;
   final controller;
 
   const ListItemWidget({required this.menuItem, this.controller, Key? key}) : super(key: key);
@@ -16,11 +16,11 @@ class ListItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.toNamed('/recipe_detail',
-            arguments: menuItem.recipeId); //6909678: 레시피 아이디 예시
+            arguments: menuItem.recipeId);
       },
       child: Container(
           padding: const EdgeInsets.all(20),
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
           // card
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(20)),

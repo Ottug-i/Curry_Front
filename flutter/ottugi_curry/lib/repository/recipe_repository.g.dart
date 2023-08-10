@@ -21,7 +21,7 @@ class _RecipeRepository implements RecipeRepository {
   String? baseUrl;
 
   @override
-  Future<RecipeResponse> getRecipeDetail(
+  Future<RecipeDetailResponse> getRecipeDetail(
     int recipeId,
     int userId,
   ) async {
@@ -32,8 +32,8 @@ class _RecipeRepository implements RecipeRepository {
     };
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<RecipeResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<RecipeDetailResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -45,18 +45,18 @@ class _RecipeRepository implements RecipeRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = RecipeResponse.fromJson(_result.data!);
+    final value = RecipeDetailResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<RecipeListResponse> getMenuList(dynamic requestJson) async {
+  Future<RecipeListPageResponse> getMenuList(dynamic requestJson) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = requestJson;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<RecipeListResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<RecipeListPageResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -68,19 +68,20 @@ class _RecipeRepository implements RecipeRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = RecipeListResponse.fromJson(_result.data!);
+    final value = RecipeListPageResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<RecipeListResponse> searchByBox(SearchQueries searchQueries) async {
+  Future<RecipeListPageResponse> searchByBox(
+      SearchQueries searchQueries) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(searchQueries.toJson());
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<RecipeListResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<RecipeListPageResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -92,7 +93,7 @@ class _RecipeRepository implements RecipeRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = RecipeListResponse.fromJson(_result.data!);
+    final value = RecipeListPageResponse.fromJson(_result.data!);
     return value;
   }
 

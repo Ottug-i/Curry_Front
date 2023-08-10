@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:ottugi_curry/model/menu.dart';
+import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
-import 'package:ottugi_curry/model/recipe_list_response.dart';
+import 'package:ottugi_curry/model/recipe_list_page_response.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 
 class RecipeListController extends GetxController {
-  Rx<RecipeListResponse> response = RecipeListResponse().obs;
-  RxList<MenuModel> MenuModelList =
-      <MenuModel>[].obs; // response.value.content 와 같은 셈
+  Rx<RecipeListPageResponse> response = RecipeListPageResponse().obs;
+  RxList<RecipeResponse> MenuModelList =
+      <RecipeResponse>[].obs; // response.value.content 와 같은 셈
 
   RxList<dynamic> ingredientList = [].obs; // List<dynamic>
   RxList<String> selectedIngredient = <String>[].obs; // List<String>
@@ -55,7 +55,7 @@ class RecipeListController extends GetxController {
         // final ingredientsValue = extractOnlyContent(menu.ingredients!);
 
         // MenuModel의 나머지 속성들은 그대로 유지
-        var updatedMenu = MenuModel(
+        var updatedMenu = RecipeResponse(
           recipeId: menu.recipeId,
           name: menu.name,
           thumbnail: menu.thumbnail,

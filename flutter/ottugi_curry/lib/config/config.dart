@@ -4,6 +4,8 @@ import 'package:localstorage/localstorage.dart';
 import 'package:ottugi_curry/view/page/bookmark/bookmark_page.dart';
 import 'package:ottugi_curry/view/page/login/login_page.dart';
 import 'package:ottugi_curry/view/page/main/main_page.dart';
+import 'package:ottugi_curry/view/page/main/main_page_v2.dart';
+import 'package:ottugi_curry/view/page/rating_recommend/rating_rec_page.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/recipe_camera_page.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_page_v2.dart';
 import 'package:ottugi_curry/view/page/text_search/text_search_page.dart';
@@ -21,7 +23,7 @@ class Config {
     //bottom nav bar
     GetPage(
         name: '/main',
-        page: () => const MainPage(),
+        page: () => const MainPageV2(),
         transition: Transition.noTransition),
     GetPage(
         name: '/recipe',
@@ -46,6 +48,10 @@ class Config {
     GetPage(
         name: '/search',
         page: () => const TextSearchPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: '/rating',
+        page: () => const RatingRecPage(),
         transition: Transition.noTransition),
   ];
 

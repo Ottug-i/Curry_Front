@@ -11,6 +11,7 @@ class TextSearchPage extends StatelessWidget {
   const TextSearchPage({Key? key}) : super(key: key);
 
   Future _initRankList() async {
+    Get.put(TextSearchController());
     await Get.find<TextSearchController>().loadRankList();
   }
 
@@ -85,14 +86,14 @@ class TextSearchPage extends StatelessWidget {
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     itemCount: searchController
-                                        .recipeListResponse
+                                        .recipeListPageResponse
                                         .value
                                         .content
                                         ?.length,
                                     itemBuilder: (BuildContext context, int i) {
                                       return ListItemWidget(
                                         menuItem: searchController
-                                            .recipeListResponse
+                                            .recipeListPageResponse
                                             .value
                                             .content![i],
                                         controller: searchController,
@@ -101,7 +102,7 @@ class TextSearchPage extends StatelessWidget {
                               ),
 
                               // 페이징
-                              searchController.recipeListResponse.value.content!
+                              searchController.recipeListPageResponse.value.content!
                                       .isNotEmpty
                                   ? Padding(
                                       padding: const EdgeInsets.only(
@@ -112,7 +113,7 @@ class TextSearchPage extends StatelessWidget {
                                       child: Obx(() => NumberPaginator(
                                             // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
                                             numberPages: searchController
-                                                    .recipeListResponse
+                                                    .recipeListPageResponse
                                                     .value
                                                     .totalPages ??
                                                 0,
@@ -149,7 +150,7 @@ class TextSearchPage extends StatelessWidget {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 20, left: 30),
+                                        top: 20, left: 25),
                                     child: Text(
                                       '인기 검색어',
                                       style: Theme.of(context)
@@ -163,8 +164,8 @@ class TextSearchPage extends StatelessWidget {
                                       padding: const EdgeInsets.only(
                                           top: 17,
                                           bottom: 14,
-                                          left: 30,
-                                          right: 30),
+                                          left: 20,
+                                          right: 20),
                                       itemCount:
                                           searchController.rankList.length,
                                       itemBuilder:
@@ -189,7 +190,7 @@ class TextSearchPage extends StatelessWidget {
                                               },
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
-                                                    top: 3, bottom: 3),
+                                                    top: 3, bottom: 3, left: 7, right: 7),
                                                 child: RichText(
                                                     text: TextSpan(
                                                         text: '${idx + 1}   ',

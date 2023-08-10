@@ -1,7 +1,7 @@
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
-import 'package:ottugi_curry/model/recipe_list_response.dart';
+import 'package:ottugi_curry/model/recipe_list_page_response.dart';
 
 part 'bookmark_repository.g.dart';
 
@@ -15,12 +15,12 @@ abstract class BookmarkRepository {
 
   // 북마크 목록
   @GET('/api/bookmark/getBookmarkAll')
-  Future<RecipeListResponse> getBookmark(@Query("page") int? page,
+  Future<RecipeListPageResponse> getBookmark(@Query("page") int? page,
       @Query("size") int? size, @Query("userId") int id);
 
   // 이름으로 검색
   @GET('/api/bookmark/searchByName')
-  Future<RecipeListResponse> searchByName(
+  Future<RecipeListPageResponse> searchByName(
       @Query("page") int? page,
       @Query("size") int? size,
       @Query("userId") int id,
@@ -28,7 +28,7 @@ abstract class BookmarkRepository {
 
   // 옵션으로 검색
   @GET('/api/bookmark/searchByOption')
-  Future<RecipeListResponse> searchByOption(
+  Future<RecipeListPageResponse> searchByOption(
       @Query("page") int? page,
       @Query("size") int? size,
       @Query("userId") int id,

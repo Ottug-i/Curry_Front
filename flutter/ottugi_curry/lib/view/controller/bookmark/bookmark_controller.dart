@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:ottugi_curry/model/menu.dart';
+import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
-import 'package:ottugi_curry/model/recipe_list_response.dart';
+import 'package:ottugi_curry/model/recipe_list_page_response.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 import 'package:ottugi_curry/config/config.dart';
 
 class BookmarkListController extends GetxController {
-  Rx<RecipeListResponse> response = RecipeListResponse().obs;
-  RxList<MenuModel> BoomrkList = <MenuModel>[].obs;
+  Rx<RecipeListPageResponse> response = RecipeListPageResponse().obs;
+  RxList<RecipeResponse> BoomrkList = <RecipeResponse>[].obs;
 
   RxBool isBookmark = false.obs;
 
@@ -33,7 +33,7 @@ class BookmarkListController extends GetxController {
       // final ingredientsValue = extractOnlyContent(menu.ingredients!);
 
       // MenuModel의 나머지 속성들은 그대로 유지
-      var updatedMenu = MenuModel(
+      var updatedMenu = RecipeResponse(
         recipeId: menu.recipeId,
         name: menu.name,
         thumbnail: menu.thumbnail,
@@ -70,7 +70,7 @@ class BookmarkListController extends GetxController {
       final menuData =
           await bookmrkRepository.getBookmark(page, Config.elementNum, userId);
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
-      response.value = RecipeListResponse();
+      response.value = RecipeListPageResponse();
 
       saveResponse(menuData);
 
@@ -133,7 +133,7 @@ class BookmarkListController extends GetxController {
       final menuData = await bookmrkRepository.searchByName(
           1, Config.elementNum, userId, text);
       BoomrkList.clear(); // 기존 데이터를 지우고 시작
-      response.value = RecipeListResponse();
+      response.value = RecipeListPageResponse();
 
       saveResponse(menuData);
       response.refresh();
