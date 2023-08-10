@@ -3,11 +3,10 @@ import 'package:get/get.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:ottugi_curry/view/page/bookmark/bookmark_page.dart';
 import 'package:ottugi_curry/view/page/login/login_page.dart';
-import 'package:ottugi_curry/view/page/main/main_page.dart';
 import 'package:ottugi_curry/view/page/main/main_page_v2.dart';
 import 'package:ottugi_curry/view/page/rating_recommend/rating_rec_page.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/recipe_camera_page.dart';
-import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_page_v2.dart';
+import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_page.dart';
 import 'package:ottugi_curry/view/page/text_search/text_search_page.dart';
 import 'package:ottugi_curry/view/page/user/user_page.dart';
 
@@ -43,7 +42,7 @@ class Config {
         transition: Transition.noTransition),
     GetPage(
         name: '/recipe_detail',
-        page: () => const RecipeDetailPageV2(),
+        page: () => const RecipeDetailPage(),
         transition: Transition.noTransition),
     GetPage(
         name: '/search',

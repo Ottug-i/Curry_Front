@@ -280,8 +280,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                   ),
                                   Padding(padding: EdgeInsets.only(right: 5)),
                                   Icon(
-                                    Icons.chevron_right_rounded,
-                                    size: 20,
+                                    Icons.expand_more_rounded,
                                   ),
                                   Padding(padding: EdgeInsets.only(left: 5)),
                                 ],
