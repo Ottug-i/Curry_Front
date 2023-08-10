@@ -36,7 +36,7 @@ class UserPage extends StatelessWidget {
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 30, right: 30, top: 10, bottom: 10),
+                    left: 20, right: 20, top: 10, bottom: 10),
                 child: Column(
                   children: [
                     // 프로필

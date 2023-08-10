@@ -150,7 +150,7 @@ class TextSearchPage extends StatelessWidget {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 20, left: 35),
+                                        top: 20, left: 25),
                                     child: Text(
                                       '인기 검색어',
                                       style: Theme.of(context)
@@ -164,8 +164,8 @@ class TextSearchPage extends StatelessWidget {
                                       padding: const EdgeInsets.only(
                                           top: 17,
                                           bottom: 14,
-                                          left: 30,
-                                          right: 30),
+                                          left: 20,
+                                          right: 20),
                                       itemCount:
                                           searchController.rankList.length,
                                       itemBuilder:
@@ -190,7 +190,7 @@ class TextSearchPage extends StatelessWidget {
                                               },
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
-                                                    top: 3, bottom: 3, left: 5, right: 5),
+                                                    top: 3, bottom: 3, left: 7, right: 7),
                                                 child: RichText(
                                                     text: TextSpan(
                                                         text: '${idx + 1}   ',

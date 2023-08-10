@@ -15,8 +15,6 @@ class BookmrkListPage extends StatefulWidget {
   BookmrkListPageState createState() => BookmrkListPageState();
 }
 
-//final bListController = Get.put(BookmarkListController());
-
 class BookmrkListPageState extends State<BookmrkListPage> {
   final bListController = Get.put(BookmarkListController());
   final textController = TextEditingController();
@@ -108,7 +106,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                     child: Container(
                         padding: const EdgeInsets.all(20),
                         margin: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 30),
+                            vertical: 8, horizontal: 20),
                         // card
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -216,7 +214,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
               ),
               // 페이지네이션
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 10),
                   child: NumberPaginator(
                     numberPages: bListController.response.value.totalPages!,
                     controller: pageController,

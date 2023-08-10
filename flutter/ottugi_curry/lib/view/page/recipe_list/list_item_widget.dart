@@ -20,7 +20,7 @@ class ListItemWidget extends StatelessWidget {
       },
       child: Container(
           padding: const EdgeInsets.all(20),
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
           // card
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(20)),

@@ -16,7 +16,7 @@ class MainPageV2 extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(RecommendController());
     final recommendController = Get.find<RecommendController>();
-    final rowWidgetWidth = MediaQuery.of(context).size.width / 2 - 40;
+    final rowWidgetWidth = MediaQuery.of(context).size.width / 2 - 30;
 
     return Scaffold(
       appBar: AppBar(
@@ -44,47 +44,50 @@ class MainPageV2 extends StatelessWidget {
                   children: [
                     Obx(
                       ()=> recommendController.ratingRecList.isNotEmpty
-                          ? Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.only(
-                                  top: 10, bottom: 0, left: 20, right: 20),
-                              margin: const EdgeInsets.only(top: 15),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25.0),
-                                color: Colors.white,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Get.toNamed('/rating');
-                                    },
-                                    child: Text(
-                                      '오늘의 추천 레시피',
-                                      style:
-                                          Theme.of(context).textTheme.titleMedium,
+                          ? Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.only(
+                                    top: 10, bottom: 7, left: 20, right: 20),
+                                margin: const EdgeInsets.only(top: 15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  color: Colors.white,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Get.toNamed('/rating');
+                                      },
+                                      child: Text(
+                                        '오늘의 추천 레시피',
+                                        style:
+                                            Theme.of(context).textTheme.titleMedium,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 160,
-                                    child: ListView.builder(
-                                        padding: const EdgeInsets.only(
-                                            top: 10, bottom: 10),
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: recommendController
-                                            .ratingRecList.length,
-                                        itemBuilder:
-                                            (BuildContext context, int idx) {
-                                          return recipeRecCardWidget(
-                                              recommendController
-                                                  .ratingRecList[idx]);
-                                        }),
-                                  )
-                                ],
+                                    SizedBox(
+                                      height: 160,
+                                      child: ListView.builder(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, bottom: 10),
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: recommendController
+                                              .ratingRecList.length,
+                                          itemBuilder:
+                                              (BuildContext context, int idx) {
+                                            return recipeRecCardWidget(
+                                                recommendController
+                                                    .ratingRecList[idx]);
+                                          }),
+                                    )
+                                  ],
+                                ),
                               ),
-                            )
+                          )
                           : const SizedBox(),
                     ),
 
@@ -93,8 +96,7 @@ class MainPageV2 extends StatelessWidget {
                       width: double.infinity,
                       height: 140,
                       padding: const EdgeInsets.only(
-                          top: 20, bottom: 20, left: 20, right: 20),
-                      margin: const EdgeInsets.only(top: 15),
+                          top: 20, bottom: 20, left: 20, right: 0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25.0),
                         color: Colors.white,
@@ -113,7 +115,7 @@ class MainPageV2 extends StatelessWidget {
                             ),
                             Image.asset(
                               'assets/images/main_camera.png',
-                              width: rowWidgetWidth - 5,
+                              width: 120,
                             ),
                           ],
                         ),
@@ -156,7 +158,7 @@ class MainPageV2 extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Padding(padding: EdgeInsets.only(right: 15)),
+
                         //레시피 검색 버튼
                         Container(
                           width: rowWidgetWidth,

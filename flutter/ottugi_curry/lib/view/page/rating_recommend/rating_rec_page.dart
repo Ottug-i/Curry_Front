@@ -32,7 +32,7 @@ class RatingRecPage extends StatelessWidget {
 
               return SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 30, right: 30),
+                    padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
                     child: Column(
                 children: [
                     recommendController.ratingRecList.isNotEmpty
