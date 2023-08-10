@@ -11,6 +11,7 @@ class TextSearchPage extends StatelessWidget {
   const TextSearchPage({Key? key}) : super(key: key);
 
   Future _initRankList() async {
+    Get.put(TextSearchController());
     await Get.find<TextSearchController>().loadRankList();
   }
 
