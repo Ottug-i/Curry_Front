@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
-import 'package:ottugi_curry/model/menu.dart';
+import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/rank_response.dart';
-import 'package:ottugi_curry/model/recipe_list_response.dart';
+import 'package:ottugi_curry/model/recipe_list_page_response.dart';
 import 'package:ottugi_curry/model/search_queries.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 import 'package:ottugi_curry/repository/rank_repository.dart';
@@ -19,8 +19,8 @@ class TextSearchController {
   NumberPaginatorController().obs;
 
   // pageable, sort 데이터 생략
-  Rx<RecipeListResponse> recipeListResponse = RecipeListResponse(
-    content: <MenuModel>[],
+  Rx<RecipeListPageResponse> recipeListPageResponse = RecipeListPageResponse(
+    content: <RecipeResponse>[],
     totalPages: 0,
     totalElements: 0,
     last: false,
@@ -51,7 +51,7 @@ class TextSearchController {
       // 응답 값 변수에 저장
       rankList.value = resp;
       print('print rankListFirstName: ${rankList.first.name}');
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print('loadRankList: $e');
       return;
     }
@@ -105,17 +105,17 @@ class TextSearchController {
           size: 10);
       final resp = await recipeRepository.searchByBox(searchQueries);
       // 응답 값 변수에 저장
-      recipeListResponse.value = resp;
+      recipeListPageResponse.value = resp;
       print('print respContentLength: ${resp.totalElements!}');
 
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print('loadRankList: $e');
       return;
     }
   }
 
   void handlePaging(int pageIndex) {
-    print('print TotalPages: ${recipeListResponse.value.totalPages}');
+    print('print TotalPages: ${recipeListPageResponse.value.totalPages}');
     print('print pageIndex: ${pageIndex}');
 
     handleTextSearch(
@@ -134,7 +134,7 @@ class TextSearchController {
     }
   }
 
-  void updateCategory(value) {
+  void updateCategory(String value) {
     if (selectedCategory.value == value) {
       selectedCategory.value = '';
     } else {

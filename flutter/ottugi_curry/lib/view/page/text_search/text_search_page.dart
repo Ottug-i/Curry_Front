@@ -85,14 +85,14 @@ class TextSearchPage extends StatelessWidget {
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     itemCount: searchController
-                                        .recipeListResponse
+                                        .recipeListPageResponse
                                         .value
                                         .content
                                         ?.length,
                                     itemBuilder: (BuildContext context, int i) {
                                       return ListItemWidget(
                                         menuItem: searchController
-                                            .recipeListResponse
+                                            .recipeListPageResponse
                                             .value
                                             .content![i],
                                         controller: searchController,
@@ -101,7 +101,7 @@ class TextSearchPage extends StatelessWidget {
                               ),
 
                               // 페이징
-                              searchController.recipeListResponse.value.content!
+                              searchController.recipeListPageResponse.value.content!
                                       .isNotEmpty
                                   ? Padding(
                                       padding: const EdgeInsets.only(
@@ -112,7 +112,7 @@ class TextSearchPage extends StatelessWidget {
                                       child: Obx(() => NumberPaginator(
                                             // 페이지가 reload되어 totalPages가 바뀌면 업데이트 되어야 함
                                             numberPages: searchController
-                                                    .recipeListResponse
+                                                    .recipeListPageResponse
                                                     .value
                                                     .totalPages ??
                                                 0,

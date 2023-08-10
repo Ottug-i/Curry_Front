@@ -4,34 +4,28 @@ part 'recipe_response.g.dart';
 
 @JsonSerializable()
 class RecipeResponse {
-  String? composition;
-  String? difficulty;
-  int? recipeId;
-  String? ingredients;
-  bool? isBookmark;
-  String? name;
-  String? orders;
-  String? photo;
-  String? servings;
-  String? thumbnail;
-  String? time;
+  final int recipeId;
+  final String? name;
+  final String? thumbnail;
+  final String? time;
+  final String? difficulty; // 구성 (ex. 든든하게)
+  final String? composition;
+  final String? ingredients;
+  final bool? isBookmark;
 
-  RecipeResponse({
-    this.composition,
-    this.difficulty,
-    this.recipeId,
-    this.ingredients,
-    this.isBookmark,
-    this.name,
-    this.orders,
-    this.photo,
-    this.servings,
-    this.thumbnail,
-    this.time,
-  });
+  //List<String>? ingredients;
+  // 생성자
+  RecipeResponse(
+      {this.name,
+      required this.recipeId,
+      this.thumbnail,
+      this.time,
+      this.difficulty,
+      this.composition,
+      this.ingredients,
+      this.isBookmark});
 
   factory RecipeResponse.fromJson(Map<String, dynamic> json) =>
       _$RecipeResponseFromJson(json);
-
   Map<String, dynamic> toJson() => _$RecipeResponseToJson(this);
 }

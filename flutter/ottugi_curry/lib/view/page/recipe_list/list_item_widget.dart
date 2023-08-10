@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
-import 'package:ottugi_curry/model/menu.dart';
+import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 
 class ListItemWidget extends StatelessWidget {
-  final MenuModel menuItem;
+  final RecipeResponse menuItem;
   final controller;
 
   const ListItemWidget({required this.menuItem, this.controller, Key? key}) : super(key: key);

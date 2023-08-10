@@ -26,7 +26,7 @@ class UserController extends GetxController {
       userId.value = resp.id!;
       email.value = resp.email!;
       nickName.value = resp.nickName!;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print('loadUserProfile: $e');
       return;
     }
@@ -40,7 +40,7 @@ class UserController extends GetxController {
       print('print newNickName: ${resp.nickName}');
       userStorage.setItem(Config.nickName, resp.nickName.toString());
       nickName.value =  resp.nickName.toString();
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print('updateUserNickName: $e');
       return;
     }
@@ -53,7 +53,7 @@ class UserController extends GetxController {
 
       final resp = await latelyRepository.getLatelyAll(1);
       latelyList.value = resp;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print('loadLatelyRecipe: $e');
       return;
     }
@@ -97,7 +97,7 @@ class UserController extends GetxController {
       if (resp) {
         handleLogout();
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print('handleWithdraw: $e');
       return;
     }

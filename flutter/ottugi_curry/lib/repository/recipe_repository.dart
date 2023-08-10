@@ -1,5 +1,5 @@
-import 'package:ottugi_curry/model/recipe_response.dart';
-import 'package:ottugi_curry/model/recipe_list_response.dart';
+import 'package:ottugi_curry/model/recipe_detail_response.dart';
+import 'package:ottugi_curry/model/recipe_list_page_response.dart';
 import 'package:ottugi_curry/model/search_queries.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
@@ -11,14 +11,14 @@ abstract class RecipeRepository {
   factory RecipeRepository(Dio dio, {String baseUrl}) = _RecipeRepository;
 
   @GET('/api/recipe/getRecipeDetail')
-  Future<RecipeResponse> getRecipeDetail(
+  Future<RecipeDetailResponse> getRecipeDetail(
       @Query("recipeId") int recipeId, @Query("userId") int userId);
 
   // 전체 결과
   @POST('/api/recipe/getRecipeList')
-  Future<RecipeListResponse> getMenuList(@Body() requestJson);
+  Future<RecipeListPageResponse> getMenuList(@Body() requestJson);
 
   @GET('/api/recipe/searchByBox')
-  Future<RecipeListResponse> searchByBox(
+  Future<RecipeListPageResponse> searchByBox(
       @Queries() SearchQueries searchQueries);
 }

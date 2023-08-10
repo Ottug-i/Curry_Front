@@ -8,30 +8,24 @@ part of 'recipe_response.dart';
 
 RecipeResponse _$RecipeResponseFromJson(Map<String, dynamic> json) =>
     RecipeResponse(
-      composition: json['composition'] as String?,
-      difficulty: json['difficulty'] as String?,
-      recipeId: json['recipeId'] as int?,
-      ingredients: json['ingredients'] as String?,
-      isBookmark: json['isBookmark'] as bool?,
       name: json['name'] as String?,
-      orders: json['orders'] as String?,
-      photo: json['photo'] as String?,
-      servings: json['servings'] as String?,
+      recipeId: json['recipeId'] as int,
       thumbnail: json['thumbnail'] as String?,
       time: json['time'] as String?,
+      difficulty: json['difficulty'] as String?,
+      composition: json['composition'] as String?,
+      ingredients: json['ingredients'] as String?,
+      isBookmark: json['isBookmark'] as bool?,
     );
 
 Map<String, dynamic> _$RecipeResponseToJson(RecipeResponse instance) =>
     <String, dynamic>{
-      'composition': instance.composition,
-      'difficulty': instance.difficulty,
       'recipeId': instance.recipeId,
-      'ingredients': instance.ingredients,
-      'isBookmark': instance.isBookmark,
       'name': instance.name,
-      'orders': instance.orders,
-      'photo': instance.photo,
-      'servings': instance.servings,
       'thumbnail': instance.thumbnail,
       'time': instance.time,
+      'difficulty': instance.difficulty,
+      'composition': instance.composition,
+      'ingredients': instance.ingredients,
+      'isBookmark': instance.isBookmark,
     };

@@ -1,15 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'recipe_list_response.dart';
+part of 'recipe_list_page_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RecipeListResponse _$RecipeListResponseFromJson(Map<String, dynamic> json) =>
-    RecipeListResponse(
+RecipeListPageResponse _$RecipeListPageResponseFromJson(
+        Map<String, dynamic> json) =>
+    RecipeListPageResponse(
       content: (json['content'] as List<dynamic>?)
-          ?.map((e) => MenuModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => RecipeResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalPages: json['totalPages'] as int?,
       totalElements: json['totalElements'] as int?,
@@ -21,7 +22,8 @@ RecipeListResponse _$RecipeListResponseFromJson(Map<String, dynamic> json) =>
       numberOfElements: json['numberOfElements'] as int?,
     );
 
-Map<String, dynamic> _$RecipeListResponseToJson(RecipeListResponse instance) =>
+Map<String, dynamic> _$RecipeListPageResponseToJson(
+        RecipeListPageResponse instance) =>
     <String, dynamic>{
       'content': instance.content,
       'totalPages': instance.totalPages,
