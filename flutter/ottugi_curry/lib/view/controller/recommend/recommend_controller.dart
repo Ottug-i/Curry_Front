@@ -49,6 +49,7 @@ class RecommendController {
 
       // 북마크한 레시피 아이디 리스트 넣어 평점으로 레시피 추천 받기 (set -> list 변환)
       loadRatingRec(bookmarkList: bookmarkIdList.toList());
+
     } on DioException catch (e) {
       print('getBookmarkList error : $e');
       return;
@@ -61,7 +62,6 @@ class RecommendController {
       RecommendRepository recommendRepository = RecommendRepository(dio);
       final resp = await recommendRepository.getRating(page ?? 1, bookmarkList, 1);
       ratingRecList.value = resp;
-      print('print ratingRecListValueFirstName: ${ratingRecList.first.name}');
 
     } on DioException catch (e) {
       print('loadRatingRec error : $e');

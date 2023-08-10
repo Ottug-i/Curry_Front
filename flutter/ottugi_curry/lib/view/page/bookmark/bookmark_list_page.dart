@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
 import 'package:ottugi_curry/view/page/recipe_list/categories_widget.dart';
 
@@ -102,12 +103,12 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                   return GestureDetector(
                     onTap: () {
                       Get.toNamed('/recipe_detail',
-                          arguments: menuItem.recipeId); //6909678: 레시피 아이디 예시
+                          arguments: menuItem.recipeId);
                     },
                     child: Container(
                         padding: const EdgeInsets.all(20),
                         margin: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 10),
+                            vertical: 8, horizontal: 30),
                         // card
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -177,7 +178,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                     Row(children: [
                                       Expanded(
                                           child: Text(
-                                        '${menuItem.ingredients}',
+                                    extractOnlyContent(menuItem.ingredients ?? ''),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall,

@@ -16,11 +16,11 @@ class ListItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.toNamed('/recipe_detail',
-            arguments: menuItem.recipeId); //6909678: 레시피 아이디 예시
+            arguments: menuItem.recipeId);
       },
       child: Container(
           padding: const EdgeInsets.all(20),
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
           // card
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(20)),
