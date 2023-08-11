@@ -7,7 +7,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class ChatController extends GetxController {
   RxList<Message> messageList = <Message>[].obs;
   RxBool isLoading = false.obs;
-
   String api_key = dotenv.get("chatgptKey");
 
   void addToChat(String message, String sentBy) {

@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:ottugi_curry/view/controller/chat/page_scroll_controller.dart';
 import 'package:ottugi_curry/view/page/chat/chat_composer.dart';
 import 'package:ottugi_curry/view/page/chat/conversation.dart';
 import 'package:ottugi_curry/view/controller/chat/chat_controller.dart';
@@ -14,12 +13,12 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final chatContorller = Get.put(ChatController());
-  final pageController = Get.put(PageScrollController());
+  final ScrollController pageController =
+      ScrollController(initialScrollOffset: 0);
 
   @override
   void dispose() {
     Get.delete<ChatController>();
-    Get.delete<PageScrollController>();
     super.dispose();
   }
 
@@ -55,20 +54,39 @@ class _ChatPageState extends State<ChatPage> {
                   },
                 ),
                 // 채팅 흰 배경 부분
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    decoration: const BoxDecoration(
-                        //color: Colors.black.withOpacity(0.1),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30))),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30)),
-                      child: Conversation(pageScroller: pageController),
-                    ),
+                Obx(
+                  () => Expanded(
+                    child: chatContorller.messageList.isEmpty
+                        ? Center(
+                            // 초기 화면
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("메세지를 보내 궁금한 것을 질문하세요.",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(color: Colors.white)),
+                              ],
+                            ),
+                          )
+                        : Container(
+                            // 메세지가 하나라도 오갔으면
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            decoration: const BoxDecoration(
+                                //color: Colors.black.withOpacity(0.1),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    topRight: Radius.circular(30))),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30)),
+                              child: Conversation(
+                                pageScroller: pageController,
+                              ),
+                            ),
+                          ),
                   ),
                 ),
                 // 메세지 입력창
