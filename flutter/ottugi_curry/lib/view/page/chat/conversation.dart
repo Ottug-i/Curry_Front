@@ -5,10 +5,8 @@ import 'package:ottugi_curry/view/controller/chat/chat_controller.dart';
 import 'package:ottugi_curry/model/message_model.dart';
 
 class Conversation extends StatelessWidget {
-  final ScrollController scrollController; // Add this line
-
-  const Conversation({required this.scrollController, Key? key})
-      : super(key: key);
+  final ScrollController pageScroller;
+  const Conversation({required this.pageScroller, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +16,7 @@ class Conversation extends StatelessWidget {
       () => ListView.builder(
         // 메세지 말풍선
         // reverse: true, // messages[0]이 아래에서부터 뜨도록 (message[0]이 가장 최신 메세지)
-        controller: scrollController,
+        controller: pageScroller,
         itemCount: chatContorller.messageList.length,
         itemBuilder: (context, int index) {
           final message = chatContorller.messageList[index];
