@@ -256,7 +256,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () {
-                          recommendController.toggleSelected[i] = !recommendController.toggleSelected[i];
+                          recommendController.isSelected[i] = !recommendController.isSelected[i];
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -286,7 +286,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                 ],
                               ),
                               Obx(
-                                ()=> recommendController.toggleSelected[i] == true
+                                ()=> recommendController.isSelected[i] == true
                                     ? FutureBuilder(
                                     future: _initBookmarkRec(menuItem.recipeId),
                                     builder: (context, snap) {

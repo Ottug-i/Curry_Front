@@ -77,8 +77,8 @@ class BookmarkListController extends GetxController {
 
 
       // 북마크 추천 토글 상태를 저장하는 리스트 초기화
-      Get.find<RecommendController>().toggleSelected.clear();
-      response.value.content!.map((e) => Get.find<RecommendController>().toggleSelected.add(false)).toList();
+      Get.find<RecommendController>().isSelected.clear();
+      response.value.content!.map((e) => Get.find<RecommendController>().isSelected.add(false)).toList();
 
       response.refresh();
       update();

@@ -8,6 +8,7 @@ import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_gallery_view_
 import 'package:get/get.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_timer_widget.dart';
 
+import 'recipe_detail_rating_widget.dart';
 import 'recipe_detail_text_list_view_widget.dart';
 
 class RecipeDetailPage extends StatelessWidget {
@@ -194,7 +195,9 @@ class RecipeDetailPage extends StatelessWidget {
                         child: Column(
                           children: [
                             // 레시피 사진
-                            recipeDetailController.recipeResponse.value.thumbnail != null
+                            recipeDetailController
+                                        .recipeResponse.value.thumbnail !=
+                                    null
                                 ? Image.network(
                                     '${recipeDetailController.recipeResponse.value.thumbnail}',
                                     fit: BoxFit.fill,
@@ -206,8 +209,8 @@ class RecipeDetailPage extends StatelessWidget {
 
                             // 레시피 제목
                             Container(
-                              padding:
-                                  const EdgeInsets.only(top: 10, bottom: 15),
+                              padding: const EdgeInsets.only(
+                                  top: 10, bottom: 15, left: 10, right: 5),
                               decoration: BoxDecoration(
                                 color: lightColorScheme.primary,
                                 borderRadius: const BorderRadius.only(
@@ -220,14 +223,34 @@ class RecipeDetailPage extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const SizedBox(
-                                        height: 50,
-                                        width: 50,
-                                      ),
-                                      //iconButton과 동일한 크기 지정하기 위함
+                                      IconButton(
+                                          onPressed: () {
+                                            Get.dialog(Dialog(
+                                              child: RecipeDetailRatingWidget(recipeId: recipeDetailController.recipeResponse.value.recipeId!,),
+                                            ));
+                                          },
+                                          icon:  Icon(
+                                              Icons.stars,
+                                              color: lightColorScheme.secondary,
+                                            size: 27,
+                                            ),
+                                          ),
+                                      // OutlinedButton(
+                                      //   onPressed: () {},
+                                      //   child: Text('평점'),
+                                      //   style: OutlinedButton.styleFrom(
+                                      //     foregroundColor: Colors.white,
+                                      //     // backgroundColor: Colors.white,
+                                      //     side: BorderSide(
+                                      //       color: Colors.white,
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       Center(
                                         child: Text(
-                                          recipeDetailController.recipeResponse.value.name ?? '',
+                                          recipeDetailController
+                                                  .recipeResponse.value.name ??
+                                              '',
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge,
@@ -237,13 +260,19 @@ class RecipeDetailPage extends StatelessWidget {
                                           onPressed: () {
                                             recipeDetailController
                                                 .updateBookmark(
-                                                    1, recipeDetailController.recipeResponse.value.recipeId!);
+                                                    1,
+                                                    recipeDetailController
+                                                        .recipeResponse
+                                                        .value
+                                                        .recipeId!);
                                           },
                                           icon: Obx(
                                             () => Icon(
                                               Icons.bookmark,
                                               color: recipeDetailController
-                                                          .recipeResponse.value.isBookmark ==
+                                                          .recipeResponse
+                                                          .value
+                                                          .isBookmark ==
                                                       true
                                                   ? lightColorScheme.secondary
                                                   : Colors.grey.shade300,
@@ -487,9 +516,12 @@ class RecipeDetailPage extends StatelessWidget {
                     // 스피커
                     IconButton(
                       onPressed: () async {
-                        if (recipeDetailController.ttsStatus.value == Config.playing) { // 실행-> 정지
+                        if (recipeDetailController.ttsStatus.value ==
+                            Config.playing) {
+                          // 실행-> 정지
                           recipeDetailController.stopTTS();
-                        } else { // 정지 -> 실행
+                        } else {
+                          // 정지 -> 실행
                           recipeDetailController.speakTTS();
                         }
                       },
@@ -497,54 +529,62 @@ class RecipeDetailPage extends StatelessWidget {
                         AssetImage('assets/icons/speaker.png'),
                         size: 20,
                       ),
-                      color: recipeDetailController.ttsStatus.value != Config.stopped
+                      color: recipeDetailController.ttsStatus.value !=
+                              Config.stopped
                           ? lightColorScheme.primary
                           : Colors.grey,
                     ),
 
-                    recipeDetailController.ttsStatus.value == Config.playing || recipeDetailController.ttsStatus.value == Config.paused
-                    ? Container(
-                      height: 37,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: lightColorScheme.primary,
-                        ),
-                        borderRadius: BorderRadius.circular(25.0),
-                        // color: Colors.grey.shade200,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // 시작, 일시정지 버튼
-                          IconButton(
-                            iconSize: 23,
-                            onPressed: () async {
-                              if (recipeDetailController.ttsStatus.value == Config.playing) { // 실행-> 일시정지
-                                recipeDetailController.pauseTTS();
-                              } else { // 일시 정지 -> 실행
-                                recipeDetailController.speakTTS();
-                              }
-                            },
-                            icon: recipeDetailController.ttsStatus.value == Config.playing
-                                ? const Icon(Icons.pause)
-                                : const Icon(Icons.play_arrow),
-                            color: Colors.black,
-                          ),
-                          // 정지 버튼
-                          IconButton(
-                            iconSize: 23,
-                            onPressed: () async {
-                              // 일시정지, 실행 -> 정지
-                              recipeDetailController.stopTTS();
-                            },
-                            icon: const Icon(Icons.stop),
-                            color: Colors.black,
-                          ),
-                        ],
-                      ),
-                    )
-                    : const SizedBox(),
-
+                    recipeDetailController.ttsStatus.value == Config.playing ||
+                            recipeDetailController.ttsStatus.value ==
+                                Config.paused
+                        ? Container(
+                            height: 37,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: lightColorScheme.primary,
+                              ),
+                              borderRadius: BorderRadius.circular(25.0),
+                              // color: Colors.grey.shade200,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                // 시작, 일시정지 버튼
+                                IconButton(
+                                  iconSize: 23,
+                                  onPressed: () async {
+                                    if (recipeDetailController
+                                            .ttsStatus.value ==
+                                        Config.playing) {
+                                      // 실행-> 일시정지
+                                      recipeDetailController.pauseTTS();
+                                    } else {
+                                      // 일시 정지 -> 실행
+                                      recipeDetailController.speakTTS();
+                                    }
+                                  },
+                                  icon:
+                                      recipeDetailController.ttsStatus.value ==
+                                              Config.playing
+                                          ? const Icon(Icons.pause)
+                                          : const Icon(Icons.play_arrow),
+                                  color: Colors.black,
+                                ),
+                                // 정지 버튼
+                                IconButton(
+                                  iconSize: 23,
+                                  onPressed: () async {
+                                    // 일시정지, 실행 -> 정지
+                                    recipeDetailController.stopTTS();
+                                  },
+                                  icon: const Icon(Icons.stop),
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                          )
+                        : const SizedBox(),
                   ],
                 ),
 
@@ -571,7 +611,7 @@ class RecipeDetailPage extends StatelessWidget {
                         icon: Icon(
                           Icons.list,
                           color: recipeDetailController.orderViewOption.value ==
-                              Config.textListView
+                                  Config.textListView
                               ? Colors.black
                               : Colors.grey,
                         ))

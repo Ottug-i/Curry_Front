@@ -8,9 +8,8 @@ part of 'rating_request.dart';
 
 RatingRequest _$RatingRequestFromJson(Map<String, dynamic> json) =>
     RatingRequest(
-      new_user_ratings_dic: (json['new_user_ratings_dic'] as List<dynamic>?)
-          ?.map((e) => AdditionalProp.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      new_user_ratings_dic:
+          json['new_user_ratings_dic'] as Map<String, dynamic>?,
       user_id: json['user_id'] as int?,
     );
 

@@ -27,17 +27,22 @@ class RecipeDetailTimerWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              color: Colors.black,
-              onPressed: () {
-                Get.back();
-                // 알람 종료
-                timerController.stopTimerAlarm();
-              },
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                iconSize: 23,
+                icon: const Icon(Icons.arrow_back_ios),
+                color: Colors.black,
+                onPressed: () {
+                  Get.back();
+                  // 알람 종료
+                  timerController.stopTimerAlarm();
+                },
+              ),
+              Text('타이머', style: Theme.of(context).textTheme.bodyLarge,),
+              const Padding(padding: EdgeInsets.only(left: 50)),
+            ],
           ),
           const Padding(padding: EdgeInsets.only(bottom: 50)),
 
