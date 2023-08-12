@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
-import 'package:ottugi_curry/view/page/recipe_list/recipe_recs_list.dart';
 
 class RecipeCameraPage extends StatelessWidget {
   const RecipeCameraPage({Key? key}) : super(key: key);
@@ -11,6 +10,7 @@ class RecipeCameraPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const DefaultLayoutWidget(
+      backToMain: true,
         appBarTitle: '촬영 결과 확인', body: ResultCheck());
   }
 }
@@ -121,10 +121,7 @@ class _ResultCheckState extends State<ResultCheck> {
                 // 모달창을 열지 않고 바로 완료를 눌렀을 때까지 커버함
                 rListController.changeIngredients();
                 // 리스트 페이지로 이동
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RecipeRecs()));
+                Get.toNamed('/camera_rec');
               },
               child: const Text('완료'),
             )

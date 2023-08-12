@@ -21,6 +21,7 @@ class RatingRecPage extends StatelessWidget {
     final recommendController = Get.find<RecommendController>();
 
     return DefaultLayoutWidget(
+        backToMain: true,
         appBarTitle: '추천 레시피',
         body: FutureBuilder(
             future: _initRatingRec(),
@@ -33,13 +34,17 @@ class RatingRecPage extends StatelessWidget {
 
               return SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                    child: Column(
-                children: [
+                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                child: Column(
+                  children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      child: Text('${getUserNickname()} 님의 레시피 평점과 선호 장르를 분석하여 추천하는 레시피 입니다. ', // 멘트 수정하기
-                      style: TextStyle(fontSize: 13, color: Colors.grey.shade700)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: Text(
+                          '${getUserNickname()} 님의 레시피 평점과 선호 장르를 분석하여 추천하는 레시피 입니다. ',
+                          // 멘트 수정하기
+                          style: TextStyle(
+                              fontSize: 13, color: Colors.grey.shade700)),
                     ),
                     recommendController.ratingRecList.isNotEmpty
                         ? Obx(
@@ -51,7 +56,8 @@ class RatingRecPage extends StatelessWidget {
                                     recommendController.ratingRecList.length,
                                 itemBuilder: (BuildContext context, int i) {
                                   return ratingRecListItemWidget(
-                                      recipeResponse: recommendController.ratingRecList[i],
+                                    recipeResponse:
+                                        recommendController.ratingRecList[i],
                                     index: i,
                                     controller: recommendController,
                                     context: context,
@@ -59,25 +65,31 @@ class RatingRecPage extends StatelessWidget {
                                 }),
                           )
                         : const Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                          child: Text('추천 레시피가 없습니다.'),
-                        ))
-                ],
-              ),
-                  ));
+                            child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            child: Text('추천 레시피가 없습니다.'),
+                          ))
+                  ],
+                ),
+              ));
             }));
   }
 
-  Widget ratingRecListItemWidget({required RecipeResponse recipeResponse, required int index, controller, context}) {
+  Widget ratingRecListItemWidget(
+      {required RecipeResponse recipeResponse,
+      required int index,
+      controller,
+      context}) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed('/recipe_detail',
-            arguments: recipeResponse.recipeId);
+        Get.toNamed('/recipe_detail', arguments: recipeResponse.recipeId);
       },
       child: Container(
           padding: const EdgeInsets.all(20),
-          margin: const EdgeInsets.symmetric(vertical: 8,),
+          margin: const EdgeInsets.symmetric(
+            vertical: 8,
+          ),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(24)),
           child: Row(
@@ -86,8 +98,10 @@ class RatingRecPage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 15, top: 25),
-                child: Text('${index+1}',
-                  style: Theme.of(context).textTheme.titleMedium,),
+                child: Text(
+                  '${index + 1}',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(24.0),
@@ -116,7 +130,7 @@ class RatingRecPage extends StatelessWidget {
                                 Text(
                                   '${recipeResponse.name}',
                                   style:
-                                  Theme.of(context).textTheme.titleMedium,
+                                      Theme.of(context).textTheme.titleMedium,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ],
@@ -134,24 +148,23 @@ class RatingRecPage extends StatelessWidget {
                             onPressed: () {
                               // 공통 위젯을 위한 컨트롤러 변수 사용
                               controller.updateBookmark(
-                                  1, recipeResponse.recipeId
-                              );
+                                  1, recipeResponse.recipeId);
                             },
                           )
                         ],
                       ),
                       // 두 번째 줄 (재료 목록)
-                      Row(
-                          children: [
+                      Row(children: [
                         Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Text(
-                                extractOnlyContent(recipeResponse.ingredients ?? ''),
-                                style: Theme.of(context).textTheme.bodySmall,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            )),
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Text(
+                            extractOnlyContent(
+                                recipeResponse.ingredients ?? ''),
+                            style: Theme.of(context).textTheme.bodySmall,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )),
                       ]),
                     ],
                   ),

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/rating_response.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/rating_request.dart';
@@ -112,6 +113,19 @@ class RecommendController {
     } on DioException catch (e) {
       print('updateUserRating error : $e');
       return false;
+    }
+  }
+
+  void updateBookmark(int userId, int recipeId) async {
+    try {
+      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
+      final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
+      await bookmrkRepository.updateBookmark(bookmrkItem);
+
+      await Get.find<RecommendController>().getBookmarkList(1);
+    } catch (error) {
+      // 에러 처리
+      print('Error updating bookmark: $error');
     }
   }
 }

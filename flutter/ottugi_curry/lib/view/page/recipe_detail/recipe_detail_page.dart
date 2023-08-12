@@ -6,20 +6,27 @@ import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_timer_c
 import 'package:ottugi_curry/view/page/chat/chat_page.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_gallery_view_widget.dart';
 import 'package:get/get.dart';
+import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_rating_widget.dart';
+import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_text_list_view_widget.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_timer_widget.dart';
 
-import 'recipe_detail_rating_widget.dart';
-import 'recipe_detail_text_list_view_widget.dart';
 
 class RecipeDetailPage extends StatelessWidget {
   const RecipeDetailPage({Key? key}) : super(key: key);
 
   Future<void> _initRecipeDetail() async {
     print('print Get.arguments: ${Get.arguments}');
-    await Get.find<RecipeDetailController>().loadRecipeDetail(Get.arguments);
+    Get.put(RecipeDetailTimerController());
+    Get.put(RecipeDetailController());
+    final recipeDetailController = Get.find<RecipeDetailController>();
+
+    await recipeDetailController.loadRecipeDetail(Get.arguments);
     Get.find<RecipeDetailTimerController>().loadTimerAlarm();
 
-    Get.find<RecipeDetailController>().ttsStatus.value = Config.stopped;
+    // tts 상태 초기화
+    recipeDetailController.ttsStatus.value = Config.stopped;
+    // 이전 페이지 루트 저장
+    recipeDetailController.previousRoute.value = Get.previousRoute;
   }
 
   @override
@@ -64,7 +71,12 @@ class RecipeDetailPage extends StatelessWidget {
                             child: IconButton(
                               onPressed: () {
                                 recipeDetailController.tts.value.stop();
-                                Get.back();
+
+                                // 이전 페이지가 재실행되는 효과 = 페이지 재로딩 (FutureBuilder 실행)
+                                // 평점이 변경되면, 변경된 추천 레시피를 바로 받아오기 위함
+                                print('print recipeDetailControllerPreviousRouteValue: ${recipeDetailController.previousRoute.value}');
+                                Get.offAndToNamed(
+                                    recipeDetailController.previousRoute.value);
                               },
                               icon: const Icon(
                                 Icons.arrow_back_ios,
@@ -191,6 +203,8 @@ class RecipeDetailPage extends StatelessWidget {
                           ],
                         ),
                       ),
+
+                      // 레시피 정보들
                       SliverToBoxAdapter(
                         child: Column(
                           children: [
@@ -224,17 +238,22 @@ class RecipeDetailPage extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
-                                          onPressed: () {
-                                            Get.dialog(Dialog(
-                                              child: RecipeDetailRatingWidget(recipeId: recipeDetailController.recipeResponse.value.recipeId!,),
-                                            ));
-                                          },
-                                          icon:  Icon(
-                                              Icons.stars,
-                                              color: lightColorScheme.secondary,
-                                            size: 27,
+                                        onPressed: () {
+                                          Get.dialog(Dialog(
+                                            child: RecipeDetailRatingWidget(
+                                              recipeId: recipeDetailController
+                                                  .recipeResponse
+                                                  .value
+                                                  .recipeId!,
                                             ),
-                                          ),
+                                          ));
+                                        },
+                                        icon: Icon(
+                                          Icons.stars,
+                                          color: lightColorScheme.secondary,
+                                          size: 27,
+                                        ),
+                                      ),
                                       // OutlinedButton(
                                       //   onPressed: () {},
                                       //   child: Text('평점'),
