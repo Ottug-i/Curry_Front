@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:ottugi_curry/view/page/bookmark/bookmark_page.dart';
 import 'package:ottugi_curry/view/page/login/login_page.dart';
+import 'package:ottugi_curry/view/page/login/login_rating_page.dart';
 import 'package:ottugi_curry/view/page/main/main_page_v2.dart';
 import 'package:ottugi_curry/view/page/rating_recommend/rating_rec_page.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/recipe_camera_page.dart';
@@ -56,6 +57,10 @@ class Config {
     GetPage(
         name: '/camera_rec',
         page: () => const RecipeRecsPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: '/login_rating',
+        page: () => const LoginRatingPage(),
         transition: Transition.noTransition),
   ];
 

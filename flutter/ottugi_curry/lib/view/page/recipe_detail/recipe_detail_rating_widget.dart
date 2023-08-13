@@ -10,10 +10,10 @@ class RecipeDetailRatingWidget extends StatelessWidget {
       : super(key: key);
 
   Future _initUserRating() async {
-    print('print recipeId: ${recipeId}');
     Get.put(RecommendController());
     final recommendController = Get.find<RecommendController>();
     await recommendController.loadUserRating(recipeId: recipeId);
+
     recommendController.rating.value = recommendController.ratingResponse.value.rating!; // 저장된 평점 받아와서 초기화
     recommendController.previousRating.value = 0.0; // 초기화
   }
@@ -67,12 +67,7 @@ class RecipeDetailRatingWidget extends StatelessWidget {
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-                        .map((e) => ratingStarIconWidget(index: e))
-                        .toList(),
-                  ),
+                  child: ratingStarsRowWidget()
                 );
               }),
           // 버튼
@@ -87,9 +82,6 @@ class RecipeDetailRatingWidget extends StatelessWidget {
               const Padding(padding: EdgeInsets.only(right: 20)),
               ElevatedButton(
                   onPressed: () async {
-                    // AdditionalProp additionalProp = AdditionalProp(
-                    //   additionalProp: 4.0
-                    // );
                     Map additionalProp = {
                       '$recipeId' : recommendController.rating.value
                     };
@@ -104,28 +96,44 @@ class RecipeDetailRatingWidget extends StatelessWidget {
     );
   }
 
-  Widget ratingStarIconWidget({required int index}) {
+  Row ratingStarsRowWidget() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (double i = 0.0; i < 10.0; i++) ...[
+          ratingStarIconWidget(index: i)
+        ],
+      ]
+    );
+  }
+
+  Widget ratingStarIconWidget({required double index}) {
     Get.put(RecommendController());
     final recommendController = Get.find<RecommendController>();
 
     return InkWell(
       onTap: () {
-        print('print recommendControllerPreviousRatingValue: ${recommendController.previousRating.value}');
-        print('print recommendControllerRatingValue: ${recommendController.rating.value}');
+        print(
+            '----print 이전 평점: ${recommendController.previousRating.value} -> 지금 선택한 평점 ${(index + 1) / 2}');
+
         // 평점 초기화(0점): 이전 선택된 평점 다시 선택 했을 때
-        if (recommendController.previousRating.value == recommendController.rating.value && recommendController.previousRating.value != 0.0) {
+        if ((recommendController.previousRating.value != 0.0) && (recommendController.previousRating.value == ((index+1) / 2))) {
+          print('print 평점 초기화');
           recommendController.rating.value = 0.0;
         } else { // 평점 변화
-          recommendController.rating.value = index / 2;
-          recommendController.previousRating.value = index / 2;
+          print('print 평점 변화');
+          recommendController.rating.value = (index + 1) / 2;
+          recommendController.previousRating.value = (index + 1) / 2;
         }
+        print(
+            'print 평점 저장 완료: ${recommendController.rating.value}----');
       },
       child: Obx(
         ()=> Image.asset(
-          'assets/icons/${index % 2 == 0 ? 'half_star_right' : 'half_star_left'}.png',
+          'assets/icons/${(index + 1) % 2 == 0 ? 'half_star_right' : 'half_star_left'}.png',
           width: 23,
           fit: BoxFit.fitWidth,
-          color: (index / 2) <= (recommendController.rating.value)
+          color: ((index + 1) / 2) <= (recommendController.rating.value)
               ? lightColorScheme.primary
               : Colors.grey,
         ),
