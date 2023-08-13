@@ -10,6 +10,7 @@ UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
       email: json['email'] as String?,
       id: json['id'] as int?,
       nickName: json['nickName'] as String?,
+      role: json['role'] as String?,
       token: json['token'] as String?,
     );
 
@@ -18,5 +19,6 @@ Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
       'email': instance.email,
       'id': instance.id,
       'nickName': instance.nickName,
+      'role': instance.role,
       'token': instance.token,
     };

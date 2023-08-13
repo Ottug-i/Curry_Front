@@ -103,7 +103,7 @@ class TextSearchController {
           time: searchTime.value,
           page: page ?? 1,
           size: 10);
-      final resp = await recipeRepository.searchByBox(searchQueries);
+      final resp = await recipeRepository.getSearch(searchQueries);
       // 응답 값 변수에 저장
       recipeListPageResponse.value = resp;
       print('print respContentLength: ${resp.totalElements!}');
@@ -147,7 +147,7 @@ class TextSearchController {
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
-      await bookmrkRepository.updateBookmark(bookmrkItem);
+      await bookmrkRepository.postBookmark(bookmrkItem);
 
       handleTextSearch(name: searchName.value);
       // await fetchData(userId, currentPage.value); // 재로딩

@@ -7,12 +7,14 @@ class  UserResponse {
   String? email;
   int? id;
   String? nickName;
+  String? role;
   String? token;
 
   UserResponse({
     this.email,
     this.id,
     this.nickName,
+    this.role,
     this.token,
   });
 

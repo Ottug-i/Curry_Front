@@ -84,7 +84,7 @@ class ListItemWidget extends StatelessWidget {
                               color: lightColorScheme.primary,
                               onPressed: () {
                                 // 공통 위젯을 위한 컨트롤러 변수 사용
-                                controller.updateBookmark(
+                                controller.postBookmark(
                                   1, menuItem.recipeId
                                 );
                               },

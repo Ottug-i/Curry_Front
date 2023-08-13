@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'lately_repository.dart';
+part of 'login_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,12 +8,12 @@ part of 'lately_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _LatelyRepository implements LatelyRepository {
-  _LatelyRepository(
+class _LoginRepository implements LoginRepository {
+  _LoginRepository(
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.219.103:8080';
+    baseUrl ??= 'http://localhost:8080';
   }
 
   final Dio _dio;
@@ -21,27 +21,49 @@ class _LatelyRepository implements LatelyRepository {
   String? baseUrl;
 
   @override
-  Future<List<LatelyResponse>> getLatelyList(int id) async {
+  Future<UserResponse> postAuthLogin(UserResponse user) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'userId': id};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(user.toJson());
     final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<LatelyResponse>>(Options(
-      method: 'GET',
+        .fetch<Map<String, dynamic>>(_setStreamType<UserResponse>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/api/lately/list',
+              '/auth/login',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => LatelyResponse.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = UserResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UserResponse> postAuthReissue(String email) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'email': email};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/auth/reissue',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UserResponse.fromJson(_result.data!);
     return value;
   }
 

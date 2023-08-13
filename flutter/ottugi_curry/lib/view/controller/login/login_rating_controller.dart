@@ -16,7 +16,7 @@ class LoginRatingController {
       // 임시 데이터 저장 - 추천 레시피 10개로 사용하기
       Dio dio = Dio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
-      final resp = await recommendRepository.getRating(1, [6842324, 6845721, 6845906, 6846020, 6846262], 1);
+      final resp = await recommendRepository.getRecommendRatingList(1, [6842324, 6845721, 6845906, 6846020, 6846262], 1);
       randomRatingList.value = resp;
 
     } on DioException catch (e) {

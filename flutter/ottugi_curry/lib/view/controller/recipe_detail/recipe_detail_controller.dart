@@ -72,7 +72,7 @@ class RecipeDetailController {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
 
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
-      await bookmrkRepository.updateBookmark(bookmrkItem);
+      await bookmrkRepository.postBookmark(bookmrkItem);
       await loadRecipeDetail(recipeId); // 재로딩
     } catch (error) {
       // 에러 처리

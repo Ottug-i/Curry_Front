@@ -113,7 +113,7 @@ class BookmarkListController extends GetxController {
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
-      await bookmrkRepository.updateBookmark(bookmrkItem);
+      await bookmrkRepository.postBookmark(bookmrkItem);
       int page = currentPage.value;
       if (isPageChange()) {
         page -= 1;
@@ -138,13 +138,13 @@ class BookmarkListController extends GetxController {
   Future<void> searchData(int userId, String text) async {
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-      final menuData = await bookmrkRepository.searchByName(
-          1, Config.elementNum, userId, text);
-      BoomrkList.clear(); // 기존 데이터를 지우고 시작
-      response.value = RecipeListPageResponse();
-
-      saveResponse(menuData);
-      response.refresh();
+      // final menuData = await bookmrkRepository.searchByName(
+      //     1, Config.elementNum, userId, text);
+      // BoomrkList.clear(); // 기존 데이터를 지우고 시작
+      // response.value = RecipeListPageResponse();
+      //
+      // saveResponse(menuData);
+      // response.refresh();
       update();
     } catch (error) {
       // 에러 처리
@@ -155,23 +155,23 @@ class BookmarkListController extends GetxController {
   Future<void> searchByOption(int userId) async {
     print("serachByOption 실행 - $composition, $time, $difficulty");
     try {
-      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-
-      final menuData = await bookmrkRepository.searchByOption(
-          1,
-          Config.elementNum,
-          userId,
-          composition.value,
-          difficulty.value,
-          time.value);
-      // 요청 URL 출력
-      //print('요청 URL: ${bookmrkRepository.options.path}');
-      //print(menuData.empty);
-      BoomrkList.clear(); // 기존 데이터를 지우고 시작
-
-      saveResponse(menuData);
-      response.refresh();
-      update();
+      // final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
+      //
+      // final menuData = await bookmrkRepository.searchByOption(
+      //     1,
+      //     Config.elementNum,
+      //     userId,
+      //     composition.value,
+      //     difficulty.value,
+      //     time.value);
+      // // 요청 URL 출력
+      // //print('요청 URL: ${bookmrkRepository.options.path}');
+      // //print(menuData.empty);
+      // BoomrkList.clear(); // 기존 데이터를 지우고 시작
+      //
+      // saveResponse(menuData);
+      // response.refresh();
+      // update();
     } catch (error) {
       // 에러 처리
       print('Error updating bookmark: $error');

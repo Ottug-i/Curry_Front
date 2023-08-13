@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/model/user_response.dart';
-import 'package:ottugi_curry/repository/user_repository.dart';
+import 'package:ottugi_curry/repository/login_repository.dart';
 
 class LoginController {
   Future<void> loginGoogle() async {
@@ -74,10 +74,10 @@ class LoginController {
   void login(String email, String nickName) async {
     try {
       Dio dio = Dio();
-      UserRepository userRepository = UserRepository(dio);
+      LoginRepository loginRepository = LoginRepository(dio);
 
       print('$nickName, $email');
-      final resp = await userRepository.saveLogin(UserResponse(email: email, nickName: nickName));
+      final resp = await loginRepository.postAuthLogin(UserResponse(email: email, nickName: nickName));
       print('최종 로그인 성공: ${resp.id}, ${resp.email}, ${resp.nickName}, ${resp.token}');
       print('print socialStorage: ${userStorage.getItem(Config.social)}');
 

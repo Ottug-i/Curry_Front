@@ -13,7 +13,7 @@ class _RecipeRepository implements RecipeRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.0.114:8080';
+    baseUrl ??= 'http://192.168.219.103:8080';
   }
 
   final Dio _dio;
@@ -40,7 +40,7 @@ class _RecipeRepository implements RecipeRepository {
     )
             .compose(
               _dio.options,
-              '/api/recipe/getRecipeDetail',
+              '/api/recipe',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -50,31 +50,7 @@ class _RecipeRepository implements RecipeRepository {
   }
 
   @override
-  Future<RecipeListPageResponse> getMenuList(dynamic requestJson) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = requestJson;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<RecipeListPageResponse>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/api/recipe/getRecipeList',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = RecipeListPageResponse.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<RecipeListPageResponse> searchByBox(
-      SearchQueries searchQueries) async {
+  Future<RecipeListPageResponse> getSearch(SearchQueries searchQueries) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(searchQueries.toJson());
@@ -88,7 +64,7 @@ class _RecipeRepository implements RecipeRepository {
     )
             .compose(
               _dio.options,
-              '/api/recipe/searchByBox',
+              '/api/recipe/search',
               queryParameters: queryParameters,
               data: _data,
             )
