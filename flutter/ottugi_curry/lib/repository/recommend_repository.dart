@@ -21,7 +21,7 @@ abstract class RecommendRepository {
       @Query("userId") int userId);
 
   @GET('/api/recommend/user')
-  Future<RatingResponse> getUserRating(
+  Future<RatingResponse?> getUserRating(
       @Query("recipeId") int recipeId, @Query("userId") int userId);
 
   @POST('/api/recommend/user')

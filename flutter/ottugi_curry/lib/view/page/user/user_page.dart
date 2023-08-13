@@ -23,6 +23,7 @@ class UserPage extends StatelessWidget {
     final userController = Get.find<UserController>();
 
     return DefaultLayoutWidget(
+      backToMain: true,
       appBarTitle: '마이페이지',
       body: FutureBuilder(
           future: _initUserInfo(),

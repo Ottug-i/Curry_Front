@@ -1,11 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:ottugi_curry/model/additional_prop.dart';
 
 part 'rating_request.g.dart';
 
 @JsonSerializable()
 class RatingRequest {
-  List<AdditionalProp>? new_user_ratings_dic;
+  Map? new_user_ratings_dic;
   int? user_id;
 
   RatingRequest({

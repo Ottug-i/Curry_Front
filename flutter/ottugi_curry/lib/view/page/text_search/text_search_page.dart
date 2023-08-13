@@ -21,6 +21,7 @@ class TextSearchPage extends StatelessWidget {
     final searchController = Get.find<TextSearchController>();
 
     return DefaultLayoutWidget(
+      backToMain: true,
       appBarTitle: '레시피 검색',
       body: FutureBuilder(
           future: _initRankList(),

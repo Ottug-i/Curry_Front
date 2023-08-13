@@ -30,7 +30,7 @@ class CustomThemeData {
           style: ElevatedButton.styleFrom(
             backgroundColor: lightColorScheme.primary,
             foregroundColor: lightColorScheme.onPrimary,
-            padding: const EdgeInsets.only(left: 20, right: 20),
+            // padding: const EdgeInsets.only(left: 20, right: 20),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25.0)
             ),
@@ -40,7 +40,7 @@ class CustomThemeData {
           side: BorderSide(
             color: lightColorScheme.primary,
           ),
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          // padding: const EdgeInsets.only(left: 20, right: 20),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(97.0)
           ),

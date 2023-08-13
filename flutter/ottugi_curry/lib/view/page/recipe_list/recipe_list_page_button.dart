@@ -22,7 +22,7 @@ class RecipeListPageButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         backgroundColor: isButtonClicked ? themecolor : Colors.white,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             side: BorderSide(color: themecolor, width: 1)),
       ),
       child: Text(

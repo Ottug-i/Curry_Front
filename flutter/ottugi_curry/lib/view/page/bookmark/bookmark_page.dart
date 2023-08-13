@@ -8,6 +8,7 @@ class BookmarkPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const DefaultLayoutWidget(
+      backToMain: true,
         appBarTitle: '북마크 레시피', body: BookmrkListPage());
   }
 }

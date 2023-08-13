@@ -39,6 +39,9 @@ class RecipeDetailController {
   Rx<FlutterTts> tts = FlutterTts().obs;
   RxString ttsStatus = Config.stopped.obs;
 
+  // 이전 페이지 루트 저장
+  RxString previousRoute = ''.obs;
+
   Future<void> loadRecipeDetail(int recipeId) async {
     try {
       Dio dio = Dio();
