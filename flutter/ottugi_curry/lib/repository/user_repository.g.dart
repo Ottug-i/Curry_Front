@@ -13,7 +13,7 @@ class _UserRepository implements UserRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.0.114:8080';
+    baseUrl ??= 'http://192.168.0.51:8080';
   }
 
   final Dio _dio;
@@ -34,7 +34,7 @@ class _UserRepository implements UserRepository {
     )
             .compose(
               _dio.options,
-              '/api/user/getProfile',
+              '/api/user',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -58,7 +58,7 @@ class _UserRepository implements UserRepository {
     )
             .compose(
               _dio.options,
-              '/api/user/setProfile',
+              '/api/user',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -80,36 +80,12 @@ class _UserRepository implements UserRepository {
     )
         .compose(
           _dio.options,
-          '/api/user/setWithdraw',
+          '/api/user/withdraw',
           queryParameters: queryParameters,
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data!;
-    return value;
-  }
-
-  @override
-  Future<UserResponse> saveLogin(UserResponse user) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(user.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<UserResponse>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/auth/login',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UserResponse.fromJson(_result.data!);
     return value;
   }
 

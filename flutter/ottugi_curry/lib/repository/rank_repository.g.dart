@@ -13,7 +13,7 @@ class _RankRepository implements RankRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.0.114:8080';
+    baseUrl ??= 'http://192.168.219.103:8080';
   }
 
   final Dio _dio;
@@ -34,7 +34,7 @@ class _RankRepository implements RankRepository {
     )
             .compose(
               _dio.options,
-              '/api/rank/getRankList',
+              '/api/rank/list',
               queryParameters: queryParameters,
               data: _data,
             )

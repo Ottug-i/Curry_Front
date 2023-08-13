@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
+import 'package:ottugi_curry/model/ingredient_request.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/recipe_list_page_response.dart';
-import 'package:ottugi_curry/repository/recipe_repository.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
+import 'package:ottugi_curry/repository/recommend_repository.dart';
 
 class RecipeListController extends GetxController {
   Rx<RecipeListPageResponse> response = RecipeListPageResponse().obs;
@@ -27,7 +28,7 @@ class RecipeListController extends GetxController {
   void changeIngredients() {
     selectedIngredient.clear();
     // 재료 확인 페이지 & 모달창에서 사용
-    for (var item in ingredientList.value) {
+    for (var item in ingredientList) {
       if (item["isChecked"] == true) {
         selectedIngredient.add(item["name"]);
       }
@@ -39,15 +40,15 @@ class RecipeListController extends GetxController {
     currentPage.value = page;
 
     try {
-      final RecipeRepository recipeRepository = RecipeRepository(Dio());
+      final RecommendRepository recommendRepository = RecommendRepository(Dio());
 
-      Map<String, dynamic> request = {
-        "userId": userId,
-        "ingredients": selectedIngredient,
-        "page": page,
-        "size": 10
-      };
-      final menuData = await recipeRepository.getMenuList(request);
+      IngredientRequest ingredientRequest = IngredientRequest(
+        ingredients: selectedIngredient,
+        page: page,
+        size: 10,
+        userId: userId,
+      );
+      final menuData = await recommendRepository.postRecommendIngredientsList(ingredientRequest);
       MenuModelList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData.content!) {
@@ -95,7 +96,7 @@ class RecipeListController extends GetxController {
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
-      await bookmrkRepository.updateBookmark(bookmrkItem);
+      await bookmrkRepository.postBookmark(bookmrkItem);
       await fetchData(userId, currentPage.value); // 재로딩
     } catch (error) {
       // 에러 처리

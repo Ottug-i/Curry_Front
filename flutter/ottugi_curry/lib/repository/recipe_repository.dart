@@ -6,19 +6,17 @@ import 'package:dio/dio.dart';
 
 part 'recipe_repository.g.dart';
 
-@RestApi(baseUrl: "http://192.168.0.114:8080")
+@RestApi(baseUrl: "http://192.168.219.103:8080")
 abstract class RecipeRepository {
   factory RecipeRepository(Dio dio, {String baseUrl}) = _RecipeRepository;
 
-  @GET('/api/recipe/getRecipeDetail')
+  // 레시피 상세
+  @GET('/api/recipe')
   Future<RecipeDetailResponse> getRecipeDetail(
       @Query("recipeId") int recipeId, @Query("userId") int userId);
 
-  // 전체 결과
-  @POST('/api/recipe/getRecipeList')
-  Future<RecipeListPageResponse> getMenuList(@Body() requestJson);
-
-  @GET('/api/recipe/searchByBox')
-  Future<RecipeListPageResponse> searchByBox(
+  // 레시피 검색 (이름, 옵션)
+  @GET('/api/recipe/search')
+  Future<RecipeListPageResponse> getSearch(
       @Queries() SearchQueries searchQueries);
 }

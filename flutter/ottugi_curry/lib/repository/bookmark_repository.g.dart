@@ -13,7 +13,7 @@ class _BookmarkRepository implements BookmarkRepository {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.0.114:8080';
+    baseUrl ??= 'http://192.168.219.103:8080';
   }
 
   final Dio _dio;
@@ -21,7 +21,7 @@ class _BookmarkRepository implements BookmarkRepository {
   String? baseUrl;
 
   @override
-  Future<bool> updateBookmark(Bookmark param) async {
+  Future<bool> postBookmark(Bookmark param) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -34,7 +34,7 @@ class _BookmarkRepository implements BookmarkRepository {
     )
         .compose(
           _dio.options,
-          '/api/bookmark/addAndRemoveBookmark',
+          '/api/bookmark',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -66,7 +66,7 @@ class _BookmarkRepository implements BookmarkRepository {
     )
             .compose(
               _dio.options,
-              '/api/bookmark/getBookmarkAll',
+              '/api/bookmark/list',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -76,20 +76,10 @@ class _BookmarkRepository implements BookmarkRepository {
   }
 
   @override
-  Future<RecipeListPageResponse> searchByName(
-    int? page,
-    int? size,
-    int id,
-    String name,
-  ) async {
+  Future<RecipeListPageResponse> getSearch(SearchQueries searchQueries) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'page': page,
-      r'size': size,
-      r'userId': id,
-      r'name': name,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(searchQueries.toJson());
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -100,45 +90,7 @@ class _BookmarkRepository implements BookmarkRepository {
     )
             .compose(
               _dio.options,
-              '/api/bookmark/searchByName',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = RecipeListPageResponse.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<RecipeListPageResponse> searchByOption(
-    int? page,
-    int? size,
-    int id,
-    String? composition,
-    String? difficulty,
-    String? time,
-  ) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'page': page,
-      r'size': size,
-      r'userId': id,
-      r'composition': composition,
-      r'difficulty': difficulty,
-      r'time': time,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<RecipeListPageResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/api/bookmark/searchByOption',
+              '/api/bookmark/search',
               queryParameters: queryParameters,
               data: _data,
             )

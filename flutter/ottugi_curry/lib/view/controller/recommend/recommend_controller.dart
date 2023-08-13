@@ -24,7 +24,7 @@ class RecommendController {
     try {
       Dio dio = Dio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
-      final resp = await recommendRepository.getBookmark(page ?? 1, recipeId, 1);
+      final resp = await recommendRepository.getRecommendBookmarkList(page ?? 1, recipeId, 1);
       bookmarkRecList.value = resp;
       print('print bookmarkRecListFirstName: ${bookmarkRecList.first.name}');
 
@@ -66,7 +66,7 @@ class RecommendController {
     try {
       Dio dio = Dio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
-      final resp = await recommendRepository.getRating(page ?? 1, bookmarkList, 1);
+      final resp = await recommendRepository.getRecommendRatingList(page ?? 1, bookmarkList, 1);
       ratingRecList.value = resp;
 
     } on DioException catch (e) {
@@ -82,7 +82,7 @@ class RecommendController {
       Dio dio = Dio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
 
-      RatingResponse? resp= await recommendRepository.getUserRating(recipeId, 1);
+      RatingResponse? resp= await recommendRepository.getRecommendRating(recipeId, 1);
       if (resp == null) { // 평점 매기지 않았으면 0.0으로 초기화
         ratingResponse.value = RatingResponse(rating: 0.0, recipeId: recipeId, userId: 1);
       } else {
@@ -106,7 +106,7 @@ class RecommendController {
         new_user_ratings_dic: additionalPropMap,
         user_id: 1
       );
-      bool resp = await recommendRepository.postUserRating(ratingRequest);
+      bool resp = await recommendRepository.postRecommendRating(ratingRequest);
       // resp == true: 업데이트 성공
       return resp;
 
@@ -120,7 +120,7 @@ class RecommendController {
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
-      await bookmrkRepository.updateBookmark(bookmrkItem);
+      await bookmrkRepository.postBookmark(bookmrkItem);
 
       await Get.find<RecommendController>().getBookmarkList(1);
     } catch (error) {
