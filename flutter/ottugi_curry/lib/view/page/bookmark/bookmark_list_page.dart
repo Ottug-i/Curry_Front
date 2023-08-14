@@ -6,7 +6,7 @@ import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
-import 'package:ottugi_curry/view/page/recipe_list/categories_widget.dart';
+import 'package:ottugi_curry/view/page/bookmark/bookmark_categories.dart';
 
 class BookmrkListPage extends StatefulWidget {
   final String mode;
@@ -20,7 +20,6 @@ class BookmrkListPage extends StatefulWidget {
 class BookmrkListPageState extends State<BookmrkListPage> {
   final bListController = Get.put(BookmarkListController());
   final textController = TextEditingController();
-  final NumberPaginatorController pageController = NumberPaginatorController();
 
   Future<void> _initMenuList() async {
     await Get.find<BookmarkListController>().fetchData(1, 1);
@@ -48,10 +47,8 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                       child: TextField(
                         controller: textController,
                         onSubmitted: (String text) {
-                          // 입력된 텍스트에 접근하여 원하는 작업 수행
-                          print('입력된 텍스트: $text');
-                          // bListController를 통해 데이터 업데이트 등의 작업 수행
-                          bListController.searchData(1, text); //userId, text
+                          bListController.searchText.value = text; // 텍스트 검색
+                          bListController.search(1); // 옵션 검색
                         },
                         decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.search),
@@ -68,7 +65,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // 카테고리 위젯
-                    const CategoriesWidget(),
+                    const BookmarkCategories(),
                     // 아이템 위젯
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -90,7 +87,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
     final recommendController = Get.find<RecommendController>();
 
     // menuList null 여부 If문 변경 - 기존처럼 하면 Null 일 경우 에러 화면이 나타남
-    return menuList != null
+    return menuList!.isNotEmpty
         ? Column(
             children: [
               // 아이템 그리는 부분
@@ -256,10 +253,12 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () {
-                          recommendController.isSelected[i] = !recommendController.isSelected[i];
+                          recommendController.isSelected[i] =
+                              !recommendController.isSelected[i];
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
                           margin: const EdgeInsets.only(
                               left: 20, right: 20, bottom: 8),
                           decoration: BoxDecoration(
@@ -286,34 +285,39 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                 ],
                               ),
                               Obx(
-                                ()=> recommendController.isSelected[i] == true
+                                () => recommendController.isSelected[i] == true
                                     ? FutureBuilder(
-                                    future: _initBookmarkRec(menuItem.recipeId),
-                                    builder: (context, snap) {
-                                        if (snap.connectionState !=
-                                            ConnectionState.done) {
-                                          return const Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }
+                                        future:
+                                            _initBookmarkRec(menuItem.recipeId),
+                                        builder: (context, snap) {
+                                          if (snap.connectionState !=
+                                              ConnectionState.done) {
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          }
 
-                                        return SizedBox(
-                                          height: 160,
-                                          child: ListView.builder(
-                                              padding: const EdgeInsets.only(
-                                                  top: 15, bottom: 10),
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: recommendController
-                                                  .bookmarkRecList.length,
-                                              itemBuilder:
-                                                  (BuildContext context, int idx) {
-                                                return bookmarkRecCardWidget(
-                                                recommendController.bookmarkRecList
-                                                [idx]);
-                                              })
-                                        );
-                                      })
+                                          return SizedBox(
+                                              height: 160,
+                                              child: ListView.builder(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 15, bottom: 10),
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount: recommendController
+                                                      .bookmarkRecList.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int idx) {
+                                                    return bookmarkRecCardWidget(
+                                                        recommendController
+                                                                .bookmarkRecList[
+                                                            idx]);
+                                                  }));
+                                        })
                                     : const SizedBox(),
                               )
                             ],
@@ -328,23 +332,27 @@ class BookmrkListPageState extends State<BookmrkListPage> {
               Padding(
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, top: 5, bottom: 10),
-                  child: NumberPaginator(
-                    numberPages: bListController.response.value.totalPages!,
-                    controller: pageController,
-                    onPageChange: (int index) {
-                      bListController.fetchData(1, index + 1);
-                    },
-                    initialPage: 0,
-                    config: NumberPaginatorUIConfig(
-                      buttonSelectedForegroundColor: Colors.black,
-                      buttonUnselectedForegroundColor: Colors.grey,
-                      buttonSelectedBackgroundColor: lightColorScheme.primary,
-                    ),
-                  )),
+                  child: Obx(() => NumberPaginator(
+                        numberPages: bListController.response.value.totalPages!,
+                        controller: bListController.pageController.value,
+                        onPageChange: (int index) {
+                          bListController.fetchData(1, index + 1);
+                        },
+                        initialPage: 0,
+                        config: NumberPaginatorUIConfig(
+                          buttonSelectedForegroundColor: Colors.black,
+                          buttonUnselectedForegroundColor: Colors.grey,
+                          buttonSelectedBackgroundColor:
+                              lightColorScheme.primary,
+                        ),
+                      ))),
             ],
           )
         : const Center(
-            child: Text('추천 레시피를 찾지 못했습니다.'),
+            child: Padding(
+              padding: EdgeInsets.only(top: 30.0),
+              child: Text('추천 레시피를 찾지 못했습니다.'),
+            ),
           );
   }
 
@@ -356,16 +364,12 @@ class BookmrkListPageState extends State<BookmrkListPage> {
   InkWell bookmarkRecCardWidget(RecipeResponse recipeResponse) {
     return InkWell(
       onTap: () {
-        Get.toNamed('/recipe_detail',
-            arguments:
-            recipeResponse.recipeId);
+        Get.toNamed('/recipe_detail', arguments: recipeResponse.recipeId);
       },
       child: Container(
-        margin:
-            const EdgeInsets.only(right: 15),
+        margin: const EdgeInsets.only(right: 15),
         decoration: BoxDecoration(
-            borderRadius:
-                BorderRadius.circular(25.0),
+            borderRadius: BorderRadius.circular(25.0),
             // border: Border.all(
             //   color: lightColorScheme.primary,
             //   width: 2,
@@ -375,14 +379,9 @@ class BookmrkListPageState extends State<BookmrkListPage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  top: 15.0,
-                  left: 15,
-                  right: 15,
-                  bottom: 10),
+                  top: 15.0, left: 15, right: 15, bottom: 10),
               child: ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(
-                        25.0),
+                borderRadius: BorderRadius.circular(25.0),
                 child: Image.network(
                   '${recipeResponse.thumbnail}',
                   fit: BoxFit.fill,
@@ -392,17 +391,14 @@ class BookmrkListPageState extends State<BookmrkListPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10),
               child: Container(
-                constraints:
-                    const BoxConstraints(
+                constraints: const BoxConstraints(
                   maxWidth: 100,
                 ),
                 child: Text(
                   '${recipeResponse.name}',
-                  overflow:
-                      TextOverflow.ellipsis,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),

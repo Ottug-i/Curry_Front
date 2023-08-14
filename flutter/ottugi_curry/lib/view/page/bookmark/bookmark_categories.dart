@@ -5,19 +5,18 @@ import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/view/page/recipe_list/recipe_list_page_button.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
 
-class CategoriesWidget extends StatefulWidget {
-  const CategoriesWidget({super.key});
+class BookmarkCategories extends StatefulWidget {
+  const BookmarkCategories({super.key});
 
   @override
-  CategoriesWidgetState createState() => CategoriesWidgetState();
+  BookmarkCategoriesState createState() => BookmarkCategoriesState();
 }
 
-class CategoriesWidgetState extends State<CategoriesWidget> {
-  //final controller = Get.put(RecipeListController());
+class BookmarkCategoriesState extends State<BookmarkCategories> {
   final controller = Get.put(BookmarkListController());
-  //late String categories = controller.selectedCategory.value;
 
   void updateCategory(value) {
+    // 화면 UI 업데이트 위해서
     if (controller.selectedCategory.value == value) {
       controller.updateCategory('');
     } else {
@@ -79,12 +78,12 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                             Obx(() => RecipeListPageButton(
                                   text: itemT,
                                   isButtonClicked:
-                                      controller.time.value == itemT,
+                                      controller.searchTime.value == itemT,
                                   themecolor: lightColorScheme.secondary,
                                   onPressed: () {
                                     controller.toggleValue(
-                                        controller.time, itemT);
-                                    controller.searchByOption(1);
+                                        controller.searchTime, itemT);
+                                    controller.search(1);
                                   },
                                 )),
                           const SizedBox(width: 10)
@@ -103,12 +102,12 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                           Obx(() => RecipeListPageButton(
                                 text: itemL,
                                 isButtonClicked:
-                                    controller.difficulty.value == itemL,
+                                    controller.searchDifficulty.value == itemL,
                                 themecolor: lightColorScheme.secondary,
                                 onPressed: () {
                                   controller.toggleValue(
-                                      controller.difficulty, itemL);
-                                  controller.searchByOption(1);
+                                      controller.searchDifficulty, itemL);
+                                  controller.search(1);
                                 },
                               )),
                         const SizedBox(width: 10)
@@ -126,12 +125,12 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
                           Obx(() => RecipeListPageButton(
                                 text: itmeC,
                                 isButtonClicked:
-                                    controller.composition.value == itmeC,
+                                    controller.searchComposition.value == itmeC,
                                 themecolor: lightColorScheme.secondary,
                                 onPressed: () {
                                   controller.toggleValue(
-                                      controller.composition, itmeC);
-                                  controller.searchByOption(1);
+                                      controller.searchComposition, itmeC);
+                                  controller.search(1);
                                 },
                               )),
                         const SizedBox(width: 10)
