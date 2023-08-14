@@ -8,15 +8,14 @@ class ListItemWidget extends StatelessWidget {
   final RecipeResponse menuItem;
   final controller;
 
-  const ListItemWidget({required this.menuItem, this.controller, Key? key}) : super(key: key);
+  const ListItemWidget({required this.menuItem, this.controller, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
-        Get.toNamed('/recipe_detail',
-            arguments: menuItem.recipeId);
+        Get.toNamed('/recipe_detail', arguments: menuItem.recipeId);
       },
       child: Container(
           padding: const EdgeInsets.all(20),
@@ -84,9 +83,7 @@ class ListItemWidget extends StatelessWidget {
                               color: lightColorScheme.primary,
                               onPressed: () {
                                 // 공통 위젯을 위한 컨트롤러 변수 사용
-                                controller.postBookmark(
-                                  1, menuItem.recipeId
-                                );
+                                controller.updateBookmark(1, menuItem.recipeId);
                               },
                             ),
                           )

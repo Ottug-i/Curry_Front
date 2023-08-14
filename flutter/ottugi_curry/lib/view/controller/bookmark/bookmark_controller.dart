@@ -1,26 +1,44 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
+import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/recipe_list_page_response.dart';
+import 'package:ottugi_curry/model/search_queries.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
 
 class BookmarkListController extends GetxController {
-  Rx<RecipeListPageResponse> response = RecipeListPageResponse().obs;
-  RxList<RecipeResponse> BoomrkList = <RecipeResponse>[].obs;
+//  Rx<RecipeListPageResponse> response = RecipeListPageResponse().obs;
+
+  Rx<NumberPaginatorController> pageController =
+      NumberPaginatorController().obs;
+
+  Rx<RecipeListPageResponse> response = RecipeListPageResponse(
+    content: <RecipeResponse>[],
+    totalPages: 0,
+    totalElements: 0,
+    last: false,
+    first: false,
+    numberOfElements: 0,
+    size: 0,
+    number: 0,
+    empty: false,
+  ).obs;
 
   RxBool isBookmark = false.obs;
 
   Rx<String> selectedCategory = ''.obs;
   Rx<String> selectedCategoryValue = ''.obs;
 
-  Rx<String> composition = ''.obs;
-  Rx<String> difficulty = ''.obs;
-  Rx<String> time = ''.obs;
+  RxString searchText = ''.obs;
 
-  RxInt currentPage = 1.obs; // 북마크 업데이트 시 reload를 위해 필요함
+  Rx<String> searchComposition = ''.obs;
+  Rx<String> searchDifficulty = ''.obs;
+  Rx<String> searchTime = ''.obs;
+
+  // RxInt currentPage = 1.obs; // 북마크 업데이트 시 reload를 위해 필요함
 
   @override
   void onClose() {
@@ -28,53 +46,26 @@ class BookmarkListController extends GetxController {
     super.onClose();
   }
 
-  void saveResponse(menuData) {
-    for (var menu in menuData.content!) {
-      // ingredients 문자열 정리 -> It₩em Widget에서 바꾸기로 변경
-      // final ingredientsValue = extractOnlyContent(menu.ingredients!);
-
-      // MenuModel의 나머지 속성들은 그대로 유지
-      var updatedMenu = RecipeResponse(
-        recipeId: menu.recipeId,
-        name: menu.name,
-        thumbnail: menu.thumbnail,
-        time: menu.time,
-        difficulty: menu.difficulty,
-        composition: menu.composition,
-        ingredients: menu.ingredients,
-        isBookmark: menu.isBookmark,
-      );
-
-      BoomrkList.add(updatedMenu);
-
-      // 디버깅용 코드
-      // var jsonString = updatedMenu.toJson().toString();
-      // print(jsonString);
+  Future<void> loadData({required int userId, required int page}) async {
+    if (searchComposition.isNotEmpty ||
+        searchDifficulty.isNotEmpty ||
+        searchTime.isNotEmpty ||
+        (searchText.value != '')) {
+      // 검색 조건이 하나라도 있다면
+      searchData(userId: userId, page: page);
     }
-    response.value.content = BoomrkList;
-    response.value.totalPages = menuData.totalPages;
-    response.value.totalElements = menuData.totalElements;
-    response.value.size = menuData.size;
-    response.value.number = menuData.number;
-    response.value.last = menuData.last;
-    response.value.first = menuData.first;
-    response.value.empty = menuData.empty;
-    response.value.numberOfElements = menuData.numberOfElements;
-  }
 
-  Future<void> fetchData(int userId, int page) async {
-    // 클릭 시 마다 현재 위치를 저장해두어야 북마크 업데이트 시 페이지 안 변함
-    currentPage.value = page;
+    // 클릭 시 마다 현재 위치를 저장해두어야
+    // 북마크 업데이트 시 페이지 안 변함
+    //currentPage.value = page;
+    pageController.value.currentPage = page;
+    pageController.refresh();
 
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final menuData =
           await bookmrkRepository.getBookmark(page, Config.elementNum, userId);
-      BoomrkList.clear(); // 기존 데이터를 지우고 시작
-      response.value = RecipeListPageResponse();
-
-      saveResponse(menuData);
-
+      response.value = menuData;
 
       // 북마크 추천 토글 상태를 저장하는 리스트 초기화
       Get.find<RecommendController>().isSelected.clear();
@@ -95,18 +86,29 @@ class BookmarkListController extends GetxController {
     update(); // rebuild 하게 함
   }
 
-  void updateCategoryValue(String newvalue) {
-    selectedCategoryValue.value = newvalue;
-    update();
+  void toggleValue(target, newvalue) {
+    print("toggle");
+    // target은 변수, newValue는 변수값인 셈.
+    if (target.value == newvalue) {
+      target.value = ''; // 해제
+    } else {
+      target.value = newvalue; // 새로운 값
+    }
+    update(); // 변수 값이 바뀔 때마다 화면 UI도 업데이트
   }
 
-  void toggleValue(target, newvalue) {
-    if (target.value == newvalue) {
-      target.value = '';
-    } else {
-      target.value = newvalue;
+  Future<void> updateBookmark(int userId, int recipeId) async {
+    try {
+      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
+      final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
+      await bookmrkRepository.postBookmark(bookmrkItem);
+
+      await loadData(
+          userId: userId, page: pageController.value.currentPage); // 재로딩
+    } catch (error) {
+      // 에러 처리
+      print('Error updating bookmark: $error');
     }
-    update();
   }
 
   void deleteBookmark(int userId, int recipeId) async {
@@ -114,11 +116,12 @@ class BookmarkListController extends GetxController {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
       await bookmrkRepository.postBookmark(bookmrkItem);
-      int page = currentPage.value;
+      // 북마크 페이지에서 바꿀 때는 요소 갯수가 달라져 페이지에 영향이 있을 수 있음
+      int newpage = pageController.value.currentPage;
       if (isPageChange()) {
-        page -= 1;
+        newpage -= 1;
       }
-      await fetchData(userId, page); // 재로딩
+      await loadData(userId: userId, page: newpage); // 재로딩
     } catch (error) {
       // 에러 처리
       print('Error updating bookmark: $error');
@@ -135,46 +138,32 @@ class BookmarkListController extends GetxController {
     }
   }
 
-  Future<void> searchData(int userId, String text) async {
-    try {
-      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-      // final menuData = await bookmrkRepository.searchByName(
-      //     1, Config.elementNum, userId, text);
-      // BoomrkList.clear(); // 기존 데이터를 지우고 시작
-      // response.value = RecipeListPageResponse();
-      //
-      // saveResponse(menuData);
-      // response.refresh();
-      update();
-    } catch (error) {
-      // 에러 처리
-      print('Error updating bookmark: $error');
-    }
-  }
+  Future<void> searchData({required int userId, required int page}) async {
+    pageController.value.currentPage = page;
 
-  Future<void> searchByOption(int userId) async {
-    print("serachByOption 실행 - $composition, $time, $difficulty");
+    print(
+        'comp: ${searchComposition.value}, diff: ${searchDifficulty.value}, time: ${searchTime.value}, text: ${searchText.value}');
+
     try {
-      // final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-      //
-      // final menuData = await bookmrkRepository.searchByOption(
-      //     1,
-      //     Config.elementNum,
-      //     userId,
-      //     composition.value,
-      //     difficulty.value,
-      //     time.value);
-      // // 요청 URL 출력
-      // //print('요청 URL: ${bookmrkRepository.options.path}');
-      // //print(menuData.empty);
-      // BoomrkList.clear(); // 기존 데이터를 지우고 시작
-      //
-      // saveResponse(menuData);
-      // response.refresh();
-      // update();
-    } catch (error) {
-      // 에러 처리
-      print('Error updating bookmark: $error');
+      Dio dio = Dio();
+      BookmarkRepository bookmrkRepository = BookmarkRepository(dio);
+
+      SearchQueries searchQueries = SearchQueries(
+          userId: userId,
+          name: searchText.value,
+          composition: searchComposition.value,
+          difficulty: searchDifficulty.value,
+          time: searchTime.value,
+          page: page,
+          size: Config.elementNum);
+      final menuData = await bookmrkRepository.getSearch(searchQueries);
+      print(menuData.content);
+      response.value = menuData;
+      response.refresh();
+      update();
+    } on DioException catch (e) {
+      print('Error updating bookmark: $e');
+      return;
     }
   }
 }
