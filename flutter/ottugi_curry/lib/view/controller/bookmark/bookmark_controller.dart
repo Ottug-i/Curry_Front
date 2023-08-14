@@ -38,7 +38,7 @@ class BookmarkListController extends GetxController {
   Rx<String> searchDifficulty = ''.obs;
   Rx<String> searchTime = ''.obs;
 
-  RxInt currentPage = 1.obs; // 북마크 업데이트 시 reload를 위해 필요함
+  // RxInt currentPage = 1.obs; // 북마크 업데이트 시 reload를 위해 필요함
 
   @override
   void onClose() {
@@ -46,19 +46,25 @@ class BookmarkListController extends GetxController {
     super.onClose();
   }
 
-  Future<void> fetchData(int userId, int page) async {
+  Future<void> loadData({required int userId, required int page}) async {
+    if (searchComposition.isNotEmpty ||
+        searchDifficulty.isNotEmpty ||
+        searchTime.isNotEmpty ||
+        (searchText.value != '')) {
+      // 검색 조건이 하나라도 있다면
+      searchData(userId: userId, page: page);
+    }
+
     // 클릭 시 마다 현재 위치를 저장해두어야
     // 북마크 업데이트 시 페이지 안 변함
-    currentPage.value = page;
+    //currentPage.value = page;
+    pageController.value.currentPage = page;
+    pageController.refresh();
 
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final menuData =
           await bookmrkRepository.getBookmark(page, Config.elementNum, userId);
-      // response.value.clear(); // 기존 데이터를 지우고 시작
-      //response.value = RecipeListPageResponse();
-      //saveResponse(menuData);
-
       response.value = menuData;
 
       // 북마크 추천 토글 상태를 저장하는 리스트 초기화
@@ -96,11 +102,11 @@ class BookmarkListController extends GetxController {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
       await bookmrkRepository.postBookmark(bookmrkItem);
-      int page = currentPage.value;
+      int newpage = pageController.value.currentPage;
       if (isPageChange()) {
-        page -= 1;
+        newpage -= 1;
       }
-      await fetchData(userId, page); // 재로딩
+      await loadData(userId: userId, page: newpage); // 재로딩
     } catch (error) {
       // 에러 처리
       print('Error updating bookmark: $error');
@@ -117,7 +123,9 @@ class BookmarkListController extends GetxController {
     }
   }
 
-  Future<void> search(int userId) async {
+  Future<void> searchData({required int userId, required int page}) async {
+    pageController.value.currentPage = page;
+
     print(
         'comp: ${searchComposition.value}, diff: ${searchDifficulty.value}, time: ${searchTime.value}, text: ${searchText.value}');
 
@@ -131,8 +139,8 @@ class BookmarkListController extends GetxController {
           composition: searchComposition.value,
           difficulty: searchDifficulty.value,
           time: searchTime.value,
-          page: 1,
-          size: 2);
+          page: page,
+          size: Config.elementNum);
       final menuData = await bookmrkRepository.getSearch(searchQueries);
       print(menuData.content);
       response.value = menuData;

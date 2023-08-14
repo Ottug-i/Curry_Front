@@ -20,9 +20,10 @@ class BookmrkListPage extends StatefulWidget {
 class BookmrkListPageState extends State<BookmrkListPage> {
   final bListController = Get.put(BookmarkListController());
   final textController = TextEditingController();
+  final NumberPaginatorController pageController = NumberPaginatorController();
 
   Future<void> _initMenuList() async {
-    await Get.find<BookmarkListController>().fetchData(1, 1);
+    await Get.find<BookmarkListController>().loadData(userId: 1, page: 1);
   }
 
   @override
@@ -48,7 +49,10 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                         controller: textController,
                         onSubmitted: (String text) {
                           bListController.searchText.value = text; // 텍스트 검색
-                          bListController.search(1); // 옵션 검색
+                          bListController.searchData(
+                              userId: 1,
+                              page: bListController
+                                  .pageController.value.currentPage); // 옵션 검색
                         },
                         decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.search),
@@ -332,20 +336,19 @@ class BookmrkListPageState extends State<BookmrkListPage> {
               Padding(
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, top: 5, bottom: 10),
-                  child: Obx(() => NumberPaginator(
-                        numberPages: bListController.response.value.totalPages!,
-                        controller: bListController.pageController.value,
-                        onPageChange: (int index) {
-                          bListController.fetchData(1, index + 1);
-                        },
-                        initialPage: 0,
-                        config: NumberPaginatorUIConfig(
-                          buttonSelectedForegroundColor: Colors.black,
-                          buttonUnselectedForegroundColor: Colors.grey,
-                          buttonSelectedBackgroundColor:
-                              lightColorScheme.primary,
-                        ),
-                      ))),
+                  child: NumberPaginator(
+                    numberPages: bListController.response.value.totalPages ?? 0,
+                    controller: pageController,
+                    onPageChange: (int index) {
+                      bListController.loadData(userId: 1, page: index + 1);
+                    },
+                    initialPage: 0,
+                    config: NumberPaginatorUIConfig(
+                      buttonSelectedForegroundColor: Colors.black,
+                      buttonUnselectedForegroundColor: Colors.grey,
+                      buttonSelectedBackgroundColor: lightColorScheme.primary,
+                    ),
+                  )),
             ],
           )
         : const Center(

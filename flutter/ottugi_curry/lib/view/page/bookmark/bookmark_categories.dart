@@ -83,7 +83,10 @@ class BookmarkCategoriesState extends State<BookmarkCategories> {
                                   onPressed: () {
                                     controller.toggleValue(
                                         controller.searchTime, itemT);
-                                    controller.search(1);
+                                    controller.searchData(
+                                        userId: 1,
+                                        page: controller
+                                            .pageController.value.currentPage);
                                   },
                                 )),
                           const SizedBox(width: 10)
@@ -107,7 +110,10 @@ class BookmarkCategoriesState extends State<BookmarkCategories> {
                                 onPressed: () {
                                   controller.toggleValue(
                                       controller.searchDifficulty, itemL);
-                                  controller.search(1);
+                                  controller.searchData(
+                                      userId: 1,
+                                      page: controller
+                                          .pageController.value.currentPage);
                                 },
                               )),
                         const SizedBox(width: 10)
@@ -130,7 +136,10 @@ class BookmarkCategoriesState extends State<BookmarkCategories> {
                                 onPressed: () {
                                   controller.toggleValue(
                                       controller.searchComposition, itmeC);
-                                  controller.search(1);
+                                  controller.searchData(
+                                      userId: 1,
+                                      page: controller
+                                          .pageController.value.currentPage);
                                 },
                               )),
                         const SizedBox(width: 10)
