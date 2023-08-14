@@ -97,11 +97,26 @@ class BookmarkListController extends GetxController {
     update(); // 변수 값이 바뀔 때마다 화면 UI도 업데이트
   }
 
+  Future<void> updateBookmark(int userId, int recipeId) async {
+    try {
+      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
+      final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
+      await bookmrkRepository.postBookmark(bookmrkItem);
+
+      await loadData(
+          userId: userId, page: pageController.value.currentPage); // 재로딩
+    } catch (error) {
+      // 에러 처리
+      print('Error updating bookmark: $error');
+    }
+  }
+
   void deleteBookmark(int userId, int recipeId) async {
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
       await bookmrkRepository.postBookmark(bookmrkItem);
+      // 북마크 페이지에서 바꿀 때는 요소 갯수가 달라져 페이지에 영향이 있을 수 있음
       int newpage = pageController.value.currentPage;
       if (isPageChange()) {
         newpage -= 1;
