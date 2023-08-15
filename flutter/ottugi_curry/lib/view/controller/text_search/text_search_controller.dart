@@ -50,7 +50,6 @@ class TextSearchController {
 
       // 응답 값 변수에 저장
       rankList.value = resp;
-      print('print rankListFirstName: ${rankList.first.name}');
     } on DioException catch (e) {
       print('loadRankList: $e');
       return;
@@ -115,9 +114,6 @@ class TextSearchController {
   }
 
   void handlePaging(int pageIndex) {
-    print('print TotalPages: ${recipeListPageResponse.value.totalPages}');
-    print('print pageIndex: ${pageIndex}');
-
     handleTextSearch(
         name: searchName.value,
         composition: searchComposition.value,
@@ -140,7 +136,6 @@ class TextSearchController {
     } else {
       selectedCategory.value = value;
     }
-    print('print SelectedCategoryValue: ${selectedCategory.value}');
   }
 
   void updateBookmark(int userId, int recipeId) async {

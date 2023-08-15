@@ -18,9 +18,9 @@ class RecommendController {
   RxList<bool> isSelected = <bool>[].obs;
   // 평점 -> 저장된 평점 말고 사용자가 조정하는 평점
   RxDouble rating = 0.0.obs;
-  RxDouble previousRating = 0.0.obs; // 평점 초기화를 위해 이전 평점 저장
 
-  Future<void> loadBookmarkRec({int? page, required int recipeId}) async { // 레시피 북마크 추천
+  // 북마크에 따른 레시피 추천
+  Future<void> loadBookmarkRec({int? page, required int recipeId}) async {
     try {
       Dio dio = Dio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
@@ -34,7 +34,8 @@ class RecommendController {
     }
   }
 
-  Future<void> getBookmarkList(int page) async { // 북마크한 레시피 아이디 가져오기
+  // 북마크한 레시피 아이디 가져오기 -> 레시피 평점에 따른 레시피 추천에 사용
+  Future<void> getBookmarkList(int page) async {
     int size = 50; // 반복을 적게 하기 위해 큰 size로 받아옴
     if (page == 1) { // 최초 검색시 초기화
       bookmarkIdSet.clear();
@@ -62,7 +63,8 @@ class RecommendController {
     }
   }
 
-  Future<void> loadRatingRec({required List<int> bookmarkList, int? page}) async { // 레시피 평점 추천
+  // 레시피 평점에 따른 레시피 추천
+  Future<void> loadRatingRec({required List<int> bookmarkList, int? page}) async {
     try {
       Dio dio = Dio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
@@ -75,7 +77,8 @@ class RecommendController {
     }
   }
 
-  Future<void> loadUserRating({required int recipeId}) async { // 레시피 평점 조회
+  // 레시피 평점 조회
+  Future<void> loadRating({required int recipeId}) async {
     rating.value = 0.0; // 초기화
 
     try {
@@ -91,12 +94,13 @@ class RecommendController {
 
       print('print userRatingValueRating: ${ratingResponse.value.rating}');
     } on DioException catch (e) {
-      print('loadUserRating error : $e');
+      print('loadRating error : $e');
       return;
     }
   }
 
-  Future<bool> updateUserRating({required Map additionalPropMap}) async { // 레시피 평점 추가
+  // 레시피 평점 추가/수정
+  Future<bool> updateRating({required Map additionalPropMap}) async { // 레시피 평점 추가
     try {
       print('print additionalPropList: ${additionalPropMap}');
       Dio dio = Dio();
@@ -111,7 +115,22 @@ class RecommendController {
       return resp;
 
     } on DioException catch (e) {
-      print('updateUserRating error : $e');
+      print('updateRating error : $e');
+      return false;
+    }
+  }
+
+  // 레시피 평점 삭제
+  Future<bool> deleteRating({required int recipeId}) async { // 레시피 평점 추가
+    try {
+      Dio dio = Dio();
+      RecommendRepository recommendRepository = RecommendRepository(dio);
+      bool resp = await recommendRepository.deleteRecommendRating(recipeId, 1);
+      // resp == true: 업데이트 성공
+      return resp;
+
+    } on DioException catch (e) {
+      print('deleteRating error : $e');
       return false;
     }
   }

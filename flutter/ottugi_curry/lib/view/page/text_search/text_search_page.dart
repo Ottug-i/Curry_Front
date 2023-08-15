@@ -121,9 +121,6 @@ class TextSearchPage extends StatelessWidget {
                                             controller: searchController
                                                 .pageController.value,
                                             onPageChange: (int index) {
-                                              print('print index: ${index}');
-                                              print(
-                                                  'print pageControllerCurrentPage: ${searchController.pageController.value.currentPage}');
                                               searchController
                                                   .handlePaging(index + 1);
                                             },

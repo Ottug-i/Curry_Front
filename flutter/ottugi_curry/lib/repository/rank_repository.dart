@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 part 'rank_repository.g.dart';
 
-@RestApi(baseUrl: "http://192.168.219.103:8080")
+@RestApi(baseUrl: "http://192.168.0.51:8080")
 abstract class RankRepository {
   factory RankRepository(Dio dio, {String baseUrl}) = _RankRepository;
 

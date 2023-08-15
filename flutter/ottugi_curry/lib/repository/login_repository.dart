@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 part 'login_repository.g.dart';
 
-@RestApi(baseUrl: "http://localhost:8080")
+@RestApi(baseUrl: "http://192.168.0.51:8080")
 abstract class LoginRepository {
   factory LoginRepository(Dio dio, {String baseUrl}) = _LoginRepository;
 
