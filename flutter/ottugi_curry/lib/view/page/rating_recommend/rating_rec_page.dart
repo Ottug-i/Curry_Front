@@ -42,9 +42,7 @@ class RatingRecPage extends StatelessWidget {
                           horizontal: 20, vertical: 10),
                       child: Text(
                           '${getUserNickname()} 님의 레시피 평점과 선호 장르를 분석하여 추천하는 레시피 입니다. ',
-                          // 멘트 수정하기
-                          style: TextStyle(
-                              fontSize: 13, color: Colors.grey.shade700)),
+                          style: Theme.of(context).textTheme.labelLarge),
                     ),
                     recommendController.ratingRecList.isNotEmpty
                         ? Obx(
@@ -147,7 +145,7 @@ class RatingRecPage extends StatelessWidget {
                             color: lightColorScheme.primary,
                             onPressed: () {
                               // 공통 위젯을 위한 컨트롤러 변수 사용
-                              controller.postBookmark(
+                              controller.updateBookmark(
                                   1, recipeResponse.recipeId);
                             },
                           )

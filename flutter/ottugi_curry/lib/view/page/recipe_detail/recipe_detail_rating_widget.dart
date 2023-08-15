@@ -12,10 +12,9 @@ class RecipeDetailRatingWidget extends StatelessWidget {
   Future _initUserRating() async {
     Get.put(RecommendController());
     final recommendController = Get.find<RecommendController>();
-    await recommendController.loadUserRating(recipeId: recipeId);
+    await recommendController.loadRating(recipeId: recipeId);
 
     recommendController.rating.value = recommendController.ratingResponse.value.rating!; // 저장된 평점 받아와서 초기화
-    recommendController.previousRating.value = 0.0; // 초기화
   }
 
   @override
@@ -82,11 +81,17 @@ class RecipeDetailRatingWidget extends StatelessWidget {
               const Padding(padding: EdgeInsets.only(right: 20)),
               ElevatedButton(
                   onPressed: () async {
-                    Map additionalProp = {
-                      '$recipeId' : recommendController.rating.value
-                    };
-                    bool isUpdated = await recommendController.updateUserRating(additionalPropMap: additionalProp);
-                    if (isUpdated) Get.back(); // 업데이트 성공 시 닫기
+                    // 평점 0점일 경우 평점 삭제
+                    if (recommendController.rating.value == 0.0) {
+                      bool isDeleted = await recommendController.deleteRating(recipeId: recipeId);
+                      if (isDeleted) Get.back(); // 업데이트 성공 시 닫기
+                    } else { // 그외 평점 추가/수정
+                      Map additionalProp = {
+                        '$recipeId' : recommendController.rating.value
+                      };
+                      bool isUpdated = await recommendController.updateRating(additionalPropMap: additionalProp);
+                      if (isUpdated) Get.back(); // 업데이트 성공 시 닫기
+                    }
                   },
                   child: const Text('완료')),
             ],
@@ -96,7 +101,7 @@ class RecipeDetailRatingWidget extends StatelessWidget {
     );
   }
 
-  Row ratingStarsRowWidget() {
+  Row ratingStarsRowWidget() { // 평점 매기는 별 아이콘 Row
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -107,23 +112,22 @@ class RecipeDetailRatingWidget extends StatelessWidget {
     );
   }
 
-  Widget ratingStarIconWidget({required double index}) {
+  Widget ratingStarIconWidget({required double index}) { // 각 별 아이콘 (0.5 기준으로 별의 반)
     Get.put(RecommendController());
     final recommendController = Get.find<RecommendController>();
 
     return InkWell(
       onTap: () {
         print(
-            '----print 이전 평점: ${recommendController.previousRating.value} -> 지금 선택한 평점 ${(index + 1) / 2}');
+            '----print 이전 평점: ${recommendController.rating.value} -> 지금 선택한 평점 ${(index + 1) / 2}');
 
         // 평점 초기화(0점): 이전 선택된 평점 다시 선택 했을 때
-        if ((recommendController.previousRating.value != 0.0) && (recommendController.previousRating.value == ((index+1) / 2))) {
+        if ((recommendController.rating.value != 0.0) && (recommendController.rating.value == ((index+1) / 2))) {
           print('print 평점 초기화');
           recommendController.rating.value = 0.0;
         } else { // 평점 변화
           print('print 평점 변화');
           recommendController.rating.value = (index + 1) / 2;
-          recommendController.previousRating.value = (index + 1) / 2;
         }
         print(
             'print 평점 저장 완료: ${recommendController.rating.value}----');

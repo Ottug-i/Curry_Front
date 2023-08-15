@@ -16,22 +16,9 @@ class LoginRatingPage extends StatelessWidget {
 
     // 평점 정보 저장하는 리스트 초기화
     loginRatingController.rating.clear();
-    loginRatingController.previousRating.clear();
 
-    List<double> initRating = [
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ];
+    List<double> initRating = [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ];
     loginRatingController.rating.value = initRating;
-    loginRatingController.previousRating.value = initRating;
   }
 
   @override
@@ -119,7 +106,7 @@ class LoginRatingPage extends StatelessWidget {
 
                             bool isUpdated =
                                 await Get.find<RecommendController>()
-                                    .updateUserRating(
+                                    .updateRating(
                                         additionalPropMap: additionalProp);
                             if (isUpdated) Get.back(); // 업데이트 성공 시 닫기
                           }
@@ -140,8 +127,8 @@ class LoginRatingPage extends StatelessWidget {
       context}) {
     return Container(
         padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.symmetric(
-          vertical: 8,
+        margin: const EdgeInsets.only(
+          top: 16,
         ),
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(24)),
@@ -215,11 +202,11 @@ class LoginRatingPage extends StatelessWidget {
     return InkWell(
       onTap: () {
         print(
-            '----print 이전 평점: ${loginRatingController.previousRating[listIndex]} -> 지금 선택한 평점 ${(starIndex + 1) / 2}');
+            '----print 이전 평점: ${loginRatingController.rating[listIndex]} -> 지금 선택한 평점 ${(starIndex + 1) / 2}');
 
         // 평점 초기화(0점): 이전 선택된 평점 다시 선택 했을 때
-        if ((loginRatingController.previousRating[listIndex] != 0.0) &&
-            (loginRatingController.previousRating[listIndex] ==
+        if ((loginRatingController.rating[listIndex] != 0.0) &&
+            (loginRatingController.rating[listIndex] ==
                 ((starIndex + 1) / 2))) {
           print('print 평점 초기화');
           loginRatingController.rating[listIndex] = 0.0;
@@ -227,8 +214,6 @@ class LoginRatingPage extends StatelessWidget {
           // 평점 변화
           print('print 평점 변화');
           loginRatingController.rating[listIndex] = ((starIndex + 1) / 2);
-          loginRatingController.previousRating[listIndex] =
-              ((starIndex + 1) / 2);
         }
         print('print 평점 저장 완료: ${loginRatingController.rating[listIndex]}----');
       },

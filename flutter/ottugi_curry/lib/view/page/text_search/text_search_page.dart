@@ -36,35 +36,37 @@ class TextSearchPage extends StatelessWidget {
               child: Column(
                 children: [
                   // 검색어 입력 창
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-                    child: TextField(
-                      controller: searchController.textEditingController.value,
-                      onSubmitted: (String text) {
-                        if (searchController
-                            .textEditingController.value.text.isNotEmpty) {
-                          searchController.handleTextSearch(
-                              name: text, page: 1);
-                        }
-                      },
-                      decoration: InputDecoration(
-                          prefixIcon: IconButton(
-                            icon: Icon(
-                              Icons.search,
-                              color: lightColorScheme.primary,
+                  Obx(
+                    ()=> Container(
+                      margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+                      child: TextField(
+                        controller: searchController.textEditingController.value,
+                        onSubmitted: (String text) {
+                          if (searchController
+                              .textEditingController.value.text.isNotEmpty) {
+                            searchController.handleTextSearch(
+                                name: text, page: 1);
+                          }
+                        },
+                        decoration: InputDecoration(
+                            prefixIcon: IconButton(
+                              icon: Icon(
+                                Icons.search,
+                                color: lightColorScheme.primary,
+                              ),
+                              onPressed: () {
+                                searchController
+                                    .textEditingController.value.text = '';
+                                searchController.searchName.value = '';
+                              },
                             ),
-                            onPressed: () {
-                              searchController
-                                  .textEditingController.value.text = '';
-                              searchController.searchName.value = '';
-                            },
-                          ),
-                          hintText: '레시피 이름을 입력하고 Enter를 눌러주세요.',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: const BorderSide(
-                                  color: Colors.black))), // InputDecoration
-                    ), // TextField
+                            hintText: '레시피 이름을 입력하고 Enter를 눌러주세요.',
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: const BorderSide(
+                                    color: Colors.black))), // InputDecoration
+                      ), // TextField
+                    ),
                   ),
 
                   // 옵션 위젯
@@ -121,9 +123,6 @@ class TextSearchPage extends StatelessWidget {
                                             controller: searchController
                                                 .pageController.value,
                                             onPageChange: (int index) {
-                                              print('print index: ${index}');
-                                              print(
-                                                  'print pageControllerCurrentPage: ${searchController.pageController.value.currentPage}');
                                               searchController
                                                   .handlePaging(index + 1);
                                             },

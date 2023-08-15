@@ -217,6 +217,7 @@ class RecipeDetailPage extends StatelessWidget {
                                     fit: BoxFit.fill,
                                     height: 238,
                                     width: 390,
+
                                   )
                                 : Image.asset(
                                     'assets/images/defaultImage3.png'),
