@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/view/page/recipe_list/recipe_list_page_button.dart';
-import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
+import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 
 class BookmarkCategories extends StatefulWidget {
   const BookmarkCategories({super.key});

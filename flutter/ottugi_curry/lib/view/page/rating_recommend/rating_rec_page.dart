@@ -147,7 +147,7 @@ class RatingRecPage extends StatelessWidget {
                             color: lightColorScheme.primary,
                             onPressed: () {
                               // 공통 위젯을 위한 컨트롤러 변수 사용
-                              controller.postBookmark(
+                              controller.updateBookmark(
                                   1, recipeResponse.recipeId);
                             },
                           )

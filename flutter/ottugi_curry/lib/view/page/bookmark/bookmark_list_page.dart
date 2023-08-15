@@ -4,7 +4,7 @@ import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
-import 'package:ottugi_curry/view/controller/bookmark/bookmark_controller.dart';
+import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
 import 'package:ottugi_curry/view/page/bookmark/bookmark_categories.dart';
 
@@ -373,10 +373,6 @@ class BookmrkListPageState extends State<BookmrkListPage> {
         margin: const EdgeInsets.only(right: 15),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25.0),
-            // border: Border.all(
-            //   color: lightColorScheme.primary,
-            //   width: 2,
-            // ),
             color: Colors.white),
         child: Column(
           children: [

@@ -2,14 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
-import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/rank_response.dart';
 import 'package:ottugi_curry/model/recipe_list_page_response.dart';
 import 'package:ottugi_curry/model/search_queries.dart';
-import 'package:ottugi_curry/repository/bookmark_repository.dart';
 import 'package:ottugi_curry/repository/rank_repository.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
+import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 
 class TextSearchController {
   RxList<RankResponse> rankList = <RankResponse>[].obs;
@@ -86,10 +85,6 @@ class TextSearchController {
       searchTime.value = time;
     }
 
-    print('print searchCompositionValue: ${searchComposition.value}');
-    print('print searchDifficultyValue: ${searchDifficulty.value}');
-    print('print searchTimeValue: ${searchTime.value}');
-
     try {
       Dio dio = Dio();
       RecipeRepository recipeRepository = RecipeRepository(dio);
@@ -105,10 +100,9 @@ class TextSearchController {
       final resp = await recipeRepository.getSearch(searchQueries);
       // 응답 값 변수에 저장
       recipeListPageResponse.value = resp;
-      print('print respContentLength: ${resp.totalElements!}');
 
     } on DioException catch (e) {
-      print('loadRankList: $e');
+      print('print handleTextSearch: $e');
       return;
     }
   }
@@ -138,17 +132,9 @@ class TextSearchController {
     }
   }
 
-  void updateBookmark(int userId, int recipeId) async {
-    try {
-      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-      final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
-      await bookmrkRepository.postBookmark(bookmrkItem);
-
-      handleTextSearch(name: searchName.value);
-      // await fetchData(userId, currentPage.value); // 재로딩
-    } catch (error) {
-      // 에러 처리
-      print('Error updating bookmark: $error');
-    }
+  Future<void> updateBookmark(int userId, int recipeId) async {
+    Get.put(BookmarkListController());
+    Get.find<BookmarkListController>().postBookmark(userId, recipeId);
+    await handleTextSearch(name: searchName.value);
   }
 }

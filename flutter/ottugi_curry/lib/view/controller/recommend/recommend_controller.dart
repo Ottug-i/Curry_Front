@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/rating_response.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/rating_request.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 import 'package:ottugi_curry/repository/recommend_repository.dart';
+import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 
 class RecommendController {
   RxList<RecipeResponse> bookmarkRecList = <RecipeResponse>[].obs;
@@ -26,7 +26,6 @@ class RecommendController {
       RecommendRepository recommendRepository = RecommendRepository(dio);
       final resp = await recommendRepository.getRecommendBookmarkList(page ?? 1, recipeId, 1);
       bookmarkRecList.value = resp;
-      print('print bookmarkRecListFirstName: ${bookmarkRecList.first.name}');
 
     } on DioException catch (e) {
       print('loadBookmarkRec error : $e');
@@ -135,16 +134,10 @@ class RecommendController {
     }
   }
 
-  void updateBookmark(int userId, int recipeId) async {
-    try {
-      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-      final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
-      await bookmrkRepository.postBookmark(bookmrkItem);
-
-      await Get.find<RecommendController>().getBookmarkList(1);
-    } catch (error) {
-      // 에러 처리
-      print('Error updating bookmark: $error');
-    }
+  Future<void> updateBookmark(int userId, int recipeId) async {
+    Get.put(BookmarkListController());
+    Get.find<BookmarkListController>().postBookmark(userId, recipeId);
+    // 추천 레시피 재로딩
+    await Get.find<RecommendController>().getBookmarkList(1);
   }
 }
