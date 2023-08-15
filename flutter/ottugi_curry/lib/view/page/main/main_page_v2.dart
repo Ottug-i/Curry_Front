@@ -130,9 +130,10 @@ class MainPageV2 extends StatelessWidget {
                           ],
                         ),
                         Image.asset(
-                          'assets/images/main_camera.png',
-                          width: 120,
+                          'assets/images/main_camera_22.png',
+                          width: 150,
                         ),
+                        const Padding(padding: EdgeInsets.only(right: 3)),
                       ],
                     ),
                   ),
@@ -195,9 +196,12 @@ class MainPageV2 extends StatelessWidget {
                           children: [
                             Text('레시피 검색',
                                 style: Theme.of(context).textTheme.titleMedium),
-                            Image.asset(
-                              'assets/images/main_search.png',
-                              height: 70,
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Image.asset(
+                                'assets/images/main_search.png',
+                                height: 70,
+                              ),
                             ),
                           ],
                         ),
