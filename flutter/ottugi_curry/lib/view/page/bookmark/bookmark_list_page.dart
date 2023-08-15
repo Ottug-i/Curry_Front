@@ -8,6 +8,8 @@ import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.d
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
 import 'package:ottugi_curry/view/page/bookmark/bookmark_categories.dart';
 
+import '../recipe_list/list_item_widget.dart';
+
 class BookmrkListPage extends StatefulWidget {
   final String mode;
 
@@ -223,24 +225,16 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                               ),
                                               // 세 번째 줄 (아이콘 - 시간, 난이도, 구성)
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   iconWithText(
-                                                      context,
-                                                      Icons.timer,
-                                                      '${menuItem.time}'),
-                                                  iconWithText(
-                                                      context,
-                                                      Icons.handshake_outlined,
+                                                      context, 'time', 30, '${menuItem.time}'),
+                                                  iconWithText(context, 'chef2', 30,
                                                       '${menuItem.difficulty}'),
-                                                  iconWithText(
-                                                      context,
-                                                      Icons.food_bank_rounded,
+                                                  iconWithText(context, 'meal', 33,
                                                       '${menuItem.composition}'),
                                                 ],
-                                              ),
+                                              )
                                             ],
                                           ),
                                         ),
@@ -271,6 +265,14 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                               bottomRight: Radius.circular(24),
                               bottomLeft: Radius.circular(24),
                             ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.7),
+                                spreadRadius: 0,
+                                blurRadius: 7.0,
+                                offset: const Offset(0, 5), // changes position of shadow
+                              ),
+                            ],
                           ),
                           child: Column(
                             children: [
@@ -404,19 +406,6 @@ class BookmrkListPageState extends State<BookmrkListPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Column iconWithText(BuildContext context, IconData icon, String text) {
-    return Column(
-      children: [
-        Icon(icon, size: 30),
-        Text(
-          text,
-          style: Theme.of(context).textTheme.bodySmall,
-          overflow: TextOverflow.ellipsis,
-        )
-      ],
     );
   }
 }

@@ -107,10 +107,10 @@ class ListItemWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           iconWithText(
-                              context, Icons.timer, '${menuItem.time}'),
-                          iconWithText(context, Icons.handshake_outlined,
+                              context, 'time', 30, '${menuItem.time}'),
+                          iconWithText(context, 'chef2', 30,
                               '${menuItem.difficulty}'),
-                          iconWithText(context, Icons.food_bank_rounded,
+                          iconWithText(context, 'meal', 33,
                               '${menuItem.composition}'),
                         ],
                       )
@@ -124,10 +124,15 @@ class ListItemWidget extends StatelessWidget {
   }
 }
 
-Column iconWithText(BuildContext context, IconData icon, String text) {
+Column iconWithText(BuildContext context, String icon, double size, String text) {
   return Column(
     children: [
-      Icon(icon, size: 30),
+      // Icon(icon, size: 30),
+      ImageIcon(
+        AssetImage('assets/icons/${icon}.png'),
+        size: size,
+      ),
+      const Padding(padding: EdgeInsets.only(bottom: 2)),
       Text(
         text,
         style: Theme.of(context).textTheme.bodySmall,
