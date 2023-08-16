@@ -73,28 +73,67 @@ class TakePicturePageState extends State<TakePicturePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Take a picture')),
-      // 카메라 미리보기를 displaying하기 전에 controller가 초기화 되기를 기다려야 함.
-      // controller 초기화가 끝나기 전까지 FutureBuilder를 사용해서 로딩 스피너를 띄운다.
-      body: FutureBuilder<void>(
-        future: _initializeControllerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // Future가 끝나면, 미리보기를 표시한다.
-            return CameraPreview(_controller);
-          } else {
-            // 그렇지 않으면, 로딩 인디케이터를 띄운다.
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          takePicture();
-        },
-        child: const Icon(Icons.camera_alt),
-      ),
+    return Center(
+      child: AspectRatio(
+          aspectRatio: MediaQuery.of(context).size.width /
+              MediaQuery.of(context).size.height,
+          child: Stack(children: [
+            FutureBuilder<void>(
+              // 카메라 미리보기를 displaying하기 전에 controller가 초기화 되기를 기다려야 함.
+              // controller 초기화가 끝나기 전까지 FutureBuilder를 사용해서 로딩 스피너를 띄운다.
+              future: _initializeControllerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  // Future가 끝나면, 미리보기를 표시한다.
+                  return Center(child: CameraPreview(_controller));
+                } else {
+                  // 그렇지 않으면, 로딩 인디케이터를 띄운다.
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                    padding: const EdgeInsets.only(bottom: 40),
+                    child: InkWell(
+                      onTap: () {
+                        takePicture();
+                      },
+                      child: const Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Colors.white38,
+                            size: 80,
+                          ),
+                          Icon(
+                            Icons.circle,
+                            color: Colors.white,
+                            size: 65,
+                          ),
+                        ],
+                      ),
+                    ))),
+            // 노랑 버튼 ver
+            // Align(
+            //   alignment: Alignment.bottomCenter,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(bottom: 40),
+            //     child: SizedBox(
+            //       width: 80,
+            //       child: FloatingActionButton(
+            //         backgroundColor: lightColorScheme.primary,
+            //         onPressed: () {
+            //           takePicture();
+            //         },
+            //         child: const Icon(Icons.camera_alt),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+          ])),
     );
   }
 }
