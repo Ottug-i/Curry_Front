@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
+import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/rank_response.dart';
 import 'package:ottugi_curry/model/recipe_list_page_response.dart';
@@ -96,7 +97,7 @@ class TextSearchController {
           difficulty: searchDifficulty.value,
           time: searchTime.value,
           page: page ?? 1,
-          size: 10);
+          size: Config.elementNum);
       final resp = await recipeRepository.getSearch(searchQueries);
       // 응답 값 변수에 저장
       recipeListPageResponse.value = resp;
