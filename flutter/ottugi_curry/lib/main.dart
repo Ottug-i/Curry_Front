@@ -5,6 +5,7 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/config/custom_theme_data.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ottugi_curry/view/page/recipe_camera/recipe_camera_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -36,9 +37,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: '카레',
       theme: CustomThemeData.themeDataLight,
-      initialRoute: '/main', // login
+      //initialRoute: '/main', // login
       getPages: Config.routers,
-      //home: const ChatPage(),
+      home: const RecipeCameraPage(),
     );
   }
 }

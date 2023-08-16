@@ -55,6 +55,8 @@ dependencies:
   flutter_dotenv:
   flutter_tts: ^3.7.0
   model_viewer_plus: ^1.6.1
+  camera:
+  path_provider:
 
 flutter_native_splash:
   background_image: assets/images/splash.png
