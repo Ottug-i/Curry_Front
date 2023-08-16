@@ -2,10 +2,9 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:ottugi_curry/model/ingredient_request.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
-import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/recipe_list_page_response.dart';
-import 'package:ottugi_curry/repository/bookmark_repository.dart';
 import 'package:ottugi_curry/repository/recommend_repository.dart';
+import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 
 class RecipeListController extends GetxController {
   Rx<RecipeListPageResponse> response = RecipeListPageResponse().obs;
@@ -92,15 +91,9 @@ class RecipeListController extends GetxController {
     }
   }
 
-  void updateBookmark(int userId, int recipeId) async {
-    try {
-      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-      final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
-      await bookmrkRepository.postBookmark(bookmrkItem);
-      await fetchData(userId, currentPage.value); // 재로딩
-    } catch (error) {
-      // 에러 처리
-      print('Error updating bookmark: $error');
-    }
+  Future<void> updateBookmark(int userId, int recipeId) async {
+    Get.put(BookmarkListController());
+    Get.find<BookmarkListController>().postBookmark(userId, recipeId);
+    await fetchData(userId, currentPage.value); // 재로딩
   }
 }

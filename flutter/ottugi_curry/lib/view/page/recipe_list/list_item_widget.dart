@@ -4,6 +4,7 @@ import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 
+// Recipe List Page, Text Search Page에서 사용함
 class ListItemWidget extends StatelessWidget {
   final RecipeResponse menuItem;
   final controller;
@@ -106,10 +107,10 @@ class ListItemWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           iconWithText(
-                              context, Icons.timer, '${menuItem.time}'),
-                          iconWithText(context, Icons.handshake_outlined,
+                              context, 'time', 30, '${menuItem.time}'),
+                          iconWithText(context, 'chef2', 30,
                               '${menuItem.difficulty}'),
-                          iconWithText(context, Icons.food_bank_rounded,
+                          iconWithText(context, 'meal', 33,
                               '${menuItem.composition}'),
                         ],
                       )
@@ -123,10 +124,15 @@ class ListItemWidget extends StatelessWidget {
   }
 }
 
-Column iconWithText(BuildContext context, IconData icon, String text) {
+Column iconWithText(BuildContext context, String icon, double size, String text) {
   return Column(
     children: [
-      Icon(icon, size: 30),
+      // Icon(icon, size: 30),
+      ImageIcon(
+        AssetImage('assets/icons/${icon}.png'),
+        size: size,
+      ),
+      const Padding(padding: EdgeInsets.only(bottom: 2)),
       Text(
         text,
         style: Theme.of(context).textTheme.bodySmall,

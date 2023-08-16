@@ -14,7 +14,7 @@ class CustomThemeData {
       primarySwatch: createMaterialColor(const Color(0xffFFD717)),
 
       // 텍스트 테마
-      textTheme: const TextTheme(
+      textTheme: TextTheme(
         //title (Bold 지정)
         titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), // 제목, 강조 텍스트
         titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), // 소제목: 크기 기본 + Bold
@@ -23,6 +23,8 @@ class CustomThemeData {
         bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w600), // 소제목2: 약간 크고 + Semi Bold
         bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal), //기본 텍스트
         bodySmall: TextStyle(fontSize: 12),
+        //
+        labelLarge: TextStyle(fontSize: 13, color: Colors.grey.shade700), // 설명줄
       ),
 
       //버튼 테마

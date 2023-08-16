@@ -97,14 +97,21 @@ class BookmarkListController extends GetxController {
     update(); // 변수 값이 바뀔 때마다 화면 UI도 업데이트
   }
 
+  // 북마크 추가/삭제 -> 다른 페이지에서도 사용하는 api 관련 공용 함수
   Future<void> updateBookmark(int userId, int recipeId) async {
+    postBookmark(userId, recipeId);
+    await loadData(
+        userId: userId, page: pageController.value.currentPage); // 재로딩
+  }
+
+  Future<void> postBookmark(int userId, int recipeId) async {
     try {
       final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
-      await bookmrkRepository.postBookmark(bookmrkItem);
-
-      await loadData(
-          userId: userId, page: pageController.value.currentPage); // 재로딩
+      final resp = await bookmrkRepository.postBookmark(bookmrkItem);
+      if (resp == true || resp == false) { // 정상 처리 확인
+        print('updating Bookmark Successes');
+      }
     } catch (error) {
       // 에러 처리
       print('Error updating bookmark: $error');

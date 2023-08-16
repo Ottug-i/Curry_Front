@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
+import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
 
 class MainPageV2 extends StatelessWidget {
@@ -52,7 +53,7 @@ class MainPageV2 extends StatelessWidget {
                             Get.toNamed('/rating');
                           },
                           child: Text(
-                            '오늘의 추천 레시피',
+                            '${getUserNickname()} 님을 위한 추천 레시피',
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
@@ -113,14 +114,26 @@ class MainPageV2 extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          '재료 찍고\n레시피 추천 받기',
-                          style: Theme.of(context).textTheme.titleMedium,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '카메라로 찍고\n레시피 추천 받기',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            const Padding(padding: EdgeInsets.only(bottom: 5)),
+                            Text(
+                              '주변의 식재료를 찍어보세요!',
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                          ],
                         ),
                         Image.asset(
-                          'assets/images/main_camera.png',
-                          width: 120,
+                          'assets/images/main_camera_22.png',
+                          width: 150,
                         ),
+                        const Padding(padding: EdgeInsets.only(right: 3)),
                       ],
                     ),
                   ),
@@ -129,7 +142,7 @@ class MainPageV2 extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // 사진 찍기 버튼
+                    // 인증샷 직고 공유하기 버튼
                     Container(
                       width: rowWidgetWidth,
                       height: 150,
@@ -146,8 +159,9 @@ class MainPageV2 extends StatelessWidget {
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('사진 찍기',
+                            Text('#오요완 챌린지',
                                 style: Theme.of(context).textTheme.titleMedium),
                             Align(
                               alignment: Alignment.bottomRight,
@@ -182,9 +196,12 @@ class MainPageV2 extends StatelessWidget {
                           children: [
                             Text('레시피 검색',
                                 style: Theme.of(context).textTheme.titleMedium),
-                            Image.asset(
-                              'assets/images/main_search.png',
-                              height: 70,
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Image.asset(
+                                'assets/images/main_search.png',
+                                height: 70,
+                              ),
                             ),
                           ],
                         ),

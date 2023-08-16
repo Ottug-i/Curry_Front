@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/model/recipe_detail_response.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
-import 'package:ottugi_curry/model/bookmark_update.dart';
-import 'package:ottugi_curry/repository/bookmark_repository.dart';
+import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 
 class RecipeDetailController {
   // RecipeResponse
@@ -67,17 +67,9 @@ class RecipeDetailController {
   }
 
   Future<void> updateBookmark(int userId, int recipeId) async {
-    print('Bookmrk의 updateData 실행');
-    try {
-      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
-
-      final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
-      await bookmrkRepository.postBookmark(bookmrkItem);
-      await loadRecipeDetail(recipeId); // 재로딩
-    } catch (error) {
-      // 에러 처리
-      print('Error updating bookmark: $error');
-    }
+    Get.put(BookmarkListController());
+    Get.find<BookmarkListController>().postBookmark(userId, recipeId);
+    await loadRecipeDetail(recipeId); // 재로딩
   }
 
   void setTTS() { // TTS 기본 설정 
