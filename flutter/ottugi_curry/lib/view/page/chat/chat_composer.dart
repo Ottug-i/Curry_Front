@@ -49,7 +49,7 @@ class _ChatComposerState extends State<ChatComposer> {
                               border: InputBorder.none,
                               hintText: 'Type your message ...',
                               hintStyle: TextStyle(color: Colors.grey[500])),
-                          onSubmitted: (value) => submitAction(
+                          onSubmitted: (value) => sendMessage(
                               textController, chatContorller, widget),
                         ),
                       ),
@@ -62,7 +62,7 @@ class _ChatComposerState extends State<ChatComposer> {
             IconButton(
               icon: const Icon(Icons.send),
               onPressed: () {
-                submitAction(textController, chatContorller, widget);
+                sendMessage(textController, chatContorller, widget);
 
                 /*widget.pageScroller.scrollController.animateTo(
                     // 가장 최근 것 말고 그 전 것으로 올라감..!
@@ -77,7 +77,7 @@ class _ChatComposerState extends State<ChatComposer> {
   }
 }
 
-void submitAction(textController, chatContorller, widget) {
+void sendMessage(textController, chatContorller, widget) {
   String question = textController.text.trim();
   chatContorller.addToChat(question, Message.SENT_BY_ME);
   textController.clear();

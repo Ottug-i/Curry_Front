@@ -19,7 +19,7 @@ class RecipeListController extends GetxController {
   void setIngredientList(List<String> input) {
     ingredientList.clear();
     for (var item in input) {
-      var data = {"name": item, "isChecked": true};
+      var data = {"name": item, "isChecked": true, "ableToDelete": false};
       ingredientList.add(data);
     }
   }
@@ -34,12 +34,37 @@ class RecipeListController extends GetxController {
     }
   }
 
+  void setIngredient(String name) {
+    if (ingredientList.any((element) => element["name"] == name)) {
+      print("이미 있는 재료입니다.");
+    } else {
+      var data = {"name": name, "isChecked": true, "ableToDelete": true};
+      ingredientList.add(data);
+    }
+  }
+
+  void deleteIngredient(String name) {
+    ingredientList.removeWhere((ingredient) => ingredient["name"] == name);
+    print("ingredientList: $ingredientList");
+  }
+
+  bool isFull() {
+    print(ingredientList.length);
+    // 가능한 식재료 갯수 총 10개
+    if (ingredientList.length < 10) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   Future<void> fetchData(int userId, int page) async {
     // 클릭 시 마다 현재 위치를 저장해두어야 북마크 업데이트 시 페이지 안 변함
     currentPage.value = page;
 
     try {
-      final RecommendRepository recommendRepository = RecommendRepository(Dio());
+      final RecommendRepository recommendRepository =
+          RecommendRepository(Dio());
 
       IngredientRequest ingredientRequest = IngredientRequest(
         ingredients: selectedIngredient,
@@ -47,7 +72,8 @@ class RecipeListController extends GetxController {
         size: 10,
         userId: userId,
       );
-      final menuData = await recommendRepository.postRecommendIngredientsList(ingredientRequest);
+      final menuData = await recommendRepository
+          .postRecommendIngredientsList(ingredientRequest);
       MenuModelList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData.content!) {
