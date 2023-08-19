@@ -21,7 +21,7 @@ class UserController extends GetxController {
     try {
       Dio dio = Dio();
       UserRepository userRepository = UserRepository(dio);
-      print('getUserid ${getUserId()}');
+      // print('getUserid ${getUserId()}');
       final resp = await userRepository.getProfile(getUserId());
       userId.value = resp.id!;
       email.value = resp.email!;
@@ -36,8 +36,9 @@ class UserController extends GetxController {
     try {
       Dio dio = Dio();
       UserRepository userRepository = UserRepository(dio);
-      final resp = await userRepository.setProfile(UserResponse(id: userId.value, nickName: newNickName));
+      final resp = await userRepository.setProfile(UserResponse(id: getUserId(), nickName: newNickName));
       print('print newNickName: ${resp.nickName}');
+      // 변경된 닉네임 저장
       userStorage.setItem(Config.nickName, resp.nickName.toString());
       nickName.value =  resp.nickName.toString();
     } on DioException catch (e) {
@@ -51,7 +52,7 @@ class UserController extends GetxController {
       Dio dio = Dio();
       LatelyRepository latelyRepository = LatelyRepository(dio);
 
-      final resp = await latelyRepository.getLatelyList(1);
+      final resp = await latelyRepository.getLatelyList(getUserId());
       latelyList.value = resp;
     } on DioException catch (e) {
       print('loadLatelyRecipe: $e');
@@ -92,8 +93,8 @@ class UserController extends GetxController {
     try {
       Dio dio = Dio();
       UserRepository userRepository = UserRepository(dio);
-      print('print userIdValue: ${userId.value}');
-      bool resp = await userRepository.setWithdraw(userId.value);
+      // print('print userIdValue: ${userId.value}');
+      bool resp = await userRepository.setWithdraw(getUserId());
       if (resp) {
         handleLogout();
       }

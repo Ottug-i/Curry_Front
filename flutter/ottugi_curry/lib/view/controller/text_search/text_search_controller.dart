@@ -9,6 +9,7 @@ import 'package:ottugi_curry/model/recipe_list_page_response.dart';
 import 'package:ottugi_curry/model/search_queries.dart';
 import 'package:ottugi_curry/repository/rank_repository.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
+import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 
 class TextSearchController {
@@ -91,7 +92,7 @@ class TextSearchController {
       RecipeRepository recipeRepository = RecipeRepository(dio);
 
       SearchQueries searchQueries = SearchQueries(
-          userId: 1,
+          userId: getUserId(),
           name: name,
           composition: searchComposition.value,
           difficulty: searchDifficulty.value,

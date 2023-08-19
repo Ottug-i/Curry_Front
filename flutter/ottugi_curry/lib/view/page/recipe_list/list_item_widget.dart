@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
+import 'package:ottugi_curry/utils/user_profile_utils.dart';
 
 // Recipe List Page, Text Search Page에서 사용함
 class ListItemWidget extends StatelessWidget {
@@ -84,7 +85,7 @@ class ListItemWidget extends StatelessWidget {
                               color: lightColorScheme.primary,
                               onPressed: () {
                                 // 공통 위젯을 위한 컨트롤러 변수 사용
-                                controller.updateBookmark(1, menuItem.recipeId);
+                                controller.updateBookmark(getUserId(), menuItem.recipeId);
                               },
                             ),
                           )

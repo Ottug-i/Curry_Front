@@ -48,7 +48,7 @@ class RecipeDetailController {
       RecipeRepository recipeRepository = RecipeRepository(dio);
       print('print getUserId(): ${getUserId()}');
       final resp = await recipeRepository.getRecipeDetail(
-          recipeId, 1); // TODO: userId 수정
+          recipeId, getUserId());
 
       recipeResponse.value = resp;
 

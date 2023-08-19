@@ -12,7 +12,7 @@ class UserPage extends StatelessWidget {
 
   Future _initUserInfo() async {
     Get.find<UserController>().userId.value = getUserId();
-    Get.find<UserController>().email.value = 'smcurry2023@gmail.com'; //수정
+    Get.find<UserController>().email.value = getUserEmail();
     Get.find<UserController>().nickName.value = getUserNickname();
     await Get.find<UserController>().loadLatelyRecipe();
   }

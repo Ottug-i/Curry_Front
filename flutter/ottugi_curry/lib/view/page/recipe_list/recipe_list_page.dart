@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 import 'package:ottugi_curry/view/page/recipe_list/list_item_widget.dart';
 
@@ -16,7 +17,7 @@ class RecipeListPageState extends State<RecipeListPage> {
   //List<String> get ingredientList => widget.ingredientList;
 
   Future<void> _initMenuList() async {
-    await Get.find<RecipeListController>().fetchData(1, 1);
+    await Get.find<RecipeListController>().fetchData(getUserId(), 1);
   }
 
   late final RecipeListController rListController;
@@ -126,7 +127,7 @@ class RecipeListPageState extends State<RecipeListPage> {
                                               if (isChange) {
                                                 rListController
                                                     .changeIngredients();
-                                                rListController.fetchData(1, 1);
+                                                rListController.fetchData(getUserId(), 1);
                                                 pageController.navigateToPage(
                                                     0); // 1페이지로 이동(초기화)
                                               }
@@ -181,7 +182,7 @@ class RecipeListPageState extends State<RecipeListPage> {
                                     rListController.response.value.totalPages!,
                                 controller: pageController,
                                 onPageChange: (int index) {
-                                  rListController.fetchData(1, index + 1);
+                                  rListController.fetchData(getUserId(), index + 1);
                                 },
                                 config: NumberPaginatorUIConfig(
                                   buttonSelectedForegroundColor: Colors.black,
