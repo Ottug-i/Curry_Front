@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/config/config.dart';
+import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_controller.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_timer_controller.dart';
 import 'package:ottugi_curry/view/page/chat/chat_page.dart';
@@ -280,7 +281,7 @@ class RecipeDetailPage extends StatelessWidget {
                                           onPressed: () {
                                             recipeDetailController
                                                 .updateBookmark(
-                                                    1,
+                                                    getUserId(),
                                                     recipeDetailController
                                                         .recipeResponse
                                                         .value

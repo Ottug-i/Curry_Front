@@ -9,6 +9,7 @@ class  UserResponse {
   String? nickName;
   String? role;
   String? token;
+  bool? isNew;
 
   UserResponse({
     this.email,
@@ -16,6 +17,7 @@ class  UserResponse {
     this.nickName,
     this.role,
     this.token,
+    this.isNew
   });
 
   factory UserResponse.fromJson(Map<String, dynamic> json) => _$UserResponseFromJson(json);

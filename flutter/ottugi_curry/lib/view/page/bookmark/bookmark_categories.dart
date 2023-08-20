@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/config/config.dart';
+import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/page/recipe_list/recipe_list_page_button.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 
@@ -84,7 +85,7 @@ class BookmarkCategoriesState extends State<BookmarkCategories> {
                                     controller.toggleValue(
                                         controller.searchTime, itemT);
                                     controller.searchData(
-                                        userId: 1,
+                                        userId: getUserId(),
                                         page: controller
                                             .pageController.value.currentPage);
                                   },
@@ -111,7 +112,7 @@ class BookmarkCategoriesState extends State<BookmarkCategories> {
                                   controller.toggleValue(
                                       controller.searchDifficulty, itemL);
                                   controller.searchData(
-                                      userId: 1,
+                                      userId: getUserId(),
                                       page: controller
                                           .pageController.value.currentPage);
                                 },
@@ -137,7 +138,7 @@ class BookmarkCategoriesState extends State<BookmarkCategories> {
                                   controller.toggleValue(
                                       controller.searchComposition, itmeC);
                                   controller.searchData(
-                                      userId: 1,
+                                      userId: getUserId(),
                                       page: controller
                                           .pageController.value.currentPage);
                                 },

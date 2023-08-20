@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     Get.put(LoginController());
+    final loginController = Get.find<LoginController>();
 
     return Scaffold(
       body: SafeArea(
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
               // 구글 로그인 버튼
               ElevatedButton(
                 onPressed: () async {
-                  Get.find<LoginController>().loginGoogle();
+                  loginController.loginGoogle();
                 },
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -77,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
               // 카카오 로그인 버튼
               ElevatedButton(
                 onPressed: () {
-                  Get.find<LoginController>().loginKakao();
+                  loginController.loginKakao();
                 },
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(

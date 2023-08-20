@@ -8,19 +8,21 @@ import 'package:ottugi_curry/model/user_response.dart';
 import 'package:ottugi_curry/repository/login_repository.dart';
 
 class LoginController {
+  // 구글 소셜 로그인
   Future<void> loginGoogle() async {
-    Get.put(LoginController());
-    GoogleSignIn googleSignIn = GoogleSignIn(
-    );
+    GoogleSignIn googleSignIn = GoogleSignIn();
     GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
       print('google login 성공: $googleSignInAccount');
-      userStorage.setItem(Config.social, Config.google);
-      login(googleSignInAccount.email, googleSignInAccount.displayName!);
+      await userStorage.setItem(Config.social, Config.google);
+
+      // 최종 로그인
+      handleLogin(googleSignInAccount.email, googleSignInAccount.displayName!);
     }
   }
 
+  // 카카오 소셜 로그인
   Future<void> loginKakao() async {
     if (await isKakaoTalkInstalled()) {
       try {
@@ -55,53 +57,104 @@ class LoginController {
     }
   }
 
+  // 사용자 정보 요청
   Future<void> getUserKakao() async {
     try {
       User user = await UserApi.instance.me();
-          String email = user.kakaoAccount?.email ?? '';
-          String nickName = user.kakaoAccount?.profile?.nickname ?? '';
+      String email = user.kakaoAccount?.email ?? '';
+      String nickName = user.kakaoAccount?.profile?.nickname ?? '';
 
-          if (email.isNotEmpty && nickName.isNotEmpty) {
-            userStorage.setItem(Config.social, Config.kakao);
-            print('print userStorageGe: ${userStorage.getItem(Config.social)}');
-            login(email, nickName);
-          }
+      if (email.isNotEmpty && nickName.isNotEmpty) {
+        await userStorage.setItem(Config.social, Config.kakao);
+
+        // 최종 로그인
+        handleLogin(email, nickName);
+      }
     } catch (error) {
       print('사용자 정보 요청 실패 $error');
     }
   }
 
-  void login(String email, String nickName) async {
+  // 최종 로그인
+  Future<void> handleLogin(String email, String nickName) async {
     try {
-      Dio dio = Dio();
+      final dio = Dio();
       LoginRepository loginRepository = LoginRepository(dio);
 
       print('$nickName, $email');
-      final resp = await loginRepository.postAuthLogin(UserResponse(email: email, nickName: nickName));
-      print('최종 로그인 성공: ${resp.id}, ${resp.email}, ${resp.nickName}, ${resp.token}');
-      print('print socialStorage: ${userStorage.getItem(Config.social)}');
+      final resp = await loginRepository
+          .postAuthLogin(UserResponse(email: email, nickName: nickName));
+      print(
+          '최종 로그인 성공: ${resp.isNew}, ${resp.id}, ${resp.email}, ${resp.nickName}, ${resp.token}');
 
       // 로그인 성공
       // storage 에 token 저장
       await tokenStorage.write(key: 'token', value: resp.token.toString());
       // local storage 에 id, email, nickName 저장
-      userStorage.setItem(Config.id, resp.id.toString());
-      userStorage.setItem(Config.email, resp.email.toString());
-      userStorage.setItem(Config.nickName, resp.nickName.toString());
+      await userStorage.setItem(Config.id, resp.id.toString());
+      await userStorage.setItem(Config.email, resp.email.toString());
+      await userStorage.setItem(Config.nickName, resp.nickName.toString());
 
-      // 메인 페이지 이동
-      Get.offAndToNamed('/main');
+      if (resp.isNew == true) {
+        // 회원가입인 경우 - 랜덤 레시피 평점 매기기
+        Get.offAndToNamed('/login_rating');
+      } else {
+        // 메인 페이지 이동
+        Get.offAndToNamed('/main');
+      }
     } on DioException catch (e) {
-      print('$e');
+      print('login $e');
       return;
     }
   }
 
-  void checkLogin() async {
+  // 로그인 여부 확인
+  Future<void> checkLogin() async {
     final token = await tokenStorage.read(key: 'token');
     print('print token: $token');
     if (token != null) {
       Get.offAndToNamed('/main');
     }
+    // try {
+    //   final dio = createDio();
+    //   UserRepository userRepository = UserRepository(dio);
+    //   final resp = await userRepository.getProfile(getUserId());
+    //   print('print respId: ${resp.id}');
+    //   if (resp.id.toString().isNotEmpty) {
+    //     print('로그인 여부: 로그인 중');
+    //   }
+    // } on DioException catch (e) {
+    //   print('loadUserProfile: $e');
+    //   return;
+    // }
+  }
+
+ // 로그아웃
+  void handleLogout() async {
+    // 소셜 로그인 플랫폼 로그아웃
+    final social = await userStorage.getItem(Config.social);
+    print('print social: $social');
+    if (social == Config.google) {
+      // 구글 로그아웃
+      await GoogleSignIn().signOut();
+    } else if (social == Config.kakao) {
+      // 카카오 로그아웃
+      try {
+        await UserApi.instance.logout();
+        print('로그아웃 성공, SDK에서 토큰 삭제');
+      } catch (error) {
+        print('로그아웃 실패, SDK에서 토큰 삭제 $error');
+      }
+    }
+
+    // 저장해둔 회원 정보 삭제
+    await tokenStorage.delete(key: 'token');
+
+    await userStorage.deleteItem(Config.id);
+    await userStorage.deleteItem(Config.email);
+    await userStorage.deleteItem(Config.nickName);
+    await userStorage.deleteItem(Config.social);
+
+    Get.offAndToNamed('/login');
   }
 }
