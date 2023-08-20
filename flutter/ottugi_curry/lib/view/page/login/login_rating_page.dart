@@ -103,12 +103,15 @@ class LoginRatingPage extends StatelessWidget {
                               });
                             }
                             print('print additionalProp: ${additionalProp}');
-
+                            Get.put(RecommendController());
                             bool isUpdated =
                                 await Get.find<RecommendController>()
                                     .updateRating(
                                         additionalPropMap: additionalProp);
-                            if (isUpdated) Get.back(); // 업데이트 성공 시 닫기
+                            if (isUpdated) {
+                              // 업데이트 성공 시 메인으로
+                              Get.offAndToNamed('/main');
+                            }
                           }
                         },
                         child: const Text('완료')),

@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:ottugi_curry/config/config.dart';
+import 'package:ottugi_curry/config/dio_config.dart';
 import 'package:ottugi_curry/model/recipe_detail_response.dart';
 import 'package:ottugi_curry/repository/recipe_repository.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
@@ -44,9 +44,8 @@ class RecipeDetailController {
 
   Future<void> loadRecipeDetail(int recipeId) async {
     try {
-      Dio dio = Dio();
+      final dio = createDio();
       RecipeRepository recipeRepository = RecipeRepository(dio);
-      print('print getUserId(): ${getUserId()}');
       final resp = await recipeRepository.getRecipeDetail(
           recipeId, getUserId());
 

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:ottugi_curry/config/dio_config.dart';
 import 'package:ottugi_curry/model/rating_response.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/rating_request.dart';
@@ -23,7 +24,7 @@ class RecommendController {
   // 북마크에 따른 레시피 추천
   Future<void> loadBookmarkRec({int? page, required int recipeId}) async {
     try {
-      Dio dio = Dio();
+      final dio = createDio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
       final resp = await recommendRepository.getRecommendBookmarkList(page ?? 1, recipeId, getUserId());
       bookmarkRecList.value = resp;
@@ -42,7 +43,7 @@ class RecommendController {
     }
 
     try {
-      Dio dio = Dio();
+      final dio = createDio();
       BookmarkRepository bookmarkRepository = BookmarkRepository(dio);
       final resp = await bookmarkRepository.getBookmark(page, size, 1);
 
@@ -66,7 +67,7 @@ class RecommendController {
   // 레시피 평점에 따른 레시피 추천
   Future<void> loadRatingRec({required List<int> bookmarkList, int? page}) async {
     try {
-      Dio dio = Dio();
+      final dio = createDio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
       final resp = await recommendRepository.getRecommendRatingList(page ?? 1, bookmarkList, getUserId());
       ratingRecList.value = resp;
@@ -82,7 +83,7 @@ class RecommendController {
     rating.value = 0.0; // 초기화
 
     try {
-      Dio dio = Dio();
+      final dio = createDio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
 
       RatingResponse? resp= await recommendRepository.getRecommendRating(recipeId, getUserId());
@@ -103,7 +104,7 @@ class RecommendController {
   Future<bool> updateRating({required Map additionalPropMap}) async { // 레시피 평점 추가
     try {
       print('print additionalPropList: ${additionalPropMap}');
-      Dio dio = Dio();
+      final dio = createDio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
       
       RatingRequest ratingRequest = RatingRequest(
@@ -123,7 +124,7 @@ class RecommendController {
   // 레시피 평점 삭제
   Future<bool> deleteRating({required int recipeId}) async { // 레시피 평점 추가
     try {
-      Dio dio = Dio();
+      final dio = createDio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
       bool resp = await recommendRepository.deleteRecommendRating(recipeId, getUserId());
       // resp == true: 업데이트 성공

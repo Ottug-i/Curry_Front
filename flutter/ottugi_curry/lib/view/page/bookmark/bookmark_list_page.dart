@@ -357,7 +357,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
         : const Center(
             child: Padding(
               padding: EdgeInsets.only(top: 30.0),
-              child: Text('추천 레시피를 찾지 못했습니다.'),
+              child: Text('북마크한 레시피가 없습니다.'),
             ),
           );
   }

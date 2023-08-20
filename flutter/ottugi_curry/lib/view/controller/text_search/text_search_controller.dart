@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/config.dart';
+import 'package:ottugi_curry/config/dio_config.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/rank_response.dart';
 import 'package:ottugi_curry/model/recipe_list_page_response.dart';
@@ -41,10 +42,10 @@ class TextSearchController {
   Rx<String> searchDifficulty = ''.obs;
   Rx<String> searchTime = ''.obs;
 
-
+  // 인기 검색어 조회
   Future<void> loadRankList() async {
     try {
-      Dio dio = Dio();
+      final dio = createDio();
       RankRepository rankRepository = RankRepository(dio);
 
       final resp = await rankRepository.getRankList();
@@ -55,11 +56,6 @@ class TextSearchController {
       print('loadRankList: $e');
       return;
     }
-  }
-
-  void updateSearchWord(String word) {
-    // 검색어 저장
-    searchName.value = word;
   }
 
   Future<void> handleTextSearch(
@@ -88,7 +84,7 @@ class TextSearchController {
     }
 
     try {
-      Dio dio = Dio();
+      final dio = createDio();
       RecipeRepository recipeRepository = RecipeRepository(dio);
 
       SearchQueries searchQueries = SearchQueries(
