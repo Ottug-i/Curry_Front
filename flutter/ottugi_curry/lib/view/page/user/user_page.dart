@@ -5,6 +5,7 @@ import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/lately_response.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
+import 'package:ottugi_curry/view/controller/login/login_controller.dart';
 import 'package:ottugi_curry/view/controller/user/user_controller.dart';
 
 class UserPage extends StatelessWidget {
@@ -12,7 +13,7 @@ class UserPage extends StatelessWidget {
 
   Future _initUserInfo() async {
     Get.find<UserController>().userId.value = getUserId();
-    Get.find<UserController>().email.value = 'smcurry2023@gmail.com'; //수정
+    Get.find<UserController>().email.value = getUserEmail();
     Get.find<UserController>().nickName.value = getUserNickname();
     await Get.find<UserController>().loadLatelyRecipe();
   }
@@ -165,7 +166,7 @@ class UserPage extends StatelessWidget {
                         children: [
                           _userSettingButton('문의하기', _onPressedContact),
                           _userSettingButton(
-                              '로그아웃', userController.handleLogout),
+                              '로그아웃', _onPressedLogout),
                           _userSettingButton(
                               '탈퇴하기', userController.handleWithdraw),
                           _userSettingButton('오뚝이들', _onPressedProducerInfo)
@@ -337,6 +338,12 @@ class UserPage extends StatelessWidget {
 
   void _onPressedContact() {
     // 문의하기
+  }
+
+  void _onPressedLogout() {
+    // 로그아웃
+    Get.put(LoginController());
+    Get.find<LoginController>().handleLogout();
   }
 
   void _onPressedProducerInfo() {

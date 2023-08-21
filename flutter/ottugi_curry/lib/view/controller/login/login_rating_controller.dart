@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:ottugi_curry/config/dio_config.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/repository/recommend_repository.dart';
@@ -11,7 +12,7 @@ class LoginRatingController {
 
   Future<void> loadRandomRating() async { // 랜덤 레시피 받아오기
     try {
-      Dio dio = Dio();
+      final dio = createDio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
       final resp = await recommendRepository.getRecommendInitialRating();
       randomRatingList.value = resp;

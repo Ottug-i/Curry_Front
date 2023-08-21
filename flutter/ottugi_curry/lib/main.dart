@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: '카레',
       theme: CustomThemeData.themeDataLight,
-      //initialRoute: '/main', // login
+      initialRoute: '/login', // login
       getPages: Config.routers,
       home: const ResultCheck(
         imagePath: 'assets/images/ingredients.png',

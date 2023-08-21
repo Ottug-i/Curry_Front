@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:number_paginator/number_paginator.dart';
+import 'package:ottugi_curry/config/dio_config.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/bookmark_update.dart';
 import 'package:ottugi_curry/model/recipe_list_page_response.dart';
@@ -62,7 +63,8 @@ class BookmarkListController extends GetxController {
     pageController.refresh();
 
     try {
-      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
+      final dio = createDio();
+      final BookmarkRepository bookmrkRepository = BookmarkRepository(dio);
       final menuData =
           await bookmrkRepository.getBookmark(page, Config.elementNum, userId);
       response.value = menuData;
@@ -106,7 +108,8 @@ class BookmarkListController extends GetxController {
 
   Future<void> postBookmark(int userId, int recipeId) async {
     try {
-      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
+      final dio = createDio();
+      final BookmarkRepository bookmrkRepository = BookmarkRepository(dio);
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
       final resp = await bookmrkRepository.postBookmark(bookmrkItem);
       if (resp == true || resp == false) { // 정상 처리 확인
@@ -120,7 +123,8 @@ class BookmarkListController extends GetxController {
 
   void deleteBookmark(int userId, int recipeId) async {
     try {
-      final BookmarkRepository bookmrkRepository = BookmarkRepository(Dio());
+      final dio = createDio();
+      final BookmarkRepository bookmrkRepository = BookmarkRepository(dio);
       final bookmrkItem = Bookmark(userId: userId, recipeId: recipeId);
       await bookmrkRepository.postBookmark(bookmrkItem);
       // 북마크 페이지에서 바꿀 때는 요소 갯수가 달라져 페이지에 영향이 있을 수 있음
@@ -152,7 +156,7 @@ class BookmarkListController extends GetxController {
         'comp: ${searchComposition.value}, diff: ${searchDifficulty.value}, time: ${searchTime.value}, text: ${searchText.value}');
 
     try {
-      Dio dio = Dio();
+      final dio = createDio();
       BookmarkRepository bookmrkRepository = BookmarkRepository(dio);
 
       SearchQueries searchQueries = SearchQueries(

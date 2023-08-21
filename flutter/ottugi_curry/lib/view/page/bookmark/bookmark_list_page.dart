@@ -4,6 +4,7 @@ import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
+import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
 import 'package:ottugi_curry/view/page/bookmark/bookmark_categories.dart';
@@ -25,7 +26,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
   final NumberPaginatorController pageController = NumberPaginatorController();
 
   Future<void> _initMenuList() async {
-    await Get.find<BookmarkListController>().loadData(userId: 1, page: 1);
+    await Get.find<BookmarkListController>().loadData(userId: getUserId(), page: 1);
   }
 
   @override
@@ -52,7 +53,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                         onSubmitted: (String text) {
                           bListController.searchText.value = text; // 텍스트 검색
                           bListController.searchData(
-                              userId: 1,
+                              userId: getUserId(),
                               page: bListController
                                   .pageController.value.currentPage); // 옵션 검색
                         },
@@ -194,7 +195,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                                     onPressed: () {
                                                       bListController
                                                           .deleteBookmark(
-                                                              1,
+                                                              getUserId(),
                                                               menuItem
                                                                   .recipeId);
                                                     },
@@ -342,7 +343,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                     numberPages: bListController.response.value.totalPages ?? 0,
                     controller: pageController,
                     onPageChange: (int index) {
-                      bListController.loadData(userId: 1, page: index + 1);
+                      bListController.loadData(userId: getUserId(), page: index + 1);
                     },
                     initialPage: 0,
                     config: NumberPaginatorUIConfig(
@@ -356,7 +357,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
         : const Center(
             child: Padding(
               padding: EdgeInsets.only(top: 30.0),
-              child: Text('추천 레시피를 찾지 못했습니다.'),
+              child: Text('북마크한 레시피가 없습니다.'),
             ),
           );
   }

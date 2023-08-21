@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:dio/dio.dart';
+import 'package:ottugi_curry/config/dio_config.dart';
 import 'package:ottugi_curry/model/ingredient_request.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/recipe_list_page_response.dart';
@@ -63,8 +63,8 @@ class RecipeListController extends GetxController {
     currentPage.value = page;
 
     try {
-      final RecommendRepository recommendRepository =
-          RecommendRepository(Dio());
+      final dio = createDio();
+      final RecommendRepository recommendRepository = RecommendRepository(dio);
 
       IngredientRequest ingredientRequest = IngredientRequest(
         ingredients: selectedIngredient,
