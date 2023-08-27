@@ -60,18 +60,18 @@ class TakePicturePageState extends State<TakePicturePage> {
 
       if (!mounted) return;
 
-      // 사진이 찍혔으면 새로운 화면에 띄운다.
-      await Navigator.of(context).push(
-        MaterialPageRoute(
-            builder: (context) => DefaultLayoutWidget(
-                  backToMain: true,
-                  appBarTitle: '촬영 결과 확인',
-                  body: ResultCheck(
-                    // DisplayPictureScreen 위젯에 자동생성된 위치 전달.
-                    imagePath: image.path,
-                  ),
-                )),
-      );
+      // // 사진이 찍혔으면 새로운 화면에 띄운다.
+      // await Navigator.of(context).push(
+      //   MaterialPageRoute(
+      //       builder: (context) => DefaultLayoutWidget(
+      //             backToMain: true,
+      //             appBarTitle: '촬영 결과 확인',
+      //             body: ResultCheck(
+      //               // DisplayPictureScreen 위젯에 자동생성된 위치 전달.
+      //               imagePath: image.path,
+      //             ),
+      //           )),
+      // );
     } catch (e) {
       // 오류 발생 시 log에 에러 메세지 출력
       print(e);
