@@ -9,7 +9,7 @@
    <img src="https://img.shields.io/badge/android-3DDC84B?style=for-the-badge&logo=android&logoColor=white">
    <img src="https://img.shields.io/badge/ios-000000?style=for-the-badge&logo=ios&logoColor=white">
 </div>
-</br>
+<br/>
 
 ## 🤹🏻Contributor
 | 김희서 | 최예나 |

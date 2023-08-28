@@ -5,6 +5,7 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/config/custom_theme_data.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ottugi_curry/view/page/recipe_camera/result_check_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -38,7 +39,9 @@ class MyApp extends StatelessWidget {
       theme: CustomThemeData.themeDataLight,
       initialRoute: '/login', // login
       getPages: Config.routers,
-      //home: const ChatPage(),
+      home: const ResultCheck(
+        imagePath: 'assets/images/ingredients.png',
+      ),
     );
   }
 }
