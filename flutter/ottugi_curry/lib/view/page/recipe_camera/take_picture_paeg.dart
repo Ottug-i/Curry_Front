@@ -1,7 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
-import 'package:ottugi_curry/view/page/recipe_camera/result_check_page.dart';
 
 class TakePicturePage extends StatefulWidget {
   const TakePicturePage({

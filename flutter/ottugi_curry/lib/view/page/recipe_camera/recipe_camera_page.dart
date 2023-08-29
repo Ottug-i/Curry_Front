@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/controller/recipe_camera/camera_page_controller.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/result_check_page.dart';
-import 'package:ottugi_curry/view/page/recipe_camera/take_picture_paeg.dart';
 
 class RecipeCameraPage extends StatefulWidget {
   const RecipeCameraPage({Key? key}) : super(key: key);
@@ -19,8 +18,12 @@ class _RecipeCameraPageState extends State<RecipeCameraPage> {
   late Future<void> _initializeControllerFuture;
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
+    if (pageController.isCameraInitialized.value == false) {
+      // main.dart 에서 초기화가 안되었으면
+      await pageController.initializeCamera();
+    }
     controller = CameraController(pageController.camera, ResolutionPreset.max);
     _initializeControllerFuture = controller.initialize();
   }
@@ -42,21 +45,8 @@ class _RecipeCameraPageState extends State<RecipeCameraPage> {
 
       if (!mounted) return;
 
-      print("image.path: ${image.path}");
-
-      // 사진이 찍혔으면 새로운 화면에 띄운다.
-      // await Navigator.of(context).push(
-      //   MaterialPageRoute(
-      //       builder: (context) => DefaultLayoutWidget(
-      //             backToMain: true,
-      //             appBarTitle: '촬영 결과 확인',
-      //             body: ResultCheck(
-      //               // DisplayPictureScreen 위젯에 자동생성된 위치 전달.
-      //               imagePath: image.path,
-      //             ),
-      //           )),
-      // );
-      Get.to(() => const ResultCheck(), arguments: image.path);
+      // 찍힌 사진을 새로운 화면에 띄운다.
+      Get.to(() => const ResultCheckPage(), arguments: image.path);
     } catch (e) {
       // 오류 발생 시 log에 에러 메세지 출력
       print(e);
@@ -86,13 +76,6 @@ class _RecipeCameraPageState extends State<RecipeCameraPage> {
                         // Future가 끝나면, 미리보기를 표시한다.
                         return Center(
                           child: CameraPreview(controller),
-                          // overlay. 두 위젯을 Stack으로 감싸야 함.
-                          // const Center(
-                          //   child: Text(
-                          //     "식재료를 촬영해주세요.",
-                          //     style: TextStyle(color: Colors.white),
-                          //   ),
-                          // ),
                         );
                       } else {
                         // 그렇지 않으면, 로딩 인디케이터를 띄운다.
