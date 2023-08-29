@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/config/custom_theme_data.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ottugi_curry/view/page/ar_camera/ar_camera_page.dart';
+import 'package:ottugi_curry/view/controller/recipe_camera/camera_page_controller.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -25,6 +26,9 @@ void main() async {
 
   // ChatGpt API Key
   await dotenv.load(fileName: "assets/config/.env");
+
+  // init camera
+  await Get.put(CameraPageController()).initializeCamera();
 
   runApp(const MyApp());
 }

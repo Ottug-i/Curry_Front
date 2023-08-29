@@ -13,13 +13,16 @@ class RecipeListController extends GetxController {
 
   RxList<dynamic> ingredientList = [].obs; // List<dynamic>
   RxList<String> selectedIngredient = <String>[].obs; // List<String>
+  int maxSelected = 5;
+  int currentSelected = 0;
 
   RxInt currentPage = 1.obs; // 북마크 업데이트 시 reload를 위해 필요함
 
   void setIngredientList(List<String> input) {
     ingredientList.clear();
     for (var item in input) {
-      var data = {"name": item, "isChecked": true};
+      var data = {"name": item, "isChecked": true, "ableToDelete": false};
+      currentSelected += 1;
       ingredientList.add(data);
     }
   }
@@ -31,6 +34,42 @@ class RecipeListController extends GetxController {
       if (item["isChecked"] == true) {
         selectedIngredient.add(item["name"]);
       }
+    }
+  }
+
+  void setIngredient(String name) {
+    // 식재료 직접 추가
+    Map<String, Object> data;
+    if (currentSelected < maxSelected) {
+      data = {"name": name, "isChecked": true, "ableToDelete": true};
+      currentSelected += 1;
+    } else {
+      data = {"name": name, "isChecked": false, "ableToDelete": true};
+    }
+    ingredientList.add(data);
+  }
+
+  void deleteIngredient(String name) {
+    // 직접 추가한 식재료 삭제
+    ingredientList.removeWhere((ingredient) => ingredient["name"] == name);
+    print("ingredientList: $ingredientList");
+  }
+
+  bool canAddIngredient(String name) {
+    // 중복 검사
+    if (ingredientList.any((element) => element["name"] == name)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool isFull() {
+    // 가능한 식재료 갯수 총 10개
+    if (ingredientList.length < 10) {
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -48,7 +87,8 @@ class RecipeListController extends GetxController {
         size: 10,
         userId: userId,
       );
-      final menuData = await recommendRepository.postRecommendIngredientsList(ingredientRequest);
+      final menuData = await recommendRepository
+          .postRecommendIngredientsList(ingredientRequest);
       MenuModelList.clear(); // 기존 데이터를 지우고 시작
 
       for (var menu in menuData.content!) {

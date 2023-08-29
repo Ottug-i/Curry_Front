@@ -57,6 +57,8 @@ dependencies:
   model_viewer_plus: ^1.6.1
   ar_flutter_plugin:
   vector_math:
+  camera:
+  path_provider:
 
 flutter_native_splash:
   background_image: assets/images/splash.png
