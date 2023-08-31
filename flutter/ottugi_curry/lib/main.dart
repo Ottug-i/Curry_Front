@@ -41,9 +41,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: '카레',
       theme: CustomThemeData.themeDataLight,
-      // initialRoute: '/login', // login
+      initialRoute: '/login', // login
       getPages: Config.routers,
-      home: const ArCameraPage(),
+      // home: const ArCameraPage(),
     );
   }
 }
