@@ -83,9 +83,9 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
 
     this.arSessionManager!.onInitialize(
           showFeaturePoints: false,
-          showPlanes: true,
-          customPlaneTexturePath: "images/triangle.png",
-          showWorldOrigin: true,
+          showPlanes: false,
+          // customPlaneTexturePath: "images/triangle.png",
+          showWorldOrigin: false,
           handleTaps: false,
         );
     this.arObjectManager!.onInitialize();
@@ -134,9 +134,10 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
       var newNode = ARNode(
           type: NodeType.fileSystemAppFolderGLB,
           uri: "LocalMushroom.glb", //"LocalDuck.glb",
-          scale: Vector3(0.04, 0.04, 0.04),
+          scale: Vector3(0.08, 0.08, 0.08),
           rotation: Vector4(0, 0.5, 0, 0),
-          position: Vector3(0, -0.3, -0.2));
+          position: Vector3(0, -0.4, -0.4),
+          transformation: Matrix4.rotationY(-30));
       bool? didAddFileSystemNode = await arObjectManager!.addNode(newNode);
       fileSystemNode = (didAddFileSystemNode!) ? newNode : null;
     }
