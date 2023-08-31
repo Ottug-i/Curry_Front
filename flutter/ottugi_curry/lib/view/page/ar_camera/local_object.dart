@@ -10,6 +10,8 @@ import 'package:ar_flutter_plugin/datatypes/config_planedetection.dart';
 import 'package:ar_flutter_plugin/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
 import 'package:vector_math/vector_math_64.dart';
+import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 
 class LocalAndWebObjectsWidget extends StatefulWidget {
   const LocalAndWebObjectsWidget({Key? key}) : super(key: key);
@@ -49,24 +51,24 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
               alignment: FractionalOffset.bottomCenter,
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     ElevatedButton(
-                //         onPressed: onFileSystemObjectAtOriginButtonPressed,
-                //         child: const Text(
-                //             "Add/Remove Filesystem\nObject at Origin")),
-                //   ],
-                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                        onPressed: onLocalObjectAtOriginButtonPressed,
-                        child:
-                            const Text("Add/Remove Local\nObject at Origin")),
+                        onPressed: onFileSystemObjectAtOrigin,
+                        child: const Text(
+                            "Add/Remove Filesystem\nObject at Origin")),
                   ],
-                )
+                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   children: [
+                //     ElevatedButton(
+                //         onPressed: onLocalObjectAtOriginButtonPressed,
+                //         child:
+                //             const Text("Add/Remove Local\nObject at Origin")),
+                //   ],
+                // )
               ]))
         ]));
   }
@@ -87,43 +89,58 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
           handleTaps: false,
         );
     this.arObjectManager!.onInitialize();
+
+    httpClient = HttpClient();
+    // _downloadFile(
+    //     "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF-Binary/Duck.glb",
+    //     "LocalDuck.glb");
+    _downloadFile(
+        "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
+        "LocalMushroom.glb");
   }
 
-  Future<void> onLocalObjectAtOriginButtonPressed() async {
-    if (localObjectNode != null) {
-      arObjectManager!.removeNode(localObjectNode!);
-      localObjectNode = null;
-    } else {
-      var newNode = ARNode(
-          type: NodeType.localGLTF2,
-          uri: "character_blender.gltf", // "Models/Chicken_01/Chicken_01.gltf",
-          scale: Vector3(0.2, 0.2, 0.2),
-          position: Vector3(0.0, 0.0, 0.0),
-          rotation: Vector4(1.0, 0.0, 0.0, 0.0));
-      bool? didAddLocalNode = await arObjectManager!.addNode(newNode);
-      localObjectNode = (didAddLocalNode!) ? newNode : null;
-    }
+  Future<File> _downloadFile(String url, String filename) async {
+    var request = await httpClient!.getUrl(Uri.parse(url));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    File file = File('$dir/$filename');
+    await file.writeAsBytes(bytes);
+    print("Downloading finished, path: " '$dir/$filename');
+    return file;
   }
 
-  // Future<void> onFileSystemObjectAtOriginButtonPressed() async {
-  //   if (fileSystemNode != null) {
-  //     arObjectManager!.removeNode(fileSystemNode!);
-  //     fileSystemNode = null;
+  // Future<void> onLocalObjectAtOriginButtonPressed() async {
+  //   if (localObjectNode != null) {
+  //     arObjectManager!.removeNode(localObjectNode!);
+  //     localObjectNode = null;
   //   } else {
   //     var newNode = ARNode(
-  //         type: NodeType
-  //             .fileSystemAppFolderGLTF2, // NodeType.fileSystemAppFolderGLB,
-  //         uri: "3d_models/character_seperate.gltf", //"Astronaut.glb",
-  //         scale: Vector3(0.2, 0.2, 0.2));
-  //     //Alternative to use type fileSystemAppFolderGLTF2:
-  //     //var newNode = ARNode(
-  //     //    type: NodeType.fileSystemAppFolderGLTF2,
-  //     //    uri: "Chicken_01.gltf",
-  //     //    scale: Vector3(0.2, 0.2, 0.2));
-  //     bool? didAddFileSystemNode = await arObjectManager!.addNode(newNode);
-  //     fileSystemNode = (didAddFileSystemNode!) ? newNode : null;
+  //         type: NodeType.localGLTF2,
+  //         uri: "character_blender.gltf", // "Models/Chicken_01/Chicken_01.gltf",
+  //         scale: Vector3(0.2, 0.2, 0.2),
+  //         position: Vector3(0.0, 0.0, 0.0),
+  //         rotation: Vector4(1.0, 0.0, 0.0, 0.0));
+  //     bool? didAddLocalNode = await arObjectManager!.addNode(newNode);
+  //     localObjectNode = (didAddLocalNode!) ? newNode : null;
   //   }
   // }
+
+  Future<void> onFileSystemObjectAtOrigin() async {
+    if (fileSystemNode != null) {
+      arObjectManager!.removeNode(fileSystemNode!);
+      fileSystemNode = null;
+    } else {
+      var newNode = ARNode(
+          type: NodeType.fileSystemAppFolderGLB,
+          uri: "LocalMushroom.glb", //"LocalDuck.glb",
+          scale: Vector3(0.04, 0.04, 0.04),
+          rotation: Vector4(0, 0.5, 0, 0),
+          position: Vector3(0, -0.3, -0.2));
+      bool? didAddFileSystemNode = await arObjectManager!.addNode(newNode);
+      fileSystemNode = (didAddFileSystemNode!) ? newNode : null;
+    }
+  }
 
   // Future<void> onLocalObjectShuffleButtonPressed() async {
   //   if (localObjectNode != null) {
