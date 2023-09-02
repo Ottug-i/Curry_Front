@@ -8,7 +8,9 @@ import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
 import 'package:ar_flutter_plugin/datatypes/config_planedetection.dart';
 import 'package:ar_flutter_plugin/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
-import 'package:vector_math/vector_math_64.dart';
+import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:vector_math/vector_math_64.dart' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
@@ -41,7 +43,7 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Local & Web Objects'),
+          title: const Text('AR 캐릭터와 인증샷 남기기'),
         ),
         body: Stack(children: [
           Screenshot(
@@ -56,13 +58,26 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
                         onPressed: onFileSystemObjectAtOrigin,
-                        child: const Text("송이 추가하기")),
-                    ElevatedButton(
-                        onPressed: onTakeScreenshot, child: const Text("사진 찍기"))
+                        child: Text("AR송이 추가하기",
+                            style: Theme.of(context).textTheme.bodyMedium!)),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    FloatingActionButton(
+                      onPressed: onTakeScreenshot,
+                      backgroundColor: lightColorScheme.primary,
+                      foregroundColor: Colors.black,
+                      shape: const CircleBorder(),
+                      child: const Icon(Icons.camera),
+                    )
+                    // ElevatedButton(
+                    //     onPressed: onTakeScreenshot,
+                    //     child: Text("사진 찍기",
+                    //         style: Theme.of(context).textTheme.bodyMedium!))
                   ],
                 ),
               ]))
@@ -111,9 +126,9 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
       var newNode = ARNode(
           type: NodeType.fileSystemAppFolderGLB,
           uri: "LocalMushroom.glb", //"LocalDuck.glb",
-          scale: Vector3(0.08, 0.08, 0.08),
-          rotation: Vector4(0, 0.5, 0, 0),
-          position: Vector3(0, -0.4, -0.4),
+          scale: math.Vector3(0.08, 0.08, 0.08),
+          rotation: math.Vector4(0, 0.5, 0, 0),
+          position: math.Vector3(0, -0.4, -0.4),
           transformation: Matrix4.rotationY(-30));
       bool? didAddFileSystemNode = await arObjectManager!.addNode(newNode);
       fileSystemNode = (didAddFileSystemNode!) ? newNode : null;
@@ -136,17 +151,37 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
                         image: DecorationImage(
                             image: MemoryImage(image), fit: BoxFit.cover)),
                   ),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                          onPressed: () => onTakePicture(image),
-                          child: const Text("앨범에 저장하기")),
-                      ElevatedButton(
-                        onPressed: () => onSharePicture(image),
-                        child: const Text("공유하기"),
-                      )
-                    ],
-                  )
+                  Align(
+                      alignment: FractionalOffset.bottomCenter,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FloatingActionButton(
+                                  onPressed: () => onTakePicture(image),
+                                  backgroundColor: lightColorScheme.primary,
+                                  foregroundColor: Colors.black,
+                                  shape: const CircleBorder(),
+                                  child: const Icon(Icons.download),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                FloatingActionButton(
+                                  onPressed: () => onSharePicture(image),
+                                  backgroundColor: lightColorScheme.primary,
+                                  foregroundColor: Colors.black,
+                                  shape: const CircleBorder(),
+                                  child: const Icon(Icons.share),
+                                ),
+                              ],
+                            ),
+                          ])),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ));
@@ -156,8 +191,13 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
     await saveImage(image);
   }
 
-  void onSharePicture(image) {
-    // share picture
+  Future onSharePicture(Uint8List bytes) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final image = File('${directory.path}/flutter.png');
+    image.writeAsBytesSync(bytes);
+
+    await Share.shareXFiles([XFile(image.path)]);
+    // await Share.shareFiles([image.path]);
   }
 
   Future<String> saveImage(Uint8List bytes) async {
@@ -171,5 +211,14 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
     final result = await ImageGallerySaver.saveImage(bytes, name: name);
 
     return result['filePath'];
+  }
+
+  Future saveAndShare(Uint8List bytes) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final image = File('${directory.path}/flutter.png');
+    image.writeAsBytesSync(bytes);
+
+    await Share.shareXFiles([XFile(image.path)]);
+    // await Share.shareFiles([image.path]);
   }
 }

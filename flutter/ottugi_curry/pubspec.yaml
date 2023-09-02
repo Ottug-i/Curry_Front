@@ -67,6 +67,9 @@ dependencies:
   image_gallery_saver:
   permission_handler:
 
+  # share image
+  share_plus:
+
 flutter_native_splash:
   background_image: assets/images/splash.png
 
