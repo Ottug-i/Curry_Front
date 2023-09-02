@@ -4,14 +4,17 @@ import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_object_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_anchor_manager.dart';
-import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
 import 'package:ar_flutter_plugin/datatypes/config_planedetection.dart';
 import 'package:ar_flutter_plugin/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
 import 'package:vector_math/vector_math_64.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LocalAndWebObjectsWidget extends StatefulWidget {
   const LocalAndWebObjectsWidget({Key? key}) : super(key: key);
@@ -23,12 +26,10 @@ class LocalAndWebObjectsWidget extends StatefulWidget {
 class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
   ARSessionManager? arSessionManager;
   ARObjectManager? arObjectManager;
-  //String localObjectReference;
-  ARNode? localObjectNode;
-  //String webObjectReference;
-  ARNode? webObjectNode;
   ARNode? fileSystemNode;
   HttpClient? httpClient;
+
+  ScreenshotController screenshotController = ScreenshotController();
 
   @override
   void dispose() {
@@ -43,9 +44,12 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
           title: const Text('Local & Web Objects'),
         ),
         body: Stack(children: [
-          ARView(
-            onARViewCreated: onARViewCreated,
-            planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
+          Screenshot(
+            controller: screenshotController,
+            child: ARView(
+              onARViewCreated: onARViewCreated,
+              planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
+            ),
           ),
           Align(
               alignment: FractionalOffset.bottomCenter,
@@ -56,19 +60,11 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
                   children: [
                     ElevatedButton(
                         onPressed: onFileSystemObjectAtOrigin,
-                        child: const Text(
-                            "Add/Remove Filesystem\nObject at Origin")),
+                        child: const Text("송이 추가하기")),
+                    ElevatedButton(
+                        onPressed: onTakeScreenshot, child: const Text("사진 찍기"))
                   ],
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     ElevatedButton(
-                //         onPressed: onLocalObjectAtOriginButtonPressed,
-                //         child:
-                //             const Text("Add/Remove Local\nObject at Origin")),
-                //   ],
-                // )
               ]))
         ]));
   }
@@ -91,9 +87,6 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
     this.arObjectManager!.onInitialize();
 
     httpClient = HttpClient();
-    // _downloadFile(
-    //     "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF-Binary/Duck.glb",
-    //     "LocalDuck.glb");
     _downloadFile(
         "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
         "LocalMushroom.glb");
@@ -109,22 +102,6 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
     print("Downloading finished, path: " '$dir/$filename');
     return file;
   }
-
-  // Future<void> onLocalObjectAtOriginButtonPressed() async {
-  //   if (localObjectNode != null) {
-  //     arObjectManager!.removeNode(localObjectNode!);
-  //     localObjectNode = null;
-  //   } else {
-  //     var newNode = ARNode(
-  //         type: NodeType.localGLTF2,
-  //         uri: "character_blender.gltf", // "Models/Chicken_01/Chicken_01.gltf",
-  //         scale: Vector3(0.2, 0.2, 0.2),
-  //         position: Vector3(0.0, 0.0, 0.0),
-  //         rotation: Vector4(1.0, 0.0, 0.0, 0.0));
-  //     bool? didAddLocalNode = await arObjectManager!.addNode(newNode);
-  //     localObjectNode = (didAddLocalNode!) ? newNode : null;
-  //   }
-  // }
 
   Future<void> onFileSystemObjectAtOrigin() async {
     if (fileSystemNode != null) {
@@ -143,25 +120,56 @@ class _LocalAndWebObjectsWidgetState extends State<LocalAndWebObjectsWidget> {
     }
   }
 
-  // Future<void> onLocalObjectShuffleButtonPressed() async {
-  //   if (localObjectNode != null) {
-  //     var newScale = Random().nextDouble() / 3;
-  //     var newTranslationAxis = Random().nextInt(3);
-  //     var newTranslationAmount = Random().nextDouble() / 3;
-  //     var newTranslation = Vector3(0, 0, 0);
-  //     newTranslation[newTranslationAxis] = newTranslationAmount;
-  //     var newRotationAxisIndex = Random().nextInt(3);
-  //     var newRotationAmount = Random().nextDouble();
-  //     var newRotationAxis = Vector3(0, 0, 0);
-  //     newRotationAxis[newRotationAxisIndex] = 1.0;
+  Future<void> onTakeScreenshot() async {
+    final image = await screenshotController.capture();
 
-  //     final newTransform = Matrix4.identity();
+    if (image == null) return;
+    // await saveImage(image);
+    // ignore: use_build_context_synchronously
+    await showDialog(
+        context: context,
+        builder: (_) => Dialog(
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: MemoryImage(image), fit: BoxFit.cover)),
+                  ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                          onPressed: () => onTakePicture(image),
+                          child: const Text("앨범에 저장하기")),
+                      ElevatedButton(
+                        onPressed: () => onSharePicture(image),
+                        child: const Text("공유하기"),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ));
+  }
 
-  //     newTransform.setTranslation(newTranslation);
-  //     newTransform.rotate(newRotationAxis, newRotationAmount);
-  //     newTransform.scale(newScale);
+  Future<void> onTakePicture(image) async {
+    await saveImage(image);
+  }
 
-  //     localObjectNode!.transform = newTransform;
-  //   }
-  // }
+  void onSharePicture(image) {
+    // share picture
+  }
+
+  Future<String> saveImage(Uint8List bytes) async {
+    await [Permission.storage].request();
+
+    final time = DateTime.now()
+        .toIso8601String()
+        .replaceAll('.', '-')
+        .replaceAll(':', '-');
+    final name = 'screenshot_$time';
+    final result = await ImageGallerySaver.saveImage(bytes, name: name);
+
+    return result['filePath'];
+  }
 }

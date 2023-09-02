@@ -55,10 +55,17 @@ dependencies:
   flutter_dotenv:
   flutter_tts: ^3.7.0
   model_viewer_plus: ^1.6.1
+
+  # ar camera
   ar_flutter_plugin:
   vector_math:
   camera:
   path_provider:
+
+  # screenshot
+  screenshot:
+  image_gallery_saver:
+  permission_handler:
 
 flutter_native_splash:
   background_image: assets/images/splash.png
