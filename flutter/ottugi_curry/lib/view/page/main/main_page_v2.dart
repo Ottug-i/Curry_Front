@@ -71,26 +71,25 @@ class MainPageV2 extends StatelessWidget {
                                 );
                               }
                               return SizedBox(
-                                    height: 160,
-                                    child: Obx(
-                                      ()=> recommendController
-                                          .ratingRecList.isNotEmpty
-                                        ? ListView.builder(
-                                          padding: const EdgeInsets.only(
-                                              top: 10, bottom: 10),
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: recommendController
-                                              .ratingRecList.length,
-                                          itemBuilder:
-                                              (BuildContext context, int idx) {
-                                            return ratingRecCardWidget(
-                                                recommendController
-                                                    .ratingRecList[idx]);
-                                          })
-                                          : const Center(child: Text('추천 레시피가 없습니다.'))
-                                    ),
-                                  );
+                                height: 160,
+                                child: Obx(() => recommendController
+                                        .ratingRecList.isNotEmpty
+                                    ? ListView.builder(
+                                        padding: const EdgeInsets.only(
+                                            top: 10, bottom: 10),
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: recommendController
+                                            .ratingRecList.length,
+                                        itemBuilder:
+                                            (BuildContext context, int idx) {
+                                          return ratingRecCardWidget(
+                                              recommendController
+                                                  .ratingRecList[idx]);
+                                        })
+                                    : const Center(
+                                        child: Text('추천 레시피가 없습니다.'))),
+                              );
                             })
                       ],
                     ),
@@ -155,7 +154,7 @@ class MainPageV2 extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: () {
-                          // Get.toNamed('/recipe');
+                          Get.toNamed('/ar_camera');
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

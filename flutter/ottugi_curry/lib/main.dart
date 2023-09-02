@@ -5,6 +5,7 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/config/custom_theme_data.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ottugi_curry/view/page/ar_camera/ar_camera_page.dart';
 import 'package:ottugi_curry/view/controller/recipe_camera/camera_page_controller.dart';
 import 'firebase_options.dart';
 
@@ -42,9 +43,7 @@ class MyApp extends StatelessWidget {
       theme: CustomThemeData.themeDataLight,
       initialRoute: '/login', // login
       getPages: Config.routers,
-      // home: const ResultCheck(
-      //   imagePath: 'assets/images/ingredients.png',
-      // ),
+      // home: const ArCameraPage(),
     );
   }
 }
