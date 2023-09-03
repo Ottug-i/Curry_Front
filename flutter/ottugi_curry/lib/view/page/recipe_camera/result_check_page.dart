@@ -28,19 +28,9 @@ class _ResultCheckPageState extends State<ResultCheckPage> {
   final textFieldErrorShakeKey = GlobalKey<ShakeAnimationState>();
   final textController = TextEditingController();
 
-  final duplicateAlert = const SnackBar(
-    content: Text('이미 있는 재료입니다.'),
-    backgroundColor: Colors.red,
-  );
-  final fullAlert = const SnackBar(
-    content: Text('최대 5개의 재료를 선택할 수 있습니다.'),
-    backgroundColor: Colors.orange,
-  );
-
   @override
   void initState() {
     super.initState();
-    print("imagePath: $imagePath");
     // 인식 결과로 받아온 변수를 controller에 저장
     rListController.setIngredientList(ingredient);
   }
@@ -67,242 +57,210 @@ class _ResultCheckPageState extends State<ResultCheckPage> {
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return ScaffoldMessenger(
-                          child: StatefulBuilder(
-                              builder:
-                                  (BuildContext context,
-                                          StateSetter setState) =>
-                                      Scaffold(
-                                          backgroundColor: Colors
-                                              .transparent, // dialog로 만들기 위해
-                                          body: GestureDetector(
-                                              child: Dialog(
-                                            insetPadding:
-                                                const EdgeInsets.all(40),
-                                            backgroundColor: Colors.white,
-                                            child: SingleChildScrollView(
-                                              physics:
-                                                  const ClampingScrollPhysics(),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(20),
-                                                child: Obx(
-                                                  () => Column(
-                                                    children: [
-                                                      Text(
-                                                          '촬영한 재료가 아니라면 선택을 해제하세요.',
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyMedium),
-                                                      Text(
-                                                          '추가로 입력한 재료를 삭제하려면 길게 누르세요.',
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodySmall),
-                                                      const SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      Column(
-                                                          children: rListController
-                                                              .ingredientList
-                                                              .map((favorite) {
-                                                        return GestureDetector(
-                                                          onLongPress: () {
-                                                            if (favorite[
-                                                                "ableToDelete"]) {
-                                                              HapticFeedback
-                                                                  .vibrate();
-                                                              rListController
-                                                                  .deleteIngredient(
-                                                                      favorite[
-                                                                          "name"]);
-                                                            }
-                                                          },
-                                                          child:
-                                                              CheckboxListTile(
-                                                                  activeColor:
-                                                                      lightColorScheme
-                                                                          .primary,
-                                                                  checkboxShape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              5)),
-                                                                  value: favorite[
-                                                                      "isChecked"],
-                                                                  title: Text(
-                                                                      favorite[
-                                                                          "name"],
-                                                                      style: Theme.of(
-                                                                              context)
-                                                                          .textTheme
-                                                                          .titleMedium),
-                                                                  onChanged:
-                                                                      (val) {
-                                                                    setState(
-                                                                        () {
-                                                                      if (val ==
-                                                                          true) {
-                                                                        if (rListController.currentSelected <
-                                                                            rListController.maxSelected) {
-                                                                          favorite["isChecked"] =
-                                                                              true;
-                                                                          rListController.currentSelected +=
-                                                                              1;
-                                                                        } else {
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .showSnackBar(fullAlert);
-                                                                        }
-                                                                      } else {
-                                                                        favorite["isChecked"] =
-                                                                            false;
-                                                                        rListController
-                                                                            .currentSelected -= 1;
-                                                                      }
-                                                                    });
-                                                                  }),
-                                                        );
-                                                      }).toList()),
-                                                      if (!rListController
-                                                          .isFull())
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Flexible(
-                                                              key: dataKey,
-                                                              child:
-                                                                  ShakeAnimation(
-                                                                key:
-                                                                    textFieldErrorShakeKey,
-                                                                shakeCount: 3,
-                                                                shakeOffset: 10,
-                                                                child: TextField(
-                                                                    onChanged: (text) {
-                                                                      setState(
-                                                                          () {
-                                                                        isTextFieldError =
-                                                                            (text.isEmpty);
-                                                                      });
-                                                                    },
-                                                                    keyboardType: TextInputType.text,
-                                                                    inputFormatters: <TextInputFormatter>[
-                                                                      FilteringTextInputFormatter
-                                                                          .allow(
-                                                                              RegExp(r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ|ㆍ|ᆢ|ᄀᆞ|ᄂᆞ|ᄃᆞ|ᄅᆞ|ᄆᆞ|ᄇᆞ|ᄉᆞ|ᄋᆞ|ᄌᆞ|ᄎᆞ|ᄏᆞ|ᄐᆞ|ᄑᆞ|ᄒᆞ]'))
-                                                                    ],
-                                                                    controller: textController,
-                                                                    onTap: () {
-                                                                      print(
-                                                                          '>> Scrollable');
-                                                                      Scrollable
-                                                                          .ensureVisible(
-                                                                        // 입력 시 스크롤 자동 이동
-                                                                        dataKey
-                                                                            .currentContext!,
-                                                                        // duration: const Duration(milliseconds: 300),
-                                                                        // curve: Curves.easeInOut,
-                                                                      );
-                                                                    },
-                                                                    decoration: InputDecoration(
-                                                                        errorBorder: OutlineInputBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(10.0),
-                                                                          borderSide: const BorderSide(
-                                                                              color: Colors.red,
-                                                                              width: 2.0),
-                                                                        ),
-                                                                        border: const OutlineInputBorder(),
-                                                                        hintText: '추가할 식재료',
-                                                                        errorText: isTextFieldError
-                                                                            ? "입력란이 비었습니다." // Error message
-                                                                            : null)),
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            IconButton(
-                                                              onPressed: () {
-                                                                if (textController
-                                                                    .text
-                                                                    .trim()
-                                                                    .isEmpty) {
-                                                                  isTextFieldError =
-                                                                      true;
-                                                                  print("비었음");
-                                                                } else {
-                                                                  isTextFieldError =
-                                                                      false;
-                                                                  if (rListController
-                                                                      .canAddIngredient(
-                                                                          textController
-                                                                              .text)) {
-                                                                    ScaffoldMessenger.of(
-                                                                            context)
-                                                                        .showSnackBar(
-                                                                            duplicateAlert);
-                                                                  } else {
-                                                                    rListController
-                                                                        .setIngredient(
-                                                                            textController.text);
-                                                                    textController
-                                                                        .clear();
-                                                                  }
-                                                                }
-                                                              },
-                                                              color:
-                                                                  Colors.black,
-                                                              highlightColor:
-                                                                  lightColorScheme
-                                                                      .primary, //<-- SEE HERE
-                                                              iconSize: 20,
-                                                              icon: const Icon(
-                                                                Icons.add,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      const SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 100,
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                            isTextFieldError =
-                                                                false;
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          child:
-                                                              const Text('완료'),
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        top: 10,
-                                                        right: 10,
-                                                        child: IconButton(
-                                                          color: Colors.white,
-                                                          icon: const Icon(
-                                                              Icons.close),
-                                                          onPressed: () {
-                                                            // Dialog를 닫기 위한 로직을 추가하세요.
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ],
+                      return Dialog(
+                        insetPadding: const EdgeInsets.all(40),
+                        backgroundColor: Colors.white,
+                        child: SingleChildScrollView(
+                          physics: const ClampingScrollPhysics(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Obx(
+                              () => Column(
+                                children: [
+                                  Text('촬영한 재료가 아니라면 선택을 해제하세요.',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                  Text('추가로 입력한 재료를 삭제하려면 길게 누르세요.',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Column(
+                                      children: rListController.ingredientList
+                                          .map((favorite) {
+                                    return GestureDetector(
+                                      onLongPress: () {
+                                        if (favorite["ableToDelete"]) {
+                                          HapticFeedback.vibrate();
+                                          rListController.deleteIngredient(
+                                              favorite["name"]);
+                                        }
+                                      },
+                                      child: CheckboxListTile(
+                                          activeColor: lightColorScheme.primary,
+                                          checkboxShape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          value: favorite["isChecked"],
+                                          title: Text(favorite["name"],
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium),
+                                          onChanged: (val) {
+                                            if (val == true) {
+                                              if (rListController
+                                                      .currentSelected <
+                                                  rListController.maxSelected) {
+                                                favorite["isChecked"] = true;
+                                                rListController
+                                                    .currentSelected += 1;
+                                              } else {
+                                                Get.showSnackbar(
+                                                  const GetSnackBar(
+                                                    title: '갯수 초과',
+                                                    message:
+                                                        '최대 5개의 재료를 선택할 수 있습니다.',
+                                                    icon: Icon(
+                                                      Icons.check_box,
+                                                      color: Colors.white,
+                                                    ),
+                                                    backgroundColor:
+                                                        Colors.orange,
+                                                    duration:
+                                                        Duration(seconds: 3),
                                                   ),
-                                                ),
-                                              ),
-                                            ),
-                                          )))));
+                                                );
+                                              }
+                                            } else {
+                                              favorite["isChecked"] = false;
+                                              rListController.currentSelected -=
+                                                  1;
+                                            }
+                                          }),
+                                    );
+                                  }).toList()),
+                                  if (!rListController.isFull())
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                          key: dataKey,
+                                          child: ShakeAnimation(
+                                            key: textFieldErrorShakeKey,
+                                            shakeCount: 3,
+                                            shakeOffset: 10,
+                                            child: TextField(
+                                                onChanged: (text) {
+                                                  setState(() {
+                                                    isTextFieldError =
+                                                        (text.isEmpty);
+                                                  });
+                                                },
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                inputFormatters: <TextInputFormatter>[
+                                                  FilteringTextInputFormatter
+                                                      .allow(RegExp(
+                                                          r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ|ㆍ|ᆢ|ᄀᆞ|ᄂᆞ|ᄃᆞ|ᄅᆞ|ᄆᆞ|ᄇᆞ|ᄉᆞ|ᄋᆞ|ᄌᆞ|ᄎᆞ|ᄏᆞ|ᄐᆞ|ᄑᆞ|ᄒᆞ]'))
+                                                ],
+                                                controller: textController,
+                                                onTap: () {
+                                                  print('>> Scrollable');
+                                                  Scrollable.ensureVisible(
+                                                    // 입력 시 스크롤 자동 이동
+                                                    dataKey.currentContext!,
+                                                    // duration: const Duration(milliseconds: 300),
+                                                    // curve: Curves.easeInOut,
+                                                  );
+                                                },
+                                                decoration: InputDecoration(
+                                                    errorBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color: Colors.red,
+                                                              width: 2.0),
+                                                    ),
+                                                    border:
+                                                        const OutlineInputBorder(),
+                                                    hintText: '추가할 식재료',
+                                                    errorText: isTextFieldError
+                                                        ? "입력란이 비었습니다." // Error message
+                                                        : null)),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            if (textController.text
+                                                .trim()
+                                                .isEmpty) {
+                                              isTextFieldError = true;
+                                              print("비었음");
+                                            } else {
+                                              isTextFieldError = false;
+                                              if (rListController
+                                                  .canAddIngredient(
+                                                      textController.text)) {
+                                                Get.showSnackbar(
+                                                    const GetSnackBar(
+                                                  title: '중복 알림',
+                                                  message: '이미 있는 재료입니다',
+                                                  icon: Icon(
+                                                    Icons.check_box,
+                                                    color: Colors.white,
+                                                  ),
+                                                  backgroundColor: Colors.red,
+                                                  duration:
+                                                      Duration(seconds: 3),
+                                                ));
+                                              } else {
+                                                rListController.setIngredient(
+                                                    textController.text);
+                                                textController.clear();
+                                              }
+                                            }
+                                          },
+                                          color: Colors.black,
+                                          highlightColor: lightColorScheme
+                                              .primary, //<-- SEE HERE
+                                          iconSize: 20,
+                                          icon: const Icon(
+                                            Icons.add,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  SizedBox(
+                                    width: 100,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        isTextFieldError = false;
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('완료'),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 10,
+                                    right: 10,
+                                    child: IconButton(
+                                      color: Colors.white,
+                                      icon: const Icon(Icons.close),
+                                      onPressed: () {
+                                        // Dialog를 닫기 위한 로직을 추가하세요.
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
                     },
                   );
                 },

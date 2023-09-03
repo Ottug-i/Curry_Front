@@ -8,6 +8,7 @@ import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
 import 'package:ar_flutter_plugin/datatypes/config_planedetection.dart';
 import 'package:ar_flutter_plugin/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
+import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:share_plus/share_plus.dart';
@@ -165,100 +166,97 @@ class _ArCameraPageState extends State<ArCameraPage> {
       // null 방지
       return print("takeScreenshot 오류 발생. $image");
     }
-    ;
     // await saveImage(image);
     // ignore: use_build_context_synchronously
     await showDialog(
         context: context,
         builder: (context) {
-          return ScaffoldMessenger(
-            child: StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) =>
-                    Scaffold(
-                        backgroundColor: Colors.transparent, // dialog로 만들기 위해
-                        body: GestureDetector(
-                            child: Dialog(
-                          insetPadding: const EdgeInsets.all(40),
-                          backgroundColor: Colors.white,
-                          child: Stack(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: MemoryImage(image),
-                                        fit: BoxFit.cover)),
-                              ),
-                              Align(
-                                  alignment: FractionalOffset.bottomCenter,
-                                  child: Container(
-                                    margin: const EdgeInsets.only(bottom: 20.0),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              FloatingActionButton(
-                                                onPressed: () async {
-                                                  bool result =
-                                                      await saveImage(image);
-                                                  setState(() {
-                                                    if (result) {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              successAlert);
-                                                    } else {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              failAlert);
-                                                    }
-                                                  });
-                                                },
-                                                backgroundColor:
-                                                    lightColorScheme.primary,
-                                                foregroundColor: Colors.black,
-                                                shape: const CircleBorder(),
-                                                child:
-                                                    const Icon(Icons.download),
-                                              ),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                              FloatingActionButton(
-                                                onPressed: () =>
-                                                    sharePicture(image),
-                                                backgroundColor:
-                                                    lightColorScheme.primary,
-                                                foregroundColor: Colors.black,
-                                                shape: const CircleBorder(),
-                                                child: const Icon(Icons.share),
-                                              ),
-                                            ],
+          return Dialog(
+            insetPadding: const EdgeInsets.all(40),
+            backgroundColor: Colors.white,
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: MemoryImage(image), fit: BoxFit.cover)),
+                ),
+                Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 20.0),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FloatingActionButton(
+                                  onPressed: () async {
+                                    bool result = await saveImage(image);
+
+                                    if (result) {
+                                      Get.showSnackbar(
+                                        const GetSnackBar(
+                                          title: '저장 성공',
+                                          message: '기기에 사진을 저장했습니다.',
+                                          icon: Icon(
+                                            Icons.tag_faces,
+                                            color: Colors.white,
                                           ),
-                                        ]),
-                                  )),
-                              Positioned(
-                                top: 10,
-                                right: 10,
-                                child: IconButton(
-                                  color: Colors.white,
-                                  icon: const Icon(Icons.close),
-                                  onPressed: () {
-                                    // Dialog를 닫기 위한 로직을 추가하세요.
-                                    Navigator.of(context).pop();
+                                          backgroundColor: Colors.green,
+                                          duration: Duration(seconds: 3),
+                                        ),
+                                      );
+                                    } else {
+                                      Get.showSnackbar(const GetSnackBar(
+                                        title: '저장 실패',
+                                        message:
+                                            '사진 저장에 실패했습니다. 화면에 재접속하여 새로고침 후 다시 시도해주세요.',
+                                        icon: Icon(
+                                            Icons.sentiment_very_dissatisfied,
+                                            color: Colors.white),
+                                        backgroundColor: Colors.red,
+                                        duration: Duration(seconds: 3),
+                                      ));
+                                    }
                                   },
+                                  backgroundColor: lightColorScheme.primary,
+                                  foregroundColor: Colors.black,
+                                  shape: const CircleBorder(),
+                                  child: const Icon(Icons.download),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                            ],
-                          ),
-                        )))),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                FloatingActionButton(
+                                  onPressed: () => sharePicture(image),
+                                  backgroundColor: lightColorScheme.primary,
+                                  foregroundColor: Colors.black,
+                                  shape: const CircleBorder(),
+                                  child: const Icon(Icons.share),
+                                ),
+                              ],
+                            ),
+                          ]),
+                    )),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: IconButton(
+                    color: Colors.white,
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      // Dialog를 닫기 위한 로직을 추가하세요.
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
           );
         });
   }
