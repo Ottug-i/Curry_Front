@@ -281,7 +281,22 @@ class _ResultCheckPageState extends State<ResultCheckPage> {
                                                           child:
                                                               const Text('완료'),
                                                         ),
-                                                      )
+                                                      ),
+                                                      Positioned(
+                                                        top: 10,
+                                                        right: 10,
+                                                        child: IconButton(
+                                                          color: Colors.white,
+                                                          icon: const Icon(
+                                                              Icons.close),
+                                                          onPressed: () {
+                                                            // Dialog를 닫기 위한 로직을 추가하세요.
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
