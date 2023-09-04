@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:ottugi_curry/view/page/ar_camera/ar_camera_page.dart';
 import 'package:ottugi_curry/view/page/bookmark/bookmark_page.dart';
 import 'package:ottugi_curry/view/page/login/login_page.dart';
 import 'package:ottugi_curry/view/page/login/login_rating_page.dart';
@@ -62,6 +63,10 @@ class Config {
         name: '/login_rating',
         page: () => const LoginRatingPage(),
         transition: Transition.noTransition),
+    GetPage(
+        name: '/ar_camera',
+        page: () => const ArCameraPage(),
+        transition: Transition.noTransition)
   ];
 
   // 레시피 상세 페이지에서 조리순서를 보는 방식: 음성/사진/즐글

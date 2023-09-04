@@ -60,6 +60,20 @@ dependencies:
   flutter_app_badger: ^1.5.0
   timezone: ^0.9.2
 
+  # ar camera
+  ar_flutter_plugin:
+  vector_math:
+  camera:
+  path_provider:
+
+  # screenshot
+  screenshot:
+  image_gallery_saver:
+  permission_handler:
+
+  # share image
+  share_plus:
+
 flutter_native_splash:
   background_image: assets/images/splash.png
 
