@@ -30,6 +30,7 @@ class _ArCameraPageState extends State<ArCameraPage> {
   ARSessionManager? arSessionManager;
   ARObjectManager? arObjectManager;
   ARNode? fileSystemNode;
+  ARNode? webObjectNode;
   HttpClient? httpClient;
 
   ScreenshotController screenshotController = ScreenshotController();
@@ -75,6 +76,7 @@ class _ArCameraPageState extends State<ArCameraPage> {
                     children: [
                       ElevatedButton(
                           onPressed: onFileSystemObjectAtOrigin,
+                          // onPressed: onWebObjectAtOriginButtonPressed,
                           child: Text("AR송이 추가하기",
                               style: Theme.of(context).textTheme.bodyMedium!)),
                       const SizedBox(
@@ -118,16 +120,17 @@ class _ArCameraPageState extends State<ArCameraPage> {
 
     this.arSessionManager!.onInitialize(
           showFeaturePoints: false,
-          showPlanes: false,
-          // customPlaneTexturePath: "images/triangle.png",
-          showWorldOrigin: false,
+          showPlanes: true,
+          customPlaneTexturePath: "assets/3d_models/mushroom_final.glb",
+          showWorldOrigin: true,
           handleTaps: false,
         );
     this.arObjectManager!.onInitialize();
 
     httpClient = HttpClient();
     _downloadFile(
-        "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
+        // "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
+        "https://github.com/Ottug-i/Curry_Front/blob/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb?raw=true",
         "LocalMushroom.glb");
   }
 
@@ -142,20 +145,63 @@ class _ArCameraPageState extends State<ArCameraPage> {
     return file;
   }
 
+  Future<void> onWebObjectAtOriginButtonPressed() async {
+    if (webObjectNode != null) {
+      arObjectManager!.removeNode(webObjectNode!);
+      webObjectNode = null;
+    } else {
+      var newNode = ARNode(
+          type: NodeType.webGLB,
+          uri:
+          // "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
+          "https://github.com/Ottug-i/Curry_Front/blob/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb?raw=true",
+          scale: math.Vector3(0.2, 0.2, 0.2));
+      print('hi');
+      bool? didAddWebNode = await arObjectManager!.addNode(newNode);
+      webObjectNode = (didAddWebNode!) ? newNode : null;
+    }
+  }
+
   Future<void> onFileSystemObjectAtOrigin() async {
     if (fileSystemNode != null) {
+      print('hi22');
       arObjectManager!.removeNode(fileSystemNode!);
       fileSystemNode = null;
     } else {
+      print('hi1');
       var newNode = ARNode(
           type: NodeType.fileSystemAppFolderGLB,
           uri: "LocalMushroom.glb", //"LocalDuck.glb",
-          scale: math.Vector3(0.08, 0.08, 0.08),
-          rotation: math.Vector4(0, 0.5, 0, 0),
-          position: math.Vector3(0, -0.4, -0.4),
-          transformation: Matrix4.rotationY(-30));
+          scale: math.Vector3(80, 80, 80),
+          // rotation: math.Vector4(0, 0.5, 0, 0),
+          // position: math.Vector3(0, 0.4, 0.4),
+          // transformation: Matrix4.rotationY(-30)
+      );
+
+      // var newNode = ARNode(
+      //     type: NodeType.localGLTF2,
+      //     uri: "assets/3d_models/mushroom_final.gltf", //"LocalDuck.glb",
+      //     scale: math.Vector3(0.8, 0.8, 0.8),
+      //     rotation: math.Vector4(0, 0.5, 0, 0),
+      //     position: math.Vector3(0, -0.4, -0.4),
+      //     transformation: Matrix4.rotationY(-30));
+
+      // var newNode = ARNode(
+      //     type: NodeType.webGLB,
+      //     uri: "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb?raw=true", //"LocalDuck.glb",
+      //     scale: math.Vector3(0.8, 0.8, 0.8),
+      //     rotation: math.Vector4(0, 0.5, 0, 0),
+      //     position: math.Vector3(0, -0.4, -0.4),
+      //     transformation: Matrix4.rotationY(-30));
+      print('hi3');
+
       bool? didAddFileSystemNode = await arObjectManager!.addNode(newNode);
+      print('hi4');
+      print('print didAddFileSystemNode: ${didAddFileSystemNode}');
+
       fileSystemNode = (didAddFileSystemNode!) ? newNode : null;
+      print('hi5');
+
     }
   }
 

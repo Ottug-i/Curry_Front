@@ -1,6 +1,6 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, '11.0'
-
+platform :ios, '13.0'
+$FirebaseSDKVersion = '9.6.0'
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
@@ -32,6 +32,9 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+#   pod 'GTMSessionFetcher/Core', '~> 1.6'
+#   pod 'Firebase/CoreOnly' ,'~> 10.12.0'
+#   pod 'nanopb' ,'~> 2.30908.0'
 end
 
 post_install do |installer|
@@ -39,6 +42,27 @@ post_install do |installer|
     project.targets.each do |target|
         target.build_configurations.each do |config|
             config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+
+            config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
+              '$(inherited)',
+
+              ## dart: PermissionGroup.camera
+              'PERMISSION_CAMERA=1',
+
+              ## dart: PermissionGroup.photos
+              'PERMISSION_PHOTOS=1',
+
+              ## dart: [PermissionGroup.location, PermissionGroup.locationAlways, PermissionGroup.locationWhenInUse]
+              'PERMISSION_LOCATION=1',
+
+              ## dart: PermissionGroup.sensors
+              'PERMISSION_SENSORS=1',
+
+              ## dart: PermissionGroup.bluetooth
+              'PERMISSION_BLUETOOTH=1',
+
+              # add additional permission groups if required
+            ]
         end
     end
 end

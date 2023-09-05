@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
-import 'package:ottugi_curry/config/local_notifications_widget.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
@@ -185,7 +184,7 @@ class MainPageDetail extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // 인증샷 직고 공유하기 버튼
+                    // 인증샷 찍고 공유하기 버튼
                     Container(
                       width: rowWidgetWidth,
                       height: 150,
@@ -198,8 +197,7 @@ class MainPageDetail extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: () {
-                          // Get.toNamed('/recipe');
-                          Get.to(() => LocalNotificationsWidget());
+                          Get.toNamed('/ar_camera');
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
