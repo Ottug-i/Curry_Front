@@ -9,6 +9,7 @@ import 'package:ottugi_curry/view/page/login/login_rating_page.dart';
 import 'package:ottugi_curry/view/page/main/main_page.dart';
 import 'package:ottugi_curry/view/page/rating_recommend/rating_rec_page.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/recipe_camera_page.dart';
+import 'package:ottugi_curry/view/page/recipe_camera/yoloImage.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_page.dart';
 import 'package:ottugi_curry/view/page/recipe_list/recipe_recs_page.dart';
 import 'package:ottugi_curry/view/page/text_search/text_search_page.dart';
@@ -72,6 +73,10 @@ class Config {
         name: '/login_rating',
         page: () => const LoginRatingPage(),
         transition: Transition.noTransition),
+    GetPage(
+        name: '/yoloImage',
+        page: () => const YoloImage(),
+        transition: Transition.noTransition)
   ];
 
   // 레시피 상세 페이지에서 조리순서를 보는 방식: 음성/사진/즐글
@@ -111,9 +116,21 @@ class Config {
   final levelType = ['아무나', '초급', '중급', '고급', '마스터'];
 
   // 알림 메시지 멘트
-  final breakfastMessage = ['오늘 아침은 무엇을 먹을까요? 추천 받아 보세요!', '상쾌한 하루를 위한 아침 메뉴를 추천 받아 보세요!', '레시피를 추천 받고 요리해 보세요!'];
-  final lunchMessage = ['점심 메뉴가 고민 된다면, 추천 해드릴게요.', '카레와 함께 오늘도 맛있는 점심 드세요!', '당신을 위한 점심 메뉴가 준비되어 있어요.'];
-  final dinnerMessage = ['오늘 저메추는 카레가 해드릴게요!', '원하는 저녁 메뉴를 카레에서 골라보세요!', '고생한 나를 위한 저녁! 메뉴를 추천해 드릴게요.'];
+  final breakfastMessage = [
+    '오늘 아침은 무엇을 먹을까요? 추천 받아 보세요!',
+    '상쾌한 하루를 위한 아침 메뉴를 추천 받아 보세요!',
+    '레시피를 추천 받고 요리해 보세요!'
+  ];
+  final lunchMessage = [
+    '점심 메뉴가 고민 된다면, 추천 해드릴게요.',
+    '카레와 함께 오늘도 맛있는 점심 드세요!',
+    '당신을 위한 점심 메뉴가 준비되어 있어요.'
+  ];
+  final dinnerMessage = [
+    '오늘 저메추는 카레가 해드릴게요!',
+    '원하는 저녁 메뉴를 카레에서 골라보세요!',
+    '고생한 나를 위한 저녁! 메뉴를 추천해 드릴게요.'
+  ];
 
   // 화면 사이즈 관련 변수
   static const maxWidth = 1240.0;
@@ -122,5 +139,3 @@ class Config {
   static const mobileWidget = 450.0;
 }
 
-enum SocialPlatform { none, google, kakao }
-SocialPlatform social = SocialPlatform.none;
