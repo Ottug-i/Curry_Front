@@ -103,7 +103,7 @@ class RecommendController {
   // 레시피 평점 추가/수정
   Future<bool> updateRating({required Map additionalPropMap}) async { // 레시피 평점 추가
     try {
-      print('print additionalPropList: ${additionalPropMap}');
+      print('print additionalPropList: $additionalPropMap');
       final dio = createDio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
       
