@@ -102,7 +102,7 @@ class LoginRatingPage extends StatelessWidget {
                                     .toString(): loginRatingController.rating[i]
                               });
                             }
-                            print('print additionalProp: ${additionalProp}');
+                            print('print additionalProp: $additionalProp');
                             Get.put(RecommendController());
                             bool isUpdated =
                                 await Get.find<RecommendController>()

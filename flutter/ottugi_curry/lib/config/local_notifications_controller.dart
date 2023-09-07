@@ -103,7 +103,7 @@ class LocalNotificationsController {
     required int messageId,
   }) async {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    print('tz ${now}');
+    print('tz $now');
     tz.TZDateTime scheduledDate = tz.TZDateTime(
       tz.local,
       now.year,
