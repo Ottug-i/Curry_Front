@@ -15,7 +15,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
-
   // Notification 관련 설정
   @override
   void initState() {
@@ -115,10 +114,9 @@ class MainPageDetail extends StatelessWidget {
                               }
                               return SizedBox(
                                 height: 160,
-                                child: Obx(
-                                        ()=> recommendController
+                                child: Obx(() => recommendController
                                         .ratingRecList.isNotEmpty
-                                        ? ListView.builder(
+                                    ? ListView.builder(
                                         padding: const EdgeInsets.only(
                                             top: 10, bottom: 10),
                                         shrinkWrap: true,
@@ -131,8 +129,8 @@ class MainPageDetail extends StatelessWidget {
                                               recommendController
                                                   .ratingRecList[idx]);
                                         })
-                                        : const Center(child: Text('추천 레시피가 없습니다.'))
-                                ),
+                                    : const Center(
+                                        child: Text('추천 레시피가 없습니다.'))),
                               );
                             })
                       ],
@@ -151,7 +149,8 @@ class MainPageDetail extends StatelessWidget {
                   ),
                   child: InkWell(
                     onTap: () {
-                      Get.toNamed('/recipe');
+                      //Get.toNamed('/recipe');
+                      Get.toNamed('/yoloImage');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -198,8 +197,8 @@ class MainPageDetail extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: () {
-                          // Get.toNamed('/recipe');
-                          Get.to(() => LocalNotificationsWidget());
+                          Get.toNamed('/ar_camera');
+                          //Get.to(() => const LocalNotificationsWidget());
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
