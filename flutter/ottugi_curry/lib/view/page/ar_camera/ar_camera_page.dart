@@ -36,6 +36,15 @@ class _ArCameraPageState extends State<ArCameraPage> {
 
   // GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final successAlert = const SnackBar(
+    content: Text('기기의 앨범에 저장되었습니다.'),
+    backgroundColor: Colors.green,
+  );
+  final failAlert = const SnackBar(
+    content: Text('사진 저장에 실패했습니다.'),
+    backgroundColor: Colors.red,
+  );
+
   @override
   void dispose() {
     super.dispose();
@@ -118,7 +127,7 @@ class _ArCameraPageState extends State<ArCameraPage> {
 
     httpClient = HttpClient();
     _downloadFile(
-        "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/mushroom_final_11.glb",
+        "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
         "LocalMushroom.glb");
   }
 
@@ -235,7 +244,7 @@ class _ArCameraPageState extends State<ArCameraPage> {
                   top: 10,
                   right: 10,
                   child: IconButton(
-                    color: Colors.white,
+                    color: Colors.black,
                     icon: const Icon(Icons.close),
                     onPressed: () {
                       // Dialog를 닫기 위한 로직을 추가하세요.

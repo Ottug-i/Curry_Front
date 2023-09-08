@@ -18,13 +18,18 @@ class RecipeListController extends GetxController {
 
   RxInt currentPage = 1.obs; // 북마크 업데이트 시 reload를 위해 필요함
 
+  RxBool isLoading = true.obs;
+
   void setIngredientList(List<String> input) {
+    print("setIngredientList - 받은 input: $input");
     ingredientList.clear();
     for (var item in input) {
       var data = {"name": item, "isChecked": true, "ableToDelete": false};
       currentSelected += 1;
       ingredientList.add(data);
     }
+    // 셋팅까지 하면 감지 완료
+    isLoading.value = false;
   }
 
   void changeIngredients() {

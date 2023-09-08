@@ -109,7 +109,7 @@ flutter:
     - assets/audios/
     - assets/config/
     - assets/3d_models/
-    - assets/ml_model
+    - assets/ml_model/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

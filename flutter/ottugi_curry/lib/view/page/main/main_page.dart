@@ -149,8 +149,8 @@ class MainPageDetail extends StatelessWidget {
                   ),
                   child: InkWell(
                     onTap: () {
-                      //Get.toNamed('/recipe');
-                      Get.toNamed('/yoloImage');
+                      Get.toNamed('/recipe');
+                      //Get.toNamed('/yoloImage');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
