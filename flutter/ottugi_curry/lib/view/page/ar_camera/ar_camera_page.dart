@@ -50,6 +50,9 @@ class _ArCameraPageState extends State<ArCameraPage> {
   void dispose() {
     super.dispose();
     arSessionManager!.dispose();
+    arObjectManager!.removeNode(fileSystemNode!);
+    fileSystemNode = null;
+    webObjectNode = null;
   }
 
   @override

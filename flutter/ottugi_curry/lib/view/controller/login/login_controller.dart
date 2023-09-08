@@ -81,6 +81,10 @@ class LoginController {
       final dio = Dio();
       LoginRepository loginRepository = LoginRepository(dio);
 
+      if (nickName.length >= 10) {
+        nickName = nickName.substring(0, 11); // 닉네임 최대 10글자
+      }
+
       print('$nickName, $email');
       final resp = await loginRepository
           .postAuthLogin(UserResponse(email: email, nickName: nickName));
@@ -129,7 +133,7 @@ class LoginController {
     // }
   }
 
- // 로그아웃
+  // 로그아웃
   void handleLogout() async {
     // 소셜 로그인 플랫폼 로그아웃
     final social = await userStorage.getItem(Config.social);

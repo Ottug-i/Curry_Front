@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/config/config.dart';
+import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_controller.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_timer_controller.dart';
@@ -51,7 +52,6 @@ class RecipeDetailPage extends StatelessWidget {
             body: DefaultTabController(
                 length: 2,
                 child: NestedScrollView(
-                  // floatHeaderSlivers: true,
                   headerSliverBuilder: (context, innerBoxIsScrolled) {
                     // 레시피 이미지, 제목, 옵션 / 탭바
                     return <Widget>[
@@ -216,8 +216,8 @@ class RecipeDetailPage extends StatelessWidget {
                                 ? Image.network(
                                     '${recipeDetailController.recipeResponse.value.thumbnail}',
                                     fit: BoxFit.fill,
-                                    height: 238,
-                                    width: 390,
+                                    height: isWidthMobile(context) == true? 238: 400,
+                                    width: double.infinity,
 
                                   )
                                 : Image.asset(
@@ -256,17 +256,6 @@ class RecipeDetailPage extends StatelessWidget {
                                           size: 27,
                                         ),
                                       ),
-                                      // OutlinedButton(
-                                      //   onPressed: () {},
-                                      //   child: Text('평점'),
-                                      //   style: OutlinedButton.styleFrom(
-                                      //     foregroundColor: Colors.white,
-                                      //     // backgroundColor: Colors.white,
-                                      //     side: BorderSide(
-                                      //       color: Colors.white,
-                                      //     ),
-                                      //   ),
-                                      // ),
                                       Center(
                                         child: Text(
                                           recipeDetailController

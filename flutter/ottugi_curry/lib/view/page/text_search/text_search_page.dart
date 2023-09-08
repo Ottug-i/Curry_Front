@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/controller/text_search/text_search_controller.dart';
 import 'package:ottugi_curry/view/page/recipe_list/list_item_widget.dart';
@@ -37,10 +38,11 @@ class TextSearchPage extends StatelessWidget {
                 children: [
                   // 검색어 입력 창
                   Obx(
-                    ()=> Container(
+                    () => Container(
                       margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
                       child: TextField(
-                        controller: searchController.textEditingController.value,
+                        controller:
+                            searchController.textEditingController.value,
                         onSubmitted: (String text) {
                           if (searchController
                               .textEditingController.value.text.isNotEmpty) {
@@ -105,8 +107,8 @@ class TextSearchPage extends StatelessWidget {
                               ),
 
                               // 페이징
-                              searchController.recipeListPageResponse.value.content!
-                                      .isNotEmpty
+                              searchController.recipeListPageResponse.value
+                                      .content!.isNotEmpty
                                   ? Padding(
                                       padding: const EdgeInsets.only(
                                           left: 20,
@@ -159,8 +161,11 @@ class TextSearchPage extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 450,
+                                    height: isWidthMobile(context) == true
+                                        ? 450
+                                        : 700,
                                     child: ListView.builder(
+                                      physics: const NeverScrollableScrollPhysics(),
                                       padding: const EdgeInsets.only(
                                           top: 17,
                                           bottom: 14,
@@ -189,13 +194,23 @@ class TextSearchPage extends StatelessWidget {
                                                         .rankList[idx].name!;
                                               },
                                               child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 3, bottom: 3, left: 7, right: 7),
+                                                padding:
+                                                    isWidthMobile(context) ==
+                                                            true
+                                                        ? const EdgeInsets.only(
+                                                            top: 3,
+                                                            bottom: 3,
+                                                            left: 7,
+                                                            right: 7)
+                                                        : const EdgeInsets.only(
+                                                            top: 13,
+                                                            bottom: 13,
+                                                            left: 7,
+                                                            right: 7),
                                                 child: RichText(
                                                     text: TextSpan(
                                                         text: '${idx + 1}   ',
                                                         style: TextStyle(
-                                                          fontSize: 17,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           color:

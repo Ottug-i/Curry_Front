@@ -109,6 +109,11 @@ class Config {
   final breakfastMessage = ['오늘 아침은 무엇을 먹을까요? 추천 받아 보세요!', '상쾌한 하루를 위한 아침 메뉴를 추천 받아 보세요!', '레시피를 추천 받고 요리해 보세요!'];
   final lunchMessage = ['점심 메뉴가 고민 된다면, 추천 해드릴게요.', '카레와 함께 오늘도 맛있는 점심 드세요!', '당신을 위한 점심 메뉴가 준비되어 있어요.'];
   final dinnerMessage = ['오늘 저메추는 카레가 해드릴게요!', '원하는 저녁 메뉴를 카레에서 골라보세요!', '고생한 나를 위한 저녁! 메뉴를 추천해 드릴게요.'];
+
+  static const maxWidth = 1240.0;
+  static const padHorizonWidth = 1000.0;
+  static const padWidth = 700.0;
+  static const mobileWidget = 450.0;
 }
 
 enum SocialPlatform { none, google, kakao }

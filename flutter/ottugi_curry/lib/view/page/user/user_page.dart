@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/lately_response.dart';
+import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/controller/login/login_controller.dart';
@@ -64,8 +65,8 @@ class UserPage extends StatelessWidget {
                               Row(
                                 children: [
                                   Container(
-                                    constraints: const BoxConstraints(
-                                      maxWidth: 145,
+                                    constraints: BoxConstraints(
+                                      maxWidth: isWidthMobile(context) == true ? 145 : 600,
                                     ),
                                     child: Obx(
                                       () => Text(
@@ -91,8 +92,10 @@ class UserPage extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              SizedBox(
-                                width: 150,
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxWidth: isWidthMobile(context) == true ? 145 : 600,
+                                ),
                                 child: Obx(
                                   () => Text(
                                     userController.email.value,
@@ -189,7 +192,6 @@ class UserPage extends StatelessWidget {
     // 닉네임 수정
     Get.dialog(Dialog(
       child: Container(
-        height: 210,
         padding:
             const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 50),
         decoration: BoxDecoration(
@@ -200,32 +202,44 @@ class UserPage extends StatelessWidget {
             ),
             color: Colors.white),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(
-                  width: 100,
+                const Flexible(
+                  flex: 5,
                   child: Text(
                     '현재 닉네임 ',
                   ),
                 ),
-                Obx(() => Text(userController.nickName.value)),
+                const Padding(padding: EdgeInsets.only(right: 10)),
+                Flexible(
+                  flex: 5,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: lightColorScheme.primary,
+                                width: 2.0)),
+                      ),
+                        child: Obx(() => Text(userController.nickName.value)))),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const SizedBox(
-                  width: 100,
+                const Flexible(
+                  flex: 5,
                   child: Text(
                     '새로운 닉네임 ',
                   ),
                 ),
-                SizedBox(
-                  width: 150,
-                  height: 35,
+                const Padding(padding: EdgeInsets.only(right: 10)),
+                Flexible(
+                  flex: 5,
                   child: TextField(
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.normal),
@@ -247,7 +261,7 @@ class UserPage extends StatelessWidget {
                 ),
               ],
             ),
-            const Padding(padding: EdgeInsets.only(bottom: 20)),
+            const Padding(padding: EdgeInsets.only(bottom: 30)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

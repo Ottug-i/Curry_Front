@@ -4,6 +4,7 @@ import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
+import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
@@ -133,7 +134,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Expanded(
-                                        flex: 3,
+                                        flex: isWidthMobile(context) == true? 3: 2,
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(24.0),
@@ -306,7 +307,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                           }
 
                                           return SizedBox(
-                                              height: 160,
+                                              height: 170,
                                               child: ListView.builder(
                                                   padding:
                                                       const EdgeInsets.only(
