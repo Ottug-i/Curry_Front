@@ -75,8 +75,8 @@ class _ArCameraPageState extends State<ArCameraPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                          onPressed: onFileSystemObjectAtOrigin,
-                          // onPressed: onWebObjectAtOriginButtonPressed,
+                          // onPressed: onFileSystemObjectAtOrigin,
+                          onPressed: onWebObjectAtOriginButtonPressed,
                           child: Text("AR송이 추가하기",
                               style: Theme.of(context).textTheme.bodyMedium!)),
                       const SizedBox(
@@ -120,8 +120,8 @@ class _ArCameraPageState extends State<ArCameraPage> {
 
     this.arSessionManager!.onInitialize(
           showFeaturePoints: false,
-          showPlanes: true,
-          customPlaneTexturePath: "assets/3d_models/mushroom_final.glb",
+          showPlanes: false,
+          // customPlaneTexturePath: "assets/3d_models/mushroom_final.glb",
           showWorldOrigin: true,
           handleTaps: false,
         );
@@ -129,8 +129,7 @@ class _ArCameraPageState extends State<ArCameraPage> {
 
     httpClient = HttpClient();
     _downloadFile(
-        // "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
-        "https://github.com/Ottug-i/Curry_Front/blob/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb?raw=true",
+        "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
         "LocalMushroom.glb");
   }
 
@@ -154,7 +153,7 @@ class _ArCameraPageState extends State<ArCameraPage> {
           type: NodeType.webGLB,
           uri:
           // "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
-          "https://github.com/Ottug-i/Curry_Front/blob/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb?raw=true",
+          "https://github.com/Ottug-i/Curry_Front/blob/main/flutter/ottugi_curry/assets/3d_models/mushroom_final_7.glb?raw=true",
           scale: math.Vector3(0.2, 0.2, 0.2));
       print('hi');
       bool? didAddWebNode = await arObjectManager!.addNode(newNode);
@@ -171,37 +170,15 @@ class _ArCameraPageState extends State<ArCameraPage> {
       print('hi1');
       var newNode = ARNode(
           type: NodeType.fileSystemAppFolderGLB,
-          uri: "LocalMushroom.glb", //"LocalDuck.glb",
-          scale: math.Vector3(80, 80, 80),
-          // rotation: math.Vector4(0, 0.5, 0, 0),
-          // position: math.Vector3(0, 0.4, 0.4),
+          uri: "LocalMushroom.glb",
+          scale: math.Vector3.all(0.08),
+          rotation: math.Vector4(0, 0, 0, 0),
+          position: math.Vector3(0, 0.4, 0.4),
           // transformation: Matrix4.rotationY(-30)
       );
 
-      // var newNode = ARNode(
-      //     type: NodeType.localGLTF2,
-      //     uri: "assets/3d_models/mushroom_final.gltf", //"LocalDuck.glb",
-      //     scale: math.Vector3(0.8, 0.8, 0.8),
-      //     rotation: math.Vector4(0, 0.5, 0, 0),
-      //     position: math.Vector3(0, -0.4, -0.4),
-      //     transformation: Matrix4.rotationY(-30));
-
-      // var newNode = ARNode(
-      //     type: NodeType.webGLB,
-      //     uri: "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb?raw=true", //"LocalDuck.glb",
-      //     scale: math.Vector3(0.8, 0.8, 0.8),
-      //     rotation: math.Vector4(0, 0.5, 0, 0),
-      //     position: math.Vector3(0, -0.4, -0.4),
-      //     transformation: Matrix4.rotationY(-30));
-      print('hi3');
-
       bool? didAddFileSystemNode = await arObjectManager!.addNode(newNode);
-      print('hi4');
-      print('print didAddFileSystemNode: ${didAddFileSystemNode}');
-
       fileSystemNode = (didAddFileSystemNode!) ? newNode : null;
-      print('hi5');
-
     }
   }
 
