@@ -12,10 +12,11 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
-class ArCameraController {
+class ARCameraController {
   Rx<ScreenshotController> screenshotController = ScreenshotController().obs;
+  RxBool existARNode = false.obs; // AR 모델 추가/삭제 버튼 텍스트 결정
 
-  // 이미지 바이트 데이터 얻어오기
+  // (캡쳐 이후) 이미지 바이트 데이터 얻어오기 - iOS
   Future<Uint8List> loadImageData(
       ImageProvider imageProvider, BuildContext context) async {
     // ImageStream을 생성하여 이미지를 로드합니다.
@@ -39,6 +40,19 @@ class ArCameraController {
     return completer.future;
   }
 
+  // 캡쳐하기 - Android
+  void captureScreenshot(BuildContext context) async {
+    final image = await screenshotController.value.capture();
+
+    if (image == null) {
+      // null 방지
+      return print("captureScreenshot 오류 발생. $image");
+    }
+
+    takeScreenshot(context, image);
+  }
+
+  // 캡쳐한 이미지 데이터로 추후 처리 (dialog 보여주기, 저장, 공유)
   Future<void> takeScreenshot(BuildContext context, Uint8List snapshot) async {
     Get.dialog(Dialog(
       insetPadding: const EdgeInsets.all(30),

@@ -9,14 +9,14 @@ import 'package:ottugi_curry/view/controller/ar_camera/ar_camera_controller.dart
 import 'package:screenshot/screenshot.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
-class ArCameraPageIos extends StatefulWidget {
-  const ArCameraPageIos({super.key});
+class ARCameraPageIos extends StatefulWidget {
+  const ARCameraPageIos({super.key});
 
   @override
-  ArCameraPageIosState createState() => ArCameraPageIosState();
+  ARCameraPageIosState createState() => ARCameraPageIosState();
 }
 
-class ArCameraPageIosState extends State<ArCameraPageIos> {
+class ARCameraPageIosState extends State<ARCameraPageIos> {
   late ARKitController arkitController;
   ARKitReferenceNode? node;
 
@@ -28,8 +28,8 @@ class ArCameraPageIosState extends State<ArCameraPageIos> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(ArCameraController());
-    final arCameraController = Get.find<ArCameraController>();
+    Get.put(ARCameraController());
+    final arCameraController = Get.find<ARCameraController>();
 
     return DefaultLayoutWidget(
       backToMain: true,
@@ -64,6 +64,7 @@ class ArCameraPageIosState extends State<ArCameraPageIos> {
                     // ),
                     FloatingActionButton(
                       onPressed: () async {
+                        // 캡쳐
                         final ImageProvider snapshot = await arkitController.snapshot();
                         final Uint8List snapshotData = await arCameraController.loadImageData(snapshot, context);
 

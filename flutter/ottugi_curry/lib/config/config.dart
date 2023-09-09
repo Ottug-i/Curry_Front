@@ -1,7 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:ottugi_curry/view/page/ar_camera/ar_camera_page.dart';
+import 'package:ottugi_curry/view/page/ar_camera/ar_camera_page_android.dart';
 import 'package:ottugi_curry/view/page/ar_camera/ar_camera_page_ios.dart';
 import 'package:ottugi_curry/view/page/bookmark/bookmark_page.dart';
 import 'package:ottugi_curry/view/page/login/login_page.dart';
@@ -46,11 +46,11 @@ class Config {
         transition: Transition.noTransition),
     GetPage(
         name: '/ar_camera_android',
-        page: () => const ArCameraPageAndroid(),
+        page: () => const ARCameraPageAndroid(),
         transition: Transition.noTransition),
     GetPage(
         name: '/ar_camera_ios',
-        page: () => const ArCameraPageIos(),
+        page: () => const ARCameraPageIos(),
         transition: Transition.noTransition),
     GetPage(
         name: '/search',
