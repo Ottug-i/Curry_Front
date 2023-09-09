@@ -73,7 +73,7 @@ class TextSearchCategoriesWidget extends StatelessWidget {
                             themecolor: lightColorScheme.secondary,
                             onPressed: () {
                               searchController.toggleValue(searchController.searchTime, itemT);
-                              searchController.handleTextSearch(name: searchController.searchName.value, time: searchController.searchTime.value);
+                              searchController.handleTextSearch(name: searchController.searchName.value, changeOptions: true);
                             },
                           )),
                         const SizedBox(width: 10)
@@ -97,7 +97,7 @@ class TextSearchCategoriesWidget extends StatelessWidget {
                               onPressed: () {
                                 searchController.toggleValue(
                                     searchController.searchDifficulty, itemL);
-                                searchController.handleTextSearch(name: searchController.searchName.value, difficulty: searchController.searchDifficulty.value
+                                searchController.handleTextSearch(name: searchController.searchName.value, changeOptions: true
                                 );
                               },
                             )),
@@ -121,7 +121,7 @@ class TextSearchCategoriesWidget extends StatelessWidget {
                               onPressed: () {
                                 searchController.toggleValue(
                                     searchController.searchComposition, itemC);
-                                searchController.handleTextSearch(name: searchController.searchName.value, composition: searchController.searchComposition.value);
+                                searchController.handleTextSearch(name: searchController.searchName.value, changeOptions: true);
                               },
                             )),
                           const SizedBox(width: 10)

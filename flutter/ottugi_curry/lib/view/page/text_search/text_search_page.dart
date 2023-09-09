@@ -8,8 +8,27 @@ import 'package:ottugi_curry/view/controller/text_search/text_search_controller.
 import 'package:ottugi_curry/view/page/recipe_list/list_item_widget.dart';
 import 'package:ottugi_curry/view/page/text_search/text_search_categories_widget.dart';
 
-class TextSearchPage extends StatelessWidget {
+class TextSearchPage extends StatefulWidget {
   const TextSearchPage({Key? key}) : super(key: key);
+
+  @override
+  State<TextSearchPage> createState() => _TextSearchPageState();
+}
+
+class _TextSearchPageState extends State<TextSearchPage> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   Future _initRankList() async {
     Get.put(TextSearchController());
@@ -34,6 +53,7 @@ class TextSearchPage extends StatelessWidget {
             }
 
             return SingleChildScrollView(
+              controller: _scrollController,
               child: Column(
                 children: [
                   // 검색어 입력 창
@@ -125,8 +145,9 @@ class TextSearchPage extends StatelessWidget {
                                             controller: searchController
                                                 .pageController.value,
                                             onPageChange: (int index) {
-                                              searchController
-                                                  .handlePaging(index + 1);
+                                              searchController.handleTextSearch(name: searchController.searchName.value, page: index+1);
+                                              // 스크롤 맨 위로 이동
+                                              _scrollController.jumpTo(0);
                                             },
                                             initialPage: 0,
                                             config: NumberPaginatorUIConfig(
@@ -165,7 +186,8 @@ class TextSearchPage extends StatelessWidget {
                                         ? 450
                                         : 700,
                                     child: ListView.builder(
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       padding: const EdgeInsets.only(
                                           top: 17,
                                           bottom: 14,

@@ -25,6 +25,19 @@ class BookmrkListPageState extends State<BookmrkListPage> {
   final bListController = Get.put(BookmarkListController());
   final textController = TextEditingController();
   final NumberPaginatorController pageController = NumberPaginatorController();
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   Future<void> _initMenuList() async {
     await Get.find<BookmarkListController>().loadData(userId: getUserId(), page: 1);
@@ -42,6 +55,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
           }
 
           return SingleChildScrollView(
+            controller: _scrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -345,6 +359,8 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                     controller: pageController,
                     onPageChange: (int index) {
                       bListController.loadData(userId: getUserId(), page: index + 1);
+                      // 스크롤 맨 위로 이동
+                      _scrollController.jumpTo(0);
                     },
                     initialPage: 0,
                     config: NumberPaginatorUIConfig(

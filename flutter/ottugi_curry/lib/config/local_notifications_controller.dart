@@ -22,7 +22,7 @@ class LocalNotificationsController {
 
     // 식사 시간대에 맞는 메세지 멘트 설정
     String message = '';
-    int randomNum = Random().nextInt(4);
+    int randomNum = Random().nextInt(3);
     switch (messageId) {
       case 1:
         message = Config().breakfastMessage[randomNum];
