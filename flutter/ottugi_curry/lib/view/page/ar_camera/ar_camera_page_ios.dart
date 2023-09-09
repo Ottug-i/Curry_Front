@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:get/get.dart';
@@ -36,11 +38,11 @@ class ArCameraPageIosState extends State<ArCameraPageIos> {
         Screenshot(
             controller: arCameraController.screenshotController.value,
             child: ARKitSceneView(
-              // showFeaturePoints: true,
               planeDetection: ARPlaneDetection.horizontal,
               onARKitViewCreated: onARKitViewCreated,
               showWorldOrigin: false,
-            )),
+            )
+        ),
         Align(
             alignment: FractionalOffset.bottomCenter,
             child: Container(
@@ -50,18 +52,23 @@ class ArCameraPageIosState extends State<ArCameraPageIos> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          // 버튼 눌러서 노드 추가/삭제 - 로딩 시간이 느림
-                          arkitController.onAddNodeForAnchor = _handleAddAnchor;
-                        },
-                        child: Text("AR송이 추가하기",
-                            style: Theme.of(context).textTheme.bodyMedium!)),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    // ElevatedButton(
+                    //     onPressed: () {
+                    //       // 버튼 눌러서 노드 추가/삭제 - 로딩 시간이 느림
+                    //       arkitController.onAddNodeForAnchor = _handleAddAnchor;
+                    //     },
+                    //     child: Text("AR송이 추가하기",
+                    //         style: Theme.of(context).textTheme.bodyMedium!)),
+                    // const SizedBox(
+                    //   width: 10,
+                    // ),
                     FloatingActionButton(
-                      onPressed: () => arCameraController.takeScreenshot(context),
+                      onPressed: () async {
+                        final ImageProvider snapshot = await arkitController.snapshot();
+                        final Uint8List snapshotData = await arCameraController.loadImageData(snapshot, context);
+
+                        arCameraController.takeScreenshot(context, snapshotData);
+                      },
                       backgroundColor: lightColorScheme.primary,
                       foregroundColor: Colors.black,
                       shape: const CircleBorder(),
@@ -80,7 +87,7 @@ class ArCameraPageIosState extends State<ArCameraPageIos> {
     arkitController.addCoachingOverlay(CoachingOverlayGoal.horizontalPlane);
 
     // // 자동으로 노드 추가
-    // _addNode(arkitController);
+    _addNode(arkitController);
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {
@@ -113,4 +120,6 @@ class ArCameraPageIosState extends State<ArCameraPageIos> {
     );
     arkitController.add(node);
   }
+
+
 }
