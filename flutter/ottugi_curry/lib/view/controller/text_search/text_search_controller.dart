@@ -82,6 +82,10 @@ class TextSearchController {
     if (time != null) {
       searchTime.value = time;
     }
+    
+    print('print searchTime: ${searchTime}');
+    print('print searchDifficulty: ${searchDifficulty}');
+    print('print searchComposition: ${searchComposition}');
 
     try {
       final dio = createDio();

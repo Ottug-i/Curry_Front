@@ -123,5 +123,4 @@ class Config {
 }
 
 enum SocialPlatform { none, google, kakao }
-
 SocialPlatform social = SocialPlatform.none;

@@ -1,6 +1,7 @@
 import 'package:ottugi_curry/config/config.dart';
 
 int getUserId() {
+  print('print getUserId: ${int.parse(userStorage.getItem(Config.id) ?? '')}');
   return int.parse(userStorage.getItem(Config.id) ?? '');
 }
 
