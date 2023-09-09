@@ -17,7 +17,7 @@ class ArCameraPageTest extends StatelessWidget {
                 () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ArCameraPage())))));
+                        builder: (context) => const ArCameraPageAndroid())))));
   }
 }
 

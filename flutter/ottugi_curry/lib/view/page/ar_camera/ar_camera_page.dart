@@ -20,13 +20,13 @@ import 'package:screenshot/screenshot.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class ArCameraPage extends StatefulWidget {
-  const ArCameraPage({Key? key}) : super(key: key);
+class ArCameraPageAndroid extends StatefulWidget {
+  const ArCameraPageAndroid({Key? key}) : super(key: key);
   @override
-  _ArCameraPageState createState() => _ArCameraPageState();
+  ArCameraPageAndroidState createState() => ArCameraPageAndroidState();
 }
 
-class _ArCameraPageState extends State<ArCameraPage> {
+class ArCameraPageAndroidState extends State<ArCameraPageAndroid> {
   ARSessionManager? arSessionManager;
   ARObjectManager? arObjectManager;
   ARNode? fileSystemNode;

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get/get.dart';
@@ -202,7 +204,11 @@ class MainPageDetail extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: () {
-                          Get.toNamed('/ar_camera');
+                          if (Platform.isAndroid) {
+                            Get.toNamed('/ar_camera_android');
+                          } else if (Platform.isIOS) {
+                            Get.toNamed('/ar_camera_ios');
+                          }
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
