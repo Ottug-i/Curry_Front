@@ -30,7 +30,7 @@ class ListItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                flex: isWidthMobile(context) == true? 3: 2,
+                flex: isWidthMobile(context) == true ? 3 : 2,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24.0),
                   child: Image.network(
@@ -86,7 +86,38 @@ class ListItemWidget extends StatelessWidget {
                               color: lightColorScheme.primary,
                               onPressed: () {
                                 // 공통 위젯을 위한 컨트롤러 변수 사용
-                                controller.updateBookmark(getUserId(), menuItem.recipeId);
+                                controller.updateBookmark(
+                                    getUserId(), menuItem.recipeId);
+                                if (menuItem.isBookmark!) {
+                                  // 누르기 전 상태에 따라
+                                  Get.showSnackbar(
+                                    GetSnackBar(
+                                      title: '북마크 삭제',
+                                      message:
+                                          '${menuItem.name}을(를) 북마크에서 해제했습니다.',
+                                      icon: const Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.white,
+                                      ),
+                                      backgroundColor: Colors.blue,
+                                      duration: const Duration(seconds: 3),
+                                    ),
+                                  );
+                                } else {
+                                  Get.showSnackbar(
+                                    GetSnackBar(
+                                      title: '북마크 추가',
+                                      message:
+                                          '${menuItem.name}을(를) 북마크에 저장했습니다.',
+                                      icon: const Icon(
+                                        Icons.favorite,
+                                        color: Colors.white,
+                                      ),
+                                      backgroundColor: Colors.green,
+                                      duration: const Duration(seconds: 3),
+                                    ),
+                                  );
+                                }
                               },
                             ),
                           )
@@ -108,12 +139,11 @@ class ListItemWidget extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          iconWithText(context, 'time', 30, '${menuItem.time}'),
                           iconWithText(
-                              context, 'time', 30, '${menuItem.time}'),
-                          iconWithText(context, 'chef2', 30,
-                              '${menuItem.difficulty}'),
-                          iconWithText(context, 'meal', 33,
-                              '${menuItem.composition}'),
+                              context, 'chef2', 30, '${menuItem.difficulty}'),
+                          iconWithText(
+                              context, 'meal', 33, '${menuItem.composition}'),
                         ],
                       )
                     ],
@@ -126,12 +156,13 @@ class ListItemWidget extends StatelessWidget {
   }
 }
 
-Column iconWithText(BuildContext context, String icon, double size, String text) {
+Column iconWithText(
+    BuildContext context, String icon, double size, String text) {
   return Column(
     children: [
       // Icon(icon, size: 30),
       ImageIcon(
-        AssetImage('assets/icons/${icon}.png'),
+        AssetImage('assets/icons/$icon.png'),
         size: size,
       ),
       const Padding(padding: EdgeInsets.only(bottom: 2)),
