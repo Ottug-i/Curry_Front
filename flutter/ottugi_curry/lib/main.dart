@@ -50,7 +50,6 @@ class MyApp extends StatelessWidget {
       theme: CustomThemeData.themeDataLight,
       initialRoute: '/login', // login
       getPages: Config.routers,
-      //home: const ChatPage(),
     );
   }
 }
