@@ -2,15 +2,28 @@ import 'package:dio/dio.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:ottugi_curry/config/config.dart';
+import 'package:ottugi_curry/config/hidden_config.dart';
 import 'package:ottugi_curry/repository/login_repository.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/controller/login/login_controller.dart';
 
 Dio createDio() {
-  final dio = Dio();
+  final options = BaseOptions(
+    baseUrl: HiddenConfig.baseUrl,
+  );
+  final dio = Dio(options);
 
   // JWT 헤더 추가 및 토큰 재발급 관련 처리
   dio.interceptors.add(TokenInterceptor(dio: dio));
+  return dio;
+}
+
+Dio createDioWithoutToken() {
+  final options = BaseOptions(
+    baseUrl: HiddenConfig.baseUrl,
+  );
+  final dio = Dio(options);
+
   return dio;
 }
 
@@ -42,7 +55,7 @@ class TokenInterceptor extends Interceptor {
 
     // 401 에러-> AccessToken 재발급
     if (err.response?.statusCode == 401) {
-      print('print AccessToken Expired');
+      print('print AccessToken Expired: reissue Token');
 
       // 토큰 재발급
       final token = await reissueToken();
@@ -57,22 +70,22 @@ class TokenInterceptor extends Interceptor {
   // 토큰 재발급
   Future<String> reissueToken() async {
     try {
-      final dio = Dio();
+      final dio = createDioWithoutToken();
       LoginRepository loginRepository = LoginRepository(dio);
 
       final resp = await loginRepository.postAuthReissue(getUserEmail());
-      print('Reissue Token: ${resp.token.toString()}');
+      print('new AccessToken Token: ${resp.token.toString()}');
 
       // storage 에 새로운 token 저장
       await tokenStorage.write(key: 'token', value: resp.token.toString());
       return resp.token.toString();
 
     } on DioException catch (e) {
-      print('print reissueToken: $e');
+      print('print reissueToken Error: $e');
 
       // 401 에러-> refreshToken 유효하지 않음. 재로그인
       if (e.response?.statusCode == 401) {
-        print('print refreshToken Expired');
+        print('print refreshToken Expired: Logout');
 
         Get.put(LoginController());
         Get.find<LoginController>().handleLogout();

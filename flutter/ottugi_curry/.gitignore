@@ -44,3 +44,7 @@ app.*.map.json
 /android/app/release
 
 *.env
+
+# 숨김 설정 파일
+hidden_config.dart
+/config/hidden_config.dart

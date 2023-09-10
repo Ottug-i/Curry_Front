@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_timer_controller.dart';
 
 class RecipeDetailTimerWidget extends StatelessWidget {
@@ -13,9 +14,8 @@ class RecipeDetailTimerWidget extends StatelessWidget {
     final timerController = Get.find<RecipeDetailTimerController>();
 
     return Container(
-      width: 300,
-      height: 350,
-      padding: const EdgeInsets.only(bottom: 50, left: 10, right: 10, top: 5),
+      width: widthSize(context) / 1.3,
+      padding: const EdgeInsets.only(bottom: 50, left: 10, right: 10, top: 30),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25.0),
           border: Border.all(
@@ -24,6 +24,7 @@ class RecipeDetailTimerWidget extends StatelessWidget {
           ),
           color: Colors.white),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -40,7 +41,10 @@ class RecipeDetailTimerWidget extends StatelessWidget {
                   timerController.stopTimerAlarm();
                 },
               ),
-              Text('타이머', style: Theme.of(context).textTheme.bodyLarge,),
+              Text(
+                '타이머',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
               const Padding(padding: EdgeInsets.only(left: 50)),
             ],
           ),
@@ -54,7 +58,7 @@ class RecipeDetailTimerWidget extends StatelessWidget {
                 // 분
                 Flexible(
                   child: Obx(
-                        () => TextField(
+                    () => TextField(
                       controller: timerController.minuteTextEditingController,
                       decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
@@ -65,9 +69,9 @@ class RecipeDetailTimerWidget extends StatelessWidget {
                           ),
                           enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
-                                width: 5,
-                                color: Colors.grey,
-                              ))),
+                            width: 5,
+                            color: Colors.grey,
+                          ))),
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -78,8 +82,9 @@ class RecipeDetailTimerWidget extends StatelessWidget {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(2),
                       ],
-                      readOnly:
-                      timerController.isRunning.value == true ? true : false,
+                      readOnly: timerController.isRunning.value == true
+                          ? true
+                          : false,
                       showCursor: timerController.isRunning.value == true
                           ? false
                           : true, // 수정 가능 여부에 맞춘 커서 유무
@@ -90,7 +95,7 @@ class RecipeDetailTimerWidget extends StatelessWidget {
                 // 초
                 Flexible(
                   child: Obx(
-                        () => TextField(
+                    () => TextField(
                       controller: timerController.secondTextEditingController,
                       decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
@@ -101,9 +106,9 @@ class RecipeDetailTimerWidget extends StatelessWidget {
                           ),
                           enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
-                                width: 5,
-                                color: Colors.grey,
-                              ))),
+                            width: 5,
+                            color: Colors.grey,
+                          ))),
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -140,7 +145,7 @@ class RecipeDetailTimerWidget extends StatelessWidget {
                   child: const Text('취소')),
               const Padding(padding: EdgeInsets.only(right: 20)),
               Obx(
-                    () => ElevatedButton(
+                () => ElevatedButton(
                     onPressed: () {
                       if (timerController.startButtonText.value == '일시정지') {
                         //일시정지
@@ -158,5 +163,4 @@ class RecipeDetailTimerWidget extends StatelessWidget {
       ),
     );
   }
-
 }

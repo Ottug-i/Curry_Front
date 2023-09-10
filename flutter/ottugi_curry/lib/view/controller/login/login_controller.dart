@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:ottugi_curry/config/config.dart';
+import 'package:ottugi_curry/config/dio_config.dart';
 import 'package:ottugi_curry/model/user_response.dart';
 import 'package:ottugi_curry/repository/login_repository.dart';
 
@@ -78,8 +79,12 @@ class LoginController {
   // 최종 로그인
   Future<void> handleLogin(String email, String nickName) async {
     try {
-      final dio = Dio();
+      final dio = createDioWithoutToken();
       LoginRepository loginRepository = LoginRepository(dio);
+
+      if (nickName.length >= 10) {
+        nickName = nickName.substring(0, 11); // 닉네임 최대 10글자
+      }
 
       print('$nickName, $email');
       final resp = await loginRepository
@@ -129,7 +134,7 @@ class LoginController {
     // }
   }
 
- // 로그아웃
+  // 로그아웃
   void handleLogout() async {
     // 소셜 로그인 플랫폼 로그아웃
     final social = await userStorage.getItem(Config.social);

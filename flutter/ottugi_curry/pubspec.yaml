@@ -62,20 +62,26 @@ dependencies:
 
   # ar camera
   ar_flutter_plugin:
+  arkit_plugin: ^1.0.6
   vector_math:
   camera:
   path_provider:
 
   # screenshot
-  screenshot:
+  screenshot: ^2.1.0
   image_gallery_saver:
   permission_handler:
 
   # share image
   share_plus:
 
+  tflite_flutter: ^0.10.1
+
 flutter_native_splash:
-  background_image: assets/images/splash.png
+  color: "#FFD717"
+  image: assets/images/splash_image_3.png
+  branding: assets/images/splash_branding_3.png
+  branding_mode: bottom
 
 dev_dependencies:
   flutter_test:

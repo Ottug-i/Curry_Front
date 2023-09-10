@@ -33,14 +33,16 @@ class TextSearchController {
     empty: false,
   ).obs;
 
-  Rx<String> selectedCategory = ''.obs;
-  Rx<String> selectedCategoryValue = ''.obs;
+  RxString selectedCategory = ''.obs;
+  RxString selectedCategoryValue = ''.obs;
 
   RxString searchName = ''.obs;
 
-  Rx<String> searchComposition = ''.obs;
-  Rx<String> searchDifficulty = ''.obs;
-  Rx<String> searchTime = ''.obs;
+  RxString searchComposition = ''.obs;
+  RxString searchDifficulty = ''.obs;
+  RxString searchTime = ''.obs;
+
+  RxInt pageIndex = 0.obs;
 
   // 인기 검색어 조회
   Future<void> loadRankList() async {
@@ -58,29 +60,13 @@ class TextSearchController {
     }
   }
 
-  Future<void> handleTextSearch(
-      {required String name,
-      String? composition,
-      String? difficulty,
-      String? time,
-      int? page}) async {
-
-    // 검색어 및 옵션 변경시 - 페이징 인덱스 리셋
-    if (searchName.value != name || searchComposition.value != composition || searchDifficulty.value != difficulty || searchTime.value != time) {
+  Future<void> handleTextSearch({bool? resetPage, required int pageIndex}) async {
+    if (searchName.value.isEmpty) {
+      print('searchName.value.isEmpty');
+      return;
+    }
+    if (resetPage == true) {
       pageController.value.currentPage = 0;
-    }
-
-    // 검색어 및 옵션 저장
-    searchName.value = name;
-    // 옵션 변경 시(null 외의 값 들어왔을 떄) 저장
-    if (composition != null) {
-      searchComposition.value = composition;
-    }
-    if (difficulty != null) {
-      searchDifficulty.value = difficulty;
-    }
-    if (time != null) {
-      searchTime.value = time;
     }
 
     try {
@@ -89,29 +75,21 @@ class TextSearchController {
 
       SearchQueries searchQueries = SearchQueries(
           userId: getUserId(),
-          name: name,
+          name: searchName.value,
           composition: searchComposition.value,
           difficulty: searchDifficulty.value,
           time: searchTime.value,
-          page: page ?? 1,
+          page: pageIndex + 1, // api에는 page가 1부터 시작
           size: Config.elementNum);
       final resp = await recipeRepository.getSearch(searchQueries);
       // 응답 값 변수에 저장
       recipeListPageResponse.value = resp;
+      print('print respNumber: ${resp.totalElements}');
 
     } on DioException catch (e) {
       print('print handleTextSearch: $e');
       return;
     }
-  }
-
-  void handlePaging(int pageIndex) {
-    handleTextSearch(
-        name: searchName.value,
-        composition: searchComposition.value,
-        difficulty: searchDifficulty.value,
-        time: searchTime.value,
-        page: pageIndex);
   }
 
   void toggleValue(target, newValue) {
@@ -132,7 +110,7 @@ class TextSearchController {
 
   Future<void> updateBookmark(int userId, int recipeId) async {
     Get.put(BookmarkListController());
-    Get.find<BookmarkListController>().postBookmark(userId, recipeId);
-    await handleTextSearch(name: searchName.value);
+    await Get.find<BookmarkListController>().postBookmark(userId, recipeId);
+    handleTextSearch(pageIndex: pageController.value.currentPage);
   }
 }

@@ -67,7 +67,7 @@ class RecipeDetailController {
 
   Future<void> updateBookmark(int userId, int recipeId) async {
     Get.put(BookmarkListController());
-    Get.find<BookmarkListController>().postBookmark(userId, recipeId);
+    await Get.find<BookmarkListController>().postBookmark(userId, recipeId);
     await loadRecipeDetail(recipeId); // 재로딩
   }
 
@@ -85,16 +85,16 @@ class RecipeDetailController {
 
     // tts가 읽는 동안 기다렸다가, 종료되면 status를 stopped로 변경
     ttsStatus.value = Config.stopped;
-    tts.value.stop();
+    await tts.value.stop();
   }
 
-  void pauseTTS() {
+  void pauseTTS() async {
     ttsStatus.value = Config.paused;
-    tts.value.pause();
+    await tts.value.pause();
   }
 
-  void stopTTS() {
+  void stopTTS() async {
     ttsStatus.value = Config.stopped;
-    tts.value.stop();
+    await tts.value.stop();
   }
 }

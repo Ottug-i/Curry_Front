@@ -12,9 +12,7 @@ class _RecipeRepository implements RecipeRepository {
   _RecipeRepository(
     this._dio, {
     this.baseUrl,
-  }) {
-    baseUrl ??= 'http://192.168.0.51:8080';
-  }
+  });
 
   final Dio _dio;
 

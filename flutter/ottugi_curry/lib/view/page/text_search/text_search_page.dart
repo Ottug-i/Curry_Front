@@ -2,17 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/controller/text_search/text_search_controller.dart';
 import 'package:ottugi_curry/view/page/recipe_list/list_item_widget.dart';
 import 'package:ottugi_curry/view/page/text_search/text_search_categories_widget.dart';
 
-class TextSearchPage extends StatelessWidget {
+class TextSearchPage extends StatefulWidget {
   const TextSearchPage({Key? key}) : super(key: key);
+
+  @override
+  State<TextSearchPage> createState() => _TextSearchPageState();
+}
+
+class _TextSearchPageState extends State<TextSearchPage> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   Future _initRankList() async {
     Get.put(TextSearchController());
-    await Get.find<TextSearchController>().loadRankList();
+    final textSearchController = Get.find<TextSearchController>();
+    await textSearchController.loadRankList();
   }
 
   @override
@@ -33,19 +54,24 @@ class TextSearchPage extends StatelessWidget {
             }
 
             return SingleChildScrollView(
+              controller: _scrollController,
               child: Column(
                 children: [
                   // 검색어 입력 창
                   Obx(
-                    ()=> Container(
+                    () => Container(
                       margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
                       child: TextField(
-                        controller: searchController.textEditingController.value,
+                        controller:
+                            searchController.textEditingController.value,
                         onSubmitted: (String text) {
                           if (searchController
                               .textEditingController.value.text.isNotEmpty) {
-                            searchController.handleTextSearch(
-                                name: text, page: 1);
+                            searchController.searchName.value = text;
+                            searchController.handleTextSearch(pageIndex: 0);
+                          } else {
+                            print('hi iiii ${searchController.searchName.value}');
+                            searchController.searchName.value = '';
                           }
                         },
                         decoration: InputDecoration(
@@ -105,8 +131,8 @@ class TextSearchPage extends StatelessWidget {
                               ),
 
                               // 페이징
-                              searchController.recipeListPageResponse.value.content!
-                                      .isNotEmpty
+                              searchController.recipeListPageResponse.value
+                                      .content!.isNotEmpty
                                   ? Padding(
                                       padding: const EdgeInsets.only(
                                           left: 20,
@@ -123,8 +149,9 @@ class TextSearchPage extends StatelessWidget {
                                             controller: searchController
                                                 .pageController.value,
                                             onPageChange: (int index) {
-                                              searchController
-                                                  .handlePaging(index + 1);
+                                              searchController.handleTextSearch(pageIndex: index);
+                                              // 스크롤 맨 위로 이동
+                                              _scrollController.jumpTo(0);
                                             },
                                             initialPage: 0,
                                             config: NumberPaginatorUIConfig(
@@ -159,8 +186,12 @@ class TextSearchPage extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 450,
+                                    height: isWidthMobile(context) == true
+                                        ? 450
+                                        : 700,
                                     child: ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       padding: const EdgeInsets.only(
                                           top: 17,
                                           bottom: 14,
@@ -176,26 +207,30 @@ class TextSearchPage extends StatelessWidget {
                                           children: [
                                             InkWell(
                                               onTap: () {
-                                                searchController
-                                                    .handleTextSearch(
-                                                  name:
-                                                      '${searchController.rankList[idx].name}',
-                                                );
-                                                searchController
-                                                        .textEditingController
-                                                        .value
-                                                        .text =
-                                                    searchController
-                                                        .rankList[idx].name!;
+                                                // 변경 사항 저장
+                                                searchController.searchName.value = searchController.rankList[idx].name!;
+                                                searchController.textEditingController.value.text = searchController.rankList[idx].name!;
+                                                // 검색
+                                                searchController.handleTextSearch(pageIndex: 0);
                                               },
                                               child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 3, bottom: 3, left: 7, right: 7),
+                                                padding:
+                                                    isWidthMobile(context) ==
+                                                            true
+                                                        ? const EdgeInsets.only(
+                                                            top: 3,
+                                                            bottom: 3,
+                                                            left: 7,
+                                                            right: 7)
+                                                        : const EdgeInsets.only(
+                                                            top: 13,
+                                                            bottom: 13,
+                                                            left: 7,
+                                                            right: 7),
                                                 child: RichText(
                                                     text: TextSpan(
                                                         text: '${idx + 1}   ',
                                                         style: TextStyle(
-                                                          fontSize: 17,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           color:

@@ -22,26 +22,26 @@ class LocalNotificationsController {
 
     // 식사 시간대에 맞는 메세지 멘트 설정
     String message = '';
-    int randomNum = Random().nextInt(4);
+    int randomNum = Random().nextInt(3);
     switch (messageId) {
-      case 1:
+      case 0:
         message = Config().breakfastMessage[randomNum];
         break;
-      case 2:
+      case 1:
         message = Config().lunchMessage[randomNum];
         break;
-      case 3:
+      case 2:
         message = Config().dinnerMessage[randomNum];
         break;
     }
     // 메세지 설정
     await _registerMessage( // 요청한 시간 정각에 보여줌
       hour: hour,
-      minutes: 43,
+      minutes: 0,
       message: message,
       messageId: messageId,
     );
-    print('알림 Local Notification 설정 완료');
+    print('알림 Local Notification 설정 완료 $messageId');
   }
 
   Future<void> _init() async {
@@ -103,7 +103,6 @@ class LocalNotificationsController {
     required int messageId,
   }) async {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    print('tz ${now}');
     tz.TZDateTime scheduledDate = tz.TZDateTime(
       tz.local,
       now.year,
