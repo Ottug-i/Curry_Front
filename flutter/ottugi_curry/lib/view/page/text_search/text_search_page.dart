@@ -32,7 +32,8 @@ class _TextSearchPageState extends State<TextSearchPage> {
 
   Future _initRankList() async {
     Get.put(TextSearchController());
-    await Get.find<TextSearchController>().loadRankList();
+    final textSearchController = Get.find<TextSearchController>();
+    await textSearchController.loadRankList();
   }
 
   @override
@@ -66,8 +67,11 @@ class _TextSearchPageState extends State<TextSearchPage> {
                         onSubmitted: (String text) {
                           if (searchController
                               .textEditingController.value.text.isNotEmpty) {
-                            searchController.handleTextSearch(
-                                name: text, page: 1);
+                            searchController.searchName.value = text;
+                            searchController.handleTextSearch(pageIndex: 0);
+                          } else {
+                            print('hi iiii ${searchController.searchName.value}');
+                            searchController.searchName.value = '';
                           }
                         },
                         decoration: InputDecoration(
@@ -145,7 +149,7 @@ class _TextSearchPageState extends State<TextSearchPage> {
                                             controller: searchController
                                                 .pageController.value,
                                             onPageChange: (int index) {
-                                              searchController.handleTextSearch(name: searchController.searchName.value, page: index+1);
+                                              searchController.handleTextSearch(pageIndex: index);
                                               // 스크롤 맨 위로 이동
                                               _scrollController.jumpTo(0);
                                             },
@@ -203,17 +207,11 @@ class _TextSearchPageState extends State<TextSearchPage> {
                                           children: [
                                             InkWell(
                                               onTap: () {
-                                                searchController
-                                                    .handleTextSearch(
-                                                  name:
-                                                      '${searchController.rankList[idx].name}',
-                                                );
-                                                searchController
-                                                        .textEditingController
-                                                        .value
-                                                        .text =
-                                                    searchController
-                                                        .rankList[idx].name!;
+                                                // 변경 사항 저장
+                                                searchController.searchName.value = searchController.rankList[idx].name!;
+                                                searchController.textEditingController.value.text = searchController.rankList[idx].name!;
+                                                // 검색
+                                                searchController.handleTextSearch(pageIndex: 0);
                                               },
                                               child: Padding(
                                                 padding:

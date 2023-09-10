@@ -72,8 +72,9 @@ class TextSearchCategoriesWidget extends StatelessWidget {
                             searchController.searchTime.value == itemT,
                             themecolor: lightColorScheme.secondary,
                             onPressed: () {
+                              print('print hi 11');
                               searchController.toggleValue(searchController.searchTime, itemT);
-                              searchController.handleTextSearch(name: searchController.searchName.value, changeOptions: true);
+                              searchController.handleTextSearch(resetPage: true, pageIndex: 0);
                             },
                           )),
                         const SizedBox(width: 10)
@@ -95,10 +96,11 @@ class TextSearchCategoriesWidget extends StatelessWidget {
                               searchController.searchDifficulty.value == itemL,
                               themecolor: lightColorScheme.secondary,
                               onPressed: () {
-                                searchController.toggleValue(
+                                print('print hi 22');
+
+                                    searchController.toggleValue(
                                     searchController.searchDifficulty, itemL);
-                                searchController.handleTextSearch(name: searchController.searchName.value, changeOptions: true
-                                );
+                                searchController.handleTextSearch(resetPage: true, pageIndex: 0);
                               },
                             )),
                           const SizedBox(width: 10)
@@ -119,9 +121,11 @@ class TextSearchCategoriesWidget extends StatelessWidget {
                               searchController.searchComposition.value == itemC,
                               themecolor: lightColorScheme.secondary,
                               onPressed: () {
+                                print('print hi 33');
+
                                 searchController.toggleValue(
                                     searchController.searchComposition, itemC);
-                                searchController.handleTextSearch(name: searchController.searchName.value, changeOptions: true);
+                                searchController.handleTextSearch(resetPage: true, pageIndex: 0);
                               },
                             )),
                           const SizedBox(width: 10)
