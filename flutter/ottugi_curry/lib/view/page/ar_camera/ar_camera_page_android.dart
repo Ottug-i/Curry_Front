@@ -106,6 +106,12 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
           handleTaps: false,
         );
     this.arObjectManager!.onInitialize();
+
+    // // 다운로드
+    // httpClient = HttpClient();
+    // _downloadFile(
+    //     "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb",
+    //     "LocalMushroom.glb");
   }
 
   // 네트워크 이미지 불러오기
@@ -118,10 +124,7 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
       var newNode = ARNode(
           type: NodeType.webGLB,
           uri:
-          // "https://github.com/Ottug-i/Curry_Front/raw/ar_camera/flutter/ottugi_curry/assets/3d_models/comfirm.glb",
-          // "https://github.com/Ottug-i/Curry_Front/raw/ar_camera/flutter/ottugi_curry/assets/3d_models/comfirm3.glb",
-          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
-
+          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb",
           scale: math.Vector3.all(0.07));
       bool? didAddWebNode = await arObjectManager!.addNode(newNode);
       webObjectNode = (didAddWebNode!) ? newNode : null;
@@ -142,11 +145,6 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
 
   // 파일 이미지 불러오기
   Future<void> onFileSystemObjectAtOrigin() async {
-    // 다운로드
-    httpClient = HttpClient();
-    _downloadFile(
-        "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
-        "LocalMushroom.glb");
 
     if (fileSystemNode != null) {
       arObjectManager!.removeNode(fileSystemNode!);
@@ -159,7 +157,6 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
           scale: math.Vector3.all(0.08),
           rotation: math.Vector4(0, 0, 0, 0),
           position: math.Vector3(0, 0.4, 0.4),
-          // transformation: Matrix4.rotationY(-30)
       );
 
       bool? didAddFileSystemNode = await arObjectManager!.addNode(newNode);
