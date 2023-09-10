@@ -1,0 +1,4 @@
+confirm_2.glb filter=lfs diff=lfs merge=lfs -text
+confirm.glb filter=lfs diff=lfs merge=lfs -text
+confirm_1.usdc filter=lfs diff=lfs merge=lfs -text
+confirm_1_lying.usdc filter=lfs diff=lfs merge=lfs -text
