@@ -63,7 +63,7 @@ class MainPageDetail extends StatelessWidget {
     final recommendController = Get.find<RecommendController>();
 
     // 사이즈 조절
-    double widgetHeight = widthSize(context) >= Config.padHorizonWidth ? heightSize(context) /4 -10 : isWidthMobile(context)==true ? 150 : heightSize(context) / 6 - 30;
+    double widgetHeight = widthSize(context) >= Config.padHorizonWidth ? heightSize(context) /4 -10 : isWidthMobile(context)==true ? 150 : heightSize(context) / 6 - 10;
     double rowWidgetWidth = widthSize(context)/ 2 - 30;
     double marginBetweenButtons = isWidthMobile(context) == true? 15.0: 30.0;
 
