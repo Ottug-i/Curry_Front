@@ -131,7 +131,7 @@ Column iconWithText(BuildContext context, String icon, double size, String text)
     children: [
       // Icon(icon, size: 30),
       ImageIcon(
-        AssetImage('assets/icons/${icon}.png'),
+        AssetImage('assets/icons/$icon.png'),
         size: size,
       ),
       const Padding(padding: EdgeInsets.only(bottom: 2)),

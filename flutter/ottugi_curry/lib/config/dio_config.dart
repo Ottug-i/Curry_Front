@@ -42,7 +42,7 @@ class TokenInterceptor extends Interceptor {
 
     // 토큰 읽어와서 헤더에 넣어주기
     final token = await getUserToken();
-    options.headers['Authorization'] = 'Bearer ${token}';
+    options.headers['Authorization'] = 'Bearer $token';
 
     super.onRequest(options, handler);
   }
@@ -98,7 +98,7 @@ class TokenInterceptor extends Interceptor {
     final options = Options(
       method: requestOptions.method,
       headers: {
-        'Authorization':'Bearer ${token}'
+        'Authorization':'Bearer $token'
       },
     );
     return dio.request<dynamic>(requestOptions.path,

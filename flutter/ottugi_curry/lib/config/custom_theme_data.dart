@@ -16,13 +16,13 @@ class CustomThemeData {
       // 텍스트 테마
       textTheme: TextTheme(
         //title (Bold 지정)
-        titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), // 제목, 강조 텍스트
-        titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), // 소제목: 크기 기본 + Bold
-        titleSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        titleLarge: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold), // 제목, 강조 텍스트
+        titleMedium: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold), // 소제목: 크기 기본 + Bold
+        titleSmall: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
         // body
-        bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w600), // 소제목2: 약간 크고 + Semi Bold
-        bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal), //기본 텍스트
-        bodySmall: TextStyle(fontSize: 12),
+        bodyLarge: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600), // 소제목2: 약간 크고 + Semi Bold
+        bodyMedium: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal), //기본 텍스트
+        bodySmall: const TextStyle(fontSize: 12),
         //
         labelLarge: TextStyle(fontSize: 13, color: Colors.grey.shade700), // 설명줄
       ),
