@@ -21,12 +21,13 @@ class RecipeListController extends GetxController {
   RxBool isLoading = true.obs;
 
   void setIngredientList(List<String> input) {
-    print("setIngredientList - 받은 input: $input");
     ingredientList.clear();
-    for (var item in input) {
-      var data = {"name": item, "isChecked": true, "ableToDelete": false};
-      currentSelected += 1;
-      ingredientList.add(data);
+    if (input.isNotEmpty) {
+      for (var item in input) {
+        var data = {"name": item, "isChecked": true, "ableToDelete": false};
+        currentSelected += 1;
+        ingredientList.add(data);
+      }
     }
     // 셋팅까지 하면 감지 완료
     isLoading.value = false;
@@ -42,7 +43,7 @@ class RecipeListController extends GetxController {
     }
   }
 
-  void setIngredient(String name) {
+  void addIngredient(String name) {
     // 식재료 직접 추가
     Map<String, Object> data;
     if (currentSelected < maxSelected) {
@@ -57,7 +58,6 @@ class RecipeListController extends GetxController {
   void deleteIngredient(String name) {
     // 직접 추가한 식재료 삭제
     ingredientList.removeWhere((ingredient) => ingredient["name"] == name);
-    print("ingredientList: $ingredientList");
   }
 
   bool canAddIngredient(String name) {
@@ -76,6 +76,11 @@ class RecipeListController extends GetxController {
     } else {
       return true;
     }
+  }
+
+  void toggleItem(int index) {
+    // 해당 인덱스의 isChecked 값을 토글(반전)합니다.
+    ingredientList[index]["isChecked"] = !ingredientList[index]["isChecked"];
   }
 
   Future<void> fetchData(int userId, int page) async {
