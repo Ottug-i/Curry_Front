@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
+import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 
 // Recipe List Page, Text Search Page에서 사용함
@@ -29,7 +30,7 @@ class ListItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                flex: 3,
+                flex: isWidthMobile(context) == true? 3: 2,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24.0),
                   child: Image.network(

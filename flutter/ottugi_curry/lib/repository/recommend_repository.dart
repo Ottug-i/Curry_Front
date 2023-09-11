@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 
 part 'recommend_repository.g.dart';
 
-@RestApi(baseUrl: "http://192.168.0.51:8080")
+@RestApi()
 abstract class RecommendRepository {
   factory RecommendRepository(Dio dio, {String baseUrl}) = _RecommendRepository;
 

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/config/custom_theme_data.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ottugi_curry/config/hidden_config.dart';
 import 'package:ottugi_curry/config/local_notifications_controller.dart';
 import 'package:ottugi_curry/view/controller/recipe_camera/camera_page_controller.dart';
 import 'firebase_options.dart';
@@ -27,7 +28,7 @@ void main() async {
   );
 
   // kakao Flutter SDK
-  KakaoSdk.init(nativeAppKey: 'f058e8e5bc00f59848d0eb05b04aa3b6');
+  KakaoSdk.init(nativeAppKey: HiddenConfig.kakaoNativeAppKey);
   await userStorage.ready;
 
   // ChatGpt API Key
@@ -49,7 +50,6 @@ class MyApp extends StatelessWidget {
       theme: CustomThemeData.themeDataLight,
       initialRoute: '/login', // login
       getPages: Config.routers,
-      // home: const ArCameraPage(),
     );
   }
 }

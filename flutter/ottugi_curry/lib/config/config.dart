@@ -1,7 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:ottugi_curry/view/page/ar_camera/ar_camera_page.dart';
+import 'package:ottugi_curry/view/page/ar_camera/ar_camera_page_android.dart';
+import 'package:ottugi_curry/view/page/ar_camera/ar_camera_page_ios.dart';
 import 'package:ottugi_curry/view/page/bookmark/bookmark_page.dart';
 import 'package:ottugi_curry/view/page/login/login_page.dart';
 import 'package:ottugi_curry/view/page/login/login_rating_page.dart';
@@ -29,50 +30,49 @@ class Config {
         page: () => const MainPage(),
         transition: Transition.noTransition),
     GetPage(
-        name: '/recipe',
-        page: () => const RecipeCameraPage(),
-        transition: Transition.noTransition),
-    GetPage(
-        name: '/user',
-        page: () => const UserPage(),
-        transition: Transition.noTransition),
-    GetPage(
-        name: '/bookmark',
-        page: () => const BookmarkPage(),
-        transition: Transition.noTransition),
-    GetPage(
-        name: '/login',
-        page: () => const LoginPage(),
-        transition: Transition.noTransition),
-    GetPage(
-        name: '/recipe_detail',
-        page: () => const RecipeDetailPage(),
-        transition: Transition.noTransition),
-    GetPage(
-        name: '/search',
-        page: () => const TextSearchPage(),
-        transition: Transition.noTransition),
-    GetPage(
         name: '/rating',
         page: () => const RatingRecPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: '/recipe',
+        page: () => const RecipeCameraPage(),
         transition: Transition.noTransition),
     GetPage(
         name: '/camera_rec',
         page: () => const RecipeRecsPage(),
         transition: Transition.noTransition),
     GetPage(
+        name: '/recipe_detail',
+        page: () => const RecipeDetailPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: '/ar_camera_android',
+        page: () => const ARCameraPageAndroid(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: '/ar_camera_ios',
+        page: () => const ARCameraPageIos(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: '/search',
+        page: () => const TextSearchPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: '/bookmark',
+        page: () => const BookmarkPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: '/user',
+        page: () => const UserPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: '/login',
+        page: () => const LoginPage(),
+        transition: Transition.noTransition),
+    GetPage(
         name: '/login_rating',
         page: () => const LoginRatingPage(),
         transition: Transition.noTransition),
-    GetPage(
-        name: '/ar_camera',
-        page: () => const ArCameraPage(),
-        transition: Transition.noTransition),
-
-    GetPage(
-        name: '/yoloImage',
-        page: () => const YoloImage(),
-        transition: Transition.noTransition)
   ];
 
   // 레시피 상세 페이지에서 조리순서를 보는 방식: 음성/사진/즐글
@@ -127,6 +127,12 @@ class Config {
     '원하는 저녁 메뉴를 카레에서 골라보세요!',
     '고생한 나를 위한 저녁! 메뉴를 추천해 드릴게요.'
   ];
+
+  // 화면 사이즈 관련 변수
+  static const maxWidth = 1240.0;
+  static const padHorizonWidth = 1000.0;
+  static const padWidth = 700.0;
+  static const mobileWidget = 450.0;
 }
 
 enum SocialPlatform { none, google, kakao }

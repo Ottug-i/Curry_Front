@@ -138,7 +138,7 @@ class RecommendController {
 
   Future<void> updateBookmark(int userId, int recipeId) async {
     Get.put(BookmarkListController());
-    Get.find<BookmarkListController>().postBookmark(userId, recipeId);
+    await Get.find<BookmarkListController>().postBookmark(userId, recipeId);
     // 추천 레시피 재로딩
     await Get.find<RecommendController>().getBookmarkList(1);
   }

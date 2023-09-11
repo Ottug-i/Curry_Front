@@ -144,7 +144,7 @@ class RecipeListController extends GetxController {
 
   Future<void> updateBookmark(int userId, int recipeId) async {
     Get.put(BookmarkListController());
-    Get.find<BookmarkListController>().postBookmark(userId, recipeId);
+    await Get.find<BookmarkListController>().postBookmark(userId, recipeId);
     await fetchData(userId, currentPage.value); // 재로딩
   }
 }

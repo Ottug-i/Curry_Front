@@ -86,6 +86,7 @@ class LoginRatingPage extends StatelessWidget {
                             ),
                         )
                         : const SizedBox()),
+                    const Padding(padding: EdgeInsets.only(bottom: 10)),
                     ElevatedButton(
                         onPressed: () async {
                           if (loginRatingController.rating.contains(0.0)) {

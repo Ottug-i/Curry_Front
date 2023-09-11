@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
 
 class RecipeDetailRatingWidget extends StatelessWidget {
@@ -23,9 +24,8 @@ class RecipeDetailRatingWidget extends StatelessWidget {
     final recommendController = Get.find<RecommendController>();
 
     return Container(
-      width: 300,
-      height: 350,
-      padding: const EdgeInsets.only(bottom: 50, left: 10, right: 10, top: 10),
+      width: widthSize(context) / 1.3,
+      padding: const EdgeInsets.only(bottom: 50, left: 10, right: 10, top: 30),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25.0),
           border: Border.all(
@@ -34,10 +34,10 @@ class RecipeDetailRatingWidget extends StatelessWidget {
           ),
           color: Colors.white),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -53,7 +53,7 @@ class RecipeDetailRatingWidget extends StatelessWidget {
               const Padding(padding: EdgeInsets.only(left: 50)),
             ],
           ),
-          // const Padding(padding: EdgeInsets.only(bottom: 50)),
+          const Padding(padding: EdgeInsets.only(bottom: 50)),
 
           FutureBuilder(
               future: _initUserRating(),
@@ -69,6 +69,8 @@ class RecipeDetailRatingWidget extends StatelessWidget {
                   child: ratingStarsRowWidget()
                 );
               }),
+          const Padding(padding: EdgeInsets.only(bottom: 50)),
+
           // 버튼
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
