@@ -75,7 +75,10 @@ dependencies:
   # share image
   share_plus:
 
-  tflite_flutter: ^0.10.1
+  #tflite_flutter: ^0.10.1
+  flutter_vision: ^1.1.1
+  image:
+  image_picker:
 
 flutter_native_splash:
   color: "#FFD717"
