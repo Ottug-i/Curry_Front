@@ -81,6 +81,7 @@ class RecipeListController extends GetxController {
   void toggleItem(int index) {
     // 해당 인덱스의 isChecked 값을 토글(반전)합니다.
     ingredientList[index]["isChecked"] = !ingredientList[index]["isChecked"];
+    ingredientList.refresh();
   }
 
   Future<void> fetchData(int userId, int page) async {
