@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/config/custom_theme_data.dart';
@@ -9,6 +9,7 @@ import 'package:ottugi_curry/config/hidden_config.dart';
 import 'package:ottugi_curry/config/local_notifications_controller.dart';
 import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/view/controller/recipe_camera/camera_page_controller.dart';
+import 'package:ottugi_curry/view/page/recipe_camera/object_main_ios.dart';
 import 'firebase_options.dart';
 import 'package:flutter/services.dart';
 
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
       theme: CustomThemeData.themeDataLight,
       initialRoute: '/login',
       getPages: Config.routers,
+      home: const HomeView(),
     );
   }
 }

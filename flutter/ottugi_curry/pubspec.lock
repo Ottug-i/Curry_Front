@@ -49,14 +49,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.2"
-  arkit_plugin:
-    dependency: "direct main"
-    description:
-      name: arkit_plugin
-      sha256: "7579f4708ad5cacbc4c4c26559b673ae1f174cd93a2c91c57435a39957540b94"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.6"
   asn1lib:
     dependency: transitive
     description:
@@ -466,10 +458,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_native_splash
-      sha256: ecff62b3b893f2f665de7e4ad3de89f738941fcfcaaba8ee601e749efafa4698
+      sha256: ba45d8cfbd778478a74696b012f33ffb6b1760c9bc531b21e2964444a4870dae
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.1"
   flutter_native_timezone:
     dependency: "direct main"
     description:
@@ -1309,6 +1301,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  tflite_flutter:
+    dependency: "direct main"
+    description:
+      name: tflite_flutter
+      sha256: d5acf30411b6a4ee299be25bad5a44e7fc103231fefaecb1c27f42df48251eb9
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.1"
   timezone:
     dependency: "direct main"
     description:
