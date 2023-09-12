@@ -61,6 +61,11 @@ android {
     configurations.all {
         exclude group: 'com.google.flatbuffers', module: 'flatbuffers-java'
     }
+
+    aaptOptions {
+        noCompress 'tflite'
+        noCompress 'lite'
+    }
 }
 
 dependencies {

@@ -18,10 +18,6 @@ class ResultCheckPage extends StatefulWidget {
 }
 
 class _ResultCheckPageState extends State<ResultCheckPage> {
-  // 인식 결과로 받아온 변수
-  // var ingredient = ["달걀", "베이컨", "감자", "치즈"];
-  //var imagePath = Get.arguments;
-
   final RecipeListController rListController = Get.put(RecipeListController());
   CameraPageController cameraPageController = Get.find<CameraPageController>();
 
@@ -194,7 +190,6 @@ class _ResultCheckPageState extends State<ResultCheckPage> {
                                         if (val == true) {
                                           if (rListController.currentSelected <
                                               rListController.maxSelected) {
-                                            // item["isChecked"] = true; // [{}, {}..] 내부 정보가 바뀌어서 감지를 못하는지, UI 업데이트 안됨
                                             rListController.currentSelected +=
                                                 1;
                                           } else {
