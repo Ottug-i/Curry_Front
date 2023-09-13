@@ -34,10 +34,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('didChangeAppLifecycleState');
-    print('$state');
     if (state == AppLifecycleState.resumed) {
-      print('AppLifecycleState.resumed');
       FlutterAppBadger.removeBadge();
     }
   }
@@ -214,7 +211,7 @@ class MainPageDetail extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('#오요완 챌린지',
+                            Text('요리 인증샷 찍기',
                                 style: Theme.of(context).textTheme.titleMedium),
                             Align(
                               alignment: Alignment.bottomRight,

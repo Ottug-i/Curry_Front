@@ -53,7 +53,6 @@ class UserPage extends StatelessWidget {
                       child: Row(
                         children: [
                           ClipOval(
-                            // borderRadius: BorderRadius.circular(0.0),
                             child: Image.asset(
                               'assets/images/profile_face.jpeg',
                               fit: BoxFit.fill,
