@@ -7,6 +7,7 @@ import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/config/dio_config.dart';
 import 'package:ottugi_curry/model/user_response.dart';
 import 'package:ottugi_curry/repository/login_repository.dart';
+import 'package:ottugi_curry/utils/user_profile_utils.dart';
 
 class LoginController {
   // 구글 소셜 로그인
@@ -115,23 +116,38 @@ class LoginController {
 
   // 로그인 여부 확인
   Future<void> checkLogin() async {
-    final token = await tokenStorage.read(key: 'token');
-    print('print token: $token');
-    if (token != null) {
-      Get.offAndToNamed('/main');
+    // 토근 재발급
+    // 성공 -> 로그인 중. 새로운 토큰 발급 및 저장
+    // 실패 -> 로그인 상태 아님. 로그아웃.
+    if (getUserEmail().isEmpty) {
+      print('checkLogin - No UserEmail 로그인 상태 아님');
+      return;
     }
-    // try {
-    //   final dio = createDio();
-    //   UserRepository userRepository = UserRepository(dio);
-    //   final resp = await userRepository.getProfile(getUserId());
-    //   print('print respId: ${resp.id}');
-    //   if (resp.id.toString().isNotEmpty) {
-    //     print('로그인 여부: 로그인 중');
-    //   }
-    // } on DioException catch (e) {
-    //   print('loadUserProfile: $e');
-    //   return;
-    // }
+
+    try {
+      final dio = createDioWithoutToken();
+      LoginRepository loginRepository = LoginRepository(dio);
+
+      final resp = await loginRepository.postAuthReissue(getUserEmail());
+      final token = resp.token.toString();
+      print('checkLogin - 로그인 중: ${token}');
+
+      // storage 에 새로운 token 저장
+      await tokenStorage.write(key: 'token', value: token);
+      // 메인화면으로 이동
+      Get.offAndToNamed('/main');
+    } on DioException catch (e) {
+      print('checkLogin: $e');
+
+      if (e.response?.statusCode == 401) {
+        print('checkLogin - 401 Err 로그인 상태 아님');
+        // 로그아웃
+        Get.put(LoginController());
+        Get.find<LoginController>().handleLogout();
+      }
+      return;
+    }
+
   }
 
   // 로그아웃
@@ -160,6 +176,10 @@ class LoginController {
     await userStorage.deleteItem(Config.nickName);
     await userStorage.deleteItem(Config.social);
 
-    Get.offAndToNamed('/login');
+    // 다른 페이지에서 로그아웃 요청 -> 로그인 페이지로 이동
+    // 로그인 페이지에서 로그인 여부 확인 후 로그인 상태 아니어서 로그아웃 요청 -> 페이지 이동 x
+    if (!Get.currentRoute.contains('/login')) {
+      Get.offAndToNamed('/login');
+    }
   }
 }

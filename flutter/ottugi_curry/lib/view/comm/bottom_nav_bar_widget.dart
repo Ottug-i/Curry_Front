@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/view/controller/bottom_nav_bar_controller.dart';
+import 'package:ottugi_curry/view/controller/text_search/text_search_controller.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
   const BottomNavBarWidget({Key? key}) : super(key: key);
@@ -32,6 +33,9 @@ class BottomNavBarWidget extends StatelessWidget {
         Get.offAndToNamed('/main');
       } else if (idx == 1) {
         Get.offAndToNamed('/search');
+        // 검색어 리셋
+        Get.put(TextSearchController()).textEditingController.value.text = '';
+        Get.put(TextSearchController()).searchName.value = '';
       } else if (idx == 2) {
         Get.offAndToNamed('/recipe');
       } else if (idx == 3) {
