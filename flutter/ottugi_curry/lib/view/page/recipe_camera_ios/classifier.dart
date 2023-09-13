@@ -58,6 +58,9 @@ class Classifier {
   // 레이블 로드
   void loadLabels({List<String>? labels}) async {
     try {
+      // const filePath = 'assets/$LABEL_FILE_NAME';
+      // final file = File(filePath);
+      // _labels = await file.readAsLines();
       _labels =
           labels ?? await FileUtil.loadLabels("assets/" + LABEL_FILE_NAME);
     } catch (e) {
