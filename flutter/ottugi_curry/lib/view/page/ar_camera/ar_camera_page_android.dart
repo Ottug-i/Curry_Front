@@ -35,8 +35,8 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
   void dispose() {
     super.dispose();
     arSessionManager!.dispose();
-    arObjectManager!.removeNode(fileSystemNode!);
-    fileSystemNode = null;
+    // arObjectManager!.removeNode(fileSystemNode!);
+    // fileSystemNode = null;
     webObjectNode = null;
   }
 
@@ -61,17 +61,17 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
               child: Container(
                 margin: const EdgeInsets.only(bottom: 20.0),
                 child:
-                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                          // onPressed: onFileSystemObjectAtOrigin,
+                        // onPressed: onFileSystemObjectAtOrigin,
                           onPressed: onWebObjectAtOriginButtonPressed,
-                            child: Obx(
-                              ()=> Text(arCameraController.existARNode.value == true? 'AR송이 숨기기': 'AR송이 추가하기',
+                          child: Obx(
+                                ()=> Text(arCameraController.existARNode.value == true? 'AR송이 숨기기': 'AR송이 추가하기',
                                 style: Theme.of(context).textTheme.bodyMedium!),
-                            )),
+                          )),
                       const SizedBox(
                         width: 10,
                       ),
@@ -100,12 +100,18 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
     this.arObjectManager = arObjectManager;
 
     this.arSessionManager!.onInitialize(
-          showFeaturePoints: false,
-          showPlanes: false,
-          showWorldOrigin: true, // TODO: true-> false
-          handleTaps: false,
-        );
+      showFeaturePoints: false,
+      showPlanes: false,
+      showWorldOrigin: false,
+      handleTaps: false,
+    );
     this.arObjectManager!.onInitialize();
+
+    // // 다운로드
+    // httpClient = HttpClient();
+    // _downloadFile(
+    //     "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb",
+    //     "LocalMushroom.glb");
   }
 
   // 네트워크 이미지 불러오기
@@ -118,10 +124,7 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
       var newNode = ARNode(
           type: NodeType.webGLB,
           uri:
-          // "https://github.com/Ottug-i/Curry_Front/raw/ar_camera/flutter/ottugi_curry/assets/3d_models/comfirm.glb",
-          // "https://github.com/Ottug-i/Curry_Front/raw/ar_camera/flutter/ottugi_curry/assets/3d_models/comfirm3.glb",
-          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
-
+          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb",
           scale: math.Vector3.all(0.07));
       bool? didAddWebNode = await arObjectManager!.addNode(newNode);
       webObjectNode = (didAddWebNode!) ? newNode : null;
@@ -142,11 +145,6 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
 
   // 파일 이미지 불러오기
   Future<void> onFileSystemObjectAtOrigin() async {
-    // 다운로드
-    httpClient = HttpClient();
-    _downloadFile(
-        "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/mushroom.glb",
-        "LocalMushroom.glb");
 
     if (fileSystemNode != null) {
       arObjectManager!.removeNode(fileSystemNode!);
@@ -154,12 +152,11 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
       Get.put(ARCameraController()).existARNode.value = false;
     } else {
       var newNode = ARNode(
-          type: NodeType.fileSystemAppFolderGLB,
-          uri: "LocalMushroom.glb",
-          scale: math.Vector3.all(0.08),
-          rotation: math.Vector4(0, 0, 0, 0),
-          position: math.Vector3(0, 0.4, 0.4),
-          // transformation: Matrix4.rotationY(-30)
+        type: NodeType.fileSystemAppFolderGLB,
+        uri: "LocalMushroom.glb",
+        scale: math.Vector3.all(0.08),
+        rotation: math.Vector4(0, 0, 0, 0),
+        position: math.Vector3(0, 0.4, 0.4),
       );
 
       bool? didAddFileSystemNode = await arObjectManager!.addNode(newNode);
