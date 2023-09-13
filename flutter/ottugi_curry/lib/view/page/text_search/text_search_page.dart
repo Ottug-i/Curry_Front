@@ -70,7 +70,6 @@ class _TextSearchPageState extends State<TextSearchPage> {
                             searchController.searchName.value = text;
                             searchController.handleTextSearch(pageIndex: 0);
                           } else {
-                            print('hi iiii ${searchController.searchName.value}');
                             searchController.searchName.value = '';
                           }
                         },

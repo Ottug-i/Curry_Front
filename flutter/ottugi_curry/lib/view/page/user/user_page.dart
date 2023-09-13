@@ -52,11 +52,13 @@ class UserPage extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Image.asset(
-                            'assets/images/rubberduck.png',
-                            fit: BoxFit.fill,
-                            height: 75,
-                            width: 75,
+                          ClipOval(
+                            child: Image.asset(
+                              'assets/images/profile_face.jpeg',
+                              fit: BoxFit.fill,
+                              height: 75,
+                              width: 75,
+                            ),
                           ),
                           const Padding(padding: EdgeInsets.only(right: 25)),
                           Column(

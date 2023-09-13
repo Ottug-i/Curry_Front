@@ -106,10 +106,10 @@ class RecommendController {
       print('print additionalPropList: $additionalPropMap');
       final dio = createDio();
       RecommendRepository recommendRepository = RecommendRepository(dio);
-      
+
       RatingRequest ratingRequest = RatingRequest(
-        new_user_ratings_dic: additionalPropMap,
-        user_id: getUserId()
+        newUserRatingsDic: additionalPropMap,
+        userId: getUserId()
       );
       bool resp = await recommendRepository.postRecommendRating(ratingRequest);
       // resp == true: 업데이트 성공
