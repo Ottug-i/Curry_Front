@@ -4,12 +4,12 @@ part 'rating_request.g.dart';
 
 @JsonSerializable()
 class RatingRequest {
-  Map? new_user_ratings_dic;
-  int? user_id;
+  Map? newUserRatingsDic;
+  int? userId;
 
   RatingRequest({
-    this.new_user_ratings_dic,
-    this.user_id,
+    this.newUserRatingsDic,
+    this.userId,
   });
 
   factory RatingRequest.fromJson(Map<String, dynamic> json) => _$RatingRequestFromJson(json);
