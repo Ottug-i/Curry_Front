@@ -18,7 +18,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
-
   // Notification 관련 설정
   @override
   void initState() {
@@ -34,10 +33,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('didChangeAppLifecycleState');
-    print('$state');
     if (state == AppLifecycleState.resumed) {
-      print('AppLifecycleState.resumed');
       FlutterAppBadger.removeBadge();
     }
   }
@@ -63,9 +59,13 @@ class MainPageDetail extends StatelessWidget {
     final recommendController = Get.find<RecommendController>();
 
     // 사이즈 조절
-    double widgetHeight = widthSize(context) >= Config.padHorizonWidth ? heightSize(context) /4 -10 : isWidthMobile(context)==true ? 150 : heightSize(context) / 6 - 10;
-    double rowWidgetWidth = widthSize(context)/ 2 - 30;
-    double marginBetweenButtons = isWidthMobile(context) == true? 15.0: 30.0;
+    double widgetHeight = widthSize(context) >= Config.padHorizonWidth
+        ? heightSize(context) / 4 - 10
+        : isWidthMobile(context) == true
+            ? 150
+            : heightSize(context) / 6 - 10;
+    double rowWidgetWidth = widthSize(context) / 2 - 30;
+    double marginBetweenButtons = isWidthMobile(context) == true ? 15.0 : 30.0;
 
     return Scaffold(
         appBar: AppBar(
@@ -109,8 +109,7 @@ class MainPageDetail extends StatelessWidget {
                       FutureBuilder(
                           future: _initRatingRec(),
                           builder: (context, snap) {
-                            if (snap.connectionState !=
-                                ConnectionState.done) {
+                            if (snap.connectionState != ConnectionState.done) {
                               return SizedBox(
                                 height: widgetHeight,
                                 child: const Center(
@@ -120,10 +119,9 @@ class MainPageDetail extends StatelessWidget {
                             }
                             return SizedBox(
                               height: 160,
-                              child: Obx(
-                                      ()=> recommendController
+                              child: Obx(() => recommendController
                                       .ratingRecList.isNotEmpty
-                                      ? ListView.builder(
+                                  ? ListView.builder(
                                       padding: const EdgeInsets.only(
                                           top: 10, bottom: 10),
                                       shrinkWrap: true,
@@ -136,8 +134,7 @@ class MainPageDetail extends StatelessWidget {
                                             recommendController
                                                 .ratingRecList[idx]);
                                       })
-                                      : const Center(child: Text('추천 레시피가 없습니다.'))
-                              ),
+                                  : const Center(child: Text('추천 레시피가 없습니다.'))),
                             );
                           })
                     ],
@@ -147,7 +144,7 @@ class MainPageDetail extends StatelessWidget {
                 // 재료 찍고 레시피 추천 받기 버튼
                 Container(
                   width: double.infinity,
-                  height: widgetHeight -10 ,
+                  height: widgetHeight - 10,
                   padding: const EdgeInsets.only(
                       top: 20, bottom: 20, left: 20, right: 0),
                   margin: EdgeInsets.only(top: marginBetweenButtons),
@@ -158,6 +155,7 @@ class MainPageDetail extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       Get.toNamed('/recipe');
+                      //Get.toNamed('/yoloImage');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -214,13 +212,14 @@ class MainPageDetail extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('#오요완 챌린지',
+                            Text('요리 인증샷 찍기',
                                 style: Theme.of(context).textTheme.titleMedium),
                             Align(
                               alignment: Alignment.bottomRight,
                               child: Image.asset(
                                 'assets/images/main_ar.png',
-                                height: isWidthMobile(context) == true? 78: 100,
+                                height:
+                                    isWidthMobile(context) == true ? 78 : 100,
                               ),
                             ),
                           ],
@@ -253,7 +252,8 @@ class MainPageDetail extends StatelessWidget {
                               alignment: Alignment.bottomRight,
                               child: Image.asset(
                                 'assets/images/main_search.png',
-                                height: isWidthMobile(context) == true? 70: 100,
+                                height:
+                                    isWidthMobile(context) == true ? 70 : 100,
                               ),
                             ),
                           ],
@@ -291,7 +291,8 @@ class MainPageDetail extends StatelessWidget {
                               alignment: Alignment.bottomRight,
                               child: Image.asset(
                                 'assets/images/main_bookmark.png',
-                                height: isWidthMobile(context) == true? 80: 100,
+                                height:
+                                    isWidthMobile(context) == true ? 80 : 100,
                               ),
                             ),
                           ],
@@ -324,7 +325,8 @@ class MainPageDetail extends StatelessWidget {
                               alignment: Alignment.bottomRight,
                               child: Image.asset(
                                 'assets/images/main_user.png',
-                                height: isWidthMobile(context) == true? 85: 100,
+                                height:
+                                    isWidthMobile(context) == true ? 85 : 100,
                               ),
                             ),
                           ],

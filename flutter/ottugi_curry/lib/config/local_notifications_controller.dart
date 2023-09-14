@@ -11,7 +11,8 @@ class LocalNotificationsController {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  void setNotifications({required int hour, int? minutes, required int messageId}) async {
+  void setNotifications(
+      {required int hour, int? minutes, required int messageId}) async {
     // Time, Notification Initialization
     _init();
 
@@ -35,7 +36,8 @@ class LocalNotificationsController {
         break;
     }
     // 메세지 설정
-    await _registerMessage( // 요청한 시간 정각에 보여줌
+    await _registerMessage(
+      // 요청한 시간 정각에 보여줌
       hour: hour,
       minutes: 0,
       message: message,

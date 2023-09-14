@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,11 +20,11 @@ class _RecipeCameraPageState extends State<RecipeCameraPage> {
   late Future<void> _initializeControllerFuture;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     if (pageController.isCameraInitialized.value == false) {
       // main.dart 에서 초기화가 안되었으면
-      await pageController.initializeCamera();
+      pageController.initializeCamera();
     }
     controller = CameraController(pageController.camera, ResolutionPreset.max);
     _initializeControllerFuture = controller.initialize();
@@ -45,8 +47,12 @@ class _RecipeCameraPageState extends State<RecipeCameraPage> {
 
       if (!mounted) return;
 
+      // controller에 사진 저장
+      pageController.imageFile.value = File(image.path);
+
+      pageController.initDetection();
       // 찍힌 사진을 새로운 화면에 띄운다.
-      Get.to(() => const ResultCheckPage(), arguments: image.path);
+      Get.to(() => const ResultCheckPage());
     } catch (e) {
       // 오류 발생 시 log에 에러 메세지 출력
       print(e);

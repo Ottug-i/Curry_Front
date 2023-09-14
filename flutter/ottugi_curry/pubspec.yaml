@@ -75,7 +75,10 @@ dependencies:
   # share image
   share_plus:
 
-  tflite_flutter: ^0.10.1
+  #tflite_flutter: ^0.10.1
+  flutter_vision: ^1.1.1
+  image:
+  image_picker: ^1.0.4
 
 flutter_native_splash:
   color: "#FFD717"
@@ -111,6 +114,7 @@ flutter:
     - assets/audios/
     - assets/config/
     - assets/3d_models/
+    - assets/ml_model/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
