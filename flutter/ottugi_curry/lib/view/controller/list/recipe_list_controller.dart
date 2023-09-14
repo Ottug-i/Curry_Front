@@ -20,6 +20,13 @@ class RecipeListController extends GetxController {
 
   RxBool isLoading = true.obs;
 
+  Rx<String> selectedCategory = ''.obs;
+  Rx<String> selectedCategoryValue = ''.obs;
+
+  Rx<String> searchComposition = ''.obs;
+  Rx<String> searchDifficulty = ''.obs;
+  Rx<String> searchTime = ''.obs;
+
   void setIngredientList(List<String> input) {
     ingredientList.clear();
     if (input.isNotEmpty) {
@@ -147,5 +154,10 @@ class RecipeListController extends GetxController {
     Get.put(BookmarkListController());
     await Get.find<BookmarkListController>().postBookmark(userId, recipeId);
     await fetchData(userId, currentPage.value); // 재로딩
+  }
+
+  // 카테고리(옵션 검색) 관련 함수들
+  void updateCategory(String category) {
+    selectedCategory.value = category;
   }
 }

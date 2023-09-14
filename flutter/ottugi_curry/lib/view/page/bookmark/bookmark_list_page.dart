@@ -40,7 +40,13 @@ class BookmrkListPageState extends State<BookmrkListPage> {
   }
 
   Future<void> _initMenuList() async {
-    await Get.find<BookmarkListController>().loadData(userId: getUserId(), page: 1);
+    await Get.find<BookmarkListController>()
+        .loadData(userId: getUserId(), page: 1);
+  }
+
+  void initPageNumber() {
+    pageController.navigateToPage(0);
+    print("initPageNumber");
   }
 
   @override
@@ -69,8 +75,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                           bListController.searchText.value = text; // 텍스트 검색
                           bListController.searchData(
                               userId: getUserId(),
-                              page: bListController
-                                  .pageController.value.currentPage); // 옵션 검색
+                              page: bListController.currentPage.value); // 옵션 검색
                         },
                         decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.search),
@@ -87,7 +92,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // 카테고리 위젯
-                    const BookmarkCategories(),
+                    BookmarkCategories(callback: initPageNumber),
                     // 아이템 위젯
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -148,7 +153,9 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Expanded(
-                                        flex: isWidthMobile(context) == true? 3: 2,
+                                        flex: isWidthMobile(context) == true
+                                            ? 3
+                                            : 2,
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(24.0),
@@ -241,13 +248,21 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                               ),
                                               // 세 번째 줄 (아이콘 - 시간, 난이도, 구성)
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
+                                                  iconWithText(context, 'time',
+                                                      30, '${menuItem.time}'),
                                                   iconWithText(
-                                                      context, 'time', 30, '${menuItem.time}'),
-                                                  iconWithText(context, 'chef2', 30,
+                                                      context,
+                                                      'chef2',
+                                                      30,
                                                       '${menuItem.difficulty}'),
-                                                  iconWithText(context, 'meal', 33,
+                                                  iconWithText(
+                                                      context,
+                                                      'meal',
+                                                      33,
                                                       '${menuItem.composition}'),
                                                 ],
                                               )
@@ -286,7 +301,8 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                 color: Colors.grey.withOpacity(0.7),
                                 spreadRadius: 0,
                                 blurRadius: 7.0,
-                                offset: const Offset(0, 5), // changes position of shadow
+                                offset: const Offset(
+                                    0, 5), // changes position of shadow
                               ),
                             ],
                           ),
@@ -358,7 +374,8 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                     numberPages: bListController.response.value.totalPages ?? 0,
                     controller: pageController,
                     onPageChange: (int index) {
-                      bListController.loadData(userId: getUserId(), page: index + 1);
+                      bListController.loadData(
+                          userId: getUserId(), page: index + 1);
                       // 스크롤 맨 위로 이동
                       _scrollController.jumpTo(0);
                     },
@@ -392,8 +409,7 @@ class BookmrkListPageState extends State<BookmrkListPage> {
       child: Container(
         margin: const EdgeInsets.only(right: 15),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25.0),
-            color: Colors.white),
+            borderRadius: BorderRadius.circular(25.0), color: Colors.white),
         child: Column(
           children: [
             Padding(
