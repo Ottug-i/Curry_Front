@@ -35,8 +35,8 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
   void dispose() {
     super.dispose();
     arSessionManager!.dispose();
-    arObjectManager!.removeNode(fileSystemNode!);
-    fileSystemNode = null;
+    // arObjectManager!.removeNode(fileSystemNode!);
+    // fileSystemNode = null;
     webObjectNode = null;
   }
 
@@ -61,17 +61,17 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
               child: Container(
                 margin: const EdgeInsets.only(bottom: 20.0),
                 child:
-                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                          // onPressed: onFileSystemObjectAtOrigin,
+                        // onPressed: onFileSystemObjectAtOrigin,
                           onPressed: onWebObjectAtOriginButtonPressed,
-                            child: Obx(
-                              ()=> Text(arCameraController.existARNode.value == true? 'AR송이 숨기기': 'AR송이 추가하기',
+                          child: Obx(
+                                ()=> Text(arCameraController.existARNode.value == true? 'AR송이 숨기기': 'AR송이 추가하기',
                                 style: Theme.of(context).textTheme.bodyMedium!),
-                            )),
+                          )),
                       const SizedBox(
                         width: 10,
                       ),
@@ -100,11 +100,11 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
     this.arObjectManager = arObjectManager;
 
     this.arSessionManager!.onInitialize(
-          showFeaturePoints: false,
-          showPlanes: false,
-          showWorldOrigin: true, // TODO: true-> false
-          handleTaps: false,
-        );
+      showFeaturePoints: false,
+      showPlanes: false,
+      showWorldOrigin: false,
+      handleTaps: false,
+    );
     this.arObjectManager!.onInitialize();
 
     // // 다운로드
