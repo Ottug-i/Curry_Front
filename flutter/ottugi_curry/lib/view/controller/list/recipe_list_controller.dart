@@ -158,13 +158,13 @@ class RecipeListController extends GetxController {
       final RecommendRepository recommendRepository = RecommendRepository(dio);
 
       IngredientRequest ingredientRequest = IngredientRequest(
+        userId: userId,
         composition: searchComposition.value,
         difficulty: searchDifficulty.value,
         time: searchTime.value,
         ingredients: selectedIngredient,
         page: page,
         size: Config.elementNum,
-        userId: userId,
       );
       final menuData = await recommendRepository
           .postRecommendIngredientsList(ingredientRequest);

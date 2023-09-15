@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
+import 'package:dio/dio.dart' as d;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_vision/flutter_vision.dart';
@@ -32,16 +34,23 @@ class CameraPageController extends GetxController {
   }
 
   void initDetection() {
-    print(">> initDetection");
     if (!isCameraInitialized.value) {
       initializeCamera();
     }
-    vision = FlutterVision();
-    loadYoloModel().then((value) {
+
+    if (Platform.isAndroid) {
+      vision = FlutterVision();
+
+      loadYoloModel().then((value) {
+        yoloResults.clear();
+        isDetecting.value = false;
+        isLoaded.value = false; // load 시작
+      });
+    } else if (Platform.isIOS) {
+      // getDetectedResult();
       yoloResults.clear();
       isDetecting.value = false;
-      isLoaded.value = false; // load 시작
-    });
+    }
   }
 
   Future<void> loadYoloModel() async {
@@ -54,6 +63,7 @@ class CameraPageController extends GetxController {
     isLoaded.value = true; // load 완료
   }
 
+  // android ver. 추론
   Future<List<String>> detectImage() async {
     isDetecting.value = true;
     yoloResults.clear();
@@ -68,8 +78,8 @@ class CameraPageController extends GetxController {
     final newByte = Uint8List.fromList(img.encodePng(resized));
     final resizedImage = await decodeImageFromList(newByte);
 
-    imageHeight.value = resizedImage.height;
-    imageWidth.value = resizedImage.width;
+    imageHeight.value = original.height;
+    imageWidth.value = original.width;
 
     final result = await vision.yoloOnImage(
         bytesList: newByte,
@@ -91,12 +101,79 @@ class CameraPageController extends GetxController {
       // 추론 결과 활용 (예: 클래스 정보 출력)
       // -> 결과를 사용자에게 물어보고, 필요 없는 것을 삭제한 후 백엔드 서버에 요청
       yoloResults.value = result;
+      print("resultData: $result");
       // rListController.setIngredientList(detectedClasses.toList());
-      update();
+      // update();
+      print("저장 후 yoloResults: $yoloResults");
+      print("detectedClasses: ${detectedClasses.toList}");
+      yoloResults.refresh();
       return detectedClasses.toList();
     } else {
       return [];
     }
+  }
+
+  // ios ver. 추론
+  Future<List<String>> getDetectedResult() async {
+    print("getDetectedResult 진입");
+    isDetecting.value = true;
+    yoloResults.clear();
+
+    Uint8List byte = await imageFile.value.readAsBytes();
+    img.Image? original = img.decodeImage(byte);
+
+    imageHeight.value = original!.height;
+    imageWidth.value = original.width;
+
+    d.FormData formData;
+    d.Dio dio = d.Dio();
+    try {
+      formData = d.FormData.fromMap({
+        "image": imageFile.value != null
+            ? await d.MultipartFile.fromFile(imageFile.value.path)
+            : null
+      });
+
+      d.Response response =
+          await dio.post('http://35.188.32.30:5000/detect', data: formData);
+
+      if (response.statusCode == 200) {
+        isDetecting.value = false;
+
+        final jsonBody =
+            json.decode(response.data); // http와 다른점은 response 값을 data로 받는다.
+
+        List<Map<String, dynamic>> result = [];
+        if (jsonBody is List) {
+          // jsonBody가 리스트인 경우, 각 항목을 Map<String, dynamic>으로 변환하여 목록에 추가합니다.
+          result = List<Map<String, dynamic>>.from(jsonBody);
+        }
+
+        if (result.isNotEmpty) {
+          // 추론 결과에서 클래스 정보 추출 (중복 결과는 추가되지 않도록 코드 약간 수정 필요)
+          Set<String> detectedClasses = {};
+
+          for (var recognition in result) {
+            detectedClasses.add(recognition["tag"]);
+          }
+          // 추론 결과 활용 (예: 클래스 정보 출력)
+          // -> 결과를 사용자에게 물어보고, 필요 없는 것을 삭제한 후 백엔드 서버에 요청
+          yoloResults.value = result;
+          print("resultData: $result");
+          // rListController.setIngredientList(detectedClasses.toList());
+          // update();
+          print("저장 후 yoloResults: $yoloResults");
+          print("detectedClasses: ${detectedClasses.toList}");
+          yoloResults.refresh();
+          return detectedClasses.toList();
+        }
+      }
+    } catch (e) {
+      Exception(e);
+    } finally {
+      dio.close();
+    }
+    return [];
   }
 
   @override

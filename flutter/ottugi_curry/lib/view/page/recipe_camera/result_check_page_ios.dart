@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
@@ -10,18 +7,19 @@ import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 import 'package:ottugi_curry/view/controller/recipe_camera/camera_page_controller.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/ShakeAnimation.dart';
 
-class ResultCheckPage extends StatefulWidget {
-  const ResultCheckPage({super.key});
+class ResultCheckPageIos extends StatefulWidget {
+  const ResultCheckPageIos({super.key});
 
   @override
-  State<ResultCheckPage> createState() => _ResultCheckPageState();
+  State<ResultCheckPageIos> createState() => _ResultCheckPageIosState();
 }
 
-class _ResultCheckPageState extends State<ResultCheckPage> {
+class _ResultCheckPageIosState extends State<ResultCheckPageIos> {
   final RecipeListController rListController = Get.put(RecipeListController());
   CameraPageController cameraPageController = Get.find<CameraPageController>();
 
   // dialog 변수들
+  final GlobalKey imageKey = GlobalKey();
   final GlobalKey dataKey = GlobalKey(); // 스크롤 포커싱을 위한 변수
   bool isTextFieldError = false;
   final textFieldErrorShakeKey = GlobalKey<ShakeAnimationState>();
@@ -35,7 +33,8 @@ class _ResultCheckPageState extends State<ResultCheckPage> {
 
   void initIngredients() async {
     // 감지 결과 반환
-    List<String> ingredient = await cameraPageController.detectImage();
+    List<String> ingredient = await cameraPageController.getDetectedResult();
+    print("ios 결과 확인 페이지 - ingredient: $ingredient");
     // 인식 결과로 받아온 변수를 controller에 저장
     rListController.setIngredientList(ingredient);
   }
@@ -54,7 +53,7 @@ class _ResultCheckPageState extends State<ResultCheckPage> {
               Expanded(
                 flex: 5,
                 child: Image.file(cameraPageController.imageFile.value,
-                    fit: BoxFit.fitHeight),
+                    fit: BoxFit.fitHeight, key: imageKey),
               ),
               const SizedBox(
                 height: 20,
@@ -102,7 +101,8 @@ class _ResultCheckPageState extends State<ResultCheckPage> {
               ),
             ],
           ),
-          ...displayBoxesAroundRecognizedObjects(screen, cameraPageController),
+          ...displayBoxesAroundRecognizedObjects(
+              screen, cameraPageController, imageKey),
           Offstage(
               offstage:
                   !rListController.isLoading.value, // isLoading이 false면 감춰~
@@ -121,11 +121,9 @@ class _ResultCheckPageState extends State<ResultCheckPage> {
                     children: [
                       const CircularProgressIndicator(),
                       const SizedBox(height: 16.0),
-                      cameraPageController.isLoaded.value
-                          ? remarks("인공지능 모델 로딩 중...", context)
-                          : cameraPageController.isDetecting.value
-                              ? remarks("사진 분석 중...", context)
-                              : remarks("탐지 결과 표시 중...", context),
+                      cameraPageController.isDetecting.value
+                          ? remarks("사진 분석 중...", context)
+                          : remarks("탐지 결과 표시 중...", context),
                     ],
                   ),
                 ),
@@ -342,7 +340,7 @@ Text remarks(String text, context) {
 }
 
 List<Widget> displayBoxesAroundRecognizedObjects(
-    Size screen, CameraPageController controller) {
+    Size screen, CameraPageController controller, imageKey) {
   final yoloResults = controller.yoloResults;
   final imageWidth = controller.imageWidth.value;
   final imageHeight = controller.imageHeight.value;
@@ -351,35 +349,47 @@ List<Widget> displayBoxesAroundRecognizedObjects(
     return [];
   }
 
-  double factorX = screen.width / 1280;
+  double widgetWidth = 0.0;
+  double widgetHeight = 0.0;
+  if (imageKey.currentContext != null) {
+    final RenderBox renderBox =
+        imageKey.currentContext!.findRenderObject() as RenderBox;
+    Size widgetSize = renderBox.size;
+    widgetWidth = widgetSize.width;
+    widgetHeight = widgetSize.height;
+  }
+
+  // 서버에서 이미지를 1960으로 resize한 뒤에 탐지함
+  double factorX = widgetWidth / 1960;
   double imgRatio = imageWidth / imageHeight;
-  double newWidth = 1280 * factorX;
+  double newWidth = 1960 * factorX;
   double newHeight = newWidth / imgRatio;
-  double factorY = newHeight / 1280;
+  double factorY = widgetHeight / 1960;
 
-  double pady = (screen.height - newHeight) / 2;
+  double padx = (screen.width - widgetWidth) / 2;
+  double pady = (widgetHeight - newHeight) / 2;
 
-  Color colorPick = Colors.pink;
+  Color colorPick = lightColorScheme.primary;
 
-  // yoloResults 요소들의 위치값을 서로 비교해서
-  // 겹치는 부분이 일정 정도 이상이면 둘 중에 하나만 화면에 표시하도록 하는 line 추가해야 함 (추후)
-
+  // yoloResults 요소들의 위치값을 서로 비교해서 겹치는 부분이 일정 정도 이상이면
+  // 하나만 화면에 표시하도록 하는 코드 추가해야 함 (추후)
+//"box": [right, bottom, left, top, class_confidence]
   return yoloResults.map((result) {
     return Positioned(
-      left: result["box"][0] * factorX,
-      top: result["box"][1] * factorY + pady,
+      left: result["box"][0] * factorX + padx,
+      top: result["box"][3] * factorY + pady,
       width: (result["box"][2] - result["box"][0]) * factorX,
-      height: (result["box"][3] - result["box"][1]) * factorY,
+      height: (result["box"][1] - result["box"][3]) * factorY,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-          border: Border.all(color: Colors.pink, width: 2.0),
+          border: Border.all(color: lightColorScheme.primary, width: 2.0),
         ),
         child: Text(
           "${result['tag']} ${(result['box'][4] * 100).toStringAsFixed(0)}%",
           style: TextStyle(
             background: Paint()..color = colorPick,
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 18.0,
           ),
         ),
