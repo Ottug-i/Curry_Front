@@ -26,61 +26,69 @@ class ARCameraPageIosState extends State<ARCameraPageIos> {
     super.dispose();
   }
 
+  Future _initModelPath() async {
+    await Get.put(ARCameraController()).loadModelPath();
+  }
+
   @override
   Widget build(BuildContext context) {
     Get.put(ARCameraController());
     final arCameraController = Get.find<ARCameraController>();
 
     return DefaultLayoutWidget(
-      backToMain: true,
+        backToMain: true,
         appBarTitle: '인증샷 남기기',
-      body: Stack(children: [
-        Screenshot(
-            controller: arCameraController.screenshotController.value,
-            child: ARKitSceneView(
-              planeDetection: ARPlaneDetection.horizontal,
-              onARKitViewCreated: onARKitViewCreated,
-              showWorldOrigin: false,
-            )
-        ),
-        Align(
-            alignment: FractionalOffset.bottomCenter,
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 20.0),
-              child:
-              Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // ElevatedButton(
-                    //     onPressed: () {
-                    //       // 버튼 눌러서 노드 추가/삭제 - 로딩 시간이 느림
-                    //       arkitController.onAddNodeForAnchor = _handleAddAnchor;
-                    //     },
-                    //     child: Text("AR송이 추가하기",
-                    //         style: Theme.of(context).textTheme.bodyMedium!)),
-                    // const SizedBox(
-                    //   width: 10,
-                    // ),
-                    FloatingActionButton(
-                      onPressed: () async {
-                        // 캡쳐
-                        final ImageProvider snapshot = await arkitController.snapshot();
-                        final Uint8List snapshotData = await arCameraController.loadImageData(snapshot, context);
+        body: FutureBuilder(
+          future: _initModelPath(),
+          builder: (context, snap) {
+            if (snap.connectionState != ConnectionState.done) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-                        arCameraController.takeScreenshot(context, snapshotData);
-                      },
-                      backgroundColor: lightColorScheme.primary,
-                      foregroundColor: Colors.black,
-                      shape: const CircleBorder(),
-                      child: const Icon(Icons.camera),
-                    )
-                  ],
-                ),
-              ]),
-            )),
-      ]),
-    );
+            return Stack(children: [
+              Screenshot(
+                  controller: arCameraController.screenshotController.value,
+                  child: ARKitSceneView(
+                    planeDetection: ARPlaneDetection.horizontal,
+                    onARKitViewCreated: onARKitViewCreated,
+                    showWorldOrigin: false,
+                  )),
+              Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 20.0),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FloatingActionButton(
+                                onPressed: () async {
+                                  // 캡쳐
+                                  final ImageProvider snapshot =
+                                      await arkitController.snapshot();
+                                  final Uint8List snapshotData =
+                                      await arCameraController.loadImageData(
+                                          snapshot, context);
+
+                                  arCameraController.takeScreenshot(
+                                      context, snapshotData);
+                                },
+                                backgroundColor: lightColorScheme.primary,
+                                foregroundColor: Colors.black,
+                                shape: const CircleBorder(),
+                                child: const Icon(Icons.camera),
+                              )
+                            ],
+                          ),
+                        ]),
+                  )),
+            ]);
+          },
+        ));
   }
 
   void onARKitViewCreated(ARKitController arkitController) {
@@ -91,36 +99,14 @@ class ARCameraPageIosState extends State<ARCameraPageIos> {
     _addNode(arkitController);
   }
 
-  void _handleAddAnchor(ARKitAnchor anchor) {
-    if (anchor is ARKitPlaneAnchor) {
-      _addPlane(arkitController, anchor);
-    }
-  }
-
-  void _addPlane(ARKitController controller, ARKitPlaneAnchor anchor) {
-    if (node != null) {
-      controller.remove(node!.name);
-    }
-    node = ARKitReferenceNode(
-      url: 'models.scnassets/confirm_1_lying.usdc',
-      position: vector.Vector3(0, 0, 0),
-      scale: vector.Vector3.all(0.08),
-    );
-    controller.add(node!, parentNodeName: anchor.nodeName);
-  }
-
   void _addNode(ARKitController arkitController) {
-    // if (node != null) {
-    //   controller.remove(node!.name);
-    // }
+    final url = Get.put(ARCameraController()).modelFilesPath.value;
     final node = ARKitReferenceNode(
-      url: 'models.scnassets/confirm_1_lying.usdc',
+      url: url,
       position: vector.Vector3(0, 0, 0),
       scale: vector.Vector3.all(0.08),
-
+      eulerAngles: vector.Vector3(200, 180, 90)
     );
     arkitController.add(node);
   }
-
-
 }
