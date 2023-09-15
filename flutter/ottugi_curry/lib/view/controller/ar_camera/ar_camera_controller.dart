@@ -22,8 +22,9 @@ class ARCameraController {
 
   RxString modelFilesPath = ''.obs;
 
-  // 최근 본 레시피에 따른 3D 모델 캐릭터 조회
+  // 최근 본 레시피에 따른 3D 모델 캐릭터 조회 - iOS
   Future<void> loadModelPath() async {
+    print('print : loadModelPath}');
     // 장르 이름:
     // 'meat', 'fish', 'kimchi', 'tofu', 'egg', 'mushroom', 'vegetable', 'fruit', 'milk'
     try {
@@ -40,35 +41,64 @@ class ARCameraController {
         genre = resp;
       }
 
+      genre = 'fish';
       switch (genre) {
         case 'meat':
-          modelFilesPath.value = 'models.scnassets/meat.usdc';
+          if (Platform.isAndroid) {
+            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/meat.glb";
+          } else if (Platform.isIOS) {
+            modelFilesPath.value = 'models.scnassets/meat.usdc';
+          }
           break;
         case 'fish':
-          modelFilesPath.value = 'models.scnassets/fish_roc.usdc';
+          if (Platform.isAndroid) {
+            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/fish.glb";
+          } else if (Platform.isIOS) {
+            modelFilesPath.value = 'models.scnassets/fish_roc.usdc';
+          }
           break;
         case 'kimchi':
-          modelFilesPath.value = 'models.scnassets/kimchi.usdc';
+          if (Platform.isAndroid) {
+            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/kimchi.glb";
+          } else if (Platform.isIOS) {
+            modelFilesPath.value = 'models.scnassets/kimchi.usdc';
+          }
           break;
         case 'tofu':
-          modelFilesPath.value = 'models.scnassets/tofu.usdc';
+          if (Platform.isAndroid) {
+            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/tofu.glb";
+          } else if (Platform.isIOS) {
+            modelFilesPath.value = 'models.scnassets/tofu.usdc';
+          }
           break;
         case 'egg':
-          modelFilesPath.value = 'models.scnassets/egg.usdc';
+          if (Platform.isAndroid) {
+            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/egg.glb";
+          } else if (Platform.isIOS) {
+            modelFilesPath.value = 'models.scnassets/egg.usdc';
+          }
           break;
         case 'mushroom':
-          modelFilesPath.value = 'models.scnassets/mushroom.usdc';
+          if (Platform.isAndroid) {
+            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb";
+          } else if (Platform.isIOS) {
+            modelFilesPath.value = 'models.scnassets/mushroom.usdc';
+          }
           break;
         case 'vegetable':
         case 'fruit':
         case 'milk':
         default:
           print('default');
-          modelFilesPath.value = 'models.scnassets/mushroom.usdc';
+          if (Platform.isAndroid) {
+            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb";
+          } else if (Platform.isIOS) {
+            modelFilesPath.value = 'models.scnassets/mushroom.usdc';
+          }
           break;
       }
     } on DioException catch (e) {
-      print('loadLatelyRecipe: $e');
+      print('loadModelPath: $e');
       return;
     }
   }
