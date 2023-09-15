@@ -73,6 +73,10 @@ class Config {
         name: '/login_rating',
         page: () => const LoginRatingPage(),
         transition: Transition.noTransition),
+    GetPage(
+        name: '/yoloImage',
+        page: () => const YoloImage(),
+        transition: Transition.noTransition)
   ];
 
   // 레시피 상세 페이지에서 조리순서를 보는 방식: 음성/사진/즐글
@@ -134,7 +138,3 @@ class Config {
   static const padWidth = 700.0;
   static const mobileWidget = 450.0;
 }
-
-enum SocialPlatform { none, google, kakao }
-
-SocialPlatform social = SocialPlatform.none;

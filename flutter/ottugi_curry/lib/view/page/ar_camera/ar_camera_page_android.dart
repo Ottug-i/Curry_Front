@@ -152,11 +152,11 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
       Get.put(ARCameraController()).existARNode.value = false;
     } else {
       var newNode = ARNode(
-        type: NodeType.fileSystemAppFolderGLB,
-        uri: "LocalMushroom.glb",
-        scale: math.Vector3.all(0.08),
-        rotation: math.Vector4(0, 0, 0, 0),
-        position: math.Vector3(0, 0.4, 0.4),
+          type: NodeType.fileSystemAppFolderGLB,
+          uri: "LocalMushroom.glb",
+          scale: math.Vector3.all(0.08),
+          rotation: math.Vector4(0, 0, 0, 0),
+          position: math.Vector3(0, 0.4, 0.4),
       );
 
       bool? didAddFileSystemNode = await arObjectManager!.addNode(newNode);

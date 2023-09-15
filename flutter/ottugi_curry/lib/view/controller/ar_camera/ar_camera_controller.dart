@@ -3,10 +3,14 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/config/dio_config.dart';
+import 'package:ottugi_curry/repository/lately_repository.dart';
+import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
@@ -15,6 +19,59 @@ import 'package:share_plus/share_plus.dart';
 class ARCameraController {
   Rx<ScreenshotController> screenshotController = ScreenshotController().obs;
   RxBool existARNode = false.obs; // AR 모델 추가/삭제 버튼 텍스트 결정
+
+  RxString modelFilesPath = ''.obs;
+
+  // 최근 본 레시피에 따른 3D 모델 캐릭터 조회
+  Future<void> loadModelPath() async {
+    // 장르 이름:
+    // 'meat', 'fish', 'kimchi', 'tofu', 'egg', 'mushroom', 'vegetable', 'fruit', 'milk'
+    try {
+      final dio = createDio();
+      LatelyRepository latelyRepository = LatelyRepository(dio);
+
+      final resp = await latelyRepository.getLatelyCharacter(getUserId());
+
+      print('print resp: ${resp}');
+      String genre = '';
+      if (resp == null) {
+        genre = '';
+      } else {
+        genre = resp;
+      }
+
+      switch (genre) {
+        case 'meat':
+          modelFilesPath.value = 'models.scnassets/meat.usdc';
+          break;
+        case 'fish':
+          modelFilesPath.value = 'models.scnassets/fish_roc.usdc';
+          break;
+        case 'kimchi':
+          modelFilesPath.value = 'models.scnassets/kimchi.usdc';
+          break;
+        case 'tofu':
+          modelFilesPath.value = 'models.scnassets/tofu.usdc';
+          break;
+        case 'egg':
+          modelFilesPath.value = 'models.scnassets/egg.usdc';
+          break;
+        case 'mushroom':
+          modelFilesPath.value = 'models.scnassets/mushroom.usdc';
+          break;
+        case 'vegetable':
+        case 'fruit':
+        case 'milk':
+        default:
+          print('default');
+          modelFilesPath.value = 'models.scnassets/mushroom.usdc';
+          break;
+      }
+    } on DioException catch (e) {
+      print('loadLatelyRecipe: $e');
+      return;
+    }
+  }
 
   // (캡쳐 이후) 이미지 바이트 데이터 얻어오기 - iOS
   Future<Uint8List> loadImageData(

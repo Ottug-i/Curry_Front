@@ -8,6 +8,9 @@ part 'lately_repository.g.dart';
 abstract class LatelyRepository {
   factory LatelyRepository(Dio dio, {String baseUrl}) = _LatelyRepository;
 
+  @GET('/api/lately/character')
+  Future<String?> getLatelyCharacter(@Query("userId") int id);
+
   @GET('/api/lately/list')
   Future<List<LatelyResponse>> getLatelyList(@Query("userId") int id);
 }
