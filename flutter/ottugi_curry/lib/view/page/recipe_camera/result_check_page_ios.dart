@@ -376,10 +376,10 @@ List<Widget> displayBoxesAroundRecognizedObjects(
 //"box": [right, bottom, left, top, class_confidence]
   return yoloResults.map((result) {
     return Positioned(
-      left: result["box"][0] * factorX + padx,
-      top: result["box"][3] * factorY + pady,
-      width: (result["box"][2] - result["box"][0]) * factorX,
-      height: (result["box"][1] - result["box"][3]) * factorY,
+      left: result["box"][1] * factorX + padx,
+      top: result["box"][0] * factorY + pady,
+      width: (result["box"][3] - result["box"][1]) * factorX,
+      height: (result["box"][2] - result["box"][0]) * factorY,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
