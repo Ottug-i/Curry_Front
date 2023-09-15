@@ -11,6 +11,9 @@ IngredientRequest _$IngredientRequestFromJson(Map<String, dynamic> json) =>
       ingredients: (json['ingredients'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      composition: json['composition'] as String?,
+      difficulty: json['difficulty'] as String?,
+      time: json['time'] as String?,
       page: json['page'] as int?,
       size: json['size'] as int?,
       userId: json['userId'] as int?,
@@ -19,6 +22,9 @@ IngredientRequest _$IngredientRequestFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$IngredientRequestToJson(IngredientRequest instance) =>
     <String, dynamic>{
       'ingredients': instance.ingredients,
+      'composition': instance.composition,
+      'difficulty': instance.difficulty,
+      'time': instance.time,
       'page': instance.page,
       'size': instance.size,
       'userId': instance.userId,

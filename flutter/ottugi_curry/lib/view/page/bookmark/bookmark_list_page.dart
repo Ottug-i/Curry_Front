@@ -46,7 +46,6 @@ class BookmrkListPageState extends State<BookmrkListPage> {
 
   void initPageNumber() {
     pageController.navigateToPage(0);
-    print("initPageNumber");
   }
 
   @override

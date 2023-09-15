@@ -5,6 +5,7 @@ import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 import 'package:ottugi_curry/view/page/recipe_list/list_item_widget.dart';
+import 'package:ottugi_curry/view/page/recipe_list/recipe_list_categories.dart';
 
 class RecipeListPage extends StatefulWidget {
   const RecipeListPage({super.key});
@@ -17,17 +18,30 @@ class RecipeListPageState extends State<RecipeListPage> {
   //List<String> get ingredientList => widget.ingredientList;
 
   Future<void> _initMenuList() async {
-    await Get.find<RecipeListController>().fetchData(getUserId(), 1);
+    await Get.find<RecipeListController>()
+        .fetchData(userId: getUserId(), page: 1);
   }
 
   late final RecipeListController rListController;
   final NumberPaginatorController pageController = NumberPaginatorController();
-  bool isChange = false;
+  bool isSelectedChange = false;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     rListController = Get.put(RecipeListController());
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void initPageNumber() {
+    pageController.navigateToPage(0);
   }
 
   @override
@@ -42,6 +56,7 @@ class RecipeListPageState extends State<RecipeListPage> {
           }
 
           return SingleChildScrollView(
+            controller: _scrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -91,47 +106,91 @@ class RecipeListPageState extends State<RecipeListPage> {
                                         const SizedBox(
                                           width: 10,
                                         ),
-                                        const Text('촬영한 재료가 아니라면 선택을 해제하세요.'),
+                                        const Text('원하는 재료가 아니라면 선택을 해제하세요.'),
                                         const SizedBox(
                                           height: 20,
                                         ),
-                                        Column(
-                                            children: rListController
-                                                .ingredientList
-                                                .map((favorite) {
-                                          return CheckboxListTile(
-                                              activeColor: lightColorScheme
-                                                  .primary,
-                                              checkboxShape:
-                                                  RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                              value: favorite["isChecked"],
-                                              title: Text(favorite["name"],
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium),
-                                              onChanged: (val) {
-                                                // 재료 변경 없이 완료 누르면 현재 페이지에 있는게 맞음
-                                                isChange = true;
-                                                setState(() {
-                                                  favorite["isChecked"] = val;
-                                                });
-                                              });
-                                        }).toList()),
+                                        Obx(
+                                          () => ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: rListController
+                                                  .selectedList.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return CheckboxListTile(
+                                                    activeColor: lightColorScheme
+                                                        .primary,
+                                                    checkboxShape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5)),
+                                                    value: rListController
+                                                            .selectedList[index]
+                                                        ["isChecked"],
+                                                    title: Text(
+                                                        rListController
+                                                                .selectedList[
+                                                            index]["name"],
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .titleMedium),
+                                                    onChanged: (val) {
+                                                      if (rListController
+                                                          .isLastOne()) {
+                                                        // 선택된 요소가 하나일 때
+                                                        if (val == false) {
+                                                          // 해제하려고 하면
+                                                          Get.showSnackbar(
+                                                            const GetSnackBar(
+                                                              title: '갯수 초과',
+                                                              message:
+                                                                  '최소 한 개 이상의 재료를 선택해야 합니다.',
+                                                              icon: Icon(
+                                                                Icons.check_box,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                              backgroundColor:
+                                                                  Colors.red,
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          3),
+                                                            ),
+                                                          );
+                                                        } else {
+                                                          // (다른 요소를) 새롭게 추가하려고 하면
+                                                          isSelectedChange =
+                                                              true;
+                                                          rListController
+                                                              .toggleSelectedList(
+                                                                  index);
+                                                        }
+                                                      } else {
+                                                        isSelectedChange = true;
+                                                        rListController
+                                                            .toggleSelectedList(
+                                                                index);
+                                                      }
+                                                    });
+                                              }),
+                                        ),
                                         SizedBox(
                                           width: 100,
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              if (isChange) {
-                                                rListController
-                                                    .changeIngredients();
-                                                rListController.fetchData(getUserId(), 1);
+                                              if (isSelectedChange) {
+                                                // rListController.changeIngredients();
+                                                rListController.fetchData(
+                                                    userId: getUserId(),
+                                                    page: 1);
                                                 pageController.navigateToPage(
                                                     0); // 1페이지로 이동(초기화)
                                               }
-                                              isChange = false;
+                                              isSelectedChange = false;
                                               Navigator.of(context).pop();
                                             },
                                             child: const Text('완료'),
@@ -153,7 +212,7 @@ class RecipeListPageState extends State<RecipeListPage> {
                   height: 10,
                 ),
                 // 아이템 위젯
-                if (rListController.MenuModelList.isEmpty)
+                if (rListController.response.value.empty!)
                   const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -163,15 +222,19 @@ class RecipeListPageState extends State<RecipeListPage> {
                 else
                   Column(
                     children: [
+                      RecipeListCategories(callback: initPageNumber),
                       Obx(
                         () => ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: rListController.MenuModelList.length,
+                            itemCount:
+                                rListController.response.value.content!.length,
                             itemBuilder: (BuildContext context, int i) {
                               return ListItemWidget(
-                                  menuItem: rListController.MenuModelList[i], controller: rListController);
+                                  menuItem: rListController
+                                      .response.value.content![i],
+                                  controller: rListController);
                             }),
                       ),
                       Padding(
@@ -182,7 +245,9 @@ class RecipeListPageState extends State<RecipeListPage> {
                                     rListController.response.value.totalPages!,
                                 controller: pageController,
                                 onPageChange: (int index) {
-                                  rListController.fetchData(getUserId(), index + 1);
+                                  rListController.fetchData(
+                                      userId: getUserId(), page: index + 1);
+                                  _scrollController.jumpTo(0);
                                 },
                                 config: NumberPaginatorUIConfig(
                                   buttonSelectedForegroundColor: Colors.black,

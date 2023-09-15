@@ -10,10 +10,6 @@ import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
 
 class BookmarkListController extends GetxController {
-//  Rx<RecipeListPageResponse> response = RecipeListPageResponse().obs;
-
-  // Rx<NumberPaginatorController> pageController = NumberPaginatorController().obs;
-
   Rx<RecipeListPageResponse> response = RecipeListPageResponse(
     content: <RecipeResponse>[],
     totalPages: 0,
@@ -161,10 +157,6 @@ class BookmarkListController extends GetxController {
     if (page != currentPage.value) {
       currentPage.value = page;
     }
-
-    print(
-        'comp: ${searchComposition.value}, diff: ${searchDifficulty.value}, time: ${searchTime.value}, text: ${searchText.value}');
-    print("page: $page");
 
     try {
       final dio = createDio();
