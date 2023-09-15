@@ -14,8 +14,6 @@ import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/controller/ar_camera/ar_camera_controller.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 
 class ARCameraPageAndroid extends StatefulWidget {
@@ -27,16 +25,19 @@ class ARCameraPageAndroid extends StatefulWidget {
 class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
   ARSessionManager? arSessionManager;
   ARObjectManager? arObjectManager;
-  ARNode? fileSystemNode;
   ARNode? webObjectNode;
   HttpClient? httpClient;
+
+  @override
+  void initState() {
+    Get.put(ARCameraController()).loadModelPath();
+    super.initState();
+  }
 
   @override
   void dispose() {
     super.dispose();
     arSessionManager!.dispose();
-    // arObjectManager!.removeNode(fileSystemNode!);
-    // fileSystemNode = null;
     webObjectNode = null;
   }
 
@@ -61,17 +62,17 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
               child: Container(
                 margin: const EdgeInsets.only(bottom: 20.0),
                 child:
-                Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        // onPressed: onFileSystemObjectAtOrigin,
+                          // onPressed: onFileSystemObjectAtOrigin,
                           onPressed: onWebObjectAtOriginButtonPressed,
-                          child: Obx(
-                                ()=> Text(arCameraController.existARNode.value == true? 'AR송이 숨기기': 'AR송이 추가하기',
+                            child: Obx(
+                              ()=> Text(arCameraController.existARNode.value == true? 'AR송이 숨기기': 'AR송이 추가하기',
                                 style: Theme.of(context).textTheme.bodyMedium!),
-                          )),
+                            )),
                       const SizedBox(
                         width: 10,
                       ),
@@ -91,27 +92,21 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
         ]));
   }
 
-  void onARViewCreated(
+  void onARViewCreated (
       ARSessionManager arSessionManager,
       ARObjectManager arObjectManager,
       ARAnchorManager arAnchorManager,
-      ARLocationManager arLocationManager) {
+      ARLocationManager arLocationManager) async {
     this.arSessionManager = arSessionManager;
     this.arObjectManager = arObjectManager;
 
     this.arSessionManager!.onInitialize(
-      showFeaturePoints: false,
-      showPlanes: false,
-      showWorldOrigin: false,
-      handleTaps: false,
-    );
+          showFeaturePoints: false,
+          showPlanes: false,
+          showWorldOrigin: false,
+          handleTaps: false,
+        );
     this.arObjectManager!.onInitialize();
-
-    // // 다운로드
-    // httpClient = HttpClient();
-    // _downloadFile(
-    //     "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb",
-    //     "LocalMushroom.glb");
   }
 
   // 네트워크 이미지 불러오기
@@ -121,46 +116,16 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
       webObjectNode = null;
       Get.put(ARCameraController()).existARNode.value = false;
     } else {
+      final url = Get.put(ARCameraController()).modelFilesPath.value;
+
       var newNode = ARNode(
           type: NodeType.webGLB,
-          uri:
-          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb",
-          scale: math.Vector3.all(0.07));
+          uri: url,
+          scale: math.Vector3.all(0.07),
+        eulerAngles: math.Vector3(-30,0,0)
+      );
       bool? didAddWebNode = await arObjectManager!.addNode(newNode);
       webObjectNode = (didAddWebNode!) ? newNode : null;
-      Get.put(ARCameraController()).existARNode.value = true;
-    }
-  }
-
-  Future<File> _downloadFile(String url, String filename) async {
-    var request = await httpClient!.getUrl(Uri.parse(url));
-    var response = await request.close();
-    var bytes = await consolidateHttpClientResponseBytes(response);
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = File('$dir/$filename');
-    await file.writeAsBytes(bytes);
-    print("Downloading finished, path: " '$dir/$filename');
-    return file;
-  }
-
-  // 파일 이미지 불러오기
-  Future<void> onFileSystemObjectAtOrigin() async {
-
-    if (fileSystemNode != null) {
-      arObjectManager!.removeNode(fileSystemNode!);
-      fileSystemNode = null;
-      Get.put(ARCameraController()).existARNode.value = false;
-    } else {
-      var newNode = ARNode(
-        type: NodeType.fileSystemAppFolderGLB,
-        uri: "LocalMushroom.glb",
-        scale: math.Vector3.all(0.08),
-        rotation: math.Vector4(0, 0, 0, 0),
-        position: math.Vector3(0, 0.4, 0.4),
-      );
-
-      bool? didAddFileSystemNode = await arObjectManager!.addNode(newNode);
-      fileSystemNode = (didAddFileSystemNode!) ? newNode : null;
       Get.put(ARCameraController()).existARNode.value = true;
     }
   }

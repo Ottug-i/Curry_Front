@@ -78,6 +78,7 @@ dependencies:
   image:
   image_picker:
   arkit_plugin: ^1.0.6
+  webview_flutter: ^4.2.4
 
 flutter_native_splash:
   background_image: assets/images/splash.png

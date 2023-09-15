@@ -143,7 +143,3 @@ class Config {
   static const padWidth = 700.0;
   static const mobileWidget = 450.0;
 }
-
-enum SocialPlatform { none, google, kakao }
-
-SocialPlatform social = SocialPlatform.none;
