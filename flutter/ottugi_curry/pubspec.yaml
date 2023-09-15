@@ -77,14 +77,14 @@ dependencies:
   flutter_vision: ^1.1.1
   image:
   image_picker:
-  tflite_flutter: ^0.10.1
+  arkit_plugin: ^1.0.6
 
 flutter_native_splash:
   background_image: assets/images/splash.png
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter`
+    sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
