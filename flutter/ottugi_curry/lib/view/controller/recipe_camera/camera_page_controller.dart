@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:image/image.dart' as img;
+import 'package:ottugi_curry/config/hidden_config.dart';
 
 class CameraPageController extends GetxController {
   late CameraDescription camera;
@@ -135,7 +136,7 @@ class CameraPageController extends GetxController {
       });
 
       d.Response response =
-          await dio.post('http://35.188.32.30:5000/detect', data: formData);
+          await dio.post('${HiddenConfig.flaskBaseUrl}/detect', data: formData);
 
       if (response.statusCode == 200) {
         isDetecting.value = false;
