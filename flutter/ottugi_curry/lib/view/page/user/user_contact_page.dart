@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class UserContactPage extends StatefulWidget {
@@ -23,11 +24,10 @@ class _UserContactPageState extends State<UserContactPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-          child: WebViewWidget(
+    return DefaultLayoutWidget(
+      appBarTitle: '문의하기',
+        body: WebViewWidget(
       controller: _webViewController,
-    ),
-        ));
+    ));
   }
 }

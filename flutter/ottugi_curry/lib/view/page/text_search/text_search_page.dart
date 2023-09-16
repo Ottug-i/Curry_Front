@@ -20,14 +20,16 @@ class _TextSearchPageState extends State<TextSearchPage> {
 
   @override
   void initState() {
-    _scrollController = ScrollController();
     super.initState();
+    _scrollController = ScrollController();
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
+    _scrollController.dispose();
+    Get.put(TextSearchController()).textEditingController.value.text = '';
+    Get.put(TextSearchController()).searchName.value = '';
   }
 
   Future _initRankList() async {

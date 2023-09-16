@@ -98,7 +98,7 @@ class UserPage extends StatelessWidget {
                               ),
                               Container(
                                 constraints: BoxConstraints(
-                                  maxWidth: isWidthMobile(context) == true ? 145 : 600,
+                                  maxWidth: isWidthMobile(context) == true ? 200 : 600,
                                 ),
                                 child: Obx(
                                   () => Text(

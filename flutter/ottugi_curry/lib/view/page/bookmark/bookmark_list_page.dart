@@ -29,17 +29,18 @@ class BookmrkListPageState extends State<BookmrkListPage> {
 
   @override
   void initState() {
-    _scrollController = ScrollController();
     super.initState();
+    _scrollController = ScrollController();
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
+    _scrollController.dispose();
   }
 
   Future<void> _initMenuList() async {
+    Get.put(BookmarkListController());
     await Get.find<BookmarkListController>()
         .loadData(userId: getUserId(), page: 1);
   }
