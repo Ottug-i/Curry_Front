@@ -374,9 +374,10 @@ List<Widget> displayBoxesAroundRecognizedObjects(
   // yoloResults 요소들의 위치값을 서로 비교해서 겹치는 부분이 일정 정도 이상이면
   // 하나만 화면에 표시하도록 하는 코드 추가해야 함 (추후)
 //"box": [right, bottom, left, top, class_confidence]
+
   return yoloResults.map((result) {
     return Positioned(
-      left: result["box"][1] * factorX + padx,
+      right: result["box"][1] * factorX + padx,
       top: result["box"][0] * factorY + pady,
       width: (result["box"][3] - result["box"][1]) * factorX,
       height: (result["box"][2] - result["box"][0]) * factorY,

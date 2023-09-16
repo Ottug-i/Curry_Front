@@ -376,6 +376,7 @@ List<Widget> displayBoxesAroundRecognizedObjects(
   // 하나만 화면에 표시하도록 하는 코드 추가해야 함 (추후)
 
 // "box": [left, top, right, bottom, class_confidence]
+
   return yoloResults.map((result) {
     return Positioned(
       left: result["box"][0] * factorX + padx,
