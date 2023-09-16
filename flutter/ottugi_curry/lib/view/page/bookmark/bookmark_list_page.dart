@@ -78,7 +78,16 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                               page: bListController.currentPage.value); // 옵션 검색
                         },
                         decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search),
+                            prefixIcon: IconButton(
+                              icon: Icon(
+                                Icons.search,
+                                color: lightColorScheme.primary,
+                              ),
+                              onPressed: () {
+                                textController.text = '';
+                                bListController.searchText.value = '';
+                              },
+                            ),
                             hintText: '레시피 이름을 입력하고 Enter를 눌러주세요..',
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
