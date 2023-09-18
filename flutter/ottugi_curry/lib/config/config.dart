@@ -142,4 +142,7 @@ class Config {
   static const padHorizonWidth = 1000.0;
   static const padWidth = 700.0;
   static const mobileWidget = 450.0;
+
+  // 모델 이미지 크기
+  final detectSize = 1440;
 }
