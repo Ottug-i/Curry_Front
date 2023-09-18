@@ -51,12 +51,11 @@ class _RecipeCameraPageState extends State<RecipeCameraPage> {
 
       pageController.initDetection();
       // 찍힌 사진을 새로운 화면에 띄운다.
-      Get.toNamed('/camera_ios');
-      // if (Platform.isAndroid) {
-      //   Get.toNamed('/camera_android');
-      // } else if (Platform.isIOS) {
-      //   Get.toNamed('/camera_ios');
-      // }
+      if (Platform.isAndroid) {
+        Get.toNamed('/camera_android');
+      } else if (Platform.isIOS) {
+        Get.toNamed('/camera_ios');
+      }
     } catch (e) {
       // 오류 발생 시 log에 에러 메세지 출력
       print(e);

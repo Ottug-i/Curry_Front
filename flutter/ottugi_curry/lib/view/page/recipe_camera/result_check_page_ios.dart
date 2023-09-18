@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
+import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/controller/list/recipe_list_controller.dart';
 import 'package:ottugi_curry/view/controller/recipe_camera/camera_page_controller.dart';
@@ -360,11 +361,11 @@ List<Widget> displayBoxesAroundRecognizedObjects(
   }
 
   // 서버에서 이미지를 1960으로 resize한 뒤에 탐지함
-  double factorX = widgetWidth / 1960;
+  double factorX = widgetWidth / Config().detectSize;
   double imgRatio = imageWidth / imageHeight;
-  double newWidth = 1960 * factorX;
+  double newWidth = Config().detectSize * factorX;
   double newHeight = newWidth / imgRatio;
-  double factorY = widgetHeight / 1960;
+  double factorY = widgetHeight / Config().detectSize;
 
   double padx = (screen.width - widgetWidth) / 2;
   double pady = (widgetHeight - newHeight) / 2;

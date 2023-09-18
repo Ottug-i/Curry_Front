@@ -57,7 +57,7 @@ class CameraPageController extends GetxController {
   Future<void> loadYoloModel() async {
     await vision.loadYoloModel(
         labels: 'assets/ml_model/label.txt',
-        modelPath: 'assets/ml_model/best-ver6.tflite',
+        modelPath: 'assets/ml_model/best-1440.tflite',
         modelVersion: "yolov5",
         numThreads: 2,
         useGpu: true);
@@ -102,11 +102,7 @@ class CameraPageController extends GetxController {
       // 추론 결과 활용 (예: 클래스 정보 출력)
       // -> 결과를 사용자에게 물어보고, 필요 없는 것을 삭제한 후 백엔드 서버에 요청
       yoloResults.value = result;
-      print("resultData: $result");
-      // rListController.setIngredientList(detectedClasses.toList());
-      // update();
       print("저장 후 yoloResults: $yoloResults");
-      print("detectedClasses: ${detectedClasses.toList}");
       yoloResults.refresh();
       return detectedClasses.toList();
     } else {
@@ -116,7 +112,6 @@ class CameraPageController extends GetxController {
 
   // ios ver. 추론
   Future<List<String>> getDetectedResult() async {
-    print("getDetectedResult 진입");
     isDetecting.value = true;
     yoloResults.clear();
 
