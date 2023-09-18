@@ -69,10 +69,13 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
                       ElevatedButton(
                           // onPressed: onFileSystemObjectAtOrigin,
                           onPressed: onWebObjectAtOriginButtonPressed,
-                            child: Obx(
-                              ()=> Text(arCameraController.existARNode.value == true? 'AR송이 숨기기': 'AR송이 추가하기',
+                          child: Obx(
+                            () => Text(
+                                arCameraController.existARNode.value == true
+                                    ? 'AR 캐릭터 숨기기'
+                                    : 'AR 캐릭터 추가하기',
                                 style: Theme.of(context).textTheme.bodyMedium!),
-                            )),
+                          )),
                       const SizedBox(
                         width: 10,
                       ),
@@ -92,7 +95,7 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
         ]));
   }
 
-  void onARViewCreated (
+  void onARViewCreated(
       ARSessionManager arSessionManager,
       ARObjectManager arObjectManager,
       ARAnchorManager arAnchorManager,
@@ -122,8 +125,7 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
           type: NodeType.webGLB,
           uri: url,
           scale: math.Vector3.all(0.07),
-        eulerAngles: math.Vector3(-30,0,0)
-      );
+          eulerAngles: math.Vector3(-30, 0, 0));
       bool? didAddWebNode = await arObjectManager!.addNode(newNode);
       webObjectNode = (didAddWebNode!) ? newNode : null;
       Get.put(ARCameraController()).existARNode.value = true;
