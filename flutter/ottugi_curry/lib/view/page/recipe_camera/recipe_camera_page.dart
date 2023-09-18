@@ -1,8 +1,7 @@
 import 'dart:io';
-
-import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/controller/recipe_camera/camera_page_controller.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/result_check_page.dart';
@@ -90,6 +89,17 @@ class _RecipeCameraPageState extends State<RecipeCameraPage> {
                     },
                   ),
                   Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Text("식재료만, 가까이, 겹치지 않게 찍어주세요.",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: Colors.white)),
+                    ),
+                  ),
+                  Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
                           padding: const EdgeInsets.only(bottom: 20),
@@ -113,23 +123,6 @@ class _RecipeCameraPageState extends State<RecipeCameraPage> {
                               ],
                             ),
                           ))),
-                  // 노랑 버튼 ver
-                  // Align(
-                  //   alignment: Alignment.bottomCenter,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.only(bottom: 40),
-                  //     child: SizedBox(
-                  //       width: 80,
-                  //       child: FloatingActionButton(
-                  //         backgroundColor: lightColorScheme.primary,
-                  //         onPressed: () {
-                  //           takePicture();
-                  //         },
-                  //         child: const Icon(Icons.camera_alt),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                 ]),
               )));
   }
