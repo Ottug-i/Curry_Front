@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:image/image.dart' as img;
+import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/config/hidden_config.dart';
 
 class CameraPageController extends GetxController {
@@ -75,7 +76,8 @@ class CameraPageController extends GetxController {
     img.Image? original = img.decodeImage(byte);
 
     // 이미지 크기 변경
-    img.Image resized = img.copyResize(original!, width: 1280, height: 1280);
+    img.Image resized = img.copyResize(original!,
+        width: Config().detectSize, height: Config().detectSize);
     final newByte = Uint8List.fromList(img.encodePng(resized));
     final resizedImage = await decodeImageFromList(newByte);
 
