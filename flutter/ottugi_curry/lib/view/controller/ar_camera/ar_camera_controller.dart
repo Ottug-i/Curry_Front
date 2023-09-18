@@ -41,7 +41,6 @@ class ARCameraController {
         genre = resp;
       }
 
-      genre = 'fish';
       switch (genre) {
         case 'meat':
           if (Platform.isAndroid) {

@@ -16,6 +16,13 @@ final chatContorller = Get.find<ChatController>();
 TextEditingController textController = TextEditingController();
 
 class _ChatComposerState extends State<ChatComposer> {
+
+  @override
+  void dispose() {
+    textController.text = '';
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

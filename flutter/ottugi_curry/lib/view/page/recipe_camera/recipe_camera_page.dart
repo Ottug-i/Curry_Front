@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/controller/recipe_camera/camera_page_controller.dart';
-import 'package:ottugi_curry/view/page/recipe_camera/result_check_page.dart';
+import 'package:ottugi_curry/view/page/recipe_camera/result_check_page_android.dart';
 
 class RecipeCameraPage extends StatefulWidget {
   const RecipeCameraPage({Key? key}) : super(key: key);
@@ -51,7 +51,12 @@ class _RecipeCameraPageState extends State<RecipeCameraPage> {
 
       pageController.initDetection();
       // 찍힌 사진을 새로운 화면에 띄운다.
-      Get.to(() => const ResultCheckPage());
+      Get.toNamed('/camera_ios');
+      // if (Platform.isAndroid) {
+      //   Get.toNamed('/camera_android');
+      // } else if (Platform.isIOS) {
+      //   Get.toNamed('/camera_ios');
+      // }
     } catch (e) {
       // 오류 발생 시 log에 에러 메세지 출력
       print(e);

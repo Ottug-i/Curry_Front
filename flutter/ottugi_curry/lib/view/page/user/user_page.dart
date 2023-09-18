@@ -8,6 +8,8 @@ import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/controller/login/login_controller.dart';
 import 'package:ottugi_curry/view/controller/user/user_controller.dart';
+import 'package:ottugi_curry/view/page/user/user_contact_page.dart';
+import 'package:ottugi_curry/view/page/user/user_developers_page.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -96,7 +98,7 @@ class UserPage extends StatelessWidget {
                               ),
                               Container(
                                 constraints: BoxConstraints(
-                                  maxWidth: isWidthMobile(context) == true ? 145 : 600,
+                                  maxWidth: isWidthMobile(context) == true ? 200 : 600,
                                 ),
                                 child: Obx(
                                   () => Text(
@@ -354,6 +356,7 @@ class UserPage extends StatelessWidget {
 
   void _onPressedContact() {
     // 문의하기
+    Get.to(() => const UserContactPage());
   }
 
   void _onPressedLogout() {
@@ -364,5 +367,6 @@ class UserPage extends StatelessWidget {
 
   void _onPressedProducerInfo() {
     //오뚝이들
+    Get.to(() => const UserDevelopersPage());
   }
 }

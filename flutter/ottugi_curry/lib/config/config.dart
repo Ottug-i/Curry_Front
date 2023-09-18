@@ -9,11 +9,12 @@ import 'package:ottugi_curry/view/page/login/login_rating_page.dart';
 import 'package:ottugi_curry/view/page/main/main_page.dart';
 import 'package:ottugi_curry/view/page/rating_recommend/rating_rec_page.dart';
 import 'package:ottugi_curry/view/page/recipe_camera/recipe_camera_page.dart';
-import 'package:ottugi_curry/view/page/recipe_camera/yoloImage.dart';
+import 'package:ottugi_curry/view/page/recipe_camera/result_check_page_ios.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_page.dart';
 import 'package:ottugi_curry/view/page/recipe_list/recipe_recs_page.dart';
 import 'package:ottugi_curry/view/page/text_search/text_search_page.dart';
 import 'package:ottugi_curry/view/page/user/user_page.dart';
+import 'package:ottugi_curry/view/page/recipe_camera/result_check_page_android.dart';
 
 // token 저장하는 secure storage
 FlutterSecureStorage tokenStorage = const FlutterSecureStorage();
@@ -74,9 +75,13 @@ class Config {
         page: () => const LoginRatingPage(),
         transition: Transition.noTransition),
     GetPage(
-        name: '/yoloImage',
-        page: () => const YoloImage(),
-        transition: Transition.noTransition)
+        name: '/camera_android',
+        page: () => const ResultCheckPageAndroid(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: '/camera_ios',
+        page: () => const ResultCheckPageIos(),
+        transition: Transition.noTransition),
   ];
 
   // 레시피 상세 페이지에서 조리순서를 보는 방식: 음성/사진/즐글

@@ -61,30 +61,27 @@ dependencies:
   timezone: ^0.9.2
 
   # ar camera
-  ar_flutter_plugin:
-  arkit_plugin: ^1.0.6
+  ar_flutter_plugin: ^0.7.3
   vector_math:
   camera:
   path_provider:
 
   # screenshot
-  screenshot: ^2.1.0
+  screenshot:
   image_gallery_saver:
   permission_handler:
 
   # share image
   share_plus:
 
-  #tflite_flutter: ^0.10.1
   flutter_vision: ^1.1.1
   image:
   image_picker:
+  arkit_plugin: ^1.0.6
+  webview_flutter: ^4.2.4
 
 flutter_native_splash:
-  color: "#FFD717"
-  image: assets/images/splash_image_3.png
-  branding: assets/images/splash_branding_3.png
-  branding_mode: bottom
+  background_image: assets/images/splash.png
 
 dev_dependencies:
   flutter_test:

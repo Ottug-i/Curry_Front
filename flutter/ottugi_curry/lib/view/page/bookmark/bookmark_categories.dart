@@ -15,9 +15,11 @@ class BookmarkCategories extends StatefulWidget {
 }
 
 class BookmarkCategoriesState extends State<BookmarkCategories> {
-  BookmarkListController controller = Get.find<BookmarkListController>();
 
   void updateCategory(value) {
+    Get.put(BookmarkListController());
+    final controller = Get.find<BookmarkListController>();
+
     // 화면 UI 업데이트 위해서
     if (controller.selectedCategory.value == value) {
       controller.updateCategory('');
@@ -28,6 +30,8 @@ class BookmarkCategoriesState extends State<BookmarkCategories> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(BookmarkListController());
+
     return GetBuilder<BookmarkListController>(
         builder: (controller) => Container(
               margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),

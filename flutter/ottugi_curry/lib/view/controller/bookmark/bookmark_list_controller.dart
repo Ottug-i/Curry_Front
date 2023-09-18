@@ -66,6 +66,7 @@ class BookmarkListController extends GetxController {
             page, Config.elementNum, userId);
         response.value = menuData;
 
+        Get.put(RecommendController());
         // 북마크 추천 토글 상태를 저장하는 리스트 초기화
         Get.find<RecommendController>().isSelected.clear();
         for (int i = 0; i < response.value.content!.length; i++) {
@@ -158,6 +159,7 @@ class BookmarkListController extends GetxController {
       currentPage.value = page;
     }
 
+    print('print searchDifficulty: ${searchDifficulty}');
     try {
       final dio = createDio();
       BookmarkRepository bookmrkRepository = BookmarkRepository(dio);

@@ -150,6 +150,13 @@ PODS:
     - BlueRSA (~> 1.0)
     - KituraContracts (~> 1.2)
     - LoggerAPI (~> 1.7)
+  - TensorFlowLiteC (2.13.0):
+    - TensorFlowLiteC/Core (= 2.13.0)
+  - TensorFlowLiteC/Core (2.13.0)
+  - TensorFlowLiteSwift (2.13.0):
+    - TensorFlowLiteSwift/Core (= 2.13.0)
+  - TensorFlowLiteSwift/Core (2.13.0):
+    - TensorFlowLiteC (= 2.13.0)
   - url_launcher_ios (0.0.1):
     - Flutter
   - webview_flutter_wkwebview (0.0.1):
@@ -179,6 +186,7 @@ DEPENDENCIES:
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - TensorFlowLiteSwift
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
@@ -209,6 +217,8 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - SwiftJWT
+    - TensorFlowLiteC
+    - TensorFlowLiteSwift
 
 EXTERNAL SOURCES:
   ar_flutter_plugin:
@@ -311,9 +321,11 @@ SPEC CHECKSUMS:
   share_plus: 599aa54e4ea31d4b4c0e9c911bcc26c55e791028
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   SwiftJWT: 88c412708f58c169d431d344c87bc79a87c830ae
+  TensorFlowLiteC: ac3334fa9dbc90e4744b4497312a393fd02b5408
+  TensorFlowLiteSwift: 1d8320fbf292054eb50ef0b347a4b17a92b49731
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
-PODFILE CHECKSUM: 15cbc2bea514674c08509efbe30023327fe6ca00
+PODFILE CHECKSUM: de0d94d1e900dcc32fe0c4fc0b089cb2bfd36bf9
 
 COCOAPODS: 1.12.1
