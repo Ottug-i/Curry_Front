@@ -15,8 +15,8 @@ import 'package:flutter/services.dart';
 
 void main() async {
   // splash screen
-  // WidgetsFlutterBinding.ensureInitialized(); // 초기화 보장
-  // await Future.delayed(const Duration(seconds: 2)); // 지연
+  WidgetsFlutterBinding.ensureInitialized(); // 초기화 보장
+  await Future.delayed(const Duration(seconds: 2)); // 지연
 
   // 핸드폰 사이즈 일때 세로모드 고정
   if (isWidthMobile == true) {
