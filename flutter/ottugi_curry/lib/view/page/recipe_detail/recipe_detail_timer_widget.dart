@@ -37,8 +37,6 @@ class RecipeDetailTimerWidget extends StatelessWidget {
                 color: Colors.black,
                 onPressed: () {
                   Get.back();
-                  // 알람 종료
-                  timerController.stopTimerAlarm();
                 },
               ),
               Text(

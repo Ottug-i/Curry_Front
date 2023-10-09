@@ -5,6 +5,7 @@ import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/config/config.dart';
 import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
+import 'package:ottugi_curry/utils/bookmark_snack_bar.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_controller.dart';
 import 'package:ottugi_curry/view/controller/recipe_detail/recipe_detail_timer_controller.dart';
 import 'package:ottugi_curry/view/page/chat/chat_page.dart';
@@ -14,8 +15,14 @@ import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_rating_widget
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_text_list_view_widget.dart';
 import 'package:ottugi_curry/view/page/recipe_detail/recipe_detail_timer_widget.dart';
 
-class RecipeDetailPage extends StatelessWidget {
+class RecipeDetailPage extends StatefulWidget {
   const RecipeDetailPage({Key? key}) : super(key: key);
+
+  @override
+  State<RecipeDetailPage> createState() => _RecipeDetailPageState();
+}
+
+class _RecipeDetailPageState extends State<RecipeDetailPage> {
 
   Future<void> _initRecipeDetail() async {
     print('print Get.arguments: ${Get.arguments}');
@@ -30,6 +37,15 @@ class RecipeDetailPage extends StatelessWidget {
     recipeDetailController.ttsStatus.value = Config.stopped;
     // 이전 페이지 루트 저장
     recipeDetailController.previousRoute.value = Get.previousRoute;
+  }
+
+  @override
+  void dispose() {
+    Get.put(RecipeDetailTimerController());
+    Get.put(RecipeDetailController());
+    Get.find<RecipeDetailTimerController>().stopTimer();
+    Get.find<RecipeDetailController>().tts.value.stop();
+    super.dispose();
   }
 
   @override
@@ -74,6 +90,7 @@ class RecipeDetailPage extends StatelessWidget {
                               child: IconButton(
                                 onPressed: () {
                                   recipeDetailController.tts.value.stop();
+                                  Get.find<RecipeDetailTimerController>().stopTimerAlarm();
 
                                   // 이전 페이지가 재실행되는 효과 = 페이지 재로딩 (FutureBuilder 실행)
                                   // 평점이 변경되면, 변경된 추천 레시피를 바로 받아오기 위함
@@ -98,82 +115,82 @@ class RecipeDetailPage extends StatelessWidget {
                                   color: lightColorScheme.primary,
                                 ),
                                 child: Obx(
-                                  () => Row(children: [
+                                      () => Row(children: [
                                     timerController.isRunning.value ==
-                                            true // 앱바 위의 타이머 위젯
+                                        true // 앱바 위의 타이머 위젯
                                         ? Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 7, left: 15),
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 25,
-                                                  child: TextField(
-                                                    controller: timerController
-                                                        .minuteTextEditingController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                            isDense: true,
-                                                            border:
-                                                                InputBorder.none),
-                                                    enabled: true,
-                                                    readOnly: true,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .titleMedium,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  ': ',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium,
-                                                ),
-                                                SizedBox(
-                                                  width: 25,
-                                                  child: TextField(
-                                                    controller: timerController
-                                                        .secondTextEditingController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                            isDense: true,
-                                                            border:
-                                                                InputBorder.none),
-                                                    enabled: true,
-                                                    readOnly: true,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .titleMedium,
-                                                  ),
-                                                )
-                                              ],
-                                            ))
+                                        padding: const EdgeInsets.only(
+                                            right: 7, left: 15),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 25,
+                                              child: TextField(
+                                                controller: timerController
+                                                    .minuteTextEditingController,
+                                                decoration:
+                                                const InputDecoration(
+                                                    isDense: true,
+                                                    border:
+                                                    InputBorder.none),
+                                                enabled: true,
+                                                readOnly: true,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
+                                              ),
+                                            ),
+                                            Text(
+                                              ': ',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
+                                            ),
+                                            SizedBox(
+                                              width: 25,
+                                              child: TextField(
+                                                controller: timerController
+                                                    .secondTextEditingController,
+                                                decoration:
+                                                const InputDecoration(
+                                                    isDense: true,
+                                                    border:
+                                                    InputBorder.none),
+                                                enabled: true,
+                                                readOnly: true,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
+                                              ),
+                                            )
+                                          ],
+                                        ))
                                         : timerController.isRingingAlarm.value ==
-                                                true // 알림 종료 버튼 보여주기
-                                            ? InkWell(
-                                                onTap: () {
-                                                  timerController
-                                                      .stopTimerAlarm();
-                                                },
-                                                child: Container(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 15, right: 10),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            25.0),
-                                                    color:
-                                                        lightColorScheme.primary,
-                                                  ),
-                                                  child: Text(
-                                                    '종료',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .titleMedium,
-                                                  ),
-                                                ),
-                                              )
-                                            : const SizedBox(),
+                                        true // 알림 종료 버튼 보여주기
+                                        ? InkWell(
+                                      onTap: () {
+                                        timerController
+                                            .stopTimerAlarm();
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 15, right: 10),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(
+                                              25.0),
+                                          color:
+                                          lightColorScheme.primary,
+                                        ),
+                                        child: Text(
+                                          '종료',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                        ),
+                                      ),
+                                    )
+                                        : const SizedBox(),
                                     Container(
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
@@ -181,7 +198,7 @@ class RecipeDetailPage extends StatelessWidget {
                                             BoxShadow(
                                                 blurRadius: 3,
                                                 color:
-                                                    Colors.black.withOpacity(0.2),
+                                                Colors.black.withOpacity(0.2),
                                                 spreadRadius: 0,
                                                 offset: const Offset(-3, 5))
                                           ]),
@@ -214,18 +231,18 @@ class RecipeDetailPage extends StatelessWidget {
                             children: [
                               // 레시피 사진
                               recipeDetailController
-                                          .recipeResponse.value.thumbnail !=
-                                      null
+                                  .recipeResponse.value.thumbnail !=
+                                  null
                                   ? Image.network(
-                                      '${recipeDetailController.recipeResponse.value.thumbnail}',
-                                      fit: BoxFit.fill,
-                                      height: isWidthMobile(context) == true
-                                          ? 238
-                                          : 400,
-                                      width: double.infinity,
-                                    )
+                                '${recipeDetailController.recipeResponse.value.thumbnail}',
+                                fit: BoxFit.fill,
+                                height: isWidthMobile(context) == true
+                                    ? 238
+                                    : 400,
+                                width: double.infinity,
+                              )
                                   : Image.asset(
-                                      'assets/images/defaultImage3.png'),
+                                  'assets/images/defaultImage3.png'),
 
                               // 레시피 제목
                               Container(
@@ -241,7 +258,7 @@ class RecipeDetailPage extends StatelessWidget {
                                   children: [
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         IconButton(
                                           onPressed: () {
@@ -263,7 +280,7 @@ class RecipeDetailPage extends StatelessWidget {
                                         Center(
                                           child: Text(
                                             recipeDetailController
-                                                    .recipeResponse.value.name ??
+                                                .recipeResponse.value.name ??
                                                 '',
                                             style: Theme.of(context)
                                                 .textTheme
@@ -274,20 +291,23 @@ class RecipeDetailPage extends StatelessWidget {
                                             onPressed: () {
                                               recipeDetailController
                                                   .updateBookmark(
-                                                      getUserId(),
-                                                      recipeDetailController
-                                                          .recipeResponse
-                                                          .value
-                                                          .recipeId!);
+                                                  getUserId(),
+                                                  recipeDetailController
+                                                      .recipeResponse
+                                                      .value
+                                                      .recipeId!);
+
+                                              // 북마크 추가/삭제 스낵바 실행
+                                              bookmarkSnackBar(isBookmark: recipeDetailController.recipeResponse.value.isBookmark!, name: recipeDetailController.recipeResponse.value.name!);
                                             },
                                             icon: Obx(
-                                              () => Icon(
+                                                  () => Icon(
                                                 Icons.bookmark,
                                                 color: recipeDetailController
-                                                            .recipeResponse
-                                                            .value
-                                                            .isBookmark ==
-                                                        true
+                                                    .recipeResponse
+                                                    .value
+                                                    .isBookmark ==
+                                                    true
                                                     ? lightColorScheme.secondary
                                                     : Colors.grey.shade300,
                                               ),
@@ -296,8 +316,8 @@ class RecipeDetailPage extends StatelessWidget {
                                     ),
                                     const Padding(
                                         padding: EdgeInsets.only(
-                                      top: 10,
-                                    )),
+                                          top: 10,
+                                        )),
 
                                     //(레시피 제목) 요리 옵션
                                     Row(
@@ -356,7 +376,7 @@ class RecipeDetailPage extends StatelessWidget {
                                   child: TabBar(
                                     labelColor: lightColorScheme.onPrimary,
                                     labelPadding:
-                                        const EdgeInsets.only(top: 5, bottom: 5),
+                                    const EdgeInsets.only(top: 5, bottom: 5),
                                     indicator: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25.0),
                                       color: lightColorScheme.primary,
@@ -457,44 +477,44 @@ class RecipeDetailPage extends StatelessWidget {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-                  Row(
-                    children: [
-                      ImageIcon(
-                        const AssetImage('assets/icons/fork2.png'),
-                        size: 17,
-                        color: lightColorScheme.primary,
-                      ),
-                      const Padding(padding: EdgeInsets.only(right: 5)),
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: lightColorScheme.primary,
-                                    width: 1.0))),
-                        child: Text(
-                          '${recipeDetailController.recipeResponse.value.servings.toString()} 기준',
-                          style: const TextStyle(fontSize: 15),
-                        ),
-                      ),
-                    ],
+              Row(
+                children: [
+                  ImageIcon(
+                    const AssetImage('assets/icons/fork2.png'),
+                    size: 17,
+                    color: lightColorScheme.primary,
                   ),
-                  const Padding(padding: EdgeInsets.only(bottom: 20)),
-                ] +
+                  const Padding(padding: EdgeInsets.only(right: 5)),
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: lightColorScheme.primary,
+                                width: 1.0))),
+                    child: Text(
+                      '${recipeDetailController.recipeResponse.value.servings.toString()} 기준',
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ],
+              ),
+              const Padding(padding: EdgeInsets.only(bottom: 20)),
+            ] +
                 recipeDetailController.ingredientsTitle.map((element) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                          // 제목 (대괄호)
-                          Text(
-                            element,
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
-                        ] +
+                      // 제목 (대괄호)
+                      Text(
+                        element,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                    ] +
                         // 내용
                         recipeDetailController.ingredientsContentList[
-                                recipeDetailController.ingredientsTitle
-                                    .indexOf(element)]
+                        recipeDetailController.ingredientsTitle
+                            .indexOf(element)]
                             .map((element) => Text(element))
                             .toList() +
                         [const Padding(padding: EdgeInsets.only(bottom: 20))],
@@ -516,7 +536,7 @@ class RecipeDetailPage extends StatelessWidget {
         color: Colors.white,
       ),
       child: Obx(
-        () => Column(
+            () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // 조리 순서 보기 방식 아이콘
@@ -545,63 +565,63 @@ class RecipeDetailPage extends StatelessWidget {
                         size: 20,
                       ),
                       color: recipeDetailController.ttsStatus.value !=
-                              Config.stopped
+                          Config.stopped
                           ? lightColorScheme.primary
                           : Colors.grey,
                     ),
 
                     // 일시 정지는 iOS에서만 지원 (안드로이드 제대로 지원 안돼서 제외함)
-                   Platform.isIOS == true && recipeDetailController.ttsStatus.value !=
-                              Config.stopped
-                          ? Container(
-                              height: 37,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: lightColorScheme.primary,
-                                ),
-                                borderRadius: BorderRadius.circular(25.0),
-                                // color: Colors.grey.shade200,
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  // 시작, 일시정지 버튼
-                                  IconButton(
-                                    iconSize: 23,
-                                    onPressed: () async {
-                                      if (recipeDetailController
-                                              .ttsStatus.value ==
-                                          Config.playing) {
-                                        // 실행-> 일시정지
-                                        recipeDetailController.pauseTTS();
-                                        print(
-                                            'print recipeDetailControllerTtsStatus: ${recipeDetailController.ttsStatus}');
-                                      } else {
-                                        // 일시 정지 -> 실행
-                                        recipeDetailController.speakTTS();
-                                      }
-                                    },
-                                    icon: recipeDetailController
-                                                .ttsStatus.value ==
-                                            Config.playing
-                                        ? const Icon(Icons.pause)
-                                        : const Icon(Icons.play_arrow),
-                                    color: Colors.black,
-                                  ),
-                                  // 정지 버튼
-                                  IconButton(
-                                    iconSize: 23,
-                                    onPressed: () async {
-                                      // 일시정지, 실행 -> 정지
-                                      recipeDetailController.stopTTS();
-                                    },
-                                    icon: const Icon(Icons.stop),
-                                    color: Colors.black,
-                                  ),
-                                ],
-                              ),
-                            )
-                          : const SizedBox(),
+                    Platform.isIOS == true && recipeDetailController.ttsStatus.value !=
+                        Config.stopped
+                        ? Container(
+                      height: 37,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: lightColorScheme.primary,
+                        ),
+                        borderRadius: BorderRadius.circular(25.0),
+                        // color: Colors.grey.shade200,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // 시작, 일시정지 버튼
+                          IconButton(
+                            iconSize: 23,
+                            onPressed: () async {
+                              if (recipeDetailController
+                                  .ttsStatus.value ==
+                                  Config.playing) {
+                                // 실행-> 일시정지
+                                recipeDetailController.pauseTTS();
+                                print(
+                                    'print recipeDetailControllerTtsStatus: ${recipeDetailController.ttsStatus}');
+                              } else {
+                                // 일시 정지 -> 실행
+                                recipeDetailController.speakTTS();
+                              }
+                            },
+                            icon: recipeDetailController
+                                .ttsStatus.value ==
+                                Config.playing
+                                ? const Icon(Icons.pause)
+                                : const Icon(Icons.play_arrow),
+                            color: Colors.black,
+                          ),
+                          // 정지 버튼
+                          IconButton(
+                            iconSize: 23,
+                            onPressed: () async {
+                              // 일시정지, 실행 -> 정지
+                              recipeDetailController.stopTTS();
+                            },
+                            icon: const Icon(Icons.stop),
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                    )
+                        : const SizedBox(),
                   ],
                 ),
 
@@ -616,7 +636,7 @@ class RecipeDetailPage extends StatelessWidget {
                         icon: Icon(
                           Icons.photo,
                           color: recipeDetailController.orderViewOption.value ==
-                                  Config.galleryView
+                              Config.galleryView
                               ? Colors.black
                               : Colors.grey,
                         )),
@@ -628,7 +648,7 @@ class RecipeDetailPage extends StatelessWidget {
                         icon: Icon(
                           Icons.list,
                           color: recipeDetailController.orderViewOption.value ==
-                                  Config.textListView
+                              Config.textListView
                               ? Colors.black
                               : Colors.grey,
                         ))

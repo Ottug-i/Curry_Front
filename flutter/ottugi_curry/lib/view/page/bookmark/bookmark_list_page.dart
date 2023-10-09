@@ -6,6 +6,7 @@ import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
+import 'package:ottugi_curry/utils/bookmark_snack_bar.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
 import 'package:ottugi_curry/view/page/bookmark/bookmark_categories.dart';
@@ -229,6 +230,12 @@ class BookmrkListPageState extends State<BookmrkListPage> {
                                                               getUserId(),
                                                               menuItem
                                                                   .recipeId);
+
+                                                      // 북마크 삭제 스낵바 실행
+                                                      bookmarkSnackBar(
+                                                          isBookmark: menuItem
+                                                              .isBookmark!,
+                                                          name: menuItem.name!);
                                                     },
                                                   ),
                                                 ],

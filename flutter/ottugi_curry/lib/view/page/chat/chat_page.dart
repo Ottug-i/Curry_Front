@@ -45,6 +45,9 @@ class _ChatPageState extends State<ChatPage> {
               crossAxisAlignment: CrossAxisAlignment
                   .start, // 앱바를 사용하지 않고 아이콘 버튼으만을 사용해서 뒤로가기를 해서, 왼쪽 배치 필요.
               children: [
+                const SizedBox(
+                  height: 20,
+                ),
                 IconButton(
                   padding: const EdgeInsets.only(top: 30),
                   icon: const Icon(Icons.arrow_back),

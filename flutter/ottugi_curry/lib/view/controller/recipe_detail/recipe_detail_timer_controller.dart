@@ -34,7 +34,6 @@ class RecipeDetailTimerController {
     const duration = Duration(seconds: 1);
     remainingSeconds.value = totalSeconds.value;
     timer = Timer.periodic(duration, (timer) {
-      print('remainingSeconds: $remainingSeconds');
       if (remainingSeconds.value == 0) {
         stopTimer();
         // 알림 시작
@@ -82,7 +81,7 @@ class RecipeDetailTimerController {
       Audio("assets/audios/timerAlarm.mp3"),
       loopMode: LoopMode.single, //반복 여부 (LoopMode.none : 없음)
       autoStart: false, //자동 시작 여부
-      showNotification: false, //스마트폰 알림 창에 띄울지 여부
+      showNotification: true, //스마트폰 알림 창에 띄울지 여부
     );
   }
 

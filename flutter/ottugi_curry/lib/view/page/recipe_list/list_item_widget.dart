@@ -5,6 +5,7 @@ import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/utils/screen_size_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
+import 'package:ottugi_curry/utils/bookmark_snack_bar.dart';
 
 // Recipe List Page, Text Search Page에서 사용함
 class ListItemWidget extends StatelessWidget {
@@ -88,36 +89,9 @@ class ListItemWidget extends StatelessWidget {
                                 // 공통 위젯을 위한 컨트롤러 변수 사용
                                 controller.updateBookmark(
                                     getUserId(), menuItem.recipeId);
-                                if (menuItem.isBookmark!) {
-                                  // 누르기 전 상태에 따라
-                                  Get.showSnackbar(
-                                    GetSnackBar(
-                                      title: '북마크 삭제',
-                                      message:
-                                          '${menuItem.name}을(를) 북마크에서 해제했습니다.',
-                                      icon: const Icon(
-                                        Icons.favorite_border,
-                                        color: Colors.white,
-                                      ),
-                                      backgroundColor: Colors.blue,
-                                      duration: const Duration(seconds: 3),
-                                    ),
-                                  );
-                                } else {
-                                  Get.showSnackbar(
-                                    GetSnackBar(
-                                      title: '북마크 추가',
-                                      message:
-                                          '${menuItem.name}을(를) 북마크에 저장했습니다.',
-                                      icon: const Icon(
-                                        Icons.favorite,
-                                        color: Colors.white,
-                                      ),
-                                      backgroundColor: Colors.green,
-                                      duration: const Duration(seconds: 3),
-                                    ),
-                                  );
-                                }
+
+                                // 북마크 추가/삭제 스낵바 실행
+                                bookmarkSnackBar(isBookmark: menuItem.isBookmark!, name: menuItem.name!);
                               },
                             ),
                           )

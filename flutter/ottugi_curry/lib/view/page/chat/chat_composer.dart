@@ -56,8 +56,13 @@ class _ChatComposerState extends State<ChatComposer> {
                               border: InputBorder.none,
                               hintText: 'Type your message ...',
                               hintStyle: TextStyle(color: Colors.grey[500])),
-                          onSubmitted: (value) => sendMessage(
-                              textController, chatContorller, widget),
+                          onSubmitted: (String value) {
+                            if (value.isNotEmpty) {
+                              sendMessage(textController, chatContorller, widget);
+                            }
+                          },
+                          // onSubmitted: (value) => sendMessage(
+                          //     textController, chatContorller, widget),
                         ),
                       ),
                     ],
