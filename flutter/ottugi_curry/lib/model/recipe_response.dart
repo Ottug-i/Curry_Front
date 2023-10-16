@@ -12,6 +12,7 @@ class RecipeResponse {
   final String? composition;
   final String? ingredients;
   final bool? isBookmark;
+  final String? mainGenre;
 
   //List<String>? ingredients;
   // 생성자
@@ -23,7 +24,8 @@ class RecipeResponse {
       this.difficulty,
       this.composition,
       this.ingredients,
-      this.isBookmark});
+      this.isBookmark,
+      this.mainGenre});
 
   factory RecipeResponse.fromJson(Map<String, dynamic> json) =>
       _$RecipeResponseFromJson(json);

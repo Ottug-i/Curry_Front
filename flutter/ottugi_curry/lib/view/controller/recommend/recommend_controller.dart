@@ -6,6 +6,7 @@ import 'package:ottugi_curry/model/recipe_response.dart';
 import 'package:ottugi_curry/model/rating_request.dart';
 import 'package:ottugi_curry/repository/bookmark_repository.dart';
 import 'package:ottugi_curry/repository/recommend_repository.dart';
+import 'package:ottugi_curry/utils/main_genres_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/controller/bookmark/bookmark_list_controller.dart';
 
@@ -72,11 +73,17 @@ class RecommendController {
       final resp = await recommendRepository.getRecommendRatingList(page ?? 1, bookmarkList, getUserId());
       ratingRecList.value = resp;
 
+      // 메인 장르 저장 - AR 캐릭터 종류 결정
+      saveMainGenreToStorage(ratingRecList.first.mainGenre ?? '');
+      print('print ratingRecListFirstMainGenre: ${ratingRecList.first.mainGenre}');
+
     } on DioException catch (e) {
       print('loadRatingRec error : $e');
       return;
     }
   }
+
+
 
   // 레시피 평점 조회
   Future<void> loadRating({required int recipeId}) async {

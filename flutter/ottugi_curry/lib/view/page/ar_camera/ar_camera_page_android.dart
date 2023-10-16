@@ -30,7 +30,7 @@ class ARCameraPageAndroidState extends State<ARCameraPageAndroid> {
 
   @override
   void initState() {
-    Get.put(ARCameraController()).loadModelPath();
+    Get.put(ARCameraController()).loadModelFunction();
     super.initState();
   }
 

@@ -21,13 +21,15 @@ class ARCameraPageIosState extends State<ARCameraPageIos> {
   ARKitReferenceNode? node;
 
   @override
+  void initState() {
+    Get.put(ARCameraController()).loadModelFunction();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     arkitController.dispose();
     super.dispose();
-  }
-
-  Future _initModelPath() async {
-    await Get.put(ARCameraController()).loadModelPath();
   }
 
   @override
@@ -38,16 +40,7 @@ class ARCameraPageIosState extends State<ARCameraPageIos> {
     return DefaultLayoutWidget(
         backToMain: true,
         appBarTitle: '인증샷 남기기',
-        body: FutureBuilder(
-          future: _initModelPath(),
-          builder: (context, snap) {
-            if (snap.connectionState != ConnectionState.done) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            return Stack(children: [
+        body: Stack(children: [
               Screenshot(
                   controller: arCameraController.screenshotController.value,
                   child: ARKitSceneView(
@@ -86,9 +79,8 @@ class ARCameraPageIosState extends State<ARCameraPageIos> {
                           ),
                         ]),
                   )),
-            ]);
-          },
-        ));
+            ])
+    );
   }
 
   void onARKitViewCreated(ARKitController arkitController) {

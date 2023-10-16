@@ -40,7 +40,10 @@ void main() async {
 
   // kakao Flutter SDK
   KakaoSdk.init(nativeAppKey: HiddenConfig.kakaoNativeAppKey);
+
+  // localStorage ready
   await userStorage.ready;
+  await mainGenreStorage.ready;
 
   // ChatGpt API Key
   await dotenv.load(fileName: "assets/config/.env");
