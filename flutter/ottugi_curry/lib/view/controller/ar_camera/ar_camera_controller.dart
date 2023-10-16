@@ -10,6 +10,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/config/dio_config.dart';
 import 'package:ottugi_curry/repository/lately_repository.dart';
+import 'package:ottugi_curry/utils/main_genres_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -22,15 +23,19 @@ class ARCameraController {
 
   RxString modelFilesPath = ''.obs;
 
-  // 최근 본 레시피에 따른 3D 모델 캐릭터 조회 - iOS
-  Future<void> loadModelPath() async {
-    print('print : loadModelPath}');
-    // 장르 이름:
-    // 'meat', 'fish', 'kimchi', 'tofu', 'egg', 'mushroom', 'vegetable', 'fruit', 'milk'
+  // AR 캐릭터 종류 선택 기준 - 공통
+  void loadModelFunction() {
+    // 1: 최근 본 레시피의 메인 장르에 따라
+    // loadMainGenreFromLatelyRecipe();
+    // 2: 추천 레시피 (1위)의 메인 장르에 따라
+    loadMainGenreFromRecommendRecipe();
+  }
+
+  // 최근 본 레시피에 따른 AR 캐릭터 장르 조회 - 공통
+  Future<void> loadMainGenreFromLatelyRecipe() async {
     try {
       final dio = createDio();
       LatelyRepository latelyRepository = LatelyRepository(dio);
-
       final resp = await latelyRepository.getLatelyCharacter(getUserId());
 
       print('print resp: ${resp}');
@@ -40,65 +45,85 @@ class ARCameraController {
       } else {
         genre = resp;
       }
+      loadModelPath(genre);
 
-      switch (genre) {
-        case 'meat':
-          if (Platform.isAndroid) {
-            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/meat.glb";
-          } else if (Platform.isIOS) {
-            modelFilesPath.value = 'models.scnassets/meat.usdc';
-          }
-          break;
-        case 'fish':
-          if (Platform.isAndroid) {
-            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/fish.glb";
-          } else if (Platform.isIOS) {
-            modelFilesPath.value = 'models.scnassets/fish_roc.usdc';
-          }
-          break;
-        case 'kimchi':
-          if (Platform.isAndroid) {
-            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/kimchi.glb";
-          } else if (Platform.isIOS) {
-            modelFilesPath.value = 'models.scnassets/kimchi.usdc';
-          }
-          break;
-        case 'tofu':
-          if (Platform.isAndroid) {
-            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/tofu.glb";
-          } else if (Platform.isIOS) {
-            modelFilesPath.value = 'models.scnassets/tofu.usdc';
-          }
-          break;
-        case 'egg':
-          if (Platform.isAndroid) {
-            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/egg.glb";
-          } else if (Platform.isIOS) {
-            modelFilesPath.value = 'models.scnassets/egg.usdc';
-          }
-          break;
-        case 'mushroom':
-          if (Platform.isAndroid) {
-            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb";
-          } else if (Platform.isIOS) {
-            modelFilesPath.value = 'models.scnassets/mushroom.usdc';
-          }
-          break;
-        case 'vegetable':
-        case 'fruit':
-        case 'milk':
-        default:
-          print('default');
-          if (Platform.isAndroid) {
-            modelFilesPath.value = "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb";
-          } else if (Platform.isIOS) {
-            modelFilesPath.value = 'models.scnassets/mushroom.usdc';
-          }
-          break;
-      }
     } on DioException catch (e) {
       print('loadModelPath: $e');
       return;
+    }
+  }
+
+  // 추천 레시피에 따른 AR 캐릭터의 장르 조회 - 공통
+  Future<void> loadMainGenreFromRecommendRecipe() async {
+    loadModelPath(getMainGenreFromStorage());
+  }
+
+  // AR 캐릭터 장르에 따른 모델 파일 주소 지정 - 공통
+  void loadModelPath(String mainGenre) {
+    // 장르 이름:
+    // 'meat', 'fish', 'kimchi', 'tofu', 'egg', 'mushroom', 'vegetable', 'fruit', 'milk'
+
+    switch (mainGenre) {
+      case 'meat':
+        if (Platform.isAndroid) {
+          modelFilesPath.value =
+          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/meat.glb";
+        } else if (Platform.isIOS) {
+          modelFilesPath.value = 'models.scnassets/meat.usdc';
+        }
+        break;
+      case 'fish':
+        if (Platform.isAndroid) {
+          modelFilesPath.value =
+          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/fish.glb";
+        } else if (Platform.isIOS) {
+          modelFilesPath.value = 'models.scnassets/fish_roc.usdc';
+        }
+        break;
+      case 'kimchi':
+        if (Platform.isAndroid) {
+          modelFilesPath.value =
+          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/kimchi.glb";
+        } else if (Platform.isIOS) {
+          modelFilesPath.value = 'models.scnassets/kimchi.usdc';
+        }
+        break;
+      case 'tofu':
+        if (Platform.isAndroid) {
+          modelFilesPath.value =
+          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/tofu.glb";
+        } else if (Platform.isIOS) {
+          modelFilesPath.value = 'models.scnassets/tofu.usdc';
+        }
+        break;
+      case 'egg':
+        if (Platform.isAndroid) {
+          modelFilesPath.value =
+          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/egg.glb";
+        } else if (Platform.isIOS) {
+          modelFilesPath.value = 'models.scnassets/egg.usdc';
+        }
+        break;
+      case 'mushroom':
+        if (Platform.isAndroid) {
+          modelFilesPath.value =
+          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb";
+        } else if (Platform.isIOS) {
+          modelFilesPath.value = 'models.scnassets/mushroom.usdc';
+        }
+        break;
+      case 'vegetable':
+      case 'fruit':
+      case 'milk':
+      default:
+        print('default');
+        if (Platform.isAndroid) {
+          modelFilesPath.value =
+          "https://github.com/Ottug-i/Curry_Front/raw/main/flutter/ottugi_curry/assets/3d_models/light_mushroom.glb";
+        } else if (Platform.isIOS) {
+          modelFilesPath.value = 'models.scnassets/mushroom.usdc';
+        }
+        break;
     }
   }
 
@@ -138,7 +163,7 @@ class ARCameraController {
     takeScreenshot(context, image);
   }
 
-  // 캡쳐한 이미지 데이터로 추후 처리 (dialog 보여주기, 저장, 공유)
+  // 캡쳐한 이미지 데이터로 추후 처리 (dialog 보여주기, 저장, 공유) - 공통
   Future<void> takeScreenshot(BuildContext context, Uint8List snapshot) async {
     Get.dialog(Dialog(
       insetPadding: const EdgeInsets.all(30),
@@ -162,6 +187,7 @@ class ARCameraController {
                     children: [
                       FloatingActionButton(
                         onPressed: () async {
+                          // 인증샷 저장
                           bool result = await saveImage(snapshot);
 
                           if (result) {
@@ -197,7 +223,7 @@ class ARCameraController {
                       const SizedBox(
                         width: 20,
                       ),
-                      FloatingActionButton(
+                      FloatingActionButton( // 인증샷 공유
                         onPressed: () => sharePicture(snapshot, context),
                         backgroundColor: lightColorScheme.primary,
                         foregroundColor: Colors.black,
@@ -227,6 +253,7 @@ class ARCameraController {
     ));
   }
 
+  // 인증샷 저장
   Future<bool> saveImage(Uint8List bytes) async {
     await [Permission.storage].request();
 
@@ -245,6 +272,7 @@ class ARCameraController {
     }
   }
 
+  // 인증샷 공유
   Future sharePicture(Uint8List bytes, context) async {
     final directory = await getTemporaryDirectory(); // 임시 저장소에 저장
     final image = File('${directory.path}/flutter.png');

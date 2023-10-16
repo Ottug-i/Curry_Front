@@ -18,9 +18,10 @@ import 'package:ottugi_curry/view/page/recipe_camera/result_check_page_android.d
 
 // token 저장하는 secure storage
 FlutterSecureStorage tokenStorage = const FlutterSecureStorage();
-// 회원 정보 저장하는 local storage: id, email, nickName, 소셜로그인 플랫폼 이름(kakao/google)
+// 회원 정보 저장하는 local storage: id, email, nickName
 LocalStorage userStorage = LocalStorage('user');
-// LocalStorage socialStorage = LocalStorage('social');
+// 첫 번째 추천 레시피의 메인 장르를 저장하는 local storage
+LocalStorage mainGenreStorage = LocalStorage('mainGenre');
 
 /// 앱 전체에 공유하는 static 변수 저장
 class Config {
@@ -100,6 +101,7 @@ class Config {
   static String social = 'social';
   static String kakao = 'kakao';
   static String google = 'google';
+  static String mainGenre = 'mainGenre';
 
   // 리스트 화면에서 한 페이지당 보여줄 갯수
   static int elementNum = 10;
