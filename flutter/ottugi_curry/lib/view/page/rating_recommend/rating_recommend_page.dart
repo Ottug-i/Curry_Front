@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ottugi_curry/config/color_schemes.dart';
 import 'package:ottugi_curry/model/recipe_response.dart';
+import 'package:ottugi_curry/utils/bookmark_snack_bar.dart';
 import 'package:ottugi_curry/utils/long_string_to_list_utils.dart';
 import 'package:ottugi_curry/utils/user_profile_utils.dart';
 import 'package:ottugi_curry/view/comm/default_layout_widget.dart';
 import 'package:ottugi_curry/view/controller/recommend/recommend_controller.dart';
 
-class RatingRecPage extends StatelessWidget {
-  const RatingRecPage({Key? key}) : super(key: key);
+class RatingRecommendPage extends StatelessWidget {
+  const RatingRecommendPage({Key? key}) : super(key: key);
 
   Future _initRatingRec() async {
     Get.put(RecommendController());
@@ -147,6 +148,10 @@ class RatingRecPage extends StatelessWidget {
                               // 공통 위젯을 위한 컨트롤러 변수 사용
                               controller.updateBookmark(
                                   getUserId(), recipeResponse.recipeId);
+
+                              bookmarkSnackBar(
+                                  isBookmark: recipeResponse.isBookmark!,
+                                  name: recipeResponse.name);
                             },
                           )
                         ],

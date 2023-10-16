@@ -26,9 +26,9 @@ class ARCameraController {
   // AR 캐릭터 종류 선택 기준 - 공통
   void loadModelFunction() {
     // 1: 최근 본 레시피의 메인 장르에 따라
-    // loadMainGenreFromLatelyRecipe();
+    loadMainGenreFromLatelyRecipe();
     // 2: 추천 레시피 (1위)의 메인 장르에 따라
-    loadMainGenreFromRecommendRecipe();
+    // loadMainGenreFromRecommendRecipe();
   }
 
   // 최근 본 레시피에 따른 AR 캐릭터 장르 조회 - 공통

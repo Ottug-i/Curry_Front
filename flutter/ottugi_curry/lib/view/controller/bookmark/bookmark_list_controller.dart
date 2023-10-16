@@ -103,12 +103,12 @@ class BookmarkListController extends GetxController {
     currentPage.value = 1;
   }
 
-  // 북마크 추가/삭제 -> 다른 페이지에서도 사용하는 api 관련 공용 함수
   Future<void> updateBookmark(int userId, int recipeId) async {
     postBookmark(userId, recipeId);
     await loadData(userId: userId, page: currentPage.value); // 재로딩
   }
 
+  // 북마크 추가/삭제 -> 다른 페이지에서도 사용하는 api 관련 공용 함수
   Future<void> postBookmark(int userId, int recipeId) async {
     try {
       final dio = createDio();
