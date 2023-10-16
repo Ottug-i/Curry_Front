@@ -1,0 +1,4 @@
+<ar_3d_files 설명>
+ios: ottugi_curry/ios/Runner 위치에 models.scnassets 폴더 넣기
+android: ottugi_curry/assets 위치에 3d_models_and 폴더 넣기
+blender_files: blender files 모음
