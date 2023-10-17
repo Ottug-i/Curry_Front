@@ -48,7 +48,7 @@
 <img width="350" alt="image" src="https://github.com/Ottug-i/Curry_Front/assets/76986589/0917e63a-cb1c-42ea-90a9-6c5a9f4a4436">
 
 #### 북마크 페이지 
-- 북마크한 레시피와 비슷한 레시피 추천받기
+- 북마크한 레시피와 비슷한 레시피 5개 추천
 <img width="235" alt="image" src="https://github.com/Ottug-i/Curry_Front/assets/76986589/5023941a-699b-4ecc-badd-da075b8d9fa2">
 <img width="235" alt="image" src="https://github.com/Ottug-i/Curry_Front/assets/76986589/384fac63-e2cb-41d5-a154-a0023aaf1911">
 
