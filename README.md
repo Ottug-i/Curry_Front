@@ -69,17 +69,16 @@
    </tr>
    <tr>
       <td>
-         <img width="277" alt="image" src="https://github.com/Ottug-i/Curry_Front/assets/76986589/8729a1d7-23d3-43bc-9c52-86c2de135f20">
+         <img width="235" alt="image" src="https://github.com/Ottug-i/Curry_Front/assets/76986589/8729a1d7-23d3-43bc-9c52-86c2de135f20">
       </td>
       <td>
-         <img width="277" alt="image" src="https://github.com/Ottug-i/Curry_Front/assets/76986589/a1a8945c-903b-4946-a833-9b8950789d36">
+         <img width="235" alt="image" src="https://github.com/Ottug-i/Curry_Front/assets/76986589/a1a8945c-903b-4946-a833-9b8950789d36">
       </td>
    </tr>
-</table>
+</table><br/>
 
 ## 🤹🏻 프론트엔드 개발자
 | 김희서 | 최예나 |
 | :-: | :-: |
 |[@rlaltj](https://github.com/hap6v6) | [@Choi Yena](https://github.com/YenaChoi00) |
 |<img src="https://avatars.githubusercontent.com/u/76986589?v=4" style="width:150px; height:150px;">|<img src="https://avatars.githubusercontent.com/u/71956482?v=4" style="width:150px; height:150px;">|
-| Frontend<br/>Developer | Frontend<br/>Developer |
